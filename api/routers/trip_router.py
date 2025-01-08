@@ -1,23 +1,30 @@
-from fastapi import APIRouter, HTTPException, Depends
-from database import get_db
+from fastapi import (
+    APIRouter,
+    HTTPException,
+    Depends,
+    status
+)
+from models.users import UserResponse
 from models.trips import TripRequest, TripResponse
+from queries.trip_queries import TripsQueries
+from utils.authentication import try_get_jwt_user_data
 
 router = APIRouter()
 
 # Interacting with all Trips
 @router.post("/api/users/{user_id}/trips", response_model=TripResponse)
-def create_trip(trip: TripRequest, db=Depends(get_db)):
-    query = """
-        INSERT INTO trips (title, country, city, start_date, end_date, trip_image, user_id)
-        VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING id, title, country, city, start_date, end_date, trip_image, user_id;
-    """
-    values = (trip.title, trip.country, trip.city, trip.start_date, trip.end_date, trip.user_id)
-    try:
-        db.execute(query, values)
-        new_trip = db.fetchone()
-        return new_trip
-    except psycopg2.IntegrityError:
-        raise HTTPException(status_code=400, detail="User not found.")
+async def create_trip(
+    user_id: int,
+    trip: TripRequest,
+    user: UserResponse = Depends(try_get_jwt_user_data),
+    queries: TripsQueries = Depends()
+):
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
+        )
+    new_trip = queries.create(trip, user_id)
+    return new_trip
 
 
 # @router.get("/api//trips")
