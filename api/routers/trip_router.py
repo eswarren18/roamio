@@ -5,17 +5,16 @@ from fastapi import (
     status
 )
 from models.users import UserResponse
-from models.trips import TripRequest, TripResponse
+from models.trips import TripIn, TripOut
 from queries.trip_queries import TripsQueries
 from utils.authentication import try_get_jwt_user_data
 
 router = APIRouter()
 
 # Interacting with all Trips
-@router.post("/api/users/{user_id}/trips", response_model=TripResponse)
+@router.post("/api/trips", response_model=TripOut)
 async def create_trip(
-    user_id: int,
-    trip: TripRequest,
+    trip: TripIn,
     user: UserResponse = Depends(try_get_jwt_user_data),
     queries: TripsQueries = Depends()
 ):
@@ -23,7 +22,7 @@ async def create_trip(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
         )
-    new_trip = queries.create(trip, user_id)
+    new_trip = queries.create(trip, user.id)
     return new_trip
 
 
