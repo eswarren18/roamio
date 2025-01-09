@@ -26,7 +26,27 @@ async def create_trip(
     return new_trip
 
 
-# @router.get("/api//trips")
+# Interact with a single trip instance
+@router.get("/api/trips/{trip_id}", response_model=TripOut)
+async def get_trip(
+    trip_id: int,
+    user: UserResponse = Depends(try_get_jwt_user_data)
+    queries: TripsQueries = Depends()
+):
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
+        )
+
+    trip = queries.get(trip_id, user.id)
+
+    if not trip:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Trip not found"
+            )
+
+    return trip
 
 
 # Interacting with specific Trip
