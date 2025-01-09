@@ -2,7 +2,7 @@ from fastapi import (
     APIRouter,
     HTTPException,
     Depends,
-    status
+    status,
 )
 from models.users import UserResponse
 from models.trips import TripIn, TripOut
@@ -27,25 +27,17 @@ async def create_trip(
 
 
 # Interact with a single trip instance
-@router.get("/api/trips/{trip_id}", response_model=TripOut)
+@router.get("/api/trip/{trip_id}", response_model=TripOut)
 async def get_trip(
     trip_id: int,
-    user: UserResponse = Depends(try_get_jwt_user_data)
+    user: UserResponse = Depends(try_get_jwt_user_data),
     queries: TripsQueries = Depends()
-):
+) -> TripOut:
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
         )
-
-    trip = queries.get(trip_id, user.id)
-
-    if not trip:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Trip not found"
-            )
-
+    trip = queries.get_one(trip_id)
     return trip
 
 
