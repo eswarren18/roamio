@@ -43,7 +43,7 @@ class TripsQueries:
                 with conn.cursor(row_factory=class_row(TripOut)) as cur:
                     cur.execute(
                         """
-                        SELECT id, title, country, city, start_date, end_date, trip_image
+                        SELECT id, title, country, city, start_date, end_date, trip_image, user_id
                         FROM trips
                         WHERE id = %s
 
