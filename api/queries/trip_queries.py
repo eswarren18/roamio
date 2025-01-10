@@ -35,16 +35,34 @@ class TripsQueries:
             print(e)
             raise HTTPException(status_code=500, detail="Create did not work")
 
+    def update(self, trip_id: int, trip: TripIn, user_id: int) -> TripOut:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor(row_factory=class_row(TripOut)) as cur:
+                    cur.execute(
+                        """
+                        UPDATE trips
+                        SET *
+                        WHERE id = %s AND user_id = %s
+                        """,
+                        [trip_id, user_id]
+                    )
+                    updated_trip = cur.fetchone()
+                    return updated_trip
+        except Exception as e:
+            print(e)
+            return {"message": "TBD"}
+
     def get_all(self, user_id: int) -> List[TripOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(TripOut)) as cur:
                     cur.execute(
                         """
-                            SELECT *
-                            FROM trips
-                            WHERE user_id = %s
-                            ORDER BY start_date
+                        SELECT *
+                        FROM trips
+                        WHERE user_id = %s
+                        ORDER BY start_date
                         """,
                         [user_id]
                     )
@@ -54,7 +72,7 @@ class TripsQueries:
             print(e)
             return {"message": "Could not find trips"}
 
-    def get_one(self, trip_id: int, user_id: int) -> Optional[TripOut]:
+    def get_one(self, trip_id: int, user_id: int) -> TripOut:
             try:
                 with pool.connection() as conn:
                     with conn.cursor(row_factory=class_row(TripOut)) as cur:
@@ -62,38 +80,37 @@ class TripsQueries:
                             """
                             SELECT id, title, country, city, start_date, end_date, trip_image, user_id
                             FROM trips
-                            WHERE id = %s and user_id = %s
+                            WHERE id = %s AND user_id = %s
                             """,
                             [trip_id, user_id]
                         )
-                        print(cur)
                         trip = cur.fetchone()
                         if trip is None:
-                            raise HTTPException()
+                            raise HTTPException(status_code=404, detail="Trip not found")
                         return trip
-            except Exception:
-                raise HTTPException(status_code=404, detail="Test 2")
+            except HTTPException as http_exc:
+                raise http_exc
+            except Exception as e:
+                print(f"Error: {e}")
+                raise HTTPException(status_code=500, detail="Internal Server Error")
 
-            # except HTTPException as http_exc:  # Explicitly catch HTTP exceptions
-            #     logger.warning(f"HTTP exception occurred: {http_exc}")
-            #     raise http_exc
-
-            # except Exception as exc:  # Catch unexpected exceptions and log them
-            #     logger.error(f"Unexpected error: {exc}")
-            #     raise HTTPException(status_code=500, detail="Internal server error")
-
-    def delete(self, trip_id: int) -> bool:
+    def delete(self, trip_id: int, user_id: int) -> bool:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as curr:
                     curr.execute(
                         """
                         DELETE FROM trips
-                        WHERE id = %s
+                        WHERE id = %s AND user_id = %s
                         """,
-                        [trip_id]
+                        [trip_id, user_id]
                     )
-                    return True
+                    if curr.rowcount == 0:
+                        raise HTTPException(status_code=404, detail="Trip not found")
+                    else:
+                        return True
+        except HTTPException as http_exc:
+                raise http_exc
         except Exception as e:
-            print(e)
-            return {"message": "Could not find trips"}
+            print(f"Error: {e}")
+            raise HTTPException(status_code=500, detail="Internal Server Error")
