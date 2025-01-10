@@ -8,7 +8,6 @@ from fastapi import HTTPException
 
 class TripsQueries:
     def create(self, trip: TripIn, user_id: int) -> TripOut:
-        print(user_id)
         try:
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(TripOut)) as cur:
@@ -37,7 +36,6 @@ class TripsQueries:
             raise HTTPException(status_code=500, detail="Create did not work")
 
     def get_one(self, trip_id: int) -> Optional[TripOut]:
-        print(trip_id)
         try:
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(TripOut)) as cur:
@@ -46,7 +44,6 @@ class TripsQueries:
                         SELECT id, title, country, city, start_date, end_date, trip_image, user_id
                         FROM trips
                         WHERE id = %s
-
                         """,
                         [trip_id]
                     )
@@ -56,3 +53,38 @@ class TripsQueries:
         except Exception as e:
             print(e)
             return {"message": "Could not find trip"}
+
+    def get_all(self, user_id: int) -> List[TripOut]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor(row_factory=class_row(TripOut)) as cur:
+                    cur.execute(
+                        """
+                            SELECT *
+                            FROM trips
+                            WHERE user_id = %s
+                            ORDER BY start_date
+                        """,
+                        [user_id]
+                    )
+                    trips = cur.fetchall()
+                    return trips
+        except Exception as e:
+            print(e)
+            return {"message": "Could not find trips"}
+
+    def delete(self, trip_id: int) -> bool:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as curr:
+                    curr.execute(
+                        """
+                        DELETE FROM trips
+                        WHERE id = %s
+                        """,
+                        [trip_id]
+                    )
+                    return
+        except Exception as e:
+            print(e)
+            return {"message": "Could not find trips"}
