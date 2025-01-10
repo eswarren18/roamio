@@ -12,7 +12,6 @@ from utils.authentication import try_get_jwt_user_data
 
 router = APIRouter()
 
-# Interacting with all Trips
 @router.post("/api/trips", response_model=TripOut)
 async def create_trip(
     trip: TripIn,
@@ -34,7 +33,6 @@ async def get_trips(
     trips = queries.get_all(user.id)
     return trips
 
-# Interact with a single trip instance
 @router.get("/api/trips/{trip_id}", response_model=TripOut)
 async def get_trip(
     trip_id: int,
@@ -45,7 +43,7 @@ async def get_trip(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
         )
-    trip = queries.get_one(trip_id)
+    trip = queries.get_one(trip_id, user.id)
     return trip
 
 @router.delete("/api/trips/{id:int}", response_model=bool)

@@ -3,7 +3,7 @@ from queries.pool import pool
 from typing import List, Optional, Union, Annotated
 from models.trips import TripOut, TripIn, Error
 from psycopg.rows import class_row
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 
 
 class TripsQueries:
@@ -35,25 +35,6 @@ class TripsQueries:
             print(e)
             raise HTTPException(status_code=500, detail="Create did not work")
 
-    def get_one(self, trip_id: int) -> Optional[TripOut]:
-        try:
-            with pool.connection() as conn:
-                with conn.cursor(row_factory=class_row(TripOut)) as cur:
-                    cur.execute(
-                        """
-                        SELECT id, title, country, city, start_date, end_date, trip_image, user_id
-                        FROM trips
-                        WHERE id = %s
-                        """,
-                        [trip_id]
-                    )
-                    print(cur)
-                    trip = cur.fetchone()
-                    return trip
-        except Exception as e:
-            print(e)
-            return {"message": "Could not find trip"}
-
     def get_all(self, user_id: int) -> List[TripOut]:
         try:
             with pool.connection() as conn:
@@ -72,6 +53,34 @@ class TripsQueries:
         except Exception as e:
             print(e)
             return {"message": "Could not find trips"}
+
+    def get_one(self, trip_id: int, user_id: int) -> Optional[TripOut]:
+            try:
+                with pool.connection() as conn:
+                    with conn.cursor(row_factory=class_row(TripOut)) as cur:
+                        cur.execute(
+                            """
+                            SELECT id, title, country, city, start_date, end_date, trip_image, user_id
+                            FROM trips
+                            WHERE id = %s and user_id = %s
+                            """,
+                            [trip_id, user_id]
+                        )
+                        print(cur)
+                        trip = cur.fetchone()
+                        if trip is None:
+                            raise HTTPException()
+                        return trip
+            except Exception:
+                raise HTTPException(status_code=404, detail="Test 2")
+
+            # except HTTPException as http_exc:  # Explicitly catch HTTP exceptions
+            #     logger.warning(f"HTTP exception occurred: {http_exc}")
+            #     raise http_exc
+
+            # except Exception as exc:  # Catch unexpected exceptions and log them
+            #     logger.error(f"Unexpected error: {exc}")
+            #     raise HTTPException(status_code=500, detail="Internal server error")
 
     def delete(self, trip_id: int) -> bool:
         try:
