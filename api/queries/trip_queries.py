@@ -84,7 +84,7 @@ class TripsQueries:
                         """,
                         [trip_id]
                     )
-                    return
+                    return True
         except Exception as e:
             print(e)
             return {"message": "Could not find trips"}

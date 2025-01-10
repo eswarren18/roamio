@@ -50,7 +50,7 @@ async def get_trip(
 
 @router.delete("/api/trips/{id:int}", response_model=bool)
 async def delete_trip(
-    trip_id: int,
+    id: int,
     user: UserResponse = Depends(try_get_jwt_user_data),
     queries: TripsQueries = Depends()
 ) -> bool:
@@ -58,7 +58,7 @@ async def delete_trip(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
         )
-    delete_trip = queries.delete(trip_id)
+    return queries.delete(id)
 
 
 
