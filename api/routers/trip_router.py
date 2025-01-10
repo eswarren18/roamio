@@ -4,6 +4,7 @@ from fastapi import (
     Depends,
     status,
 )
+from typing import List
 from models.users import UserResponse
 from models.trips import TripIn, TripOut
 from queries.trip_queries import TripsQueries
@@ -25,6 +26,13 @@ async def create_trip(
     new_trip = queries.create(trip, user.id)
     return new_trip
 
+@router.get("/api/trips", response_model=List[TripOut])
+async def get_trips(
+    user: UserResponse = Depends(try_get_jwt_user_data),
+    queries: TripsQueries = Depends()
+):
+    trips = queries.get_all(user.id)
+    return trips
 
 # Interact with a single trip instance
 @router.get("/api/trip/{trip_id}", response_model=TripOut)
