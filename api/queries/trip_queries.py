@@ -30,8 +30,8 @@ class TripsQueries:
                             user_id
                         ]
                     )
-                    trip = cur.fetchone()
-                    return trip
+                    new_trip = cur.fetchone()
+                    return new_trip
         except Exception as e:
             print(e)
             raise HTTPException(status_code=500, detail="Create did not work")

@@ -41,6 +41,12 @@ async def get_trip(
     return trip
 
 
+
+
+
+
+
+
 # Interacting with specific Trip
 # @router.get("/api/trip/{id:int}")
 
