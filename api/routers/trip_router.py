@@ -18,7 +18,7 @@ async def create_trip(
     trip: TripIn,
     user: UserResponse = Depends(try_get_jwt_user_data),
     queries: TripsQueries = Depends()
-):
+) -> TripOut:
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
@@ -30,12 +30,12 @@ async def create_trip(
 async def get_trips(
     user: UserResponse = Depends(try_get_jwt_user_data),
     queries: TripsQueries = Depends()
-):
+) -> List[TripOut]:
     trips = queries.get_all(user.id)
     return trips
 
 # Interact with a single trip instance
-@router.get("/api/trip/{trip_id}", response_model=TripOut)
+@router.get("/api/trips/{trip_id}", response_model=TripOut)
 async def get_trip(
     trip_id: int,
     user: UserResponse = Depends(try_get_jwt_user_data),
@@ -48,10 +48,20 @@ async def get_trip(
     trip = queries.get_one(trip_id)
     return trip
 
+@router.delete("/api/trips/{id:int}", response_model=bool)
+async def delete_trip(
+    trip_id: int,
+    user: UserResponse = Depends(try_get_jwt_user_data),
+    queries: TripsQueries = Depends()
+) -> bool:
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
+        )
+    delete_trip = queries.delete(trip_id)
+
 
 # Interacting with specific Trip
 # @router.get("/api/trip/{id:int}")
 
 # @router.put("/api/trip/{id:int}")
-
-# @router.delete("/api/trip/{id:int}")
