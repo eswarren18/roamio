@@ -42,16 +42,32 @@ class TripsQueries:
                     cur.execute(
                         """
                         UPDATE trips
-                        SET *
+                        SET id = %s, title = %s, country = %s, city = %s, start_date = %s, end_date = %s, trip_image = %s, user_id = %s
                         WHERE id = %s AND user_id = %s
+                        RETURNING *;
                         """,
-                        [trip_id, user_id]
+                        [
+                            trip_id,
+                            trip.title,
+                            trip.country,
+                            trip.city,
+                            trip.start_date,
+                            trip.end_date,
+                            trip.trip_image,
+                            user_id,
+                            trip_id,
+                            user_id
+                        ]
                     )
                     updated_trip = cur.fetchone()
+                    if updated_trip is None:
+                        raise HTTPException(status_code=404, detail="Trip not found")
                     return updated_trip
+        except HTTPException as http_exc:
+            raise http_exc
         except Exception as e:
-            print(e)
-            return {"message": "TBD"}
+            print(f"Error: {e}")
+            raise HTTPException(status_code=500, detail="Internal Server Error")
 
     def get_all(self, user_id: int) -> List[TripOut]:
         try:
@@ -97,15 +113,15 @@ class TripsQueries:
     def delete(self, trip_id: int, user_id: int) -> bool:
         try:
             with pool.connection() as conn:
-                with conn.cursor() as curr:
-                    curr.execute(
+                with conn.cursor() as cur:
+                    cur.execute(
                         """
                         DELETE FROM trips
                         WHERE id = %s AND user_id = %s
                         """,
                         [trip_id, user_id]
                     )
-                    if curr.rowcount == 0:
+                    if cur.rowcount == 0:
                         raise HTTPException(status_code=404, detail="Trip not found")
                     else:
                         return True
