@@ -5,6 +5,8 @@ steps = [
             id SERIAL PRIMARY KEY NOT NULL,
             title VARCHAR(100) NOT NULL,
             template BOOLEAN DEFAULT true
+            user_id INTEGER NOT NULL,
+            CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users (id)
         );
         """,
         """
