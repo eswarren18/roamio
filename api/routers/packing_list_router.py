@@ -13,7 +13,7 @@ from utils.authentication import try_get_jwt_user_data
 router = APIRouter(tags=["Packing List"], prefix="/api/packing_list")
 
 @router.post("", response_model=PackingListOut)
-async def create_trip(
+async def create_packing_list(
     packing_list: PackingListIn,
     user: UserResponse = Depends(try_get_jwt_user_data),
     queries: PackingListQueries = Depends()

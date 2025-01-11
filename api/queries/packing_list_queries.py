@@ -14,14 +14,13 @@ class PackingListQueries:
                     cur.execute(
                         """
                         INSERT INTO packing_list
-                            (title, template, user_id)
+                            (title, user_id)
                         VALUES
-                            (%s, %s, %s)
+                            (%s, %s)
                         RETURNING *;
                         """,
                         [
                             packing_list.title,
-                            packing_list.template,
                             user_id
                         ]
                     )
