@@ -1,9 +1,9 @@
 import os
 from queries.pool import pool
-from typing import List, Optional, Union, Annotated
+from typing import List
 from models.trips import TripOut, TripIn
 from psycopg.rows import class_row
-from fastapi import HTTPException, status
+from fastapi import HTTPException
 
 
 class TripsQueries:
