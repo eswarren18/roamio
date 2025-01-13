@@ -12,25 +12,33 @@ class FlightsQueries:
                 with conn.cursor(row_factory=class_row(FlightOut)) as cur:
                     cur.execute(
                         """
+                        WITH trip_info AS
+                        (
+                            SELECT id
+                            FROM trips
+                            WHERE id = %s AND user_id = %s
+                        )
                         INSERT INTO flights
                             (flight_number, departure_time, arrival_time, trip_id)
-                        VALUES
-                            (%s, %s, %s, %s)
-                        SELECT t.id
-                        FROM trips t
-                        WHERE f.trip_id = t.id
+                        SELECT
+                            %s, %s, %s, trip_info.id
+                        FROM trip_info
                         RETURNING *;
                         """,
                         [
+                            flight.trip_id,
+                            user_id,
                             flight.flight_number,
                             flight.departure_time,
                             flight.arrival_time,
-                            flight.trip_id,
-                            user_id
                         ]
                     )
                     new_flight = cur.fetchone()
+                    if new_flight is None:
+                        raise HTTPException(status_code=404, detail="Trip not found")
                     return new_flight
+        except HTTPException as http_exc:
+            raise http_exc
         except Exception as e:
             print(f"Error: {e}")
             raise HTTPException(status_code=500, detail="Internal Server Error")
