@@ -30,6 +30,3 @@ class TripOut(BaseModel):
     end_date: date
     trip_image: str
     user_id: int
-
-class Error(BaseModel):
-    message: str

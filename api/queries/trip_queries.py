@@ -1,7 +1,7 @@
 import os
 from queries.pool import pool
 from typing import List, Optional, Union, Annotated
-from models.trips import TripOut, TripIn, Error
+from models.trips import TripOut, TripIn
 from psycopg.rows import class_row
 from fastapi import HTTPException, status
 
@@ -32,8 +32,8 @@ class TripsQueries:
                     new_trip = cur.fetchone()
                     return new_trip
         except Exception as e:
-            print(e)
-            raise HTTPException(status_code=500, detail="Create did not work")
+            print(f"Error: {e}")
+            raise HTTPException(status_code=500, detail="Internal Server Error")
 
     def update(self, trip_id: int, trip: TripIn, user_id: int) -> TripOut:
         try:
@@ -85,8 +85,8 @@ class TripsQueries:
                     trips = cur.fetchall()
                     return trips
         except Exception as e:
-            print(e)
-            return {"message": "Could not find trips"}
+            print(f"Error: {e}")
+            raise HTTPException(status_code=500, detail="Internal Server Error")
 
     def get_one(self, trip_id: int, user_id: int) -> TripOut:
             try:
