@@ -99,41 +99,23 @@ class FlightsQueries:
             print(f"Error: {e}")
             raise HTTPException(status_code=500, detail="Internal Server Error")
 
-    def get_one(self, flight_id: int, user_id: int) -> FlightOut:
-        try:
-            with pool.connection() as conn:
-                with conn.cursor(row_factory=class_row(FlightOut)) as cur:
-                    cur.execute(
-                        """
-                        SELECT f.id, f.departure_time, f.arrival_time,
-                           f.trip_id, f.flight_number
-                        FROM flights f
-                        JOIN trips t ON f.trip_id = t.id
-                        WHERE f.id = %s AND t.user_id = %s;
-                        """,
-                        [flight_id, user_id]
-                    )
-                    flight = cur.fetchone()
-                    if flight is None:
-                        raise HTTPException(status_code=404, detail="Flight not found")
-                    return flight
-        except HTTPException as http_exc:
-            raise http_exc
-        except Exception as e:
-            print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
-
     def delete(self, flight_id: int, user_id: int) -> bool:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
                     cur.execute(
                         """
-                        DELETE FROM flights f
-                        USING trips t
-                        WHERE f.trip_id = t.id
+                        WITH trip_info AS
+                        (
+                            SELECT id
+                            FROM trips
+                            WHERE user_id = %s
+                        )
+                        DELETE FROM flights
+                        USING trips_info
+                        WHERE trip_info.id = flights.trip_id AND flights.id = %s
                         """,
-                       # [flight_id, user_id]
+                        [user_id, flight_id]
                     )
                     if cur.rowcount == 0:
                         raise HTTPException(status_code=404, detail="Flight not found")
