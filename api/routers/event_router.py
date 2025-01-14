@@ -7,7 +7,7 @@ from fastapi import (
 from typing import List
 from models.users import UserResponse
 from models.events import EventIn, EventOut
-from api.queries.event_queries import EventsQueries
+from queries.event_queries import EventsQueries
 from utils.authentication import try_get_jwt_user_data
 
 router = APIRouter(tags=["Events"], prefix="/api/events")
