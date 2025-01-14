@@ -36,7 +36,7 @@ async def update_flight(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
         )
-    updated_flight = queries.update(flight_id, flight)
+    updated_flight = queries.update(flight_id, flight, user.id)
     return updated_flight
 
 @router.get("", response_model=List[FlightOut])

@@ -43,28 +43,39 @@ class FlightsQueries:
             print(f"Error: {e}")
             raise HTTPException(status_code=500, detail="Internal Server Error")
 
-    def update(self, flight_id: int, flight: FlightIn) -> FlightOut:
+    def update(self, flight_id: int, flight: FlightIn, user_id: int) -> FlightOut:
         try:
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(FlightOut)) as cur:
                     cur.execute(
                         """
+                        WITH trip_info AS
+                        (
+                            SELECT id
+                            FROM trips
+                            WHERE id = %s AND user_id = %s
+                        )
                         UPDATE flights
-                        SET id = %s, flight_number = %s, departure_time = %s, arrival_time = %s, trip_id = %s
-                        WHERE id = %s
-                        RETURNING *;
+                        SET flight_number = %s, departure_time = %s, arrival_time = %s
+                        FROM trip_info
+                        WHERE flights.id = %s AND flights.trip_id = trip_info.id
+                        RETURNING flights.*;
                         """,
                         [
-                            flight_id,
+                            flight.trip_id,
+                            user_id,
                             flight.flight_number,
                             flight.departure_time,
                             flight.arrival_time,
-                            flight.trip_id,
                             flight_id
                         ]
                     )
                     updated_flight = cur.fetchone()
+                    if updated_flight is None:
+                        raise HTTPException(status_code=404, detail="Trip not found")
                     return updated_flight
+        except HTTPException as http_exc:
+            raise http_exc
         except Exception as e:
             print(f"Error: {e}")
             raise HTTPException(status_code=500, detail="Internal Server Error")
