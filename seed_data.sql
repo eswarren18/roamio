@@ -8,16 +8,16 @@ TRUNCATE TABLE users RESTART IDENTITY CASCADE;
 
 -- Insert Users
 INSERT INTO users (username, password) VALUES
-('Woody', 'Woody'),
-('BuzzLightyear', 'BuzzLightyear'),
-('Jessie', 'Jessie'),
-('LightningMcQueen', 'LightningMcQueen'),
-('Mater', 'Mater'),
-('Sulley', 'Sulley'),
-('MikeWazowski', 'MikeWazowski'),
-('Remy', 'Remy'),
-('WallE', 'WallE'),
-('Merida', 'Merida');
+('Woody', '$2b$12$Vvqz1Xojv8TtFZGkX0xG5.9MaIYoxuDJKyFDYw78URjczEYIQiY2e'), -- Plain password: Woody
+('BuzzLightyear', '$2b$12$h5/ZmJDqFEEbjcy0WQKtDe/n26H5RfVcPwiY5n7KgDDxP.Jj.4Ckm'), -- Plain password: BuzzLightyear
+('Jessie', '$2b$12$6of4zDMdNj3k.7YHFCJKhu.pK9k/ltAZsEAlWaE09zN4uwJ.GNsmi'), -- Plain password: Jessie
+('LightningMcQueen', '$2b$12$9PhD7Pz8V8zydoztpSoWR.PW3IAC5VqsVXP7RA3EQKo7UuIfa.0aa'), -- Plain password: LightningMcQueen
+('Mater', '$2b$12$85Tgn2cF3yeoedv39qYXSuBV11zhHh5sAbKD7U6phE4aMlN2ypc9W'), -- Plain password: Mater
+('Sulley', '$2b$12$FQVoCmAamNTPONRjMzVWZe1ZDAEMy.J8pWo6UZAGVxrSmtqqFGDxe'), -- Plain password: Sulley
+('MikeWazowski', '$2b$12$GWiUVcSTWVrxWUn2obixF.JlbmUg3LPBRbMDgyBMZjjt9a.g.oVlK'), -- Plain password: MikeWazowski
+('Remy', '$2b$12$s9Y0nG/Fd3ZjDnxHHTd7NOqFIlt2ry6Pv1JlpO5DgGxOOb7wRQqUO'), -- Plain password: Remy
+('WallE', '$2b$12$ytzqUXVZbzRWJir7R.6ZKeVPhElhbicxYSpCeVq6XYDPdsxEUa8RO'), -- Plain password: WallE
+('Merida', '$2b$12$IjIT0UV9LRLxEvqPXzpu3eV/Xc5nMC3NGr7BBUDF0UpIBUtTAqT4a'); -- Plain password: Merida
 
 -- Insert Trips
 INSERT INTO trips (title, country, city, start_date, end_date, trip_image, user_id) VALUES

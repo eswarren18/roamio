@@ -7,7 +7,7 @@ from fastapi import (
 from typing import List
 from models.users import UserResponse
 from models.flights import FlightIn, FlightOut
-from queries.flights_queries import FlightsQueries
+from api.queries.flight_queries import FlightsQueries
 from utils.authentication import try_get_jwt_user_data
 
 router = APIRouter(tags=["Flights"], prefix="/api/flights")

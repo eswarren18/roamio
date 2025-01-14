@@ -34,6 +34,7 @@ class FlightsQueries:
                         ]
                     )
                     new_flight = cur.fetchone()
+                    print(new_flight)
                     if new_flight is None:
                         raise HTTPException(status_code=404, detail="Trip not found")
                     return new_flight
@@ -86,10 +87,10 @@ class FlightsQueries:
                 with conn.cursor(row_factory=class_row(FlightOut)) as cur:
                     cur.execute(
                         """
-                        SELECT f.*
-                        FROM flights f
-                        JOIN trips t ON f.trip_id = t.id
-                        WHERE t.user_id = %s;
+                        SELECT *
+                        FROM flights
+                        JOIN trips ON flights.trip_id = trips.id
+                        WHERE trips.user_id = %s;
                         """,
                         [user_id]
                     )
@@ -112,7 +113,7 @@ class FlightsQueries:
                             WHERE user_id = %s
                         )
                         DELETE FROM flights
-                        USING trips_info
+                        USING trip_info
                         WHERE trip_info.id = flights.trip_id AND flights.id = %s
                         """,
                         [user_id, flight_id]
