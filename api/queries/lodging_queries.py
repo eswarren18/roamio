@@ -1,15 +1,15 @@
 import os
 from queries.pool import pool
 from typing import List
-from models.flights import FlightIn, FlightOut
+from models.lodgings import LodgingIn, LodgingOut
 from psycopg.rows import class_row
 from fastapi import HTTPException
 
-class FlightsQueries:
-    def create(self, flight: FlightIn, user_id: int) -> FlightOut:
+class LodgingsQueries:
+    def create(self, lodging: LodgingIn, user_id: int) -> LodgingOut:
         try:
             with pool.connection() as conn:
-                with conn.cursor(row_factory=class_row(FlightOut)) as cur:
+                with conn.cursor(row_factory=class_row(LodgingOut)) as cur:
                     cur.execute(
                         """
                         WITH trip_info AS
@@ -18,36 +18,37 @@ class FlightsQueries:
                             FROM trips
                             WHERE id = %s AND user_id = %s
                         )
-                        INSERT INTO flights
-                            (flight_number, departure_time, arrival_time, trip_id)
+                        INSERT INTO lodgings
+                            (name, address, check_in, check_out, trip_id)
                         SELECT
-                            %s, %s, %s, trip_info.id
+                            %s, %s, %s, %s, trip_info.id
                         FROM trip_info
                         RETURNING *;
                         """,
                         [
-                            flight.trip_id,
+                            lodging.trip_id,
                             user_id,
-                            flight.flight_number,
-                            flight.departure_time,
-                            flight.arrival_time,
+                            lodging.name,
+                            lodging.address,
+                            lodging.check_in,
+                            lodging.check_out,
                         ]
                     )
-                    new_flight = cur.fetchone()
-                    print(new_flight)
-                    if new_flight is None:
+                    new_lodging = cur.fetchone()
+                    print(new_lodging)
+                    if new_lodging is None:
                         raise HTTPException(status_code=404, detail="Trip not found")
-                    return new_flight
+                    return new_lodging
         except HTTPException as http_exc:
             raise http_exc
         except Exception as e:
             print(f"Error: {e}")
             raise HTTPException(status_code=500, detail="Internal Server Error")
 
-    def update(self, flight_id: int, flight: FlightIn, user_id: int) -> FlightOut:
+    def update(self, lodging_id: int, lodging: LodgingIn, user_id: int) -> LodgingOut:
         try:
             with pool.connection() as conn:
-                with conn.cursor(row_factory=class_row(FlightOut)) as cur:
+                with conn.cursor(row_factory=class_row(LodgingOut)) as cur:
                     cur.execute(
                         """
                         WITH trip_info AS
@@ -56,51 +57,52 @@ class FlightsQueries:
                             FROM trips
                             WHERE id = %s AND user_id = %s
                         )
-                        UPDATE flights
-                        SET flight_number = %s, departure_time = %s, arrival_time = %s
+                        UPDATE lodgings
+                        SET name = %s, address = %s, check_in = %s, check_out = %s
                         FROM trip_info
-                        WHERE flights.id = %s AND flights.trip_id = trip_info.id
-                        RETURNING flights.*;
+                        WHERE lodgings.id = %s AND lodgings.trip_id = trip_info.id
+                        RETURNING lodgings.*;
                         """,
                         [
-                            flight.trip_id,
+                            lodging.trip_id,
                             user_id,
-                            flight.flight_number,
-                            flight.departure_time,
-                            flight.arrival_time,
-                            flight_id
+                            lodging.name,
+                            lodging.address,
+                            lodging.check_in,
+                            lodging.check_out,
+                            lodging_id
                         ]
                     )
-                    updated_flight = cur.fetchone()
-                    if updated_flight is None:
+                    updated_lodging = cur.fetchone()
+                    if updated_lodging is None:
                         raise HTTPException(status_code=404, detail="Trip not found")
-                    return updated_flight
+                    return updated_lodging
         except HTTPException as http_exc:
             raise http_exc
         except Exception as e:
             print(f"Error: {e}")
             raise HTTPException(status_code=500, detail="Internal Server Error")
 
-    def get_all(self, user_id: int) -> List[FlightOut]:
+    def get_all(self, user_id: int) -> List[LodgingOut]:
         try:
             with pool.connection() as conn:
-                with conn.cursor(row_factory=class_row(FlightOut)) as cur:
+                with conn.cursor(row_factory=class_row(LodgingOut)) as cur:
                     cur.execute(
                         """
-                        SELECT flights.*
-                        FROM flights
-                        JOIN trips ON flights.trip_id = trips.id
+                        SELECT lodgings.*
+                        FROM lodgings
+                        JOIN trips ON lodgings.trip_id = trips.id
                         WHERE trips.user_id = %s;
                         """,
                         [user_id]
                     )
-                    flights = cur.fetchall()
-                    return flights
+                    lodgings = cur.fetchall()
+                    return lodgings
         except Exception as e:
             print(f"Error: {e}")
             raise HTTPException(status_code=500, detail="Internal Server Error")
 
-    def delete(self, flight_id: int, user_id: int) -> bool:
+    def delete(self, lodging_id: int, user_id: int) -> bool:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -112,14 +114,14 @@ class FlightsQueries:
                             FROM trips
                             WHERE user_id = %s
                         )
-                        DELETE FROM flights
+                        DELETE FROM lodgings
                         USING trip_info
-                        WHERE trip_info.id = flights.trip_id AND flights.id = %s
+                        WHERE trip_info.id = lodgings.trip_id AND lodgings.id = %s
                         """,
-                        [user_id, flight_id]
+                        [user_id, lodging_id]
                     )
                     if cur.rowcount == 0:
-                        raise HTTPException(status_code=404, detail="Flight not found")
+                        raise HTTPException(status_code=404, detail="Lodging not found")
                     return True
         except HTTPException as http_exc:
             raise http_exc

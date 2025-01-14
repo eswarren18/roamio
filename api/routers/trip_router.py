@@ -44,6 +44,10 @@ async def get_trips(
     user: UserResponse = Depends(try_get_jwt_user_data),
     queries: TripsQueries = Depends()
 ) -> List[TripOut]:
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
+        )
     trips = queries.get_all(user.id)
     return trips
 

@@ -44,6 +44,10 @@ async def create_flight(
 #     user: UserResponse = Depends(try_get_jwt_user_data),
 #     queries: FlightsQueries = Depends()
 # ) -> List[FlightOut]:
+#   if not user:
+#         raise HTTPException(
+#             status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
+#         )
 #     flights = queries.get_all(user.id)
 #     return flights
 
