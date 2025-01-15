@@ -1,9 +1,52 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from './AuthProvider';
+import { useNavigate } from 'react-router-dom';
+
+import SignInModal from './SignInModal';
 
 
 function Nav() {
-    const { isLoggedIn } = useContext(AuthContext);
+    const { isLoggedIn, setUser } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [formType, setFormType] = useState("");
+
+    const toggleModal = (form = "") => {
+        setFormType(form)
+        setIsModalOpen((imo) => !imo);
+    };
+
+    const renderForm = () => {
+        switch (formType) {
+            // case "SettingsForm":
+            //     return <SettingsForm toggleModal={() => toggleModal()} />;
+            // case "TripForm":
+            //     return <TripForm toggleModal={() => toggleModal()} />;
+            case "SignInModal":
+                return <SignInModal toggleModal={() => toggleModal()} />;
+            default:
+                return null;
+        }
+    };
+
+    const handleLogOut = async () => {
+        const deleteResource = "http://localhost:8000/api/auth/signout"
+        const deleteOptions = {
+            method: "DELETE",
+            credentials: "include"
+        }
+        const getResource = "http://localhost:8000/api/auth/authenticate"
+        try {
+            const deleteResponse = await fetch(deleteResource, deleteOptions);
+            if (deleteResponse) {
+                setUser(undefined)
+                navigate("/")
+            }
+        } catch(e) {
+            console.error(e)
+        }
+    }
 
     return (
         <>
@@ -29,7 +72,8 @@ function Nav() {
                         {isLoggedIn ? (
                             <button
                                 className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition duration-200"
-                                >
+                                onClick={handleLogOut}
+                            >
                                 Log Out
                             </button>
                         ) : (
@@ -41,6 +85,7 @@ function Nav() {
                                 </button>
                                 <button
                                     className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition duration-200"
+                                    onClick={() => toggleModal("SignInModal")}
                                 >
                                     Log In
                                 </button>
@@ -50,7 +95,7 @@ function Nav() {
                 </div>
             </nav>
             {/* Modal */}
-            {/* {isModalOpen && renderForm()} */}
+            {isModalOpen && renderForm()}
         </>
     )
 }
