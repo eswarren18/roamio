@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 
 import ErrorNotification from './components/ErrorNotification'
-import LoggedOut from './components/LoggedOut'
 import Nav from './components/Nav'
+
 
 import './App.css'
 
@@ -48,7 +48,6 @@ function App() {
             <header className="App-header">{<Nav />}</header>
             <Outlet />
             <ErrorNotification error={error} />
-            <LoggedOut info={launchInfo} />
         </div>
     )
 }

@@ -6,6 +6,8 @@ import SignInForm from './components/SignInForm'
 import SignUpForm from './components/SignUpForm'
 import App from './App'
 import AuthProvider from './components/AuthProvider'
+import Dashboard from './components/Dashboard'
+import Home from './components/Home'
 
 import './index.css'
 
@@ -20,6 +22,14 @@ const router = createBrowserRouter(
             path: '/',
             element: <App />,
             children: [
+                {
+                    path: '',
+                    element: <Home />,
+                },
+                {
+                    path: 'dashboard',
+                    element: <Dashboard />,
+                },
                 {
                     path: 'signup',
                     element: <SignUpForm />,
