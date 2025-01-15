@@ -1,8 +1,10 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 
 import ErrorNotification from './components/ErrorNotification'
-import Construct from './components/Construct'
+import LoggedOut from './components/LoggedOut'
+import Nav from './components/Nav'
 
 import './App.css'
 
@@ -43,10 +45,10 @@ function App() {
 
     return (
         <div className="App">
-            <header className="App-header">{/* <Nav /> */}</header>
+            <header className="App-header">{<Nav />}</header>
             <Outlet />
             <ErrorNotification error={error} />
-            <Construct info={launchInfo} />
+            <LoggedOut info={launchInfo} />
         </div>
     )
 }

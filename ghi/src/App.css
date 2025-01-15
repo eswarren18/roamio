@@ -1,6 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* You should probably replace this with your own CSS */
 
-.App {
+/* .App {
     text-align: center;
     background-color: #282c34;
     min-height: 100vh;
@@ -10,4 +14,4 @@
     align-items: center;
     justify-content: center;
     font-size: calc(10px + 2vmin);
-}
+} */
