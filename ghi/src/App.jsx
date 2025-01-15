@@ -6,7 +6,6 @@ import ErrorNotification from './components/ErrorNotification'
 import LoggedOut from './components/LoggedOut'
 import Nav from './components/Nav'
 
-import './App.css'
 
 // When using environment variables, you should do a check to see if
 // they are defined or not and throw an appropriate error message
