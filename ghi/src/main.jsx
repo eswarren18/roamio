@@ -6,6 +6,7 @@ import SignInForm from './components/SignInForm'
 import SignUpForm from './components/SignUpForm'
 import App from './App'
 import AuthProvider from './components/AuthProvider'
+import ModalProvider from './components/ModalProvider'
 import Dashboard from './components/Dashboard'
 import Home from './components/Home'
 
@@ -59,7 +60,9 @@ const root = ReactDOM.createRoot(rootElement)
 root.render(
     <React.StrictMode>
         <AuthProvider>
+        <ModalProvider>
             <RouterProvider router={router} />
+        </ModalProvider>
         </AuthProvider>
     </React.StrictMode>
 )

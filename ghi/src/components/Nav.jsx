@@ -1,34 +1,16 @@
 import { useContext, useState } from 'react';
 import { AuthContext } from './AuthProvider';
+import { ModalContext } from './ModalProvider';
 import { useNavigate } from 'react-router-dom';
 
-import SignInModal from './SignInModal';
+
+
 
 
 function Nav() {
     const { isLoggedIn, setUser } = useContext(AuthContext);
+    const { isModalOpen, toggleModal } = useContext(ModalContext);
     const navigate = useNavigate();
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [formType, setFormType] = useState("");
-
-    const toggleModal = (form = "") => {
-        setFormType(form)
-        setIsModalOpen((imo) => !imo);
-    };
-
-    const renderForm = () => {
-        switch (formType) {
-            // case "SettingsForm":
-            //     return <SettingsForm toggleModal={() => toggleModal()} />;
-            // case "TripForm":
-            //     return <TripForm toggleModal={() => toggleModal()} />;
-            case "SignInModal":
-                return <SignInModal toggleModal={() => toggleModal()} />;
-            default:
-                return null;
-        }
-    };
 
     const handleLogOut = async () => {
         const deleteResource = "http://localhost:8000/api/auth/signout"
@@ -61,7 +43,6 @@ function Nav() {
                                 </a>
                                 <p
                                     className="hover:underline cursor-pointer"
-                                    // onClick={() => toggleModal("TripForm")}
                                 >
                                     Add a Trip
                                 </p>
@@ -94,32 +75,8 @@ function Nav() {
                     </div>
                 </div>
             </nav>
-            {/* Modal */}
-            {isModalOpen && renderForm()}
         </>
     )
 }
 
 export default Nav
-
-
-
-// import React, { useContext } from 'react';
-// import { AuthContext } from './contexts/AuthProvider'; // Update the path as needed
-
-// function ProfilePage() {
-//   const { user, isLoggedIn, setUser } = useContext(AuthContext);
-
-//   return (
-//     <div>
-//       {isLoggedIn ? (
-//         <div>
-//           <h1>Welcome, {user?.name}</h1>
-//           <button onClick={() => setUser(null)}>Log Out</button>
-//         </div>
-//       ) : (
-//         <h1>Please log in</h1>
-//       )}
-//     </div>
-//   );
-// }
