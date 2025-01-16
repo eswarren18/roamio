@@ -1,5 +1,6 @@
 import { createContext, useState } from 'react'
 import SignInModal from './SignInModal';
+import SignUpModal from './SignUpModal';
 
 export const ModalContext = createContext(null)
 
@@ -20,6 +21,8 @@ export default function ModalProvider({ children }) {
             //     return <TripForm toggleModal={() => toggleModal()} />;
             case "SignInModal":
                 return <SignInModal />;
+            case "SignUpModal":
+                return <SignUpModal />;
             default:
                 return null;
         }
