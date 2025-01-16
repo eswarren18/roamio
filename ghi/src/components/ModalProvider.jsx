@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useState } from 'react'
 import SignInModal from './SignInModal';
 
 export const ModalContext = createContext(null)
@@ -19,7 +19,7 @@ export default function ModalProvider({ children }) {
             // case "TripForm":
             //     return <TripForm toggleModal={() => toggleModal()} />;
             case "SignInModal":
-                return <SignInModal toggleModal={() => toggleModal()} />;
+                return <SignInModal />;
             default:
                 return null;
         }

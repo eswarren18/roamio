@@ -1,22 +1,24 @@
-import { useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { ModalContext } from './ModalProvider'
 
 import useAuthService from '../hooks/useAuthService'
 
 
-function SignInModal({ toggleModal }) {
+function SignInModal() {
+        const { toggleModal } = useContext(ModalContext)
         const [username, setUsername] = useState('')
         const [password, setPassword] = useState('')
         const { signin, user, error } = useAuthService()
+        const navigate = useNavigate()
 
         async function handleFormSubmit(e) {
             e.preventDefault()
             await signin({ username, password })
-        }
-
-        if (user) {
-            console.log('user', user)
-            return <Navigate to="/" />
+            if (user) {
+                await toggleModal()
+                navigate("/dashboard")
+            }
         }
 
     return (

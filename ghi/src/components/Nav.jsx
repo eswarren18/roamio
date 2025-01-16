@@ -1,10 +1,7 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { AuthContext } from './AuthProvider';
 import { ModalContext } from './ModalProvider';
 import { useNavigate } from 'react-router-dom';
-
-
-
 
 
 function Nav() {

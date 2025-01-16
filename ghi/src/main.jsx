@@ -1,9 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import SignInForm from './components/SignInForm'
-import SignUpForm from './components/SignUpForm'
 import App from './App'
 import AuthProvider from './components/AuthProvider'
 import ModalProvider from './components/ModalProvider'
@@ -16,36 +14,6 @@ const BASE_URL = import.meta.env.BASE_URL
 if (!BASE_URL) {
     throw new Error('BASE_URL is not defined')
 }
-
-const router = createBrowserRouter(
-    [
-        {
-            path: '/',
-            element: <App />,
-            children: [
-                {
-                    path: '',
-                    element: <Home />,
-                },
-                {
-                    path: 'dashboard',
-                    element: <Dashboard />,
-                },
-                {
-                    path: 'signup',
-                    element: <SignUpForm />,
-                },
-                {
-                    path: 'signin',
-                    element: <SignInForm />,
-                },
-            ],
-        },
-    ],
-    {
-        basename: BASE_URL,
-    }
-)
 
 const rootElement = document.getElementById('root')
 if (!rootElement) {
@@ -60,9 +28,16 @@ const root = ReactDOM.createRoot(rootElement)
 root.render(
     <React.StrictMode>
         <AuthProvider>
-        <ModalProvider>
-            <RouterProvider router={router} />
-        </ModalProvider>
+                <BrowserRouter>
+                    <ModalProvider>
+                        <Routes>
+                            <Route path="/" element={<App />}>
+                                <Route index element={<Home />} />
+                                <Route path="dashboard" element={<Dashboard />} />
+                            </Route>
+                        </Routes>
+                    </ModalProvider>
+                </BrowserRouter>
         </AuthProvider>
     </React.StrictMode>
 )
