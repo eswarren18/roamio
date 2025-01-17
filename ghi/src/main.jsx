@@ -7,6 +7,8 @@ import AuthProvider from './components/AuthProvider'
 import ModalProvider from './components/ModalProvider'
 import Dashboard from './components/Dashboard'
 import Home from './components/Home'
+import Trip from './components/Trip'
+import FourZeroFour from './components/FourZeroFour'
 
 import './index.css'
 
@@ -34,6 +36,8 @@ root.render(
                             <Route path="/" element={<App />}>
                                 <Route index element={<Home />} />
                                 <Route path="dashboard" element={<Dashboard />} />
+                                <Route path="trip/:tripId" element={<Trip />} />
+                                <Route path="404NotFound" element={<FourZeroFour />} />
                             </Route>
                         </Routes>
                     </ModalProvider>

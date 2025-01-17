@@ -63,7 +63,11 @@ function Dashboard() {
                         className="flex flex-row justify-between"
                     >
                         {trips.map((trip) => (
-                            <button key={trip.id} className="border border-black rounded-md w-full m-4 p-2">
+                            <button
+                                key={trip.id}
+                                className="border border-black rounded-md w-full m-4 p-2"
+                                onClick={() => navigate(`/trip/${trip.id}`)}
+                            >
                                 <h1 className="font-bold"> {trip.title}</h1>
                                 <p>{trip.city}, {trip.country}</p>
                                 <p>{trip.start_date}</p>

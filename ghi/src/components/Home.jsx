@@ -9,7 +9,7 @@ function Home() {
 
     const navToDashboard = () => {
         if (isLoggedIn) {
-            navigate("/Dashboard")
+            navigate("/dashboard")
         }
     }
 
