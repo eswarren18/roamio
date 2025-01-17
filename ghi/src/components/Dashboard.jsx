@@ -59,22 +59,21 @@ function Dashboard() {
                         src="../public/google-maps-paris.png"
                         alt="Google Maps Paris"
                     />
-                    <div className="flex flex-wrap justify-between" id="trip-cards">
+                    <div
+                        id="trip-cards"
+                        className="flex flex-row justify-between"
+                    >
                         {trips.map((trip) => (
-                            <div className="w-full md:w-1/3 p-4">
-                                <h2> {trip.title}</h2>
-                                <h3>{trips.country}</h3>
-                                <h3>{trip.city}</h3>
-                                <h3>{trip.start_date}</h3>
-                                <h3>{trip.end_date}</h3>
-                            </div>
-                        )
-
-                        )}
+                            <button key={trip.id} className="border border-black rounded-md w-full m-4 p-2">
+                                <h1 className="font-bold"> {trip.title}</h1>
+                                <p>{trip.city}, {trip.country}</p>
+                                <p>{trip.start_date}</p>
+                                <p>{trip.end_date}</p>
+                            </button>
+                        ))}
                     </div>
                 </div>
             </div>
-
     )
 }
 
