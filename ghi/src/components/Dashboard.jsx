@@ -14,7 +14,6 @@ function Dashboard() {
             if (response.ok) {
                 const data = await response.json();
                 setTrips(data)
-                console.log(data)
             }
         } catch(e) {
             console.error(e)

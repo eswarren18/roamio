@@ -33,6 +33,7 @@ function SignInModal() {
                 className="bg-white rounded-lg shadow-lg w-1/3"
                 onClick={(e) => e.stopPropagation()} // Prevent click outside from closing modal
             >
+                <button onClick={toggleModal}>X</button>
                 <form onSubmit={handleFormSubmit}>
                     {error && <div className="error">{error.message}</div>}
                     <input

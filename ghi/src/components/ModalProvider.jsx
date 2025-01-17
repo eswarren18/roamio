@@ -1,6 +1,7 @@
 import { createContext, useState } from 'react'
 import SignInModal from './SignInModal';
 import SignUpModal from './SignUpModal';
+import AddTripModal from './AddTripModal'
 
 export const ModalContext = createContext(null)
 
@@ -17,8 +18,8 @@ export default function ModalProvider({ children }) {
         switch (formType) {
             // case "SettingsForm":
             //     return <SettingsForm toggleModal={() => toggleModal()} />;
-            // case "TripForm":
-            //     return <TripForm toggleModal={() => toggleModal()} />;
+            case "AddTripModal":
+                return <AddTripModal />;
             case "SignInModal":
                 return <SignInModal />;
             case "SignUpModal":

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Nav() {
     const { isLoggedIn, setUser } = useContext(AuthContext);
-    const { isModalOpen, toggleModal } = useContext(ModalContext);
+    const { toggleModal } = useContext(ModalContext);
     const navigate = useNavigate();
 
     const handleLogOut = async () => {
@@ -15,7 +15,6 @@ function Nav() {
             method: "DELETE",
             credentials: "include"
         }
-        const getResource = "http://localhost:8000/api/auth/authenticate"
         try {
             const deleteResponse = await fetch(deleteResource, deleteOptions);
             if (deleteResponse) {
@@ -40,6 +39,7 @@ function Nav() {
                                 </a>
                                 <p
                                     className="hover:underline cursor-pointer"
+                                    onClick={() => toggleModal("AddTripModal")}
                                 >
                                     Add a Trip
                                 </p>
