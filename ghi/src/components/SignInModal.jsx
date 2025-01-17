@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ModalContext } from './ModalProvider'
 
@@ -15,11 +15,13 @@ function SignInModal() {
         async function handleFormSubmit(e) {
             e.preventDefault()
             await signin({ username, password })
-            if (user) {
-                await toggleModal()
-                navigate("/dashboard")
-            }
         }
+
+        useEffect(() => {
+             if (user) {
+                toggleModal()
+                navigate("/dashboard") }
+            },)
 
     return (
         <div
