@@ -2,6 +2,19 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from './AuthProvider';
 
+// function AccordionItem({title, content, isExpanded, onToggle}) {
+//         return (
+//             <div className={`bg-white rounded-3xl overflow-hidden transition-all duration-300 ${isExpanded ? "max-h-96" : "max-h-20"}`}>
+//                 <div className="flex justify-between items-start p-6 cursor-pointer" onClick={onToggle}>
+//                 <div className="text-2xl font-bold">{title}</div>
+//                 </div>
+
+//             <div className={`px-5 pb-5 overflow-hidden transition-all duration-300 ${isExpanded ? "opacity-100" : "opacity-0"}`}>
+//                 <div>{content}</div>
+//             </div>
+//             </div>
+//         )
+// }
 
 function Trip() {
     const { isLoggedIn } = useContext(AuthContext);
@@ -11,6 +24,8 @@ function Trip() {
     const [flights, setFlights] = useState([]);
     const [lodgings, setLodgings] = useState([]);
     const [events, setEvents] = useState([]);
+    const [tripDates, setTripDates] = useState([])
+
 
     const fetchTrip = async () => {
         try {
@@ -86,6 +101,19 @@ function Trip() {
         }
     }
 
+    const accordionSetup = async () => {
+        const startDate = new Date (trip.start_date); // Example start date
+        const endDate = new Date (trip.end_date);   // Example end date
+
+        const tripRange = []
+        for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
+            tripRange.push(d.toISOString().split("T")[0]); // Prints YYYY-MM-DD format
+        }
+        setTripDates(tripRange)
+    }
+
+
+
     useEffect(() => {
         navToHome();
         fetchTrip();
@@ -93,6 +121,12 @@ function Trip() {
         fetchLodgings();
         fetchEvents();
     },[]);
+
+    useEffect(() => {
+        accordionSetup();
+    },[trip]);
+
+
 
     return (
         <div>
@@ -124,6 +158,20 @@ function Trip() {
                 </div>
             ))}
         </div>
+        {/* <>
+            <div className="min-h-screen flex items-center justify-center w-full">
+                <div className="flex flex-col gap-3 max-w-md mx-auto">
+                {tripDates.map((date) =>
+                    <AccordionItem
+                    key={date.id}
+                    {...date}
+                    isExpanded={expandedId === item.id}
+                    onToggle = {() => toggleExpand(item.id)}
+                    />
+                )}
+                </div>
+            </div>
+        </> */}
     </div>
     )
 }

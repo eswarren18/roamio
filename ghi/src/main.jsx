@@ -22,10 +22,6 @@ if (!rootElement) {
     throw new Error('root element was not found!')
 }
 
-// Log out the environment variables while you are developing and deploying
-// This will help debug things
-console.table(import.meta.env)
-
 const root = ReactDOM.createRoot(rootElement)
 root.render(
     <React.StrictMode>

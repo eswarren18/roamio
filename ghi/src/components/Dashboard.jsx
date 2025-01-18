@@ -1,9 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './AuthProvider';
+import { ModalContext } from './ModalProvider';
 
 
 function Dashboard() {
+    const { toggleModal } = useContext(ModalContext);
     const { isLoggedIn } = useContext(AuthContext);
     const navigate = useNavigate();
     const [trips, setTrips] = useState([]);
@@ -60,12 +62,12 @@ function Dashboard() {
                     />
                     <div
                         id="trip-cards"
-                        className="flex flex-row justify-between"
+                        className="flex flex-row flex-wrap justify-center"
                     >
                         {trips.map((trip) => (
                             <button
                                 key={trip.id}
-                                className="border border-black rounded-md w-full m-4 p-2"
+                                className="border border-black rounded-md w-1/4 m-4 p-2"
                                 onClick={() => navigate(`/trip/${trip.id}`)}
                             >
                                 <h1 className="font-bold"> {trip.title}</h1>
@@ -74,6 +76,15 @@ function Dashboard() {
                                 <p>{trip.end_date}</p>
                             </button>
                         ))}
+                        <button
+                            className="border border-black rounded-md w-1/4 m-4 p-2"
+                            onClick={() => toggleModal("AddTripModal")}
+                        >
+                            <h1 className="font-bold"> Create a Trip</h1>
+                            <p>Trip City, Trip County</p>
+                            <p>Start Date</p>
+                            <p>End Date</p>
+                        </button>
                     </div>
                 </div>
             </div>

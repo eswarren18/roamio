@@ -24,7 +24,6 @@ function AddTripModal() {
 
         const handleFormSubmit = async (e) => {
             e.preventDefault()
-            console.log(formData)
             try {
                 const response = await fetch("http://localhost:8000/api/trips",
                     {
@@ -34,9 +33,11 @@ function AddTripModal() {
                         body : JSON.stringify(formData)
                     })
                     if (response.ok) {
+                        const responseData = await response.json()
+                        const tripId = responseData.id
                         resetForm()
                         toggleModal("")
-                        navigate('/dashboard')
+                        navigate(`/trip/${tripId}`)
                     }
             } catch (e) {
                 console.error(e)
