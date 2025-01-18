@@ -37,18 +37,18 @@ function Dashboard() {
             <div id="home" className="flex items-center mt-6">
                 <div
                     id="profile"
-                    className="flex items-center self-start rounded-lg border-2 border-black flex-col px-2 py-2 mx-6 md:px-4 md:py-4 md:mx-10"
+                    className="flex items-center self-start rounded-lg border-2 border-cyan-100 flex-col px-2 py-2 mx-6 md:px-4 md:py-4 md:mx-10"
                 >
                     <div
                         id="picture"
-                        className="text-2xl rounded-full border-2 border-black p-8 m-2 md:p-16 md:m-5"
+                        className="text-2xl text-cyan-100 rounded-full border-2 border-cyan-100 p-8 m-2 md:p-16 md:m-5"
                     >
                         Profile picture
                     </div>
                     <button
                         id="settings"
                         onClick={() => toggleModal("SettingsForm")}
-                        className="bg-blue-500 text-white px-4 py-2 mx-5 mt-10 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+                        className="bg-cyan-100 hover:bg-cyan-200 text-cyan-900 px-5 py-2 border-2 border-cyan-900 rounded-full transition duration-200"
                     >
                         Settings
                     </button>
@@ -56,7 +56,7 @@ function Dashboard() {
                 <div className="flex items-center flex-col mx-10">
                     <img
                         id="map"
-                        className="mx-auto border-4 border-black rounded-xl"
+                        className="mx-auto border-4 border-cyan-100 rounded-xl"
                         src="../public/google-maps-paris.png"
                         alt="Google Maps Paris"
                     />
@@ -67,7 +67,7 @@ function Dashboard() {
                         {trips.map((trip) => (
                             <button
                                 key={trip.id}
-                                className="border border-black rounded-md w-1/4 m-4 p-2"
+                                className="border text-cyan-100 border-cyan-100 rounded-md w-1/4 m-4 p-2"
                                 onClick={() => navigate(`/trip/${trip.id}`)}
                             >
                                 <h1 className="font-bold"> {trip.title}</h1>
@@ -77,7 +77,7 @@ function Dashboard() {
                             </button>
                         ))}
                         <button
-                            className="border border-black rounded-md w-1/4 m-4 p-2"
+                            className="border text-cyan-100 border-cyan-100 rounded-md w-1/4 m-4 p-2"
                             onClick={() => toggleModal("AddTripModal")}
                         >
                             <h1 className="font-bold"> Create a Trip</h1>

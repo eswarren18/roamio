@@ -3,7 +3,6 @@ import { AuthContext } from './AuthProvider';
 import { ModalContext } from './ModalProvider';
 import { useNavigate } from 'react-router-dom';
 
-
 function Nav() {
     const { isLoggedIn, setUser } = useContext(AuthContext);
     const { toggleModal } = useContext(ModalContext);
@@ -27,54 +26,55 @@ function Nav() {
     }
 
     return (
-        <>
-            <nav id="nav" className="bg-blue-600 text-white py-4 px-6 shadow-md">
-                <div className="mx-auto flex items-center justify-between">
-                    <div className="flex items-center justify-start">
-                        <div className="text-2xl font-bold">Roamio</div>
-                        {isLoggedIn && (
-                            <div className="flex px-4 space-x-4">
-                                <a href="/" className="hover:underline">
-                                    Home
-                                </a>
-                                <p
-                                    className="hover:underline cursor-pointer"
-                                    onClick={() => toggleModal("AddTripModal")}
-                                >
-                                    Add a Trip
-                                </p>
-                            </div>
-                        )}
-                    </div>
-                    <div>
-                        {isLoggedIn ? (
+        <nav id="nav" className="bg-cyan-100 text-gray-900 py-4 px-6 shadow-md font-sans">
+            <div className="max-w-7xl mx-auto flex items-center justify-between">
+                {/* Left side: Logo and Navigation Links */}
+                <div className="flex items-center space-x-6">
+                    <div className="text-2xl font-bold tracking-tight">Roamio</div>
+                    {isLoggedIn && (
+                        <div className="hidden md:flex space-x-6 text-lg">
+                            <a href="/" className="hover:text-cyan-500 transition duration-200">
+                                Home
+                            </a>
                             <button
-                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition duration-200"
-                                onClick={handleLogOut}
+                                className="hover:text-cyan-500 transition duration-200"
+                                onClick={() => toggleModal("AddTripModal")}
                             >
-                                Log Out
+                                Add a Trip
                             </button>
-                        ) : (
-                            <>
-                                <button
-                                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition duration-200"
-                                    onClick={() => toggleModal("SignUpModal")}
-                                >
-                                    Sign Up
-                                </button>
-                                <button
-                                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition duration-200"
-                                    onClick={() => toggleModal("SignInModal")}
-                                >
-                                    Log In
-                                </button>
-                            </>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </div>
-            </nav>
-        </>
+
+                {/* Right side: Auth buttons */}
+                <div className="flex space-x-4">
+                    {isLoggedIn ? (
+                        <button
+                            className="bg-cyan-900 hover:bg-cyan-700 text-cyan-100 px-5 py-2 rounded-full transition duration-200"
+                            onClick={handleLogOut}
+                        >
+                            Log Out
+                        </button>
+                    ) : (
+                        <>
+                            <button
+                                className="bg-cyan-100 hover:bg-cyan-200 text-cyan-900 px-5 py-2 border-2 border-cyan-900 rounded-full transition duration-200"
+                                onClick={() => toggleModal("SignInModal")}
+                            >
+                                Log In
+                            </button>
+                            <button
+                                className="bg-cyan-900 hover:bg-cyan-700 text-cyan-100 px-5 py-2 rounded-full transition duration-200"
+                                onClick={() => toggleModal("SignUpModal")}
+                            >
+                                Sign Up
+                            </button>
+                        </>
+                    )}
+                </div>
+            </div>
+        </nav>
     )
 }
 
-export default Nav
+export default Nav;

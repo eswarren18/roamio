@@ -40,11 +40,11 @@ function App() {
     }, [])
 
     return (
-        <div className="App">
-            <header className="App-header">{<Nav />}</header>
+        <>
+            <Nav />
             <Outlet />
             <ErrorNotification error={error} />
-        </div>
+        </>
     )
 }
 
