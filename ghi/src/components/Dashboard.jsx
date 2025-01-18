@@ -37,7 +37,7 @@ function Dashboard() {
             <div id="home" className="flex items-center mt-6">
                 <div
                     id="profile"
-                    className="flex items-center self-start rounded-lg border-2 border-cyan-100 flex-col px-2 py-2 mx-6 md:px-4 md:py-4 md:mx-10"
+                    className="flex items-center self-start rounded-lg border-2 border-cyan-100 flex-col px-2 py-2 m-8"
                 >
                     <div
                         id="picture"
@@ -56,24 +56,35 @@ function Dashboard() {
                 <div className="flex items-center flex-col mx-10">
                     <img
                         id="map"
-                        className="mx-auto border-4 border-cyan-100 rounded-xl"
-                        src="../public/google-maps-paris.png"
+                        className="mx-auto border-4 border-cyan-100 rounded-xl m-4"
+                        src="/public/google-maps-paris.png"
                         alt="Google Maps Paris"
                     />
+
+
+
+
                     <div
                         id="trip-cards"
-                        className="flex flex-row flex-wrap justify-center"
+                        className="flex flex-wrap justify-center w-full"
                     >
                         {trips.map((trip) => (
                             <button
                                 key={trip.id}
-                                className="border text-cyan-100 border-cyan-100 rounded-md w-1/4 m-4 p-2"
+                                className="flex flex-col justify-between text-cyan-900 bg-cyan-100 rounded-lg w-80 m-4 h-60"
                                 onClick={() => navigate(`/trip/${trip.id}`)}
                             >
-                                <h1 className="font-bold"> {trip.title}</h1>
-                                <p>{trip.city}, {trip.country}</p>
-                                <p>{trip.start_date}</p>
-                                <p>{trip.end_date}</p>
+                                <div className="w-full h-1/3">
+                                    <img className="object-cover w-full h-full rounded-t-lg" src={trip.trip_image}></img>
+                                </div>
+                                <div className="flex flex-col items-center justify-center w-full h-2/3">
+                                    <h1 className="font-bold"> {trip.title}</h1>
+                                    <p>{trip.city}, {trip.country}</p>
+                                </div>
+                                <div className="flex flex-col justify-center w-full">
+                                    <div className="border-t border-black w-3/4 mx-auto justify-center"></div>
+                                    <p className="my-2">{trip.start_date} - {trip.end_date}</p>
+                                </div>
                             </button>
                         ))}
                         <button
@@ -86,6 +97,10 @@ function Dashboard() {
                             <p>End Date</p>
                         </button>
                     </div>
+
+
+
+
                 </div>
             </div>
     )
