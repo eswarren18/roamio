@@ -1,12 +1,38 @@
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function Accordion({ header, content }) {
-    const [accordionOpen, setaccordionOpen] = useState(false)
+    const [accordionOpen, setAccordionOpen] = useState(false)
+
+    const parseContent = (activity) => {
+        switch (activity.type) {
+            case "event":
+                return (
+                    <div>{activity.description}</div>
+                )
+            case "flight":
+                return (
+                    <div>
+                        flight
+                    </div>
+                )
+            case "lodging_check_in":
+                return (
+                    <div>
+                        check in
+                    </div>
+                )
+            default:
+                return (
+                    <div>{activity.type}</div>
+                )
+        }
+    }
+
     return (
         <div className="py-2">
             <button
                 className="flex justify-between w-full"
-                onClick={() => setaccordionOpen(!accordionOpen)}
+                onClick={() => setAccordionOpen(!accordionOpen)}
             >
                 <span>{header}</span>
                 {accordionOpen ? <span>-</span> : <span>+</span>}
@@ -17,7 +43,9 @@ export default function Accordion({ header, content }) {
                     : "grid-rows-[0fr] opacity-0"
             }`}>
                 <div className="overflow-hidden">
-                    {content}
+                    {content.map((activity, index) => (
+                        <div key={index}>{parseContent(activity)}</div>
+                    ))}
                 </div>
             </div>
         </div>

@@ -2,19 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from './AuthProvider';
 
-// function AccordionItem({title, content, isExpanded, onToggle}) {
-//         return (
-//             <div className={`bg-white rounded-3xl overflow-hidden transition-all duration-300 ${isExpanded ? "max-h-96" : "max-h-20"}`}>
-//                 <div className="flex justify-between items-start p-6 cursor-pointer" onClick={onToggle}>
-//                 <div className="text-2xl font-bold">{title}</div>
-//                 </div>
-
-//             <div className={`px-5 pb-5 overflow-hidden transition-all duration-300 ${isExpanded ? "opacity-100" : "opacity-0"}`}>
-//                 <div>{content}</div>
-//             </div>
-//             </div>
-//         )
-// }
+import Accordion from './Accordion';
 
 function Trip() {
     const { isLoggedIn } = useContext(AuthContext);
@@ -22,7 +10,7 @@ function Trip() {
     const navigate = useNavigate();
     const location = useLocation();
     const [trip, setTrip] = useState({});
-    const [tripAccordion, setTripAccordion] = useState([])
+    const [tripData, setTripData] = useState({});
 
     const fetchTripData = async () => {
         try {
@@ -41,8 +29,8 @@ function Trip() {
                     eventsRes.json()
                 ]);
 
-                    setTrip(tripData);
-                    setupAccordion(tripData, flightsData, lodgingsData, eventsData);
+                setTrip(tripData);
+                setupAccordion(tripData, flightsData, lodgingsData, eventsData);
             } else {
                 navigate("/404NotFound");
             }
@@ -78,11 +66,11 @@ function Trip() {
 
         lodgings.forEach(lodging => {
             const checkInKey = lodging.check_in.split("T")[0];
-            addDataToDate({ ...lodging, isCheckOut: false }, 'lodging', checkInKey);
+            addDataToDate({ ...lodging, isCheckOut: false }, 'lodging_check_in', checkInKey);
 
             const checkOutKey = lodging.check_out.split("T")[0];
             if (checkOutKey !== checkInKey) {
-                addDataToDate({ ...lodging, isCheckOut: true }, 'lodging', checkOutKey);
+                addDataToDate({ ...lodging, isCheckOut: true }, 'lodging_check_out', checkOutKey);
             }
         });
 
@@ -99,23 +87,36 @@ function Trip() {
             });
         });
 
-
-        console.log(tripAccordionData)
-        setTripAccordion(tripAccordionData);
+        setTripData(tripAccordionData);
     };
-
 
     useEffect(() => {
         navToHome();
         fetchTripData();
-    },[location.pathname]);
-
+    },[location.pathname, ]);
 
     return (
-        <div>
-            <div className="flex">
-                <h1 className="font-bold">{trip.title}</h1>
-                <p>{trip.city}, {trip.country}</p>
+        <div className="flex flex-row m-8">
+            <div className="w-1/2">
+                <div className="relative mb-4 h-60">
+                    <img className="object-cover w-full h-full rounded-lg" src={trip.trip_image}></img>
+                    <div className="text-cyan-900 absolute top-0 left-0 w-full h-full flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent p-4 rounded-t-lg rounded-b-lg overflow-hidden">
+                        <h1 className="font-bold text-cyan-100 text-6xl">{trip.title}</h1>
+                        <p className="text-cyan-100">{trip.start_date} - {trip.end_date}</p>
+                    </div>
+                </div>
+                <div className="p-4 rounded-lg bg-cyan-100">
+                    {Object.entries(tripData).map(([date, activities]) => (
+                        <Accordion
+                            key={date}
+                            header={date}
+                            content={activities}
+                        />
+                    ))}
+                </div>
+            </div>
+            <div className="text-cyan-100 w-1/2 p-8">
+                Insert Google map here
             </div>
         </div>
     )
