@@ -62,3 +62,16 @@ async def delete_flight(
             status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
         )
     return queries.delete(flight_id, user.id)
+
+@router.get("/{trip_id}", response_model=List[FlightOut])
+async def get_flights(
+    trip_id: int,
+    user: UserResponse = Depends(try_get_jwt_user_data),
+    queries: FlightsQueries = Depends()
+) -> List[FlightOut]:
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
+        )
+    flights = queries.get_for_trip(trip_id, user.id)
+    return flights
