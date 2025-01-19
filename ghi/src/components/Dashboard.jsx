@@ -61,9 +61,6 @@ function Dashboard() {
                         alt="Google Maps Paris"
                     />
 
-
-
-
                     <div
                         id="trip-cards"
                         className="flex flex-wrap justify-center w-full"
@@ -71,30 +68,35 @@ function Dashboard() {
                         {trips.map((trip) => (
                             <button
                                 key={trip.id}
-                                className="flex flex-col justify-between text-cyan-900 bg-cyan-100 rounded-lg w-80 m-4 h-60"
+                                className="flex flex-col justify-between text-cyan-900 bg-cyan-100 rounded-lg w-1/4 m-4 h-60 transform hover:bg-cyan-200 hover:scale-105 hover:ring-2 hover:ring-cyan-500 hover:origin-center hover:rotate-1 transition-all duration-200"
                                 onClick={() => navigate(`/trip/${trip.id}`)}
                             >
                                 <div className="w-full h-1/3">
                                     <img className="object-cover w-full h-full rounded-t-lg" src={trip.trip_image}></img>
                                 </div>
-                                <div className="flex flex-col items-center justify-center w-full h-2/3">
-                                    <h1 className="font-bold"> {trip.title}</h1>
-                                    <p>{trip.city}, {trip.country}</p>
+                                <div className="flex flex-col items-center justify-center w-full h-2/3 px-2">
+                                    <h1 className="font-bold text-2xl"> {trip.title}</h1>
+                                    <p className="pt-2">{trip.city}, {trip.country}</p>
                                 </div>
-                                <div className="flex flex-col justify-center w-full">
+                                <div className="flex flex-col justify-center w-full px-2">
                                     <div className="border-t border-black w-3/4 mx-auto justify-center"></div>
                                     <p className="my-2">{trip.start_date} - {trip.end_date}</p>
                                 </div>
                             </button>
                         ))}
                         <button
-                            className="border text-cyan-100 border-cyan-100 rounded-md w-1/4 m-4 p-2"
+                            className="flex flex-col justify-between text-cyan-900 bg-cyan-100 rounded-lg w-1/4 m-4 h-60 transform hover:bg-cyan-200 hover:scale-105 hover:ring-2 hover:ring-cyan-500 hover:origin-center hover:rotate-1 transition-all duration-200"
                             onClick={() => toggleModal("AddTripModal")}
                         >
-                            <h1 className="font-bold"> Create a Trip</h1>
-                            <p>Trip City, Trip County</p>
-                            <p>Start Date</p>
-                            <p>End Date</p>
+                            <div className="w-full h-1/3">
+                                <img className="object-cover w-full h-full rounded-t-lg" src="/public/passport-stamps.png"></img>
+                            </div>
+                            <div className="flex flex-col items-center justify-center w-full h-2/3">
+                                <h1 className="font-bold text-2xl mb-7">Add a Trip</h1>
+                            </div>
+                            <div className="flex flex-col justify-center w-full">
+                                <div className="border-t border-black w-3/4 mx-auto justify-center mb-10"></div>
+                            </div>
                         </button>
                     </div>
 
