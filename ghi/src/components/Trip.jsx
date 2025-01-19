@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from './AuthProvider';
 
 // function AccordionItem({title, content, isExpanded, onToggle}) {
@@ -20,12 +20,12 @@ function Trip() {
     const { isLoggedIn } = useContext(AuthContext);
     const { tripId } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
     const [trip, setTrip] = useState([]);
     const [flights, setFlights] = useState([]);
     const [lodgings, setLodgings] = useState([]);
     const [events, setEvents] = useState([]);
     const [tripDates, setTripDates] = useState([])
-
 
     const fetchTrip = async () => {
         try {
@@ -101,18 +101,16 @@ function Trip() {
         }
     }
 
-    const accordionSetup = async () => {
-        const startDate = new Date (trip.start_date); // Example start date
-        const endDate = new Date (trip.end_date);   // Example end date
+    // const accordionSetup = async () => {
+    //     const startDate = new Date (trip.start_date); // Example start date
+    //     const endDate = new Date (trip.end_date);   // Example end date
 
-        const tripRange = []
-        for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
-            tripRange.push(d.toISOString().split("T")[0]); // Prints YYYY-MM-DD format
-        }
-        setTripDates(tripRange)
-    }
-
-
+    //     const tripRange = []
+    //     for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
+    //         tripRange.push(d.toISOString().split("T")[0]); // Prints YYYY-MM-DD format
+    //     }
+    //     setTripDates(tripRange)
+    // }
 
     useEffect(() => {
         navToHome();
@@ -120,13 +118,11 @@ function Trip() {
         fetchFlights();
         fetchLodgings();
         fetchEvents();
-    },[]);
+    },[location.pathname]);
 
-    useEffect(() => {
-        accordionSetup();
-    },[trip]);
-
-
+    // useEffect(() => {
+    //     accordionSetup();
+    // },[trip]);
 
     return (
         <div>

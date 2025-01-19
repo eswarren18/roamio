@@ -1,11 +1,51 @@
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ModalContext } from './ModalProvider'
 
 
 function AddTripModal() {
-        const { toggleModal } = useContext(ModalContext)
-        const [ formData, setFormData ] = useState({
+    const { toggleModal } = useContext(ModalContext)
+    const [ formData, setFormData ] = useState({
+        title:"",
+        country:"",
+        city:"",
+        start_date: "",
+        end_date: "",
+        trip_image: ""
+    })
+    const navigate = useNavigate()
+
+    const handleFormChange = ({ target: { value, name } }) => {
+        setFormData({
+            ...formData,
+            [name]: value
+        })
+    }
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault()
+        try {
+            const response = await fetch("http://localhost:8000/api/trips",
+                {
+                    method: "POST",
+                    headers: {'Content-Type' : 'application/json'},
+                    credentials: "include",
+                    body : JSON.stringify(formData)
+                })
+                if (response.ok) {
+                    const responseData = await response.json()
+                    const tripId = responseData.id
+                    resetForm()
+                    toggleModal("")
+                    navigate(`/trip/${tripId}`)
+                }
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
+    const resetForm = () => {
+        setFormData({
             title:"",
             country:"",
             city:"",
@@ -13,49 +53,9 @@ function AddTripModal() {
             end_date: "",
             trip_image: ""
         })
-        const navigate = useNavigate()
+    }
 
-        const handleFormChange = ({ target: { value, name } }) => {
-            setFormData({
-                ...formData,
-                [name]: value
-            })
-        }
-
-        const handleFormSubmit = async (e) => {
-            e.preventDefault()
-            try {
-                const response = await fetch("http://localhost:8000/api/trips",
-                    {
-                        method: "POST",
-                        headers: {'Content-Type' : 'application/json'},
-                        credentials: "include",
-                        body : JSON.stringify(formData)
-                    })
-                    if (response.ok) {
-                        const responseData = await response.json()
-                        const tripId = responseData.id
-                        resetForm()
-                        toggleModal("")
-                        navigate(`/trip/${tripId}`)
-                    }
-            } catch (e) {
-                console.error(e)
-            }
-        }
-
-        const resetForm = () => {
-            setFormData({
-                title:"",
-                country:"",
-                city:"",
-                start_date: "",
-                end_date: "",
-                trip_image: ""
-            })
-        }
-
-        const { title, country, city, start_date, end_date, trip_image } = formData
+    const { title, country, city, start_date, end_date, trip_image } = formData
 
     return (
         <div
