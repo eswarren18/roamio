@@ -128,3 +128,22 @@ class LodgingsQueries:
         except Exception as e:
             print(f"Error: {e}")
             raise HTTPException(status_code=500, detail="Internal Server Error")
+
+    def get_for_trip(self, trip_id: int, user_id: int) -> List[LodgingOut]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor(row_factory=class_row(LodgingOut)) as cur:
+                    cur.execute(
+                        """
+                        SELECT lodgings.*
+                        FROM lodgings
+                        JOIN trips ON lodgings.trip_id = trips.id
+                        WHERE trips.user_id = %s AND trips.id = %s;
+                        """,
+                        [user_id, trip_id]
+                    )
+                    lodgings = cur.fetchall()
+                    return lodgings
+        except Exception as e:
+            print(f"Error: {e}")
+            raise HTTPException(status_code=500, detail="Internal Server Error")

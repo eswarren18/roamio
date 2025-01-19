@@ -130,3 +130,22 @@ class EventsQueries:
         except Exception as e:
             print(f"Error: {e}")
             raise HTTPException(status_code=500, detail="Internal Server Error")
+
+    def get_for_trip(self, trip_id: int, user_id: int) -> List[EventOut]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor(row_factory=class_row(EventOut)) as cur:
+                    cur.execute(
+                        """
+                        SELECT events.*
+                        FROM events
+                        JOIN trips ON events.trip_id = trips.id
+                        WHERE trips.user_id = %s AND trips.id = %s;
+                        """,
+                        [user_id, trip_id]
+                    )
+                    events = cur.fetchall()
+                    return events
+        except Exception as e:
+            print(f"Error: {e}")
+            raise HTTPException(status_code=500, detail="Internal Server Error")

@@ -21,79 +21,35 @@ function Trip() {
     const { tripId } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
-    const [trip, setTrip] = useState([]);
-    const [flights, setFlights] = useState([]);
-    const [lodgings, setLodgings] = useState([]);
-    const [events, setEvents] = useState([]);
-    const [tripDates, setTripDates] = useState([])
+    const [trip, setTrip] = useState({});
+    const [tripAccordion, setTripAccordion] = useState([])
 
-    const fetchTrip = async () => {
+    const fetchTripData = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/trips/${tripId}`, {credentials: "include", headers: {"Content-Type": "application/json"}});
-            if (response.ok) {
-                const data = await response.json();
-                setTrip(data)
+            const [tripRes, flightsRes, lodgingsRes, eventsRes] = await Promise.all([
+                fetch(`http://localhost:8000/api/trips/${tripId}`, { credentials: "include", headers: {"Content-Type": "application/json"} }),
+                fetch(`http://localhost:8000/api/flights/${tripId}`, { credentials: "include", headers: {"Content-Type": "application/json"} }),
+                fetch(`http://localhost:8000/api/lodgings/${tripId}`, { credentials: "include", headers: {"Content-Type": "application/json"} }),
+                fetch(`http://localhost:8000/api/events/${tripId}`, { credentials: "include", headers: {"Content-Type": "application/json"} })
+            ]);
+
+            if (tripRes.ok && flightsRes.ok && lodgingsRes.ok && eventsRes.ok) {
+                const [tripData, flightsData, lodgingsData, eventsData] = await Promise.all([
+                    tripRes.json(),
+                    flightsRes.json(),
+                    lodgingsRes.json(),
+                    eventsRes.json()
+                ]);
+
+                    setTrip(tripData);
+                    setupAccordion(tripData, flightsData, lodgingsData, eventsData);
             } else {
-                navigate("/404NotFound")
+                navigate("/404NotFound");
             }
-        } catch(e) {
-            console.error(e)
+        } catch (e) {
+            console.error(e);
         }
-    }
-
-    const fetchFlights = async () => {
-        try {
-            const response = await fetch("http://localhost:8000/api/flights", {credentials: "include", headers: {"Content-Type": "application/json"}});
-            if (response.ok) {
-                const allFlights = await response.json();
-                const tripFlights = []
-                for (let flight of allFlights) {
-                    if (flight.trip_id == tripId) {
-                        tripFlights.push(flight)
-                    }
-                }
-                setFlights(tripFlights)
-            }
-        } catch(e) {
-            console.error(e)
-        }
-    }
-
-    const fetchLodgings = async () => {
-        try {
-            const response = await fetch("http://localhost:8000/api/lodgings", {credentials: "include", headers: {"Content-Type": "application/json"}});
-            if (response.ok) {
-                const allLodgings = await response.json();
-                const tripLodgings = []
-                for (let lodging of allLodgings) {
-                    if (lodging.trip_id == tripId) {
-                        tripLodgings.push(lodging)
-                    }
-                }
-                setLodgings(tripLodgings)
-            }
-        } catch(e) {
-            console.error(e)
-        }
-    }
-
-    const fetchEvents = async () => {
-        try {
-            const response = await fetch(`http://localhost:8000/api/events`, {credentials: "include", headers: {"Content-Type": "application/json"}});
-            if (response.ok) {
-                const allEvents = await response.json();
-                const tripEvents = []
-                for (let event of allEvents) {
-                    if (event.trip_id == tripId) {
-                        tripEvents.push(event)
-                    }
-                }
-                setEvents(tripEvents)
-            }
-        } catch(e) {
-            console.error(e)
-        }
-    }
+    };
 
     const navToHome = () => {
         if (!isLoggedIn) {
@@ -101,74 +57,67 @@ function Trip() {
         }
     }
 
-    // const accordionSetup = async () => {
-    //     const startDate = new Date (trip.start_date); // Example start date
-    //     const endDate = new Date (trip.end_date);   // Example end date
+    const setupAccordion = (tripData, flights, lodgings, events) => {
+        const startDate = new Date(tripData.start_date);
+        const endDate = new Date(tripData.end_date);
+        const tripAccordionData = {};
 
-    //     const tripRange = []
-    //     for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
-    //         tripRange.push(d.toISOString().split("T")[0]); // Prints YYYY-MM-DD format
-    //     }
-    //     setTripDates(tripRange)
-    // }
+        for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
+            const dateKey = d.toISOString().split("T")[0];
+            tripAccordionData[dateKey] = [];
+        }
+
+        const addDataToDate = (item, type, dateKey) => {
+            tripAccordionData[dateKey].push({ ...item, type });
+        };
+
+        flights.forEach(flight => {
+            const dateKey = flight.arrival_time.split("T")[0];
+            addDataToDate(flight, 'flight', dateKey);
+        });
+
+        lodgings.forEach(lodging => {
+            const checkInKey = lodging.check_in.split("T")[0];
+            addDataToDate({ ...lodging, isCheckOut: false }, 'lodging', checkInKey);
+
+            const checkOutKey = lodging.check_out.split("T")[0];
+            if (checkOutKey !== checkInKey) {
+                addDataToDate({ ...lodging, isCheckOut: true }, 'lodging', checkOutKey);
+            }
+        });
+
+        events.forEach(event => {
+            const dateKey = event.start_date_time.split("T")[0];
+            addDataToDate(event, 'event', dateKey);
+        });
+
+        Object.keys(tripAccordionData).forEach(dateKey => {
+            tripAccordionData[dateKey].sort((a, b) => {
+                const aTime = new Date(a.arrival_time || (a.isCheckOut ? a.check_out : a.check_in) || a.start_date_time).getTime();
+                const bTime = new Date(b.arrival_time || (b.isCheckOut ? b.check_out : b.check_in) || b.start_date_time).getTime();
+                return aTime - bTime;
+            });
+        });
+
+
+        console.log(tripAccordionData)
+        setTripAccordion(tripAccordionData);
+    };
+
 
     useEffect(() => {
         navToHome();
-        fetchTrip();
-        fetchFlights();
-        fetchLodgings();
-        fetchEvents();
+        fetchTripData();
     },[location.pathname]);
 
-    // useEffect(() => {
-    //     accordionSetup();
-    // },[trip]);
 
     return (
         <div>
-        <div className="flex">
-            <h1 className="font-bold">{trip.title}</h1>
-            <p>{trip.city}, {trip.country}</p>
-        </div>
-        <div>
-            <h1 className="font-bold">Flights</h1>
-            {flights.map((flight) => (
-                <div key={flight.id}>
-                    <p>{flight.flight_number}</p>
-                </div>
-            ))}
-        </div>
-        <div>
-            <h1 className="font-bold">Lodgings</h1>
-            {lodgings.map((lodging) => (
-                <div key={lodging.id}>
-                    <p>{lodging.name}</p>
-                </div>
-            ))}
-        </div>
-        <div>
-            <h1 className="font-bold">Events</h1>
-            {events.map((event) => (
-                <div key={event.id}>
-                    <p>{event.name}</p>
-                </div>
-            ))}
-        </div>
-        {/* <>
-            <div className="min-h-screen flex items-center justify-center w-full">
-                <div className="flex flex-col gap-3 max-w-md mx-auto">
-                {tripDates.map((date) =>
-                    <AccordionItem
-                    key={date.id}
-                    {...date}
-                    isExpanded={expandedId === item.id}
-                    onToggle = {() => toggleExpand(item.id)}
-                    />
-                )}
-                </div>
+            <div className="flex">
+                <h1 className="font-bold">{trip.title}</h1>
+                <p>{trip.city}, {trip.country}</p>
             </div>
-        </> */}
-    </div>
+        </div>
     )
 }
 

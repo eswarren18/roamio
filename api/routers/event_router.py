@@ -62,3 +62,16 @@ async def delete_event(
             status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
         )
     return queries.delete(event_id, user.id)
+
+@router.get("/{trip_id}", response_model=List[EventOut])
+async def get_events(
+    trip_id: int,
+    user: UserResponse = Depends(try_get_jwt_user_data),
+    queries: EventsQueries = Depends()
+) -> List[EventOut]:
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
+        )
+    events = queries.get_for_trip(trip_id, user.id)
+    return events
