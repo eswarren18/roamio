@@ -93,7 +93,7 @@ function Trip() {
     useEffect(() => {
         navToHome();
         fetchTripData();
-    },[location.pathname, ]);
+    },[location.pathname]);
 
     return (
         <div className="flex flex-row m-8">
@@ -105,7 +105,10 @@ function Trip() {
                         <p className="text-cyan-100">{trip.start_date} - {trip.end_date}</p>
                     </div>
                 </div>
-                <div className="p-4 rounded-lg bg-cyan-100">
+                <div className="px-4 rounded-lg bg-cyan-100 text-cyan-900">
+                    <div className="py-4 font-bold text-4xl">
+                        Trip Itinerary
+                    </div>
                     {Object.entries(tripData).map(([date, activities]) => (
                         <Accordion
                             key={date}

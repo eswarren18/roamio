@@ -3,6 +3,12 @@ import { useState } from 'react';
 export default function Accordion({ header, content }) {
     const [accordionOpen, setAccordionOpen] = useState(false)
 
+    let my_var = false
+    if (content.length > 0 ) {
+        my_var = true
+    }
+    console.log(my_var)
+
     const parseContent = (activity) => {
         switch (activity.type) {
             case "event":
@@ -29,13 +35,18 @@ export default function Accordion({ header, content }) {
     }
 
     return (
-        <div className="py-2">
+        <div className="text-cyan-900">
             <button
-                className="flex justify-between w-full"
+                className="flex flex-col w-full border-t border-cyan-500 py-4 items-center"
                 onClick={() => setAccordionOpen(!accordionOpen)}
             >
-                <span>{header}</span>
-                {accordionOpen ? <span>-</span> : <span>+</span>}
+                <div className="w-11/12">
+                    <div className="flex justify-between">
+                        <span className="text-xl">{header}</span>
+                        {accordionOpen ? <span>-</span> : <span>+</span>}
+                    </div>
+                    {content.length === 0 && <p className="flex items-start text-sm text-slate-400">No events planned</p>}
+                </div>
             </button>
             <div className={`grid overflow-hidden transition-all duration-300 ease-in-out text-slate-600 text-sm ${
                 accordionOpen
