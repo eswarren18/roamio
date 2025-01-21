@@ -2,14 +2,13 @@ import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ModalContext } from './ModalProvider'
 
-function AddEventModal() {
+function AddLodgingModal() {
     const { toggleModal, tripId } = useContext(ModalContext)
     const [ formData, setFormData ] = useState({
         name:"",
-        start_date_time:"",
-        end_date_time:"",
-        location: "",
-        description: "",
+        address:"",
+        check_in:"",
+        check_out:"",
         trip_id: tripId
     })
     const navigate = useNavigate()
@@ -24,7 +23,7 @@ function AddEventModal() {
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch("http://localhost:8000/api/events",
+            const response = await fetch("http://localhost:8000/api/lodgings",
                 {
                     method: "POST",
                     headers: {'Content-Type' : 'application/json'},
@@ -45,15 +44,14 @@ function AddEventModal() {
     const resetForm = () => {
         setFormData({
             name:"",
-            start_date_time:"",
-            end_date_time:"",
-            location: "",
-            description: "",
-            trip_id: 0
+            address:"",
+            check_in:"",
+            check_out:"",
+            trip_id: tripId
         })
     }
 
-    const { name, start_date_time, end_date_time, location, description } = formData
+    const { name, address, check_in, check_out, trip_id } = formData
 
     return (
         <div
@@ -72,41 +70,34 @@ function AddEventModal() {
                         name="name"
                         value={name}
                         onChange={handleFormChange}
-                        placeholder="Enter Name"
-                    />
-                    <input
-                        type="datetime-local"
-                        name="start_date_time"
-                        value={start_date_time}
-                        onChange={handleFormChange}
-                        placeholder="Enter Start Date"
-                    />
-                    <input
-                        type="datetime-local"
-                        name="end_date_time"
-                        value={end_date_time}
-                        onChange={handleFormChange}
-                        placeholder="Enter End Date"
+                        placeholder="Enter Lodging Name"
                     />
                     <input
                         type="text"
-                        name="location"
-                        value={location}
+                        name="address"
+                        value={address}
                         onChange={handleFormChange}
-                        placeholder="Enter Location"
+                        placeholder="Enter Address"
                     />
                     <input
-                        type="text"
-                        name="description"
-                        value={description}
+                        type="datetime-local"
+                        name="check_in"
+                        value={check_in}
                         onChange={handleFormChange}
-                        placeholder="Enter Description of Event"
+                        placeholder="Enter Check In Time"
                     />
-                    <button type="submit">Create Event</button>
+                    <input
+                        type="datetime-local"
+                        name="check_out"
+                        value={check_out}
+                        onChange={handleFormChange}
+                        placeholder="Enter Check Out Time"
+                    />
+                    <button type="submit">Create Lodging</button>
                 </form>
             </div>
         </div>
     );
 }
 
-export default AddEventModal
+export default AddLodgingModal

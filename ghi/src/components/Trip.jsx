@@ -129,10 +129,16 @@ function Trip() {
                             >
                                 Add Event
                             </button>
-                            <button className="block w-full px-4 py-2 text-left hover:bg-gray-100">
+                            <button
+                                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                                onClick={() => toggleModal("AddFlightModal", tripId)}
+                            >
                             Add Flight
                             </button>
-                            <button className="block w-full px-4 py-2 text-left hover:bg-gray-100">
+                            <button
+                                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                                onClick={() => toggleModal("AddLodgingModal", tripId)}
+                            >
                             Add Lodging
                             </button>
                         </div>

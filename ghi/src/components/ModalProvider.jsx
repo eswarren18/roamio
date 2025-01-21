@@ -3,6 +3,8 @@ import SignInModal from './SignInModal';
 import SignUpModal from './SignUpModal';
 import AddTripModal from './AddTripModal'
 import AddEventModal from './AddEventModal';
+import AddFlightModal from './AddFlightModal';
+import AddLodgingModal from './AddLodgingModal';
 
 export const ModalContext = createContext(null)
 
@@ -29,6 +31,10 @@ export default function ModalProvider({ children }) {
                 return <SignUpModal />;
             case "AddEventModal":
                 return <AddEventModal />;
+            case "AddFlightModal":
+                return <AddFlightModal />;
+            case "AddLodgingModal":
+                return <AddLodgingModal />;
             default:
                 return null;
         }

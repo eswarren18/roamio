@@ -52,14 +52,38 @@ export default function Accordion({ header, content }) {
                 )
             case "lodging_check_in":
                 return (
-                    <div>
-                        Lodging Check-in Card here!
+                    <div className="flex w-11/12 justify-between relative group">
+                        <div className="border-2 border-cyan-900 rounded-lg py-2 px-4 w-full">
+                            <div className="font-bold text-2xl mr-4">Hotel: {activity.name}</div>
+                            <div>{activity.address}</div>
+                            <div>Check-in: {new Date(activity.check_in).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                        </div>
+                        <div className="flex flex-col p-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                            <div className="border border-black m-1">
+                                De
+                            </div>
+                            <div className="border border-black m-1">
+                                Ed
+                            </div>
+                        </div>
                     </div>
                 )
             default:
                 return (
-                    <div>
-                        Lodging Check-out Card here!
+                    <div className="flex w-11/12 justify-between relative group">
+                        <div className="border-2 border-cyan-900 rounded-lg py-2 px-4 w-full">
+                            <div className="font-bold text-2xl mr-4">Hotel: {activity.name}</div>
+                            <div>{activity.address}</div>
+                            <div>Check-out: {new Date(activity.check_out).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                        </div>
+                        <div className="flex flex-col p-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                            <div className="border border-black m-1">
+                                De
+                            </div>
+                            <div className="border border-black m-1">
+                                Ed
+                            </div>
+                        </div>
                     </div>
                 )
         }

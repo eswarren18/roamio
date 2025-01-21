@@ -2,14 +2,12 @@ import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ModalContext } from './ModalProvider'
 
-function AddEventModal() {
+function AddFlightModal() {
     const { toggleModal, tripId } = useContext(ModalContext)
     const [ formData, setFormData ] = useState({
-        name:"",
-        start_date_time:"",
-        end_date_time:"",
-        location: "",
-        description: "",
+        flight_number:"",
+        departure_time:"",
+        arrival_time:"",
         trip_id: tripId
     })
     const navigate = useNavigate()
@@ -24,7 +22,7 @@ function AddEventModal() {
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch("http://localhost:8000/api/events",
+            const response = await fetch("http://localhost:8000/api/flights",
                 {
                     method: "POST",
                     headers: {'Content-Type' : 'application/json'},
@@ -44,16 +42,14 @@ function AddEventModal() {
 
     const resetForm = () => {
         setFormData({
-            name:"",
-            start_date_time:"",
-            end_date_time:"",
-            location: "",
-            description: "",
-            trip_id: 0
+            flight_number:"",
+            departure_time:"",
+            arrival_time:"",
+            trip_id: tripId
         })
     }
 
-    const { name, start_date_time, end_date_time, location, description } = formData
+    const { flight_number, departure_time, arrival_time, trip_id } = formData
 
     return (
         <div
@@ -69,44 +65,30 @@ function AddEventModal() {
                 <form onSubmit={handleFormSubmit}>
                     <input
                         type="text"
-                        name="name"
-                        value={name}
+                        name="flight_number"
+                        value={flight_number}
                         onChange={handleFormChange}
-                        placeholder="Enter Name"
+                        placeholder="Enter Flight Number"
                     />
                     <input
                         type="datetime-local"
-                        name="start_date_time"
-                        value={start_date_time}
+                        name="departure_time"
+                        value={departure_time}
                         onChange={handleFormChange}
-                        placeholder="Enter Start Date"
+                        placeholder="Enter Departure Time"
                     />
                     <input
                         type="datetime-local"
-                        name="end_date_time"
-                        value={end_date_time}
+                        name="arrival_time"
+                        value={arrival_time}
                         onChange={handleFormChange}
-                        placeholder="Enter End Date"
+                        placeholder="Enter Arrival Time"
                     />
-                    <input
-                        type="text"
-                        name="location"
-                        value={location}
-                        onChange={handleFormChange}
-                        placeholder="Enter Location"
-                    />
-                    <input
-                        type="text"
-                        name="description"
-                        value={description}
-                        onChange={handleFormChange}
-                        placeholder="Enter Description of Event"
-                    />
-                    <button type="submit">Create Event</button>
+                    <button type="submit">Create Flight</button>
                 </form>
             </div>
         </div>
     );
 }
 
-export default AddEventModal
+export default AddFlightModal
