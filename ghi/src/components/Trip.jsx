@@ -106,8 +106,17 @@ function Trip() {
                     </div>
                 </div>
                 <div className="px-4 rounded-lg bg-cyan-100 text-cyan-900">
-                    <div className="py-4 font-bold text-4xl">
-                        Trip Itinerary
+                    <div className="flex justify-between items-center">
+                        <div className="py-4 font-bold text-4xl">
+                            Trip Itinerary
+                        </div>
+                        <div
+                            className="flex items-center bg-cyan-100 text-cyan-900 cursor-pointer"
+                            onClick={() => {console.log("This should be a dropdown so users can either add a flight, event, or lodging")}}
+                        >
+                            <span className="text-3xl mr-1">+</span>
+                            <span className="pt-1 hover:underline">Add an Activity</span>
+                        </div>
                     </div>
                     {Object.entries(tripData).map(([date, activities]) => (
                         <Accordion
@@ -126,3 +135,15 @@ function Trip() {
 }
 
 export default Trip;
+
+
+
+<button
+    className="flex items-start bg-cyan-100 hover:bg-cyan-200 text-cyan-900 px-5 py-2 mt-3 border-2 border-cyan-900 rounded-full transition duration-200"
+    onClick={(e) => {
+        e.stopPropagation();
+        console.log("Add a dropdown here that allows user to select adding a flight, event, or lodging");
+    }}
+>
+    Add an Activity
+</button>
