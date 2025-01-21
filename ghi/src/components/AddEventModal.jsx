@@ -1,10 +1,9 @@
 import { useContext, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { ModalContext } from './ModalProvider'
 
-function AddEventModal({tripId}) {
-   // const { tripId } = useParams()
-    const { toggleModal } = useContext(ModalContext)
+function AddEventModal() {
+    const { toggleModal, tripId } = useContext(ModalContext)
     const [ formData, setFormData ] = useState({
         name:"",
         start_date_time:"",
@@ -37,7 +36,6 @@ function AddEventModal({tripId}) {
                     const tripId = responseData.id
                     resetForm()
                     toggleModal("")
-                    navigate(`/trip/${tripId}`)
                 }
         } catch (e) {
             console.error(e)

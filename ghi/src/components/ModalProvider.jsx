@@ -9,9 +9,11 @@ export const ModalContext = createContext(null)
 export default function ModalProvider({ children }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formType, setFormType] = useState("");
+    const [tripId, setTripId] = useState(0);
 
-    const toggleModal = (form = "") => {
+    const toggleModal = (form = "", id=0) => {
         setFormType(form)
+        setTripId(id)
         setIsModalOpen((imo) => !imo);
     };
 
@@ -33,7 +35,7 @@ export default function ModalProvider({ children }) {
     };
 
     return (
-        <ModalContext.Provider value ={{ isModalOpen, toggleModal }}>
+        <ModalContext.Provider value ={{ isModalOpen, toggleModal, tripId }}>
             {children}
             {isModalOpen && renderForm()}
         </ModalContext.Provider>

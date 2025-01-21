@@ -94,7 +94,12 @@ function Trip() {
     useEffect(() => {
         navToHome();
         fetchTripData();
-    },[location.pathname]);
+    },[location.pathname, toggleModal]);
+
+    //useEffect(() => {
+    //    navToHome();
+    //    fetchTripData();
+    //},[toggleModal]);
 
     return (
         <div className="flex flex-row m-8">
@@ -113,7 +118,7 @@ function Trip() {
                         </div>
                           <button
                                 className="bg-cyan-100 hover:bg-cyan-200 text-cyan-900 px-5 py-2 border-2 border-cyan-900 rounded-full transition duration-200"
-                                onClick={(tripId) => toggleModal("AddEventModal")}
+                                onClick={() => toggleModal("AddEventModal", tripId)}
                             >
                             </button>
                         <div
@@ -142,15 +147,3 @@ function Trip() {
 }
 
 export default Trip;
-
-
-
-<button
-    className="flex items-start bg-cyan-100 hover:bg-cyan-200 text-cyan-900 px-5 py-2 mt-3 border-2 border-cyan-900 rounded-full transition duration-200"
-    onClick={(e) => {
-        e.stopPropagation();
-        console.log("Add a dropdown here that allows user to select adding a flight, event, or lodging");
-    }}
->
-    Add an Activity
-</button>
