@@ -12,6 +12,7 @@ function Trip() {
     const [trip, setTrip] = useState({});
     const [tripData, setTripData] = useState({});
     const { toggleModal } = useContext(ModalContext);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const fetchTripData = async () => {
         try {
@@ -113,22 +114,57 @@ function Trip() {
                 </div>
                 <div className="px-4 rounded-lg bg-cyan-100 text-cyan-900">
                     <div className="flex justify-between items-center">
+
+
+
+
                         <div className="py-4 font-bold text-4xl">
                             Trip Itinerary
                         </div>
-                          <button
-                                className="bg-cyan-100 hover:bg-cyan-200 text-cyan-900 px-5 py-2 border-2 border-cyan-900 rounded-full transition duration-200"
-                                onClick={() => toggleModal("AddEventModal", tripId)}
-                            >
-                            </button>
+
+
+
+
+
+
+
+                        {/* <button
+                            className="bg-cyan-100 hover:bg-cyan-200 text-cyan-900 px-5 py-2 border-2 border-cyan-900 rounded-full transition duration-200"
+                            onClick={() => toggleModal("AddEventModal", tripId)}
+                        >
+                            Add an Activity
+                        </button> */}
+
+
+                    <div className="relative inline-block">
                         <div
+                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                             className="flex items-center bg-cyan-100 text-cyan-900 cursor-pointer"
-                            onClick={() => {console.log("This should be a dropdown so users can either add a flight, event, or lodging")}}
                         >
                             <span className="text-3xl mr-1">+</span>
                             <span className="pt-1 hover:underline">Add an Activity</span>
-
                         </div>
+
+                        {isDropdownOpen && (
+                        <div className="absolute mt-2 w-48 bg-white border rounded shadow-lg">
+                            <button
+                                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                                onClick={() => toggleModal("AddEventModal", tripId)}
+                            >
+                                Add Event
+                            </button>
+                            <button className="block w-full px-4 py-2 text-left hover:bg-gray-100">
+                            Add Flight
+                            </button>
+                            <button className="block w-full px-4 py-2 text-left hover:bg-gray-100">
+                            Add Lodging
+                            </button>
+                        </div>
+                        )}
+                    </div>
+
+
+
                     </div>
                     {Object.entries(tripData).map(([date, activities]) => (
                         <Accordion
