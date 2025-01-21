@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from './AuthProvider';
-
+import { ModalContext } from './ModalProvider';
 import Accordion from './Accordion';
 
 function Trip() {
@@ -11,6 +11,7 @@ function Trip() {
     const location = useLocation();
     const [trip, setTrip] = useState({});
     const [tripData, setTripData] = useState({});
+    const { toggleModal } = useContext(ModalContext);
 
     const fetchTripData = async () => {
         try {
@@ -110,12 +111,18 @@ function Trip() {
                         <div className="py-4 font-bold text-4xl">
                             Trip Itinerary
                         </div>
+                          <button
+                                className="bg-cyan-100 hover:bg-cyan-200 text-cyan-900 px-5 py-2 border-2 border-cyan-900 rounded-full transition duration-200"
+                                onClick={(tripId) => toggleModal("AddEventModal")}
+                            >
+                            </button>
                         <div
                             className="flex items-center bg-cyan-100 text-cyan-900 cursor-pointer"
                             onClick={() => {console.log("This should be a dropdown so users can either add a flight, event, or lodging")}}
                         >
                             <span className="text-3xl mr-1">+</span>
                             <span className="pt-1 hover:underline">Add an Activity</span>
+
                         </div>
                     </div>
                     {Object.entries(tripData).map(([date, activities]) => (

@@ -2,6 +2,7 @@ import { createContext, useState } from 'react'
 import SignInModal from './SignInModal';
 import SignUpModal from './SignUpModal';
 import AddTripModal from './AddTripModal'
+import AddEventModal from './AddEventModal';
 
 export const ModalContext = createContext(null)
 
@@ -24,6 +25,8 @@ export default function ModalProvider({ children }) {
                 return <SignInModal />;
             case "SignUpModal":
                 return <SignUpModal />;
+            case "AddEventModal":
+                return <AddEventModal />;
             default:
                 return null;
         }
