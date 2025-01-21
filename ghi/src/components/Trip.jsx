@@ -97,11 +97,6 @@ function Trip() {
         fetchTripData();
     },[location.pathname, toggleModal]);
 
-    //useEffect(() => {
-    //    navToHome();
-    //    fetchTripData();
-    //},[toggleModal]);
-
     return (
         <div className="flex flex-row m-8">
             <div className="w-1/2">
@@ -114,28 +109,9 @@ function Trip() {
                 </div>
                 <div className="px-4 rounded-lg bg-cyan-100 text-cyan-900">
                     <div className="flex justify-between items-center">
-
-
-
-
                         <div className="py-4 font-bold text-4xl">
                             Trip Itinerary
                         </div>
-
-
-
-
-
-
-
-                        {/* <button
-                            className="bg-cyan-100 hover:bg-cyan-200 text-cyan-900 px-5 py-2 border-2 border-cyan-900 rounded-full transition duration-200"
-                            onClick={() => toggleModal("AddEventModal", tripId)}
-                        >
-                            Add an Activity
-                        </button> */}
-
-
                     <div className="relative inline-block">
                         <div
                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -162,9 +138,6 @@ function Trip() {
                         </div>
                         )}
                     </div>
-
-
-
                     </div>
                     {Object.entries(tripData).map(([date, activities]) => (
                         <Accordion
