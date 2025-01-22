@@ -17,15 +17,15 @@ function Trip() {
     const [mapMarkers, setMapMarkers] = useState([]);
 
     const mapContainerStyle = {
-    width: '100%',
-    height: '600px',
-    borderRadius: '0.5rem'
-};
+        width: '100%',
+        height: '600px',
+        borderRadius: '0.5rem'
+    };
 
     const defaultCenter = {
-    lat: 40.7128,
-    lng: -74.0060
-};
+        lat: 40.7128,
+        lng: -74.0060
+    };
 
     const fetchTripData = async () => {
         try {
@@ -114,13 +114,33 @@ function Trip() {
     return (
         <div className="flex flex-row m-8">
             <div className="w-1/2">
-                <div className="relative mb-4 h-60">
+
+
+
+                <div className="relative mb-4 h-60 group">
                     <img className="object-cover w-full h-full rounded-lg" src={trip.trip_image}></img>
-                    <div className="text-cyan-900 absolute top-0 left-0 w-full h-full flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent p-4 rounded-t-lg rounded-b-lg overflow-hidden">
-                        <h1 className="font-bold text-cyan-100 text-6xl">{trip.title}</h1>
-                        <p className="text-cyan-100">{trip.start_date} - {trip.end_date}</p>
+                    <div className="flex flex-row justify-between">
+                        <div className="absolute top-0 left-0 w-full h-full flex justify-between items-end bg-gradient-to-t from-black/80 to-transparent p-4 rounded-t-lg rounded-b-lg overflow-hidden">
+                            <div className="flex flex-col text-cyan-100">
+                                <h1 className="font-bold text-6xl">{trip.title}</h1>
+                                <p className="text-cyan-100">{trip.start_date} - {trip.end_date}</p>
+                            </div>
+                            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <button>
+                                    <img src="/public/edit-icon-100.svg" alt="Edit" className="w-10 h-10" />
+                                </button>
+                                <button
+                                    onClick={() => toggleModal("DeleteActivityModal", tripId, "trips")}
+                                >
+                                    <img src="/public/delete-icon-100.svg" alt="Delete" className="w-10 h-10" />
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+
+
                 <div className="px-4 rounded-lg bg-cyan-100 text-cyan-900">
                     <div className="flex justify-between items-center">
                         <div className="py-4 font-bold text-4xl">

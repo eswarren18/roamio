@@ -23,10 +23,10 @@ export default function Accordion({ header, content }) {
                         </div>
                         <div className="flex flex-col p-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <button onClick={() => toggleModal("DeleteActivityModal", activity.id, "events")}>
-                                <img src="/public/delete-icon.svg" alt="Delete" className="w-6 h-6" />
+                                <img src="/public/delete-icon-900.svg" alt="Delete" className="w-6 h-6" />
                             </button>
                             <button onClick={() => toggleModal("EditEventModal", activity.id)}>
-                                <img src="/public/edit-icon.svg" alt="Edit" className="w-6 h-6" />
+                                <img src="/public/edit-icon-900.svg" alt="Edit" className="w-6 h-6" />
                             </button>
                         </div>
                     </div>
@@ -44,10 +44,10 @@ export default function Accordion({ header, content }) {
                         </div>
                         <div className="flex flex-col p-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                             <button onClick={() => toggleModal("DeleteActivityModal", activity.id, "flights")}>
-                                <img src="/public/delete-icon.svg" alt="Delete" className="w-6 h-6" />
+                                <img src="/public/delete-icon-900.svg" alt="Delete" className="w-6 h-6" />
                             </button>
                             <button onClick={() => toggleModal("EditFlightModal", activity.id)}>
-                                <img src="/public/edit-icon.svg" alt="Edit" className="w-6 h-6" />
+                                <img src="/public/edit-icon-900.svg" alt="Edit" className="w-6 h-6" />
                             </button>
                         </div>
                     </div>
@@ -62,10 +62,10 @@ export default function Accordion({ header, content }) {
                         </div>
                         <div className="flex flex-col p-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                             <button onClick={() => toggleModal("DeleteActivityModal", activity.id, "lodgings")}>
-                                <img src="/public/delete-icon.svg" alt="Delete" className="w-6 h-6" />
+                                <img src="/public/delete-icon-900.svg" alt="Delete" className="w-6 h-6" />
                             </button>
                             <button onClick={() => toggleModal("EditLodgingModal", activity.id)}>
-                                <img src="/public/edit-icon.svg" alt="Edit" className="w-6 h-6" />
+                                <img src="/public/edit-icon-900.svg" alt="Edit" className="w-6 h-6" />
                             </button>
                         </div>
                     </div>
@@ -80,10 +80,10 @@ export default function Accordion({ header, content }) {
                         </div>
                         <div className="flex flex-col p-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                             <button onClick={() => toggleModal("DeleteActivityModal", activity.id, "lodgings")}>
-                                <img src="/public/delete-icon.svg" alt="Delete" className="w-6 h-6" />
+                                <img src="/public/delete-icon-900.svg" alt="Delete" className="w-6 h-6" />
                             </button>
                             <button onClick={() => toggleModal("EditLodgingModal", activity.id)}>
-                                <img src="/public/edit-icon.svg" alt="Edit" className="w-6 h-6" />
+                                <img src="/public/edit-icon-900.svg" alt="Edit" className="w-6 h-6" />
                             </button>
                         </div>
                     </div>
