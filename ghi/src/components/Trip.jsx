@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from './AuthProvider';
 import { ModalContext } from './ModalProvider';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import Accordion from './Accordion';
 
 function Trip() {
@@ -13,6 +14,18 @@ function Trip() {
     const [tripData, setTripData] = useState({});
     const { toggleModal } = useContext(ModalContext);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [mapMarkers, setMapMarkers] = useState([]);
+
+    const mapContainerStyle = {
+    width: '100%',
+    height: '600px',
+    borderRadius: '0.5rem'
+};
+
+    const defaultCenter = {
+    lat: 40.7128,
+    lng: -74.0060
+};
 
     const fetchTripData = async () => {
         try {
@@ -33,6 +46,7 @@ function Trip() {
 
                 setTrip(tripData);
                 setupAccordion(tripData, flightsData, lodgingsData, eventsData);
+                setMapMarkers(tripData.locations || []);
             } else {
                 navigate("/404NotFound");
             }
@@ -154,9 +168,26 @@ function Trip() {
                     ))}
                 </div>
             </div>
-            <div className="text-cyan-100 w-1/2 p-8">
-                Insert Google map here
-            </div>
+            <div className="w-1/2 p-8">
+    {/* Google Map */}
+    <div className="bg-cyan-100 p-4 rounded-lg">
+        <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
+            <GoogleMap
+                mapContainerStyle={mapContainerStyle}
+                center={defaultCenter}
+                zoom={10}
+            >
+                {mapMarkers.map((marker, index) => (
+                    <Marker
+                        key={index}
+                        position={marker.position}
+                        title={marker.title}
+                    />
+                ))}
+            </GoogleMap>
+        </LoadScript>
+    </div>
+</div>
         </div>
     )
 }

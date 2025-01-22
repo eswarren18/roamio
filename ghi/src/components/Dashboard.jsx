@@ -2,20 +2,22 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './AuthProvider';
 import { ModalContext } from './ModalProvider';
-
+import { APIProvider, Map } from '@vis.gl/react-google-maps';
 
 function Dashboard() {
     const { toggleModal } = useContext(ModalContext);
     const { isLoggedIn } = useContext(AuthContext);
     const navigate = useNavigate();
     const [trips, setTrips] = useState([]);
+    const [mapMarkers, setMapMarkers] = useState([]);
 
     const fetchTrips = async () => {
         try {
             const response = await fetch("http://localhost:8000/api/trips", {credentials: "include", headers: {"Content-Type": "application/json"}});
             if (response.ok) {
                 const data = await response.json();
-                setTrips(data)
+                setTrips(data);
+                setMapMarkers(data.flatMap(trip => trip.locations || []));
             }
         } catch(e) {
             console.error(e)
@@ -54,13 +56,17 @@ function Dashboard() {
                     </button>
                 </div>
                 <div className="flex items-center flex-col mx-10">
-                    <img
-                        id="map"
-                        className="mx-auto border-4 border-cyan-100 rounded-xl m-4"
-                        src="/public/google-maps-paris.png"
-                        alt="Google Maps Paris"
-                    />
-
+                <div className="w-full h-96 border-4 border-cyan-100 rounded-xl m-4">
+                    {console.log('API Key:', import.meta.env.VITE_GOOGLE_MAPS_API_KEY)}
+                    <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+                        <Map
+                            style={{ width: '100%', height: '100%', borderRadius: '0.75rem' }}
+                            defaultCenter={{ lat: 22.54992, lng: 0 }}
+                            defaultZoom={3}
+                            gestureHandling={'greedy'}
+                            disableDefaultUI={true}
+                        />
+                    </APIProvider>
                     <div
                         id="trip-cards"
                         className="flex flex-wrap justify-center w-full"
@@ -89,7 +95,7 @@ function Dashboard() {
                             onClick={() => toggleModal("AddTripModal")}
                         >
                             <div className="w-full h-1/3">
-                                <img className="object-cover w-full h-full rounded-t-lg" src="/public/passport-stamps.png"></img>
+                                <img className="object-cover w-full h-full rounded-t-lg" src="/passport-stamps.png" alt="Passport Stamps Stock Image"></img>
                             </div>
                             <div className="flex flex-col items-center justify-center w-full h-2/3">
                                 <h1 className="font-bold text-2xl mb-7">Add a Trip</h1>
@@ -99,13 +105,9 @@ function Dashboard() {
                             </div>
                         </button>
                     </div>
-
-
-
-
                 </div>
             </div>
-    )
+        </div>
+    );
 }
-
 export default Dashboard;
