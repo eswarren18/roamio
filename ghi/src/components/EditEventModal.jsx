@@ -15,7 +15,7 @@ function EditEventModal() {
 
     const fetchEvent = async (e) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/events/event/${requiredId}`, {
+            const response = await fetch(`http://localhost:8000/api/events/${requiredId}`, {
                 credentials: "include",
                 headers: {"Content-Type": "application/json"}
             });

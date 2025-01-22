@@ -10,9 +10,9 @@ from models.flights import FlightIn, FlightOut
 from queries.flight_queries import FlightsQueries
 from utils.authentication import try_get_jwt_user_data
 
-router = APIRouter(tags=["Flights"], prefix="/api/flights")
+router = APIRouter(tags=["Flights"], prefix="/api")
 
-@router.post("", response_model=FlightOut)
+@router.post("/flights", response_model=FlightOut)
 async def create_flight(
     flight: FlightIn,
     user: UserResponse = Depends(try_get_jwt_user_data),
@@ -25,7 +25,7 @@ async def create_flight(
     new_flight = queries.create(flight, user.id)
     return new_flight
 
-@router.put("/{flight_id}", response_model=FlightOut)
+@router.put("/flights/{flight_id}", response_model=FlightOut)
 async def update_flight(
     flight_id: int,
     flight: FlightIn,
@@ -39,19 +39,7 @@ async def update_flight(
     updated_flight = queries.update(flight_id, flight, user.id)
     return updated_flight
 
-@router.get("", response_model=List[FlightOut])
-async def get_flights(
-    user: UserResponse = Depends(try_get_jwt_user_data),
-    queries: FlightsQueries = Depends()
-) -> List[FlightOut]:
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
-        )
-    flights = queries.get_all(user.id)
-    return flights
-
-@router.delete("/{flight_id}", response_model=bool)
+@router.delete("/flights/{flight_id}", response_model=bool)
 async def delete_flight(
     flight_id: int,
     user: UserResponse = Depends(try_get_jwt_user_data),
@@ -63,7 +51,7 @@ async def delete_flight(
         )
     return queries.delete(flight_id, user.id)
 
-@router.get("/{trip_id}", response_model=List[FlightOut])
+@router.get("/trips/{trip_id}/flights", response_model=List[FlightOut])
 async def get_flights(
     trip_id: int,
     user: UserResponse = Depends(try_get_jwt_user_data),
@@ -74,4 +62,17 @@ async def get_flights(
             status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
         )
     flights = queries.get_for_trip(trip_id, user.id)
+    return flights
+
+@router.get("/flights/{flight_id}", response_model=FlightOut)
+async def get_flights(
+    flight_id: int,
+    user: UserResponse = Depends(try_get_jwt_user_data),
+    queries: FlightsQueries = Depends()
+) -> FlightOut:
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
+        )
+    flights = queries.get_for_flight(flight_id, user.id)
     return flights

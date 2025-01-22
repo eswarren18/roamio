@@ -10,9 +10,9 @@ from models.events import EventIn, EventOut
 from queries.event_queries import EventsQueries
 from utils.authentication import try_get_jwt_user_data
 
-router = APIRouter(tags=["Events"], prefix="/api/events")
+router = APIRouter(tags=["Events"], prefix="/api")
 
-@router.post("", response_model=EventOut)
+@router.post("/events", response_model=EventOut)
 async def create_event(
     event: EventIn,
     user: UserResponse = Depends(try_get_jwt_user_data),
@@ -25,7 +25,7 @@ async def create_event(
     new_event = queries.create(event, user.id)
     return new_event
 
-@router.put("/{event_id}", response_model=EventOut)
+@router.put("/events/{event_id}", response_model=EventOut)
 async def update_event(
     event_id: int,
     event: EventIn,
@@ -39,19 +39,8 @@ async def update_event(
     updated_event = queries.update(event_id, event, user.id)
     return updated_event
 
-@router.get("", response_model=List[EventOut])
-async def get_events(
-    user: UserResponse = Depends(try_get_jwt_user_data),
-    queries: EventsQueries = Depends()
-) -> List[EventOut]:
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
-        )
-    events = queries.get_all(user.id)
-    return events
 
-@router.delete("/{event_id}", response_model=bool)
+@router.delete("/events/{event_id}", response_model=bool)
 async def delete_event(
     event_id: int,
     user: UserResponse = Depends(try_get_jwt_user_data),
@@ -63,7 +52,7 @@ async def delete_event(
         )
     return queries.delete(event_id, user.id)
 
-@router.get("/{trip_id}", response_model=List[EventOut])
+@router.get("/trips/{trip_id}/events", response_model=List[EventOut])
 async def get_events(
     trip_id: int,
     user: UserResponse = Depends(try_get_jwt_user_data),
@@ -76,12 +65,12 @@ async def get_events(
     events = queries.get_for_trip(trip_id, user.id)
     return events
 
-@router.get("/event/{event_id}", response_model=List[EventOut])
+@router.get("/events/{event_id}", response_model=EventOut)
 async def get_events(
     event_id: int,
     user: UserResponse = Depends(try_get_jwt_user_data),
     queries: EventsQueries = Depends()
-) -> List[EventOut]:
+) -> EventOut:
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"

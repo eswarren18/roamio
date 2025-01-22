@@ -83,25 +83,6 @@ class LodgingsQueries:
             print(f"Error: {e}")
             raise HTTPException(status_code=500, detail="Internal Server Error")
 
-    def get_all(self, user_id: int) -> List[LodgingOut]:
-        try:
-            with pool.connection() as conn:
-                with conn.cursor(row_factory=class_row(LodgingOut)) as cur:
-                    cur.execute(
-                        """
-                        SELECT lodgings.*
-                        FROM lodgings
-                        JOIN trips ON lodgings.trip_id = trips.id
-                        WHERE trips.user_id = %s;
-                        """,
-                        [user_id]
-                    )
-                    lodgings = cur.fetchall()
-                    return lodgings
-        except Exception as e:
-            print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
-
     def delete(self, lodging_id: int, user_id: int) -> bool:
         try:
             with pool.connection() as conn:
@@ -144,6 +125,29 @@ class LodgingsQueries:
                     )
                     lodgings = cur.fetchall()
                     return lodgings
+        except Exception as e:
+            print(f"Error: {e}")
+            raise HTTPException(status_code=500, detail="Internal Server Error")
+
+    def get_for_lodging(self, lodging_id: int, user_id: int) -> LodgingOut:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor(row_factory=class_row(LodgingOut)) as cur:
+                    cur.execute(
+                        """
+                        SELECT lodgings.*
+                        FROM lodgings
+                        JOIN trips ON lodgings.trip_id = trips.id
+                        WHERE trips.user_id = %s AND lodgings.id = %s;
+                        """,
+                        [user_id, lodging_id]
+                    )
+                    lodging = cur.fetchone()
+                    if lodging is None:
+                        raise HTTPException(status_code=404, detail="Lodging not found")
+                    return lodging
+        except HTTPException as http_exc:
+            raise http_exc
         except Exception as e:
             print(f"Error: {e}")
             raise HTTPException(status_code=500, detail="Internal Server Error")

@@ -85,24 +85,6 @@ class EventsQueries:
             print(f"Error: {e}")
             raise HTTPException(status_code=500, detail="Internal Server Error")
 
-    def get_all(self, user_id: int) -> List[EventOut]:
-        try:
-            with pool.connection() as conn:
-                with conn.cursor(row_factory=class_row(EventOut)) as cur:
-                    cur.execute(
-                        """
-                        SELECT events.*
-                        FROM events
-                        JOIN trips ON events.trip_id = trips.id
-                        WHERE trips.user_id = %s;
-                        """,
-                        [user_id]
-                    )
-                    events = cur.fetchall()
-                    return events
-        except Exception as e:
-            print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
 
     def delete(self, event_id: int, user_id: int) -> bool:
         try:
@@ -150,7 +132,7 @@ class EventsQueries:
             print(f"Error: {e}")
             raise HTTPException(status_code=500, detail="Internal Server Error")
 
-    def get_for_event(self, event_id: int, user_id: int) -> List[EventOut]:
+    def get_for_event(self, event_id: int, user_id: int) -> EventOut:
         try:
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(EventOut)) as cur:
@@ -163,8 +145,12 @@ class EventsQueries:
                         """,
                         [user_id, event_id]
                     )
-                    events = cur.fetchall()
-                    return events
+                    event = cur.fetchone()
+                    if event is None:
+                        raise HTTPException(status_code=404, detail="Event not found")
+                    return event
+        except HTTPException as http_exc:
+            raise http_exc
         except Exception as e:
             print(f"Error: {e}")
             raise HTTPException(status_code=500, detail="Internal Server Error")

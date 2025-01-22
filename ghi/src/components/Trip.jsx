@@ -31,9 +31,9 @@ function Trip() {
         try {
             const [tripRes, flightsRes, lodgingsRes, eventsRes] = await Promise.all([
                 fetch(`http://localhost:8000/api/trips/${tripId}`, { credentials: "include", headers: {"Content-Type": "application/json"} }),
-                fetch(`http://localhost:8000/api/flights/${tripId}`, { credentials: "include", headers: {"Content-Type": "application/json"} }),
-                fetch(`http://localhost:8000/api/lodgings/${tripId}`, { credentials: "include", headers: {"Content-Type": "application/json"} }),
-                fetch(`http://localhost:8000/api/events/${tripId}`, { credentials: "include", headers: {"Content-Type": "application/json"} })
+                fetch(`http://localhost:8000/api/trips/${tripId}/flights`, { credentials: "include", headers: {"Content-Type": "application/json"} }),
+                fetch(`http://localhost:8000/api/trips/${tripId}/lodgings`, { credentials: "include", headers: {"Content-Type": "application/json"} }),
+                fetch(`http://localhost:8000/api/trips/${tripId}/events`, { credentials: "include", headers: {"Content-Type": "application/json"} })
             ]);
 
             if (tripRes.ok && flightsRes.ok && lodgingsRes.ok && eventsRes.ok) {
