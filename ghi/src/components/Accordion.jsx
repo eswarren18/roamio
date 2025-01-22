@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { ModalContext } from './ModalProvider';
 
 export default function Accordion({ header, content }) {
     const [accordionOpen, setAccordionOpen] = useState(false)
+    const { toggleModal } = useContext(ModalContext)
 
     const parseContent = (activity) => {
         switch (activity.type) {
@@ -20,11 +22,13 @@ export default function Accordion({ header, content }) {
                             <div>{activity.description}</div>
                         </div>
                         <div className="flex flex-col p-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div className="border border-black m-1">
-                                De
+                            <div className="m-1">
+                                <img src="/public/delete-icon.svg" alt="Delete" className="w-6 h-6" />
                             </div>
-                            <div className="border border-black m-1">
-                                Ed
+                            <div className="m-1">
+                                <button onClick={() => toggleModal("EditEventModal", activity.id)}>
+                                    <img src="/public/edit-icon.svg" alt="Edit" className="w-6 h-6" />
+                                </button>
                             </div>
                         </div>
                     </div>

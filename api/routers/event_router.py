@@ -75,3 +75,16 @@ async def get_events(
         )
     events = queries.get_for_trip(trip_id, user.id)
     return events
+
+@router.get("/event/{event_id}", response_model=List[EventOut])
+async def get_events(
+    event_id: int,
+    user: UserResponse = Depends(try_get_jwt_user_data),
+    queries: EventsQueries = Depends()
+) -> List[EventOut]:
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
+        )
+    events = queries.get_for_event(event_id, user.id)
+    return events

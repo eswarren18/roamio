@@ -1,15 +1,17 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ModalContext } from './ModalProvider'
 
-function AddLodgingModal() {
+function EditEventModal() {
     const { toggleModal, requiredId } = useContext(ModalContext)
     const [ formData, setFormData ] = useState({
+        id: 0,
         name:"",
-        address:"",
-        check_in:"",
-        check_out:"",
-        trip_id: requiredId
+        start_date_time:"",
+        end_date_time:"",
+        location: "",
+        description: "",
+        trip_id: ""
     })
     const navigate = useNavigate()
 
@@ -20,19 +22,35 @@ function AddLodgingModal() {
         })
     }
 
+    const fetchEvent = async (e) => {
+        try {
+            const response = await fetch(`http://localhost:8000/api/events/event/${requiredId}`, {credentials: "include", headers: {"Content-Type": "application/json"}});
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data)
+                setFormData(data)
+            }
+        } catch(e) {
+            console.error(e)
+        }
+    }
+
+    useEffect(() => {
+        fetchEvent() }, [])
+
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch("http://localhost:8000/api/lodgings",
+            const response = await fetch("http://localhost:8000/api/events",
                 {
-                    method: "POST",
+                    method: "PUT",
                     headers: {'Content-Type' : 'application/json'},
                     credentials: "include",
                     body : JSON.stringify(formData)
                 })
                 if (response.ok) {
                     const responseData = await response.json()
-                    const requiredId = responseData.id
                     resetForm()
                     toggleModal("")
                 }
@@ -44,14 +62,15 @@ function AddLodgingModal() {
     const resetForm = () => {
         setFormData({
             name:"",
-            address:"",
-            check_in:"",
-            check_out:"",
-            trip_id: requiredId
+            start_date_time:"",
+            end_date_time:"",
+            location: "",
+            description: "",
+            trip_id: 0
         })
     }
 
-    const { name, address, check_in, check_out, trip_id } = formData
+    const { name, start_date_time, end_date_time, location, description } = formData
 
     return (
         <div
@@ -70,34 +89,41 @@ function AddLodgingModal() {
                         name="name"
                         value={name}
                         onChange={handleFormChange}
-                        placeholder="Enter Lodging Name"
+                        placeholder="Update Name"
+                    />
+                    <input
+                        type="datetime-local"
+                        name="start_date_time"
+                        value={start_date_time}
+                        onChange={handleFormChange}
+                        placeholder="Update Start Date"
+                    />
+                    <input
+                        type="datetime-local"
+                        name="end_date_time"
+                        value={end_date_time}
+                        onChange={handleFormChange}
+                        placeholder="Update End Date"
                     />
                     <input
                         type="text"
-                        name="address"
-                        value={address}
+                        name="location"
+                        value={location}
                         onChange={handleFormChange}
-                        placeholder="Enter Address"
+                        placeholder="Update Location"
                     />
                     <input
-                        type="datetime-local"
-                        name="check_in"
-                        value={check_in}
+                        type="text"
+                        name="description"
+                        value={description}
                         onChange={handleFormChange}
-                        placeholder="Enter Check In Time"
+                        placeholder="Update Description"
                     />
-                    <input
-                        type="datetime-local"
-                        name="check_out"
-                        value={check_out}
-                        onChange={handleFormChange}
-                        placeholder="Enter Check Out Time"
-                    />
-                    <button type="submit">Create Lodging</button>
+                    <button type="submit">Update Event</button>
                 </form>
             </div>
         </div>
     );
 }
 
-export default AddLodgingModal
+export default EditEventModal

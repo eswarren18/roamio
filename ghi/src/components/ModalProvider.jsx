@@ -4,18 +4,20 @@ import SignUpModal from './SignUpModal';
 import AddTripModal from './AddTripModal'
 import AddEventModal from './AddEventModal';
 import AddFlightModal from './AddFlightModal';
+import EditEventModal from './EditEventModal';
 import AddLodgingModal from './AddLodgingModal';
+
 
 export const ModalContext = createContext(null)
 
 export default function ModalProvider({ children }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formType, setFormType] = useState("");
-    const [tripId, setTripId] = useState(0);
+    const [requiredId, setRequiredId] = useState(0);
 
     const toggleModal = (form = "", id=0) => {
         setFormType(form)
-        setTripId(id)
+        setRequiredId(id)
         setIsModalOpen((imo) => !imo);
     };
 
@@ -35,13 +37,15 @@ export default function ModalProvider({ children }) {
                 return <AddFlightModal />;
             case "AddLodgingModal":
                 return <AddLodgingModal />;
+            case "EditEventModal":
+                return <EditEventModal />;
             default:
                 return null;
         }
     };
 
     return (
-        <ModalContext.Provider value ={{ isModalOpen, toggleModal, tripId }}>
+        <ModalContext.Provider value ={{ isModalOpen, toggleModal, requiredId }}>
             {children}
             {isModalOpen && renderForm()}
         </ModalContext.Provider>

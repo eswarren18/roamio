@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import { ModalContext } from './ModalProvider'
 
 function AddFlightModal() {
-    const { toggleModal, tripId } = useContext(ModalContext)
+    const { toggleModal, requiredId } = useContext(ModalContext)
     const [ formData, setFormData ] = useState({
         flight_number:"",
         departure_time:"",
         arrival_time:"",
-        trip_id: tripId
+        trip_id: requiredId
     })
     const navigate = useNavigate()
 
@@ -31,7 +31,7 @@ function AddFlightModal() {
                 })
                 if (response.ok) {
                     const responseData = await response.json()
-                    const tripId = responseData.id
+                    const requiredId = responseData.id
                     resetForm()
                     toggleModal("")
                 }
@@ -45,7 +45,7 @@ function AddFlightModal() {
             flight_number:"",
             departure_time:"",
             arrival_time:"",
-            trip_id: tripId
+            trip_id: requiredId
         })
     }
 
