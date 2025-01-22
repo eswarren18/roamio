@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from datetime import datetime
 
 
@@ -13,6 +13,10 @@ class EventIn(BaseModel):
     description: str
     trip_id: int
 
+    @field_validator("start_date_time", "end_date_time", mode="before")
+    def truncate_microseconds(value: datetime) -> datetime:
+        return value.replace(microsecond=0) if isinstance(value, datetime) else value
+
 class EventOut(BaseModel):
     """
     Represents a event
@@ -24,3 +28,7 @@ class EventOut(BaseModel):
     location: str
     description: str
     trip_id: int
+
+    @field_validator("start_date_time", "end_date_time", mode="before")
+    def truncate_microseconds(value: datetime) -> datetime:
+        return value.replace(microsecond=0) if isinstance(value, datetime) else value

@@ -6,6 +6,8 @@ import AddEventModal from './AddEventModal';
 import AddFlightModal from './AddFlightModal';
 import EditEventModal from './EditEventModal';
 import AddLodgingModal from './AddLodgingModal';
+import EditFlightModal from './EditFlightModal';
+import EditLodgingModal from './EditLodgingModal'
 
 
 export const ModalContext = createContext(null)
@@ -39,6 +41,10 @@ export default function ModalProvider({ children }) {
                 return <AddLodgingModal />;
             case "EditEventModal":
                 return <EditEventModal />;
+            case "EditFlightModal":
+                return <EditFlightModal />;
+            case "EditLodgingModal":
+                return <EditLodgingModal />;
             default:
                 return null;
         }

@@ -48,9 +48,9 @@ export default function Accordion({ header, content }) {
                             <div className="border border-black m-1">
                                 De
                             </div>
-                            <div className="border border-black m-1">
-                                Ed
-                            </div>
+                            <button onClick={() => toggleModal("EditFlightModal", activity.id)}>
+                                <img src="/public/edit-icon.svg" alt="Edit" className="w-6 h-6" />
+                            </button>
                         </div>
                     </div>
                 )
@@ -66,9 +66,9 @@ export default function Accordion({ header, content }) {
                             <div className="border border-black m-1">
                                 De
                             </div>
-                            <div className="border border-black m-1">
-                                Ed
-                            </div>
+                            <button onClick={() => toggleModal("EditLodgingModal", activity.id)}>
+                                <img src="/public/edit-icon.svg" alt="Edit" className="w-6 h-6" />
+                            </button>
                         </div>
                     </div>
                 )
@@ -84,9 +84,9 @@ export default function Accordion({ header, content }) {
                             <div className="border border-black m-1">
                                 De
                             </div>
-                            <div className="border border-black m-1">
-                                Ed
-                            </div>
+                            <button onClick={() => toggleModal("EditLodgingModal", activity.id)}>
+                                <img src="/public/edit-icon.svg" alt="Edit" className="w-6 h-6" />
+                            </button>
                         </div>
                     </div>
                 )
