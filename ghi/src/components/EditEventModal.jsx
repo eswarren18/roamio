@@ -21,7 +21,7 @@ function EditEventModal() {
             });
 
             if (response.ok) {
-                const [data] = await response.json();
+                const data = await response.json();
                 setFormData(data)
             }
         } catch(e) {
