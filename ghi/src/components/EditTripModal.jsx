@@ -1,20 +1,22 @@
 import { useContext, useEffect, useState } from 'react'
 import { ModalContext } from './ModalProvider'
 
-function EditFlightModal() {
+function EditTripModal() {
     const { toggleModal, activityData } = useContext(ModalContext)
     const [ formData, setFormData ] = useState({
         id: activityData,
-        name: "",
-        address: "",
-        check_in: "",
-        check_out: "",
-        trip_id: ""
+        title: "",
+        country: "",
+        city: "",
+        start_date: "",
+        end_date: "",
+        trip_image: "",
+        user_id: ""
     })
 
-    const fetchLodging = async (e) => {
+    const fetchTrip = async (e) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/lodgings/${activityData}`, {
+            const response = await fetch(`http://localhost:8000/api/trips/${activityData}`, {
                 credentials: "include",
                 headers: {"Content-Type": "application/json"}
             });
@@ -29,7 +31,7 @@ function EditFlightModal() {
     }
 
     useEffect(() => {
-        fetchLodging() }, [])
+        fetchTrip() }, [])
 
     const handleFormChange = ({ target: { value, name } }) => {
         setFormData({
@@ -41,16 +43,18 @@ function EditFlightModal() {
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch(`http://localhost:8000/api/lodgings/${activityData}`,
+            const response = await fetch(`http://localhost:8000/api/events/${activityData}`,
                 {
                     method: "PUT",
                     headers: {'Content-Type' : 'application/json'},
                     credentials: "include",
                     body : JSON.stringify({
-                        name:formData.name,
-                        address: formData.address,
-                        check_in: formData.check_in,
-                        check_out: formData.check_out,
+                        title: formData.title,
+                        country:formData.county,
+                        city: formData.city,
+                        start_date: formData.start_date,
+                        end_date: formData.end_date,
+                        trip_image: formData.trip_image,
                         trip_id: formData.trip_id
                     })
                 })
@@ -66,15 +70,17 @@ function EditFlightModal() {
     const resetForm = () => {
         setFormData({
             id: "",
-            name: "",
-            address: "",
-            check_in: "",
-            check_out: "",
-            trip_id: ""
+            title: "",
+            country: "",
+            city: "",
+            start_date: "",
+            end_date: "",
+            trip_image: "",
+            user_id: ""
         })
     }
 
-    const { name, address, check_in, check_out } = formData
+    const { title, country, city, start_date, end_date, trip_image } = formData
 
     return (
         <div
@@ -90,37 +96,51 @@ function EditFlightModal() {
                 <form onSubmit={handleFormSubmit}>
                     <input
                         type="text"
-                        name="name"
-                        value={name}
+                        name="title"
+                        value={title}
                         onChange={handleFormChange}
-                        placeholder="Update Name"
+                        placeholder="Update Title"
                     />
                     <input
                         type="text"
-                        name="address"
-                        value={address}
+                        name="country"
+                        value={country}
                         onChange={handleFormChange}
-                        placeholder="Update Address"
+                        placeholder="Update Country"
                     />
                     <input
-                        type="datetime-local"
-                        name="check_in"
-                        value={check_in}
+                        type="text"
+                        name="city"
+                        value={city}
                         onChange={handleFormChange}
-                        placeholder="Update Check In Time"
+                        placeholder="Update City"
                     />
                     <input
-                        type="datetime-local"
-                        name="check_out"
-                        value={check_out}
+                        type="date"
+                        name="start_date"
+                        value={start_date}
                         onChange={handleFormChange}
-                        placeholder="Update Check Out Time"
+                        placeholder="Update Start Date"
                     />
-                    <button type="submit">Update Lodging</button>
+                    <input
+                        type="date"
+                        name="end_date"
+                        value={end_date}
+                        onChange={handleFormChange}
+                        placeholder="Update End Date"
+                    />
+                    <input
+                        type="text"
+                        name="trip_image"
+                        value={trip_image}
+                        onChange={handleFormChange}
+                        placeholder="Update Trip Image"
+                    />
+                    <button type="submit">Update Trip</button>
                 </form>
             </div>
         </div>
     );
 }
 
-export default EditFlightModal
+export default EditTripModal

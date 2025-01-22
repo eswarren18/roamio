@@ -36,7 +36,7 @@ function AddTripModal() {
                     const responseData = await response.json()
                     const tripId = responseData.id
                     resetForm()
-                    toggleModal("", 0, "")
+                    toggleModal("", null, "")
                     navigate(`/trip/${tripId}`)
                 }
         } catch (e) {

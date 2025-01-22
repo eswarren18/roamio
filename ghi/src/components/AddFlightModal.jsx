@@ -2,12 +2,12 @@ import { useContext, useState } from 'react'
 import { ModalContext } from './ModalProvider'
 
 function AddFlightModal() {
-    const { toggleModal, requiredId } = useContext(ModalContext)
+    const { toggleModal, activityData } = useContext(ModalContext)
     const [ formData, setFormData ] = useState({
         flight_number:"",
         departure_time:"",
         arrival_time:"",
-        trip_id: requiredId
+        trip_id: activityData
     })
 
     const handleFormChange = ({ target: { value, name } }) => {
@@ -29,7 +29,7 @@ function AddFlightModal() {
                 })
                 if (response.ok) {
                     resetForm()
-                    toggleModal("", 0, "")
+                    toggleModal("", null, "")
                 }
         } catch (e) {
             console.error(e)

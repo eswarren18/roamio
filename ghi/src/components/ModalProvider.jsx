@@ -9,6 +9,7 @@ import AddLodgingModal from './AddLodgingModal';
 import EditFlightModal from './EditFlightModal';
 import EditLodgingModal from './EditLodgingModal';
 import DeleteActivityModal from './DeleteActivityModal';
+import EditTripModal from './EditTripModal';
 
 
 export const ModalContext = createContext(null)
@@ -16,12 +17,12 @@ export const ModalContext = createContext(null)
 export default function ModalProvider({ children }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formType, setFormType] = useState("");
-    const [requiredId, setRequiredId] = useState(0);
+    const [activityData, setActivityData] = useState(null);
     const [activityType, setActivityType] = useState("");
 
-    const toggleModal = (form = "", id = 0, type = "") => {
+    const toggleModal = (form = "", data = null, type = "") => {
         setFormType(form)
-        setRequiredId(id)
+        setActivityData(data)
         setActivityType(type)
         setIsModalOpen((imo) => !imo);
     };
@@ -36,6 +37,8 @@ export default function ModalProvider({ children }) {
                 return <SignInModal />;
             case "SignUpModal":
                 return <SignUpModal />;
+            case "EditTripModal":
+                return <EditTripModal />;
             case "AddEventModal":
                 return <AddEventModal />;
             case "AddFlightModal":
@@ -50,13 +53,14 @@ export default function ModalProvider({ children }) {
                 return <EditLodgingModal />;
             case "DeleteActivityModal":
                 return <DeleteActivityModal />;
+
             default:
                 return null;
         }
     };
 
     return (
-        <ModalContext.Provider value ={{ isModalOpen, toggleModal, requiredId, activityType }}>
+        <ModalContext.Provider value ={{ isModalOpen, toggleModal, activityData, activityType }}>
             {children}
             {isModalOpen && renderForm()}
         </ModalContext.Provider>

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ModalContext } from './ModalProvider';
 
 export default function DeleteActivityModal() {
-    const { toggleModal, requiredId, activityType } = useContext(ModalContext)
+    const { toggleModal, activityData, activityType } = useContext(ModalContext)
     const navigate = useNavigate();
 
     const handleDelete = async (e) => {
@@ -11,16 +11,16 @@ export default function DeleteActivityModal() {
         try {
             let url;
             if (activityType === "events") {
-                url = `http://localhost:8000/api/events/${requiredId}`
+                url = `http://localhost:8000/api/events/${activityData}`
             }
             else if (activityType === "flights") {
-                url = `http://localhost:8000/api/flights/${requiredId}`
+                url = `http://localhost:8000/api/flights/${activityData}`
             }
             else if (activityType === "trips") {
-                url = `http://localhost:8000/api/trips/${requiredId}`
+                url = `http://localhost:8000/api/trips/${activityData}`
             }
             else {
-                url = `http://localhost:8000/api/lodgings/${requiredId}`
+                url = `http://localhost:8000/api/lodgings/${activityData}`
             }
             const response = await fetch(
                 url,
@@ -31,7 +31,7 @@ export default function DeleteActivityModal() {
                 }
             )
             if (response.ok) {
-                toggleModal("", 0, "");
+                toggleModal("", null, "");
                 if (activityType === "trips") {
                     navigate("/dashboard")
                 }

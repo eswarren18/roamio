@@ -102,7 +102,7 @@ function Trip() {
                 return aTime - bTime;
             });
         });
-
+        console.log(tripAccordionData)
         setTripData(tripAccordionData);
     };
 
@@ -126,7 +126,9 @@ function Trip() {
                                 <p className="text-cyan-100">{trip.start_date} - {trip.end_date}</p>
                             </div>
                             <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <button>
+                                <button
+                                    onClick={() => toggleModal("EditTripModal", tripId)}
+                                >
                                     <img src="/public/edit-icon-100.svg" alt="Edit" className="w-10 h-10" />
                                 </button>
                                 <button

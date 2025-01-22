@@ -2,18 +2,18 @@ import { useContext, useEffect, useState } from 'react'
 import { ModalContext } from './ModalProvider'
 
 function EditFlightModal() {
-    const { toggleModal, requiredId } = useContext(ModalContext)
+    const { toggleModal, activityData } = useContext(ModalContext)
     const [ formData, setFormData ] = useState({
-        id: requiredId,
+        id: activityData,
         flight_number: "",
         departure_time: "",
         arrival_time: "",
         trip_id: ""
     })
 
-    const fetchEvent = async (e) => {
+    const fetchFlight = async (e) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/flights/${requiredId}`, {
+            const response = await fetch(`http://localhost:8000/api/flights/${activityData}`, {
                 credentials: "include",
                 headers: {"Content-Type": "application/json"}
             });
@@ -28,7 +28,7 @@ function EditFlightModal() {
     }
 
     useEffect(() => {
-        fetchEvent() }, [])
+        fetchFlight() }, [])
 
     const handleFormChange = ({ target: { value, name } }) => {
         setFormData({
@@ -40,7 +40,7 @@ function EditFlightModal() {
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch(`http://localhost:8000/api/flights/${requiredId}`,
+            const response = await fetch(`http://localhost:8000/api/flights/${activityData}`,
                 {
                     method: "PUT",
                     headers: {'Content-Type' : 'application/json'},
@@ -54,7 +54,7 @@ function EditFlightModal() {
                 })
                 if (response.ok) {
                     resetForm()
-                    toggleModal("", 0, "")
+                    toggleModal("", null, "")
                 }
         } catch (e) {
             console.error(e)

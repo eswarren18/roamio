@@ -2,9 +2,9 @@ import { useContext, useEffect, useState } from 'react'
 import { ModalContext } from './ModalProvider'
 
 function EditEventModal() {
-    const { toggleModal, requiredId } = useContext(ModalContext)
+    const { toggleModal, activityData } = useContext(ModalContext)
     const [ formData, setFormData ] = useState({
-        id: requiredId,
+        id: activityData,
         name:"",
         start_date_time:"",
         end_date_time:"",
@@ -15,7 +15,7 @@ function EditEventModal() {
 
     const fetchEvent = async (e) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/events/${requiredId}`, {
+            const response = await fetch(`http://localhost:8000/api/events/${activityData}`, {
                 credentials: "include",
                 headers: {"Content-Type": "application/json"}
             });
@@ -42,7 +42,7 @@ function EditEventModal() {
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch(`http://localhost:8000/api/events/${requiredId}`,
+            const response = await fetch(`http://localhost:8000/api/events/${activityData}`,
                 {
                     method: "PUT",
                     headers: {'Content-Type' : 'application/json'},
@@ -58,7 +58,7 @@ function EditEventModal() {
                 })
                 if (response.ok) {
                     resetForm()
-                    toggleModal("", 0, "")
+                    toggleModal("", null, "")
                 }
         } catch (e) {
             console.error(e)
