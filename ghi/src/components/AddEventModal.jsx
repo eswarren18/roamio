@@ -1,5 +1,4 @@
 import { useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { ModalContext } from './ModalProvider'
 
 function AddEventModal() {
@@ -12,7 +11,6 @@ function AddEventModal() {
         description: "",
         trip_id: requiredId
     })
-    const navigate = useNavigate()
 
     const handleFormChange = ({ target: { value, name } }) => {
         setFormData({
@@ -32,8 +30,6 @@ function AddEventModal() {
                     body : JSON.stringify(formData)
                 })
                 if (response.ok) {
-                    const responseData = await response.json()
-                    const requiredId = responseData.id
                     resetForm()
                     toggleModal("")
                 }
@@ -49,7 +45,7 @@ function AddEventModal() {
             end_date_time:"",
             location: "",
             description: "",
-            trip_id: 0
+            trip_id: ""
         })
     }
 

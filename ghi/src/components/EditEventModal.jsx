@@ -1,11 +1,10 @@
 import { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { ModalContext } from './ModalProvider'
 
 function EditEventModal() {
     const { toggleModal, requiredId } = useContext(ModalContext)
     const [ formData, setFormData ] = useState({
-        id: 0,
+        id: requiredId,
         name:"",
         start_date_time:"",
         end_date_time:"",
@@ -13,22 +12,16 @@ function EditEventModal() {
         description: "",
         trip_id: ""
     })
-    const navigate = useNavigate()
-
-    const handleFormChange = ({ target: { value, name } }) => {
-        setFormData({
-            ...formData,
-            [name]: value
-        })
-    }
 
     const fetchEvent = async (e) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/events/event/${requiredId}`, {credentials: "include", headers: {"Content-Type": "application/json"}});
+            const response = await fetch(`http://localhost:8000/api/events/event/${requiredId}`, {
+                credentials: "include",
+                headers: {"Content-Type": "application/json"}
+            });
 
             if (response.ok) {
-                const data = await response.json();
-                console.log(data)
+                const [data] = await response.json();
                 setFormData(data)
             }
         } catch(e) {
@@ -39,18 +32,31 @@ function EditEventModal() {
     useEffect(() => {
         fetchEvent() }, [])
 
+    const handleFormChange = ({ target: { value, name } }) => {
+        setFormData({
+            ...formData,
+            [name]: value
+        })
+    }
+
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch("http://localhost:8000/api/events",
+            const response = await fetch(`http://localhost:8000/api/events/${requiredId}`,
                 {
                     method: "PUT",
                     headers: {'Content-Type' : 'application/json'},
                     credentials: "include",
-                    body : JSON.stringify(formData)
+                    body : JSON.stringify({
+                        name: formData.name,
+                        start_date_time:formData.start_date_time,
+                        end_date_time: formData.end_date_time,
+                        location: formData.location,
+                        description: formData.description,
+                        trip_id: formData.trip_id
+                    })
                 })
                 if (response.ok) {
-                    const responseData = await response.json()
                     resetForm()
                     toggleModal("")
                 }
@@ -61,12 +67,13 @@ function EditEventModal() {
 
     const resetForm = () => {
         setFormData({
+            id: "",
             name:"",
             start_date_time:"",
             end_date_time:"",
             location: "",
             description: "",
-            trip_id: 0
+            trip_id: ""
         })
     }
 
