@@ -29,7 +29,7 @@ function AddFlightModal() {
                 })
                 if (response.ok) {
                     resetForm()
-                    toggleModal("")
+                    toggleModal("", 0, "")
                 }
         } catch (e) {
             console.error(e)
@@ -62,6 +62,7 @@ function AddFlightModal() {
                     <input
                         type="text"
                         name="flight_number"
+                        maxLength="10"
                         value={flight_number}
                         onChange={handleFormChange}
                         placeholder="Enter Flight Number"

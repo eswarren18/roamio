@@ -58,7 +58,7 @@ function EditEventModal() {
                 })
                 if (response.ok) {
                     resetForm()
-                    toggleModal("")
+                    toggleModal("", 0, "")
                 }
         } catch (e) {
             console.error(e)

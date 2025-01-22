@@ -30,7 +30,7 @@ function AddLodgingModal() {
                 })
                 if (response.ok) {
                     resetForm()
-                    toggleModal("")
+                    toggleModal("", 0, "")
                 }
         } catch (e) {
             console.error(e)

@@ -19,7 +19,7 @@ function SignUpModal() {
 
         useEffect(() => {
              if (user) {
-                toggleModal()
+                toggleModal("", 0, "")
                 navigate("/dashboard") }
             },)
 
