@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './AuthProvider';
 
 const images = [
-    "/public/mountain-view.jpg",
-    "/public/passenger-seat.jpg",
-    "/public/desert-road.jpg"
+    "/mountain-view.jpg",
+    "/passenger-seat.jpg",
+    "/desert-road.jpg"
 ];
 
 function Home() {

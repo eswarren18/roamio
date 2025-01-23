@@ -57,61 +57,134 @@ function AddTripModal() {
 
     const { title, country, city, start_date, end_date, trip_image } = formData
 
-    return (
+      return (
         <div
             className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center"
             onClick={toggleModal}
         >
             {/* Modal content */}
             <div
-                className="bg-white rounded-lg shadow-lg w-1/3"
+                className="flex flex-col bg-white rounded-lg shadow-lg w-1/3 p-8"
                 onClick={(e) => e.stopPropagation()} // Prevent click outside from closing modal
             >
-                <button onClick={toggleModal}>X</button>
-                <form onSubmit={handleFormSubmit}>
-                    <input
-                        type="text"
-                        name="title"
-                        value={title}
-                        onChange={handleFormChange}
-                        placeholder="Enter Title"
-                    />
-                    <input
-                        type="text"
-                        name="country"
-                        value={country}
-                        onChange={handleFormChange}
-                        placeholder="Enter Country"
-                    />
-                    <input
-                        type="text"
-                        name="city"
-                        value={city}
-                        onChange={handleFormChange}
-                        placeholder="Enter City"
-                    />
-                    <input
-                        type="date"
-                        name="start_date"
-                        value={start_date}
-                        onChange={handleFormChange}
-                        placeholder="Enter Start Date"
-                    />
-                    <input
-                        type="date"
-                        name="end_date"
-                        value={end_date}
-                        onChange={handleFormChange}
-                        placeholder="Enter End Date"
-                    />
-                    <input
-                        type="text"
-                        name="trip_image"
-                        value={trip_image}
-                        onChange={handleFormChange}
-                        placeholder="Enter Image URL"
-                    />
-                    <button type="submit">Create Trip</button>
+                <button
+                    onClick={toggleModal}
+                    className="flex justify-end"
+                >
+                    <img src="/public/x-icon.svg" alt="Cancel" className="w-8 h-8" />
+                </button>
+                <div className="text-center text-4xl font-bold mb-6">Add a Trip</div>
+                <form
+                    onSubmit={handleFormSubmit}
+                    className="flex flex-col w-4/5 mx-auto"
+                >
+                    <div className="relative z-0 w-full mb-5 group">
+                        <input
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            id="title"
+                            name="title"
+                            onChange={handleFormChange}
+                            placeholder=" "
+                            type="text"
+                            value={title}
+                            required
+                        />
+                        <label
+                            htmlFor="title"
+                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
+                            Title
+                        </label>
+                    </div>
+                    <div className="relative z-0 w-full mb-5 group">
+                        <input
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            id="country"
+                            name="country"
+                            onChange={handleFormChange}
+                            placeholder=" "
+                            type="text"
+                            value={country}
+                            required
+                        />
+                        <label
+                            htmlFor="country"
+                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
+                            Country
+                        </label>
+                    </div>
+                    <div className="relative z-0 w-full mb-5 group">
+                        <input
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            id="city"
+                            name="city"
+                            onChange={handleFormChange}
+                            placeholder=" "
+                            type="text"
+                            value={city}
+                            required
+                        />
+                        <label
+                            htmlFor="city"
+                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
+                            City
+                        </label>
+                    </div>
+                    <div className="flex items-center">
+                        <div className="relative z-0 w-full mb-5 group">
+                            <input
+                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                                id="start_date"
+                                name="start_date"
+                                onChange={handleFormChange}
+                                type="date"
+                                value={start_date}
+                                required
+                            />
+                        </div>
+                        <span className="mx-4 text-gray-500">to</span>
+                        <div className="relative z-0 w-full mb-5 group">
+                            <input
+                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                id="end_date"
+                                name="end_date"
+                                onChange={handleFormChange}
+                                placeholder=" "
+                                type="date"
+                                value={end_date}
+                                required
+                            />
+                            <label
+                                htmlFor="end_date"
+                                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                            ></label>
+                        </div>
+                    </div>
+                    <div className="relative z-0 w-full mb-5 group">
+                        <input
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            id="trip_image"
+                            name="trip_image"
+                            onChange={handleFormChange}
+                            placeholder=" "
+                            type="text"
+                            value={trip_image}
+                        />
+                        <label
+                            htmlFor="trip_image"
+                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
+                            Enter Image URL
+                        </label>
+                    </div>
+                    <button
+                        className="bg-cyan-100 hover:bg-cyan-200 text-cyan-900 w-full px-5 py-2 mt-4 mb-2 text-xl border-2 border-cyan-900 rounded-full transition duration-200"
+                        type="submit"
+                    >
+                        Create Trip
+                    </button>
                 </form>
             </div>
         </div>
