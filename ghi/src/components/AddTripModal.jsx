@@ -15,12 +15,46 @@ function AddTripModal() {
     })
     const navigate = useNavigate()
 
-    const handleFormChange = ({ target: { value, name } }) => {
-        setFormData({
-            ...formData,
-            [name]: value
-        })
-    }
+    const handleFormChange = ({ target }) => {
+        const { value, name } = target;
+
+        setFormData(prevState => {
+            const newFormData = { ...prevState };
+
+            // Handling the start_date field
+            if (name === 'start_date') {
+                const newStartDate = new Date(value);
+                const endDate = new Date(prevState.end_date);
+
+                if (endDate < newStartDate) {
+                    // Custom validity message
+                    target.setCustomValidity("Start date cannot be after the end date.");
+                } else {
+                    target.setCustomValidity("");
+                }
+
+                newFormData.start_date = value;
+            }
+
+            // Handling the end_date field
+            else if (name === 'end_date') {
+                const startDate = new Date(prevState.start_date);
+                const newEndDate = new Date(value);
+
+                if (newEndDate < startDate) {
+                    // Custom validity message
+                    target.setCustomValidity("End date cannot be before the start date.");
+                } else {
+                    target.setCustomValidity("");
+                }
+
+                newFormData.end_date = value;
+            }
+
+            // Return the updated form data
+            return newFormData;
+        });
+    };
 
     const handleFormSubmit = async (e) => {
         e.preventDefault()
@@ -62,10 +96,9 @@ function AddTripModal() {
             className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center"
             onClick={toggleModal}
         >
-            {/* Modal content */}
             <div
                 className="flex flex-col bg-white rounded-lg shadow-lg w-1/3 p-8"
-                onClick={(e) => e.stopPropagation()} // Prevent click outside from closing modal
+                onClick={(e) => e.stopPropagation()}
             >
                 <button
                     onClick={toggleModal}
@@ -94,6 +127,7 @@ function AddTripModal() {
                             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                             Title
+                            <span className="text-red-500 text-xs">*</span>
                         </label>
                     </div>
                     <div className="relative z-0 w-full mb-5 group">
@@ -112,6 +146,7 @@ function AddTripModal() {
                             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                             Country
+                            <span className="text-red-500 text-xs">*</span>
                         </label>
                     </div>
                     <div className="relative z-0 w-full mb-5 group">
@@ -130,6 +165,7 @@ function AddTripModal() {
                             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                             City
+                            <span className="text-red-500 text-xs">*</span>
                         </label>
                     </div>
                     <div className="flex items-center">
@@ -139,10 +175,18 @@ function AddTripModal() {
                                 id="start_date"
                                 name="start_date"
                                 onChange={handleFormChange}
+                                placeholder=" "
                                 type="date"
                                 value={start_date}
                                 required
                             />
+                            <label
+                                htmlFor="end_date"
+                                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                            >
+                                Start Date
+                                <span className="text-red-500">*</span>
+                            </label>
                         </div>
                         <span className="mx-4 text-gray-500">to</span>
                         <div className="relative z-0 w-full mb-5 group">
@@ -159,8 +203,12 @@ function AddTripModal() {
                             <label
                                 htmlFor="end_date"
                                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                            ></label>
+                            >
+                                End Date
+                                <span className="text-red-500">*</span>
+                            </label>
                         </div>
+
                     </div>
                     <div className="relative z-0 w-full mb-5 group">
                         <input
