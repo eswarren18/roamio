@@ -19,42 +19,42 @@ function AddTripModal() {
         const { value, name } = target;
 
         setFormData(prevState => {
-            const newFormData = { ...prevState };
+            const newFormData = { ...prevState, [name]: value };
 
-            // Handling the start_date field
             if (name === 'start_date') {
                 const newStartDate = new Date(value);
                 const endDate = new Date(prevState.end_date);
 
                 if (endDate < newStartDate) {
-                    // Custom validity message
                     target.setCustomValidity("Start date cannot be after the end date.");
+                    target.reportValidity();
+                    return prevState; // Prevent state update
                 } else {
-                    target.setCustomValidity("");
+                    target.setCustomValidity(""); // Clear error if valid
                 }
 
                 newFormData.start_date = value;
             }
 
-            // Handling the end_date field
             else if (name === 'end_date') {
                 const startDate = new Date(prevState.start_date);
                 const newEndDate = new Date(value);
 
                 if (newEndDate < startDate) {
-                    // Custom validity message
                     target.setCustomValidity("End date cannot be before the start date.");
+                    target.reportValidity();
+                    return prevState; // Prevent state update
                 } else {
-                    target.setCustomValidity("");
+                    target.setCustomValidity(""); // Clear error if valid
                 }
 
                 newFormData.end_date = value;
             }
 
-            // Return the updated form data
             return newFormData;
         });
     };
+
 
     const handleFormSubmit = async (e) => {
         e.preventDefault()
