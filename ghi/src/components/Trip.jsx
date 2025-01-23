@@ -127,7 +127,7 @@ function Trip() {
                             </div>
                             <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <button
-                                    onClick={() => toggleModal("EditTripModal", tripId)}
+                                    onClick={() => toggleModal("EditTripModal", tripData)}
                                 >
                                     <img src="/public/edit-icon-100.svg" alt="Edit" className="w-10 h-10" />
                                 </button>

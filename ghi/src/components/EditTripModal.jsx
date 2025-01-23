@@ -4,7 +4,7 @@ import { ModalContext } from './ModalProvider'
 function EditTripModal() {
     const { toggleModal, activityData } = useContext(ModalContext)
     const [ formData, setFormData ] = useState({
-        id: activityData,
+        id: "",
         title: "",
         country: "",
         city: "",
@@ -15,8 +15,9 @@ function EditTripModal() {
     })
 
     const fetchTrip = async (e) => {
+        const tripId = Object.entries(activityData)[0][1][0].trip_id
         try {
-            const response = await fetch(`http://localhost:8000/api/trips/${activityData}`, {
+            const response = await fetch(`http://localhost:8000/api/trips/${tripId}`, {
                 credentials: "include",
                 headers: {"Content-Type": "application/json"}
             });
@@ -43,25 +44,57 @@ function EditTripModal() {
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch(`http://localhost:8000/api/events/${activityData}`,
-                {
-                    method: "PUT",
-                    headers: {'Content-Type' : 'application/json'},
-                    credentials: "include",
-                    body : JSON.stringify({
-                        title: formData.title,
-                        country:formData.county,
-                        city: formData.city,
-                        start_date: formData.start_date,
-                        end_date: formData.end_date,
-                        trip_image: formData.trip_image,
-                        trip_id: formData.trip_id
-                    })
-                })
-                if (response.ok) {
-                    resetForm()
-                    toggleModal("", null, "")
+            const dates = Object.keys(activityData)
+            const activitiesByDate = Object.values(activityData)
+            const toDelete = []
+                    // //  if start_date became later
+            if ( formData.start_date > dates[0] ) {
+                for ( let i = 0; i < activitiesByDate.length ; i++ ) {
+                    if ( dates[i] < formData.start_date ) {
+                        for ( let j = 0; j < activitiesByDate[i].length; j++ ) {
+                            toDelete.push([activitiesByDate[i][j].id, activitiesByDate[i][j].type])
+                        }
+                    } else { break; }
                 }
+            }
+            if ( formData.end_date < dates[(dates.length)-1] ) {
+                for ( let i = dates.length-1; i > 0 ; i-- ) {
+                    if ( dates[i] > formData.end_date ) {
+                        for ( let j = 0; j < activitiesByDate[i].length; j++ ) {
+                            toDelete.push([activitiesByDate[i][j].id, activitiesByDate[i][j].type])
+                        }
+                    } else { break; }
+                }
+            }
+            console.log(toDelete)
+                    // }
+                    //      check activities
+                    //          add activity type and id to a list for activities outside of range
+                    //  if end_date became earlier
+                    //      check activities
+                    //          add activity type and id to a list for activities outside of
+                    //  Loop through list of activities to delete
+            // const response = await fetch(`http://localhost:8000/api/events/${activityData}`,
+            //     {
+            //         method: "PUT",
+            //         headers: {'Content-Type' : 'application/json'},
+            //         credentials: "include",
+            //         body : JSON.stringify({
+            //             title: formData.title,
+            //             country:formData.county,
+            //             city: formData.city,
+            //             start_date: formData.start_date,
+            //             end_date: formData.end_date,
+            //             trip_image: formData.trip_image,
+            //             trip_id: formData.trip_id
+            //         })
+            //     })
+            //     if (response.ok) {
+
+
+            //         resetForm()
+            //         toggleModal("", null, "")
+                // }
         } catch (e) {
             console.error(e)
         }
