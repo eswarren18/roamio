@@ -19,7 +19,6 @@ function Dashboard() {
                 const data = await response.json();
                 setTrips(data);
                 setMapMarkers(data.flatMap(trip => trip.locations || []));
-                setSelectedTrips("all")
             }
         } catch(e) {
             console.error(e)
@@ -32,28 +31,19 @@ function Dashboard() {
         }
     }
 
-    // useEffect(() => {
-    //     navToHome();
-    //     fetchTrips();
-    //     handleTripSelection("upcoming");
-    // },[]);
-
     const handleTripSelection = (selection) => {
         const todaysDate = new Date().toISOString().split('T')[0];
         let filteredTrips = [];
         switch (selection) {
             case "upcoming":
                 filteredTrips = trips.filter(trip => trip.end_date >= todaysDate);
-                console.log(filteredTrips);
                 setSelectedTrips(filteredTrips);
                 break;
             case "past":
                 filteredTrips = trips.filter(trip => trip.end_date < todaysDate);
-                console.log(filteredTrips);
                 setSelectedTrips(filteredTrips);
                 break;
             default:
-                console.log(trips)
                 setSelectedTrips(trips);
         }
     }
@@ -62,6 +52,10 @@ function Dashboard() {
         navToHome();
         fetchTrips();
     }, []);
+
+    useEffect(() => {
+        handleTripSelection("upcoming");
+    }, [trips]);
 
     return (
         <div id="home" className="flex items-center mt-6">
@@ -85,7 +79,6 @@ function Dashboard() {
             </div>
             <div className="flex items-center flex-col mx-10">
             <div className="w-full h-96 border-4 border-cyan-100 rounded-xl m-4">
-                {console.log('API Key:', import.meta.env.VITE_GOOGLE_MAPS_API_KEY)}
                 <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
                     <Map
                         style={{ width: '100%', height: '100%', borderRadius: '0.75rem' }}
