@@ -102,7 +102,6 @@ function Trip() {
                 return aTime - bTime;
             });
         });
-        console.log(tripAccordionData)
         setTripData(tripAccordionData);
     };
 
@@ -127,12 +126,12 @@ function Trip() {
                             </div>
                             <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <button
-                                    onClick={() => toggleModal("EditTripModal", tripData)}
+                                    onClick={() => toggleModal({form:"EditTripModal", data:tripData, id:tripId})}
                                 >
                                     <img src="/public/edit-icon-100.svg" alt="Edit" className="w-10 h-10" />
                                 </button>
                                 <button
-                                    onClick={() => toggleModal("DeleteActivityModal", tripId, "trips")}
+                                    onClick={() => toggleModal({form:"DeleteActivityModal", id:tripId, type:"trips"})}
                                 >
                                     <img src="/public/delete-icon-100.svg" alt="Delete" className="w-10 h-10" />
                                 </button>
@@ -161,19 +160,19 @@ function Trip() {
                         <div className="absolute mt-2 w-48 bg-white border rounded shadow-lg">
                             <button
                                 className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                                onClick={() => toggleModal("AddEventModal", tripId)}
+                                onClick={() => toggleModal({form:"AddEventModal", id:tripId})}
                             >
                                 Add Event
                             </button>
                             <button
                                 className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                                onClick={() => toggleModal("AddFlightModal", tripId)}
+                                onClick={() => toggleModal({form:"AddFlightModal", id:tripId})}
                             >
                             Add Flight
                             </button>
                             <button
                                 className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                                onClick={() => toggleModal("AddLodgingModal", tripId)}
+                                onClick={() => toggleModal({form:"AddLodgingModal", id:tripId})}
                             >
                             Add Lodging
                             </button>

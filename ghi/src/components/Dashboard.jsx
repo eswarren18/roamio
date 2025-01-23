@@ -49,7 +49,7 @@ function Dashboard() {
                     </div>
                     <button
                         id="settings"
-                        onClick={() => toggleModal("SettingsForm")}
+                        onClick={() => toggleModal({form:"SettingsForm"})}
                         className="bg-cyan-100 hover:bg-cyan-200 text-cyan-900 px-5 py-2 border-2 border-cyan-900 rounded-full transition duration-200"
                     >
                         Settings
@@ -92,7 +92,7 @@ function Dashboard() {
                         ))}
                         <button
                             className="flex flex-col justify-between text-cyan-900 bg-cyan-100 rounded-lg w-1/4 m-4 h-60 transform hover:bg-cyan-200 hover:scale-105 hover:ring-2 hover:ring-cyan-500 hover:origin-center hover:rotate-1 transition-all duration-200"
-                            onClick={() => toggleModal("AddTripModal")}
+                            onClick={() => toggleModal({form:"AddTripModal"})}
                         >
                             <div className="w-full h-1/3">
                                 <img className="object-cover w-full h-full rounded-t-lg" src="/passport-stamps.png" alt="Passport Stamps Stock Image"></img>

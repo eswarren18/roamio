@@ -2,13 +2,13 @@ import { useContext, useState } from 'react'
 import { ModalContext } from './ModalProvider'
 
 function AddLodgingModal() {
-    const { toggleModal, activityData } = useContext(ModalContext)
+    const { toggleModal, activityId } = useContext(ModalContext)
     const [ formData, setFormData ] = useState({
         name:"",
         address:"",
         check_in:"",
         check_out:"",
-        trip_id: activityData
+        trip_id: activityId
     })
 
     const handleFormChange = ({ target: { value, name } }) => {

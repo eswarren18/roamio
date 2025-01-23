@@ -17,12 +17,14 @@ export const ModalContext = createContext(null)
 export default function ModalProvider({ children }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formType, setFormType] = useState("");
-    const [activityData, setActivityData] = useState(null);
+    const [tripData, setTripData] = useState(null);
+    const [activityId, setActivityId] = useState(0)
     const [activityType, setActivityType] = useState("");
 
-    const toggleModal = (form = "", data = null, type = "") => {
+    const toggleModal = ({form = "", id = 0, data = null, type = ""}) => {
         setFormType(form)
-        setActivityData(data)
+        setTripData(data)
+        setActivityId(id)
         setActivityType(type)
         setIsModalOpen((imo) => !imo);
     };
@@ -60,7 +62,7 @@ export default function ModalProvider({ children }) {
     };
 
     return (
-        <ModalContext.Provider value ={{ isModalOpen, toggleModal, activityData, activityType }}>
+        <ModalContext.Provider value ={{ isModalOpen, toggleModal, tripData, activityType, activityId }}>
             {children}
             {isModalOpen && renderForm()}
         </ModalContext.Provider>

@@ -22,10 +22,10 @@ export default function Accordion({ header, content }) {
                             <div>{activity.description}</div>
                         </div>
                         <div className="flex flex-col p-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button onClick={() => toggleModal("DeleteActivityModal", activity.id, "events")}>
+                            <button onClick={() => toggleModal({form:"DeleteActivityModal", id:activity.id, type:"events"})}>
                                 <img src="/public/delete-icon-900.svg" alt="Delete" className="w-6 h-6" />
                             </button>
-                            <button onClick={() => toggleModal("EditEventModal", activity.id)}>
+                            <button onClick={() => toggleModal({form:"EditEventModal", id:activity.id})}>
                                 <img src="/public/edit-icon-900.svg" alt="Edit" className="w-6 h-6" />
                             </button>
                         </div>
@@ -43,10 +43,10 @@ export default function Accordion({ header, content }) {
                             <div>{activity.description}</div>
                         </div>
                         <div className="flex flex-col p-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            <button onClick={() => toggleModal("DeleteActivityModal", activity.id, "flights")}>
+                            <button onClick={() => toggleModal({form:"DeleteActivityModal", id:activity.id, type:"flights"})}>
                                 <img src="/public/delete-icon-900.svg" alt="Delete" className="w-6 h-6" />
                             </button>
-                            <button onClick={() => toggleModal("EditFlightModal", activity.id)}>
+                            <button onClick={() => toggleModal({form:"EditFlightModal", id:activity.id})}>
                                 <img src="/public/edit-icon-900.svg" alt="Edit" className="w-6 h-6" />
                             </button>
                         </div>
@@ -61,10 +61,10 @@ export default function Accordion({ header, content }) {
                             <div>Check-in: {new Date(activity.check_in).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                         </div>
                         <div className="flex flex-col p-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            <button onClick={() => toggleModal("DeleteActivityModal", activity.id, "lodgings")}>
+                            <button onClick={() => toggleModal({form:"DeleteActivityModal", id:activity.id, type:"lodgings"})}>
                                 <img src="/public/delete-icon-900.svg" alt="Delete" className="w-6 h-6" />
                             </button>
-                            <button onClick={() => toggleModal("EditLodgingModal", activity.id)}>
+                            <button onClick={() => toggleModal({form:"EditLodgingModal", id:activity.id})}>
                                 <img src="/public/edit-icon-900.svg" alt="Edit" className="w-6 h-6" />
                             </button>
                         </div>
@@ -79,10 +79,10 @@ export default function Accordion({ header, content }) {
                             <div>Check-out: {new Date(activity.check_out).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                         </div>
                         <div className="flex flex-col p-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            <button onClick={() => toggleModal("DeleteActivityModal", activity.id, "lodgings")}>
+                            <button onClick={() => toggleModal({form:"DeleteActivityModal", id:activity.id, type:"lodgings"})}>
                                 <img src="/public/delete-icon-900.svg" alt="Delete" className="w-6 h-6" />
                             </button>
-                            <button onClick={() => toggleModal("EditLodgingModal", activity.id)}>
+                            <button onClick={() => toggleModal({form:"EditLodgingModal", id:activity.id})}>
                                 <img src="/public/edit-icon-900.svg" alt="Edit" className="w-6 h-6" />
                             </button>
                         </div>

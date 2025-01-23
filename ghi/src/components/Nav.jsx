@@ -38,7 +38,7 @@ function Nav() {
                             </a>
                             <button
                                 className="hover:text-cyan-500 transition duration-200"
-                                onClick={() => toggleModal("AddTripModal")}
+                                onClick={() => toggleModal({form:"AddTripModal"})}
                             >
                                 Add a Trip
                             </button>
@@ -59,13 +59,13 @@ function Nav() {
                         <>
                             <button
                                 className="bg-cyan-100 hover:bg-cyan-200 text-cyan-900 px-5 py-2 border-2 border-cyan-900 rounded-full transition duration-200"
-                                onClick={() => toggleModal("SignInModal")}
+                                onClick={() => toggleModal({form:"SignInModal"})}
                             >
                                 Log In
                             </button>
                             <button
                                 className="bg-cyan-900 hover:bg-cyan-700 text-cyan-100 px-5 py-2 rounded-full transition duration-200"
-                                onClick={() => toggleModal("SignUpModal")}
+                                onClick={() => toggleModal({form:"SignUpModal"})}
                             >
                                 Sign Up
                             </button>

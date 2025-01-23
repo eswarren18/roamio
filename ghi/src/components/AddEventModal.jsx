@@ -2,14 +2,14 @@ import { useContext, useState } from 'react'
 import { ModalContext } from './ModalProvider'
 
 function AddEventModal() {
-    const { toggleModal, activityData } = useContext(ModalContext)
+    const { toggleModal, activityId } = useContext(ModalContext)
     const [ formData, setFormData ] = useState({
         name:"",
         start_date_time:"",
         end_date_time:"",
         location: "",
         description: "",
-        trip_id: activityData
+        trip_id: activityId
     })
 
     const handleFormChange = ({ target: { value, name } }) => {

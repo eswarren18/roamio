@@ -2,9 +2,9 @@ import { useContext, useEffect, useState } from 'react'
 import { ModalContext } from './ModalProvider'
 
 function EditFlightModal() {
-    const { toggleModal, activityData } = useContext(ModalContext)
+    const { toggleModal, activityId } = useContext(ModalContext)
     const [ formData, setFormData ] = useState({
-        id: activityData,
+        id: activityId,
         name: "",
         address: "",
         check_in: "",
@@ -14,7 +14,7 @@ function EditFlightModal() {
 
     const fetchLodging = async (e) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/lodgings/${activityData}`, {
+            const response = await fetch(`http://localhost:8000/api/lodgings/${activityId}`, {
                 credentials: "include",
                 headers: {"Content-Type": "application/json"}
             });
@@ -41,7 +41,7 @@ function EditFlightModal() {
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch(`http://localhost:8000/api/lodgings/${activityData}`,
+            const response = await fetch(`http://localhost:8000/api/lodgings/${activityId}`,
                 {
                     method: "PUT",
                     headers: {'Content-Type' : 'application/json'},

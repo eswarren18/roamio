@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import { ModalContext } from './ModalProvider'
 
 function EditTripModal() {
-    const { toggleModal, activityData } = useContext(ModalContext)
+    const { toggleModal, tripData, activityId } = useContext(ModalContext)
     const [ formData, setFormData ] = useState({
         id: "",
         title: "",
@@ -15,9 +15,8 @@ function EditTripModal() {
     })
 
     const fetchTrip = async (e) => {
-        const tripId = Object.entries(activityData)[0][1][0].trip_id
         try {
-            const response = await fetch(`http://localhost:8000/api/trips/${tripId}`, {
+            const response = await fetch(`http://localhost:8000/api/trips/${activityId}`, {
                 credentials: "include",
                 headers: {"Content-Type": "application/json"}
             });
@@ -41,60 +40,72 @@ function EditTripModal() {
         })
     }
 
+    const deleteOutOfRangeItems = async () => {
+        const dates = Object.keys(tripData)
+        const activitiesByDate = Object.values(tripData)
+        const toDelete = []
+        if ( formData.start_date > dates[0] ) {
+            for ( let i = 0; i < activitiesByDate.length ; i++ ) {
+                if ( dates[i] < formData.start_date ) {
+                    for ( let j = 0; j < activitiesByDate[i].length; j++ ) {
+                        toDelete.push([activitiesByDate[i][j].id, activitiesByDate[i][j].type])
+                    }
+                } else { break; }
+            }
+        }
+        if ( formData.end_date < dates[(dates.length)-1] ) {
+            for ( let i = dates.length-1; i > 0 ; i-- ) {
+                if ( dates[i] > formData.end_date ) {
+                    for ( let j = 0; j < activitiesByDate[i].length; j++ ) {
+                        toDelete.push([activitiesByDate[i][j].id, activitiesByDate[i][j].type])
+                    }
+                } else { break; }
+            }
+        }
+        for ( let activity of toDelete ) {
+            let url;
+            if (activity[1] === "event") {
+                url = `http://localhost:8000/api/events/${activity[0]}`
+            }
+            else if (activity[1] === "flight") {
+                url = `http://localhost:8000/api/flights/${activity[0]}`
+            }
+            else {
+                url = `http://localhost:8000/api/lodgings/${activity[0]}`
+            }
+            const response = await fetch(
+                url,
+                {
+                    method: "DELETE",
+                    headers: {'Content-Type' : 'application/json'},
+                    credentials: "include"
+                }
+            )
+        }
+    }
+
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         try {
-            const dates = Object.keys(activityData)
-            const activitiesByDate = Object.values(activityData)
-            const toDelete = []
-                    // //  if start_date became later
-            if ( formData.start_date > dates[0] ) {
-                for ( let i = 0; i < activitiesByDate.length ; i++ ) {
-                    if ( dates[i] < formData.start_date ) {
-                        for ( let j = 0; j < activitiesByDate[i].length; j++ ) {
-                            toDelete.push([activitiesByDate[i][j].id, activitiesByDate[i][j].type])
-                        }
-                    } else { break; }
+            const response = await fetch(`http://localhost:8000/api/trips/${activityId}`,
+                {
+                    method: "PUT",
+                    headers: {'Content-Type' : 'application/json'},
+                    credentials: "include",
+                    body : JSON.stringify({
+                        title: formData.title,
+                        country: formData.country,
+                        city: formData.city,
+                        start_date: formData.start_date,
+                        end_date: formData.end_date,
+                        trip_image: formData.trip_image,
+                    })
+                })
+                if (response.ok) {
+                    deleteOutOfRangeItems()
+                    resetForm()
+                    toggleModal("", null, "")
                 }
-            }
-            if ( formData.end_date < dates[(dates.length)-1] ) {
-                for ( let i = dates.length-1; i > 0 ; i-- ) {
-                    if ( dates[i] > formData.end_date ) {
-                        for ( let j = 0; j < activitiesByDate[i].length; j++ ) {
-                            toDelete.push([activitiesByDate[i][j].id, activitiesByDate[i][j].type])
-                        }
-                    } else { break; }
-                }
-            }
-            console.log(toDelete)
-                    // }
-                    //      check activities
-                    //          add activity type and id to a list for activities outside of range
-                    //  if end_date became earlier
-                    //      check activities
-                    //          add activity type and id to a list for activities outside of
-                    //  Loop through list of activities to delete
-            // const response = await fetch(`http://localhost:8000/api/events/${activityData}`,
-            //     {
-            //         method: "PUT",
-            //         headers: {'Content-Type' : 'application/json'},
-            //         credentials: "include",
-            //         body : JSON.stringify({
-            //             title: formData.title,
-            //             country:formData.county,
-            //             city: formData.city,
-            //             start_date: formData.start_date,
-            //             end_date: formData.end_date,
-            //             trip_image: formData.trip_image,
-            //             trip_id: formData.trip_id
-            //         })
-            //     })
-            //     if (response.ok) {
-
-
-            //         resetForm()
-            //         toggleModal("", null, "")
-                // }
         } catch (e) {
             console.error(e)
         }
