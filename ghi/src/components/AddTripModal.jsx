@@ -28,9 +28,9 @@ function AddTripModal() {
                 if (endDate < newStartDate) {
                     target.setCustomValidity("Start date cannot be after the end date.");
                     target.reportValidity();
-                    return prevState; // Prevent state update
+                    return prevState;
                 } else {
-                    target.setCustomValidity(""); // Clear error if valid
+                    target.setCustomValidity("");
                 }
 
                 newFormData.start_date = value;
@@ -43,9 +43,9 @@ function AddTripModal() {
                 if (newEndDate < startDate) {
                     target.setCustomValidity("End date cannot be before the start date.");
                     target.reportValidity();
-                    return prevState; // Prevent state update
+                    return prevState;
                 } else {
-                    target.setCustomValidity(""); // Clear error if valid
+                    target.setCustomValidity("");
                 }
 
                 newFormData.end_date = value;
