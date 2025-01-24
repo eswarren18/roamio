@@ -1,8 +1,8 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { ModalContext } from './ModalProvider'
 
 function AddEventModal() {
-    const { toggleModal, activityId } = useContext(ModalContext)
+    const { toggleModal, activityId, tripData } = useContext(ModalContext)
     const [ isMultipleDays, setIsMultipleDays ] = useState(false)
     const [ formData, setFormData ] = useState({
         name:"",
@@ -17,44 +17,33 @@ function AddEventModal() {
 
     const handleFormChange = ({ target }) => {
         const { value, name } = target;
-
+        
         setFormData(prevState => {
             const newFormData = { ...prevState, [name]: value };
-
+            const dates = Object.keys(tripData)
+            if ( newFormData.start_date < dates[0] ) {
+                newFormData.start_date = ""
+            }
             if (isMultipleDays) {
-                if (name === 'start_date') {
-                    const newStartDate = new Date(value);
-                    const endDate = new Date(prevState.end_date);
-
-                    if (endDate < newStartDate) {
-                        target.setCustomValidity("Start date cannot be after the end date.");
-                        target.reportValidity();
-                        target.value = "";
-                        newFormData.start_date = "";
-                        return newFormData;
-                    } else {
-                        target.setCustomValidity("");
-                    }
-                    newFormData.start_date = value;
-                } else if (name === 'end_date') {
-                    const startDate = new Date(prevState.start_date);
-                    const newEndDate = new Date(value);
-
-                    if (newEndDate < startDate) {
-                        target.setCustomValidity("End date cannot be before the start date.");
-                        target.reportValidity();
-                        target.value = "";
+                if (name === 'start_date' || name === 'end_date' || name === 'checkbox') {
+                    if (newFormData.end_date < newFormData.start_date) {
                         newFormData.end_date = "";
-                        return newFormData;
-                    } else {
-                        target.setCustomValidity("");
                     }
-                    newFormData.end_date = value;
-                } else {
-                    target.setCustomValidity("");
+                    if (newFormData.end_date === newFormData.start_date && newFormData.end_time < newFormData.start_time) {
+                        newFormData.end_time = "";
+                    }
+                    if (newFormData.end_time < newFormData.start_time) {
+                        newFormData.end_time = "";
+                    }
                 }
             }
-
+            if (!isMultipleDays || newFormData.start_date === newFormData.end_date) {
+                if (name === 'end_time' || name === 'start_time') {
+                    if (newFormData.end_time < newFormData.start_time) {
+                        newFormData.end_time = "";
+                    }
+                }
+            }
             return newFormData;
         });
     };
@@ -70,7 +59,6 @@ function AddEventModal() {
             start_date_time = (`${start_date}T${start_time}`);
             end_date_time = (`${start_date}T${end_time}`);
         }
-
         try {
             const response = await fetch("http://localhost:8000/api/events",
                 {
@@ -182,6 +170,7 @@ function AddEventModal() {
                                         placeholder=" "
                                         type="date"
                                         value={end_date}
+                                        required
                                     />
                                     <label
                                         htmlFor="start_date_time"
@@ -239,13 +228,15 @@ function AddEventModal() {
                     </div>
                     <div className="flex items-center mb-4">
                             <input
-                                id="default-checkbox"
+                                id="checkbox"
+                                name="checkbox"
                                 type="checkbox"
+                                onChange={handleFormChange}
                                 value=""
                                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
                                 onClick={() => setIsMultipleDays(!isMultipleDays)}
                             />
-                            <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default checkbox</label>
+                            <label htmlFor="checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Multiple Days?</label>
                     </div>
                     <div className="relative z-0 w-full mb-5 group">
                         <input

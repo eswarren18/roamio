@@ -160,19 +160,19 @@ function Trip() {
                         <div className="absolute mt-2 w-48 bg-white border rounded shadow-lg">
                             <button
                                 className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                                onClick={() => toggleModal({form:"AddEventModal", id:tripId})}
+                                onClick={() => toggleModal({form:"AddEventModal", id:tripId, data:tripData })}
                             >
                                 Add Event
                             </button>
                             <button
                                 className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                                onClick={() => toggleModal({form:"AddFlightModal", id:tripId})}
+                                onClick={() => toggleModal({form:"AddFlightModal", id:tripId, data:tripData })}
                             >
                             Add Flight
                             </button>
                             <button
                                 className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                                onClick={() => toggleModal({form:"AddLodgingModal", id:tripId})}
+                                onClick={() => toggleModal({form:"AddLodgingModal", id:tripId, data:tripData })}
                             >
                             Add Lodging
                             </button>
