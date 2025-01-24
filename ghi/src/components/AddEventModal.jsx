@@ -21,34 +21,38 @@ function AddEventModal() {
         setFormData(prevState => {
             const newFormData = { ...prevState, [name]: value };
 
-            if (name === 'start_date') {
-                const newStartDate = new Date(value);
-                const endDate = new Date(prevState.end_date);
+            if (isMultipleDays) {
+                if (name === 'start_date') {
+                    const newStartDate = new Date(value);
+                    const endDate = new Date(prevState.end_date);
 
-                if (endDate < newStartDate) {
-                    target.setCustomValidity("Start date cannot be after the end date.");
-                    target.reportValidity();
-                    return prevState;
+                    if (endDate < newStartDate) {
+                        target.setCustomValidity("Start date cannot be after the end date.");
+                        target.reportValidity();
+                        target.value = "";
+                        newFormData.start_date = "";
+                        return newFormData;
+                    } else {
+                        target.setCustomValidity("");
+                    }
+                    newFormData.start_date = value;
+                } else if (name === 'end_date') {
+                    const startDate = new Date(prevState.start_date);
+                    const newEndDate = new Date(value);
+
+                    if (newEndDate < startDate) {
+                        target.setCustomValidity("End date cannot be before the start date.");
+                        target.reportValidity();
+                        target.value = "";
+                        newFormData.end_date = "";
+                        return newFormData;
+                    } else {
+                        target.setCustomValidity("");
+                    }
+                    newFormData.end_date = value;
                 } else {
                     target.setCustomValidity("");
                 }
-
-                newFormData.start_date = value;
-            }
-
-            else if (name === 'end_date') {
-                const startDate = new Date(prevState.start_date);
-                const newEndDate = new Date(value);
-
-                if (newEndDate < startDate) {
-                    target.setCustomValidity("End date cannot be before the start date.");
-                    target.reportValidity();
-                    return prevState;
-                } else {
-                    target.setCustomValidity("");
-                }
-
-                newFormData.end_date = value;
             }
 
             return newFormData;
@@ -60,11 +64,9 @@ function AddEventModal() {
         let start_date_time = ""
         let end_date_time = ""
         if ( isMultipleDays ) {
-            console.log(isMultipleDays)
             start_date_time = (`${start_date}T${start_time}`);
             end_date_time = (`${end_date}T${end_time}`);
         } else {
-            console.log(isMultipleDays)
             start_date_time = (`${start_date}T${start_time}`);
             end_date_time = (`${start_date}T${end_time}`);
         }
@@ -168,7 +170,7 @@ function AddEventModal() {
                                 <span className="text-red-500 text-xs">*</span>
                             </label>
                         </div>
-                        { isMultipleDays &&
+                        { isMultipleDays ? (
                             <>
                                 <span className="mx-4 text-gray-500">to</span>
                                 <div className="relative z-0 w-full mb-5 group">
@@ -190,8 +192,9 @@ function AddEventModal() {
                                     </label>
                                 </div>
                             </>
-                        }
-
+                        ) : (
+                            formData.end_date = ""
+                        )}
                     </div>
                     <div className="flex items-center">
                         <div className="relative z-0 w-full mb-5 group">
