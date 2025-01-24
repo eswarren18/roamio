@@ -15,7 +15,7 @@ class TripIn(BaseModel):
     @validator("trip_image", pre=True, always=True)
     def set_default_trip_image(cls, value):
         if not value:
-            return "/public/passport-stamps.png"
+            return "/passport-stamps.png"
         return value
 
 class TripOut(BaseModel):

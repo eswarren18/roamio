@@ -12,6 +12,9 @@ function Dashboard() {
     const [selectedTrips, setSelectedTrips] = useState([]);
     const [mapMarkers, setMapMarkers] = useState([]);
 
+    const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
+    console.log(apiKey);
+
     const fetchTrips = async () => {
         try {
             const response = await fetch("http://localhost:8000/api/trips", {credentials: "include", headers: {"Content-Type": "application/json"}});
@@ -79,7 +82,7 @@ function Dashboard() {
             </div>
             <div className="flex items-center flex-col mx-10 w-7/8">
                 <div className="w-full h-96 border-4 border-cyan-100 rounded-xl m-4">
-                    <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+                    <APIProvider apiKey={apiKey}>
                         <Map
                             style={{ width: "100%", height: "100%", borderRadius: "0.75rem" }}
                             defaultCenter={{ lat: 22.54992, lng: 0 }}
