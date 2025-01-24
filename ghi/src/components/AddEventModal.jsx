@@ -61,16 +61,12 @@ function AddEventModal() {
         let end_date_time = ""
         if ( isMultipleDays ) {
             console.log(isMultipleDays)
-            start_date_time = new Date(`${start_date}T${start_time}`).toISOString();
-            end_date_time = new Date(`${end_date}T${end_time}`).toISOString()
-            console.log(start_date_time)
-            console.log(end_date_time)
+            start_date_time = (`${start_date}T${start_time}`);
+            end_date_time = (`${end_date}T${end_time}`);
         } else {
             console.log(isMultipleDays)
-            start_date_time = new Date(`${start_date}T${start_time}`).toISOString();
-            end_date_time = new Date(`${start_date}T${end_time}`).toISOString();
-            console.log(start_date_time)
-            console.log(end_date_time)
+            start_date_time = (`${start_date}T${start_time}`);
+            end_date_time = (`${start_date}T${end_time}`);
         }
 
         try {
