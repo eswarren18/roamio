@@ -66,7 +66,7 @@ async def get_events(
     return events
 
 @router.get("/events/{event_id}", response_model=EventOut)
-async def get_events(
+async def get_event(
     event_id: int,
     user: UserResponse = Depends(try_get_jwt_user_data),
     queries: EventsQueries = Depends()

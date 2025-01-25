@@ -65,7 +65,7 @@ async def get_flights(
     return flights
 
 @router.get("/flights/{flight_id}", response_model=FlightOut)
-async def get_flights(
+async def get_flight(
     flight_id: int,
     user: UserResponse = Depends(try_get_jwt_user_data),
     queries: FlightsQueries = Depends()

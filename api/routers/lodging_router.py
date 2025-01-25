@@ -65,7 +65,7 @@ async def get_lodgings(
     return lodgings
 
 @router.get("/lodgings/{lodging_id}", response_model=LodgingOut)
-async def get_lodgings(
+async def get_lodging(
     lodging_id: int,
     user: UserResponse = Depends(try_get_jwt_user_data),
     queries: LodgingsQueries = Depends()
