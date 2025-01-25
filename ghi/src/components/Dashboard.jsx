@@ -11,6 +11,7 @@ function Dashboard() {
     const navigate = useNavigate();
     const [trips, setTrips] = useState([]);
     const [selectedTrips, setSelectedTrips] = useState([]);
+    const [activeButton, setActiveButton] = useState("upcoming");
     const [mapMarkers, setMapMarkers] = useState([]);
 
     const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
@@ -44,13 +45,16 @@ function Dashboard() {
         switch (selection) {
             case "upcoming":
                 filteredTrips = trips.filter(trip => trip.end_date >= todaysDate);
+                setActiveButton("upcoming")
                 setSelectedTrips(filteredTrips);
                 break;
             case "past":
                 filteredTrips = trips.filter(trip => trip.end_date < todaysDate);
+                setActiveButton("past")
                 setSelectedTrips(filteredTrips);
                 break;
             default:
+                setActiveButton("all")
                 setSelectedTrips(trips);
         }
     }
@@ -65,27 +69,11 @@ function Dashboard() {
     }, [trips]);
 
     return (
-        <div id="home" className="flex justify-around mt-6 w-full">
+        <div className="flex flex-col items-center m-8">
             <div
-                className="flex rounded-lg border-2 border-cyan-100 flex-col px-2 py-2 m-8 w-1/8"
-                id="profile"
+                id="map"
+                className="w-full"
             >
-                <div
-                    className="text-2xl text-cyan-100 rounded-full border-2 border-cyan-100 p-8 m-2 md:p-16 md:m-5"
-                    id="picture"
-                >
-                    Profile picture
-                </div>
-                <button
-                    className="bg-cyan-100 hover:bg-cyan-200 text-cyan-900 px-5 py-2 border-2 border-cyan-900 rounded-full transition duration-200"
-                    id="settings"
-                    onClick={() => toggleModal({ form: "SettingsForm" })}
-                >
-                    Settings
-                </button>
-            </div>
-            <div className="flex items-center flex-col mx-10 w-7/8">
-                <div className="w-full h-96 border-4 border-cyan-100 rounded-xl m-4">
                 <APIProvider apiKey={apiKey}>
                     <Map
                         style={{ width: '100%', height: '400px' }}
@@ -103,61 +91,85 @@ function Dashboard() {
                             disableDefaultUI={true}
                         />
                     </APIProvider> */}
-                    <div className="flex border-cyan-100 border-2 rounded-lg m-4">
-                        <div className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
-                            <button className="me-2" onClick={() => handleTripSelection("all")}>
-                                All
-                            </button>
-                            <button className="me-2" onClick={() => handleTripSelection("upcoming")}>
-                                Upcoming
-                            </button>
-                            <button className="me-2" onClick={() => handleTripSelection("past")}>
-                                Past
-                            </button>
+            </div>
+
+            <div
+                id="filter"
+                className="flex flex-wrap content-start mt-8 mb-2 w-1/8 text-2xl font-medium text-cyan-100 border-b border-cyan-100"
+            >
+                <button
+                    className={`mr-2 inline-block p-4 rounded-t-lg ${activeButton === "all"
+                        ? "text-cyan-900 bg-cyan-100 active"
+                        : "bg-cyan-900 text-cyan-100 hover:bg-cyan-800"
+                    }`}
+                    onClick={() => handleTripSelection("all")}
+                >
+                    All
+                </button>
+                <button
+                    className={`mr-2 inline-block p-4 rounded-t-lg ${activeButton === "upcoming"
+                        ? "text-cyan-900 bg-cyan-100 active"
+                        : "bg-cyan-900 text-cyan-100 hover:bg-cyan-800"
+                    }`}
+                    onClick={() => handleTripSelection("upcoming")}
+                >
+                    Upcoming
+                </button>
+                <button
+                    className={`mr-2 inline-block p-4 rounded-t-lg ${activeButton === "past"
+                        ? "text-cyan-900 bg-cyan-100 active"
+                        : "bg-cyan-900 text-cyan-100 hover:bg-cyan-800"
+                    }`}
+                    onClick={() => handleTripSelection("past")}
+                >
+                    Past
+                </button>
+            </div>
+
+            <div
+                id="trip-cards"
+                className="flex flex-wrap justify-center w-full"
+            >
+                {selectedTrips.map((trip) => (
+                    <button
+                        key={trip.id}
+                        className="flex flex-col justify-between text-cyan-900 bg-cyan-100 rounded-lg w-96 m-4 h-60 transform hover:bg-cyan-200 hover:scale-105 hover:ring-2 hover:ring-cyan-500 hover:origin-center hover:rotate-1 transition-all duration-200"
+                        onClick={() => navigate(`/trip/${trip.id}`)}
+                    >
+                        <div className="w-full h-1/3">
+                            <img className="object-cover w-full h-full rounded-t-lg" src={trip.trip_image}></img>
                         </div>
+                        <div className="flex flex-col items-center justify-center w-full h-2/3 px-2">
+                            <h1 className="font-bold text-2xl"> {trip.title}</h1>
+                            <p className="pt-2">
+                                {trip.city}, {trip.country}
+                            </p>
+                        </div>
+                        <div className="flex flex-col justify-center w-full px-2">
+                            <div className="border-t border-black w-3/4 mx-auto justify-center"></div>
+                            <p className="my-2">
+                                {trip.start_date} - {trip.end_date}
+                            </p>
+                        </div>
+                    </button>
+                ))}
+                <button
+                    className="flex flex-col justify-between text-cyan-900 bg-cyan-100 rounded-lg w-96 m-4 h-60 transform hover:bg-cyan-200 hover:scale-105 hover:ring-2 hover:ring-cyan-500 hover:origin-center hover:rotate-1 transition-all duration-200"
+                    onClick={() => toggleModal({ form: "AddTripModal" })}
+                >
+                    <div className="w-full h-1/3">
+                        <img className="object-cover w-full h-full rounded-t-lg" src="/passport-stamps.png" alt="Passport Stamps Stock Image"></img>
                     </div>
-                    <div id="trip-cards" className="flex flex-wrap justify-center w-full">
-                        {selectedTrips.map((trip) => (
-                            <button
-                                key={trip.id}
-                                className="flex flex-col justify-between text-cyan-900 bg-cyan-100 rounded-lg w-96 m-4 h-60 transform hover:bg-cyan-200 hover:scale-105 hover:ring-2 hover:ring-cyan-500 hover:origin-center hover:rotate-1 transition-all duration-200"
-                                onClick={() => navigate(`/trip/${trip.id}`)}
-                            >
-                                <div className="w-full h-1/3">
-                                    <img className="object-cover w-full h-full rounded-t-lg" src={trip.trip_image}></img>
-                                </div>
-                                <div className="flex flex-col items-center justify-center w-full h-2/3 px-2">
-                                    <h1 className="font-bold text-2xl"> {trip.title}</h1>
-                                    <p className="pt-2">
-                                        {trip.city}, {trip.country}
-                                    </p>
-                                </div>
-                                <div className="flex flex-col justify-center w-full px-2">
-                                    <div className="border-t border-black w-3/4 mx-auto justify-center"></div>
-                                    <p className="my-2">
-                                        {trip.start_date} - {trip.end_date}
-                                    </p>
-                                </div>
-                            </button>
-                        ))}
-                        <button
-                            className="flex flex-col justify-between text-cyan-900 bg-cyan-100 rounded-lg w-96 m-4 h-60 transform hover:bg-cyan-200 hover:scale-105 hover:ring-2 hover:ring-cyan-500 hover:origin-center hover:rotate-1 transition-all duration-200"
-                            onClick={() => toggleModal({ form: "AddTripModal" })}
-                        >
-                            <div className="w-full h-1/3">
-                                <img className="object-cover w-full h-full rounded-t-lg" src="/passport-stamps.png" alt="Passport Stamps Stock Image"></img>
-                            </div>
-                            <div className="flex flex-col items-center justify-center w-full h-2/3">
-                                <h1 className="font-bold text-2xl mb-7">Add a Trip</h1>
-                            </div>
-                            <div className="flex flex-col justify-center w-full">
-                                <div className="border-t border-black w-3/4 mx-auto justify-center mb-10"></div>
-                            </div>
-                        </button>
+                    <div className="flex flex-col items-center justify-center w-full h-2/3">
+                        <h1 className="font-bold text-2xl mb-7">Add a Trip</h1>
                     </div>
-                </div>
+                    <div className="flex flex-col justify-center w-full">
+                        <div className="border-t border-black w-3/4 mx-auto justify-center mb-10"></div>
+                    </div>
+                </button>
             </div>
         </div>
+
     );
 }
 export default Dashboard;
