@@ -48,13 +48,20 @@ export default function DeleteActivityModal() {
         >
             {/* Modal content */}
             <div
-                className="bg-white rounded-lg shadow-lg w-1/3"
+                className="flex flex-col bg-white rounded-lg shadow-lg w-1/3 p-8"
                 onClick={(e) => e.stopPropagation()} // Prevent click outside from closing modal
             >
-                <button onClick={toggleModal}>X</button>
-                <div>Are you sure?</div>
-                <button onClick={toggleModal}>Cancel</button>
-                <button onClick={handleDelete}>Delete</button>
+                <button
+                    onClick={toggleModal}
+                    className="flex justify-end"
+                >
+                    <img src="/public/x-icon.svg" alt="Cancel" className="w-8 h-8" />
+                </button>
+                <div className="text-center text-4xl font-bold mb-6">Are you sure?</div>
+                <div className="flex justify-evenly">
+                    <button onClick={toggleModal}>Cancel</button>
+                    <button onClick={handleDelete}>Delete</button>
+                </div>
             </div>
         </div>
     );
