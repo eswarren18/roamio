@@ -13,13 +13,6 @@ function AddFlightModal() {
         trip_id: activityId
     })
 
-    // const handleFormChange = ({ target: { value, name } }) => {
-    //     setFormData({
-    //         ...formData,
-    //         [name]: value
-    //     })
-    // }
-
     const handleFormChange = ({ target }) => {
         const { value, name } = target;
 
@@ -104,7 +97,7 @@ function AddFlightModal() {
             {/* Modal content */}
             <div
                 className="flex flex-col bg-white rounded-lg shadow-lg w-1/3 p-8"
-                onClick={(e) => e.stopPropagation()} // Prevent click outside from closing modal
+                onClick={(e) => e.stopPropagation()}
             >
                 <button
                     onClick={toggleModal}
