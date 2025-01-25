@@ -17,7 +17,7 @@ function AddEventModal() {
 
     const handleFormChange = ({ target }) => {
         const { value, name } = target;
-        
+
         setFormData(prevState => {
             const newFormData = { ...prevState, [name]: value };
             const dates = Object.keys(tripData)
@@ -114,7 +114,7 @@ function AddEventModal() {
                 >
                     <img src="/public/x-icon.svg" alt="Cancel" className="w-8 h-8" />
                 </button>
-                <div className="text-center text-4xl font-bold mb-6">Add a Event</div>
+                <div className="text-center text-4xl font-bold mb-6">Add an Event</div>
                 <form
                     onSubmit={handleFormSubmit}
                     className="flex flex-col w-4/5 mx-auto"

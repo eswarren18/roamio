@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './AuthProvider';
 import { ModalContext } from './ModalProvider';
 import { APIProvider, Map } from '@vis.gl/react-google-maps';
+import React from 'react';
 
 function Dashboard() {
     const { toggleModal } = useContext(ModalContext);
@@ -14,6 +15,9 @@ function Dashboard() {
 
     const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
     console.log(apiKey);
+    console.log('All env variables:', import.meta.env);
+    // const GoogleMap = () => {
+    //     const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 
     const fetchTrips = async () => {
         try {
@@ -82,15 +86,23 @@ function Dashboard() {
             </div>
             <div className="flex items-center flex-col mx-10 w-7/8">
                 <div className="w-full h-96 border-4 border-cyan-100 rounded-xl m-4">
-                    <APIProvider apiKey={apiKey}>
+                <APIProvider apiKey={apiKey}>
+                    <Map
+                        style={{ width: '100%', height: '400px' }}
+                        defaultCenter={{ lat: 40.7128, lng: -74.0060 }}
+                        defaultZoom={10}
+                    />
+                    </APIProvider>
+
+                    {/* <APIProvider apiKey={apiKey}>
                         <Map
                             style={{ width: "100%", height: "100%", borderRadius: "0.75rem" }}
-                            defaultCenter={{ lat: 22.54992, lng: 0 }}
+                            defaultCenter={{ lat: 40.6993, lng: -99.0817 }}
                             defaultZoom={3}
                             gestureHandling={"greedy"}
                             disableDefaultUI={true}
                         />
-                    </APIProvider>
+                    </APIProvider> */}
                     <div className="flex border-cyan-100 border-2 rounded-lg m-4">
                         <div className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
                             <button className="me-2" onClick={() => handleTripSelection("all")}>
