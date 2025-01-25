@@ -1,11 +1,408 @@
-# Module3 Project Gamma
+# Roamio
+*"tagline here!"* <br>
+<br>
+## Developers
+**Eric Warren**<br>
+LinkedIn: https://www.linkedin.com/in/eric-warren-b-s-9074b661/ <br>
+GitLab: https://gitlab.com/eswarren18<br>
 
-## Getting started
+**David Iukuridze**<br>
+LinkedIn: https://www.linkedin.com/in/david-iukuridze/ <br>
+GitLab: https://gitlab.com/davidiukuridze <br>
 
-You have a project repository, now what? The next section
-lists all of the deliverables that are due at the end of the
-week. Below is some guidance for getting started on the
-tasks for this week.
+**Gregory Reinis** <br>
+LinkedIn: https://www.linkedin.com/in/gregoryreinis/ <br>
+GitLab: https://gitlab.com/GReinis <br>
+Email: Reinis.Gregory@gmail.com <br>
+
+---
+
+<br>
+
+## Project Description <br>
+## Tech Stack
+![A collage of various tech logos](./techstack_collage_438.png) <br>
+**FastAPI** <br>
+**Vite** <br>
+**Docker** <br>
+**React.js** <br>
+**PostgreSQL** <br>
+**JavaScript** <br>
+**TailwindCSS** <br>
+**Python** <br>
+**HTML5** <br>
+**CSS**<br>
+
+## "Building the App" Enter Wireframing + general history
+
+## How To Run This App - "Getting Started?"
+
+
+## Usage/Features - include screenshots?
+
+## FastAPI API Endpoints
+### Authentication
+#### Signup
+---
+Submit a POST request to localhost:8000/api/auth/signup <br>
+*A successful call will return the following:*
+```
+{
+  "id": 0,
+  "username": "string"
+}
+```
+---
+#### Signin
+---
+Submit a POST request to localhost:8000/api/auth/signin <br>
+*A successful call will return the following:*
+```
+{
+  "id": 0,
+  "username": "string"
+}
+```
+---
+
+
+### Trips <br>
+#### Create Trip
+---
+Submit a POST request to localhost:8000/api/trips <br>
+*A successful call will return the following:*
+```
+{
+  {
+  "id": 0,
+  "title": "string",
+  "country": "string",
+  "city": "string",
+  "start_date": "2025-01-25",
+  "end_date": "2025-01-25",
+  "trip_image": "string",
+  "user_id": 0
+}
+}
+```
+---
+#### Get Trips
+---
+Submit a GET request to localhost:8000/api/trips <br>
+*A successful call will return the following:*
+```
+[
+  {
+    "id": 0,
+    "title": "string",
+    "country": "string",
+    "city": "string",
+    "start_date": "2025-01-25",
+    "end_date": "2025-01-25",
+    "trip_image": "string",
+    "user_id": 0
+  }
+]
+```
+---
+#### Update Trip
+---
+Submit a PUT request to localhost:8000/api/trips/{trip_id} <br>
+*A successful call will return the following:*
+```
+{
+  "id": 0,
+  "title": "string",
+  "country": "string",
+  "city": "string",
+  "start_date": "2025-01-25",
+  "end_date": "2025-01-25",
+  "trip_image": "string",
+  "user_id": 0
+}
+```
+---
+#### Get A Single Trip
+---
+Submit a GET request to localhost:8000/api/trips/{trip_id} <br>
+*A successful call will return the following:*
+```
+{
+  "id": 0,
+  "title": "string",
+  "country": "string",
+  "city": "string",
+  "start_date": "2025-01-25",
+  "end_date": "2025-01-25",
+  "trip_image": "string",
+  "user_id": 0
+}
+```
+---
+#### Delete A Trip
+---
+Submit a DELETE request to localhost:8000/api/trips/{trip_id} <br>
+*A successful call will return the following:*
+```
+true
+```
+
+
+### Flights <br>
+#### Create Flight
+---
+Submit a POST request to localhost:8000/api/flights <br>
+*A successful call will return the following:*
+```
+{
+  "id": 0,
+  "flight_number": "string",
+  "departure_time": "2025-01-25T21:22:27.093Z",
+  "arrival_time": "2025-01-25T21:22:27.093Z",
+  "trip_id": 0
+}
+```
+---
+#### Get Flights
+---
+Submit a PUT request to localhost:8000/api/trips/{trip_id}/flights <br>
+*A successful call will return the following:*
+```
+[
+  {
+    "id": 0,
+    "flight_number": "string",
+    "departure_time": "2025-01-25T21:27:32.089Z",
+    "arrival_time": "2025-01-25T21:27:32.089Z",
+    "trip_id": 0
+  }
+]
+```
+---
+#### Update Flight
+---
+Submit a PUT request to localhost:8000/api/flights/{flight_id} <br>
+*A successful call will return the following:*
+```
+{
+  "id": 0,
+  "flight_number": "string",
+  "departure_time": "2025-01-25T21:23:10.407Z",
+  "arrival_time": "2025-01-25T21:23:10.407Z",
+  "trip_id": 0
+}
+```
+---
+#### Get Flight
+---
+Submit a PUT request to localhost:8000/api/flights/{flight_id} <br>
+*A successful call will return the following:*
+```
+{
+  "id": 0,
+  "flight_number": "string",
+  "departure_time": "2025-01-25T21:23:10.407Z",
+  "arrival_time": "2025-01-25T21:23:10.407Z",
+  "trip_id": 0
+}
+```
+---
+#### Delete Flight
+---
+Submit a PUT request to localhost:8000/api/flights/{flight_id} <br>
+*A successful call will return the following:*
+```
+true
+```
+---
+
+### Events
+#### Create Event
+---
+Submit a POST request to localhost:8000/api/events <br>
+*A successful call will return the following:*
+```
+{
+  "name": "string",
+  "start_date_time": "2025-01-25T21:30:46.605Z",
+  "end_date_time": "2025-01-25T21:30:46.605Z",
+  "location": "string",
+  "description": "string",
+  "trip_id": 0
+}
+```
+---
+#### Get Events
+---
+Submit a POST request to localhost:8000/api/trips/{trip_id}/events <br>
+*A successful call will return the following:*
+```
+[
+  {
+    "id": 0,
+    "name": "string",
+    "start_date_time": "2025-01-25T21:31:44.983Z",
+    "end_date_time": "2025-01-25T21:31:44.983Z",
+    "location": "string",
+    "description": "string",
+    "trip_id": 0
+  }
+]
+```
+---
+#### Update Event
+---
+Submit a PUT request to localhost:8000/api/events/{event_id}
+*A successful call will return the following:*
+```
+{
+  "id": 0,
+  "name": "string",
+  "start_date_time": "2025-01-25T21:36:20.592Z",
+  "end_date_time": "2025-01-25T21:36:20.592Z",
+  "location": "string",
+  "description": "string",
+  "trip_id": 0
+}
+```
+---
+#### Get Event
+---
+Submit a PUT request to localhost:8000/api/events/{event_id}
+*A successful call will return the following:*
+```
+{
+  "id": 0,
+  "name": "string",
+  "start_date_time": "2025-01-25T21:43:10.062Z",
+  "end_date_time": "2025-01-25T21:43:10.062Z",
+  "location": "string",
+  "description": "string",
+  "trip_id": 0
+}
+```
+---
+#### Delete Event
+---
+Submit a PUT request to localhost:8000/api/events/{event_id}
+*A successful call will return the following:*
+```
+true
+```
+---
+### Lodgings
+#### Create Lodging
+---
+Submit a POST request to localhost:8000/api/lodgings <br>
+*A successful call will return the following:*
+```
+{
+  "id": 0,
+  "name": "string",
+  "address": "string",
+  "check_in": "2025-01-25T21:45:14.864Z",
+  "check_out": "2025-01-25T21:45:14.864Z",
+  "trip_id": 0
+}
+```
+---
+#### Get Lodgings
+---
+Submit a GET request to localhost:8000/api/trips/{trip_id}/lodgings <br>
+*A successful call will return the following:*
+```
+[
+  {
+    "id": 0,
+    "name": "string",
+    "address": "string",
+    "check_in": "2025-01-25T21:47:00.771Z",
+    "check_out": "2025-01-25T21:47:00.771Z",
+    "trip_id": 0
+  }
+]
+```
+---
+#### Update Lodging
+---
+Submit a PUT request to localhost:8000/api/lodgings/{lodging_id}
+*A successful call will return the following:*
+```
+{
+  "id": 0,
+  "name": "string",
+  "address": "string",
+  "check_in": "2025-01-25T21:48:24.973Z",
+  "check_out": "2025-01-25T21:48:24.973Z",
+  "trip_id": 0
+}
+```
+---
+#### Get Lodging
+---
+Submit a GET request to localhost:8000/api/lodgings/{lodging_id}
+*A successful call will return the following:*
+```
+{
+  "id": 0,
+  "name": "string",
+  "start_date_time": "2025-01-25T21:43:10.062Z",
+  "end_date_time": "2025-01-25T21:43:10.062Z",
+  "location": "string",
+  "description": "string",
+  "trip_id": 0
+}
+```
+---
+#### Delete Lodging
+---
+Submit a PUT request to localhost:8000/api/lodgings/{lodging_id}
+*A successful call will return the following:*
+```
+true
+```
+---
+
+## Roadmap / Future Improvements
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Install Extensions
 
