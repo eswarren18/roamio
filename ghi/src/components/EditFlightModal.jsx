@@ -80,34 +80,81 @@ function EditFlightModal() {
         >
             {/* Modal content */}
             <div
-                className="bg-white rounded-lg shadow-lg w-1/3"
+                className="flex flex-col bg-white rounded-lg shadow-lg w-1/3 p-8"
                 onClick={(e) => e.stopPropagation()} // Prevent click outside from closing modal
             >
-                <button onClick={toggleModal}>X</button>
-                <form onSubmit={handleFormSubmit}>
-                    <input
-                        type="text"
-                        name="flight_number"
-                        maxLength="10"
-                        value={flight_number}
-                        onChange={handleFormChange}
-                        placeholder="Update Flight Number"
-                    />
-                    <input
-                        type="datetime-local"
-                        name="departure_time"
-                        value={departure_time}
-                        onChange={handleFormChange}
-                        placeholder="Update Departure Time"
-                    />
-                    <input
-                        type="datetime-local"
-                        name="arrival_time"
-                        value={arrival_time}
-                        onChange={handleFormChange}
-                        placeholder="Update Arrival Time"
-                    />
-                    <button type="submit">Update Flight</button>
+                <button
+                    onClick={toggleModal}
+                    className="flex justify-end"
+                >
+                    <img src="/public/x-icon.svg" alt="Cancel" className="w-8 h-8" />
+                </button>
+                <div className="text-center text-4xl font-bold mb-6">Add a Flight</div>
+                <form
+                    onSubmit={handleFormSubmit}
+                    className="flex flex-col w-4/5 mx-auto"
+                >
+                    <div className="relative z-0 w-full mb-5 group">
+                        <input
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            id="flight_number"
+                            maxLength="10"
+                            name="flight_number"
+                            onChange={handleFormChange}
+                            placeholder="Update Flight Number"
+                            type="text"
+                            value={flight_number}
+                            required
+                        />
+                        <label
+                            htmlFor="flight_number"
+                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
+                            Flight Number
+                            <span className="text-red-500 text-xs">*</span>
+                        </label>
+                    </div>
+                    <div className="relative z-0 w-full mb-5 group">
+                        <input
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            id="departure_time"
+                            maxLength="10"
+                            name="departure_time"
+                            onChange={handleFormChange}
+                            placeholder=" "
+                            type="text"
+                            value={departure_time}
+                            required
+                        />
+                        <label
+                            htmlFor="departure_time"
+                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
+                            Departure
+                            <span className="text-red-500 text-xs">*</span>
+                        </label>
+                    </div>
+                    <div className="relative z-0 w-full mb-5 group">
+                        <input
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            id="arrival_time"
+                            maxLength="10"
+                            name="arrival_time"
+                            onChange={handleFormChange}
+                            placeholder=" "
+                            type="text"
+                            value={arrival_time}
+                            required
+                        />
+                        <label
+                            htmlFor="arrival_time"
+                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
+                            Arrival
+                            <span className="text-red-500 text-xs">*</span>
+                        </label>
+                    </div>
+                    <button type="submit">Add Flight</button>
                 </form>
             </div>
         </div>
