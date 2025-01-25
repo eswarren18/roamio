@@ -91,6 +91,30 @@ export default function Accordion({ header, content }) {
         }
     }
 
+    const parseDate = () => {
+        const date = new Date(header);
+        console.log(date)
+        const options = {
+            weekday: 'long',
+            month: 'long',
+            day: 'numeric'
+        };
+        const suffix = (day) => {
+            if (day >= 11 && day <= 13) return "th";
+            switch (day % 10) {
+                case 1: return "st";
+                case 2: return "nd";
+                case 3: return "rd";
+                default: return "th";
+            }
+        };
+
+        const day = date.getDate();
+        const formattedDate = date.toLocaleDateString('en-US', options)
+
+        return formattedDate.replace(/\d+/, day + suffix(day))
+    }
+
     return (
         <div className="text-cyan-900">
             <div
@@ -99,30 +123,18 @@ export default function Accordion({ header, content }) {
             >
                 <div className="w-11/12">
                     <div className="flex justify-between">
-                        <span className="text-xl">{header}</span>
+                        <span className="text-xl">{parseDate()}</span>
                         {accordionOpen ? <span>-</span> : <span>+</span>}
                     </div>
-
                     {content.length === 0 && (
                         accordionOpen ? (
-                            <button
-                                className="flex items-start bg-cyan-100 hover:bg-cyan-200 text-cyan-900 px-5 py-2 mt-3 border-2 border-cyan-900 rounded-full transition duration-200"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    console.log("This should be a dropdown so users can either add a flight, event, or lodging");
-                                }}
-                            >
-                                Add an Activity
-                            </button>
+                            <div className="flex items-start text-cyan-900 px-5 py-2 mt-3">Add an Activity</div>
                         ) : (
-                            <p className="flex items-start text-sm text-slate-400">
-                                No events planned
-                            </p>
+                            <p className="flex items-start text-sm text-slate-400">No events planned</p>
                         )
                     )}
                 </div>
             </div>
-
             <div
                 className={`grid overflow-hidden transition-all duration-300 ease-in-out text-slate-600 text-sm ${
                     accordionOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"

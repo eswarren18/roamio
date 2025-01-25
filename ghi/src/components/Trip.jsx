@@ -113,9 +113,6 @@ function Trip() {
     return (
         <div className="flex flex-row m-8">
             <div className="w-1/2">
-
-
-
                 <div className="relative mb-4 h-60 group">
                     <img className="object-cover w-full h-full rounded-lg" src={trip.trip_image}></img>
                     <div className="flex flex-row justify-between">
@@ -139,9 +136,6 @@ function Trip() {
                         </div>
                     </div>
                 </div>
-
-
-
                 <div className="px-4 rounded-lg bg-cyan-100 text-cyan-900">
                     <div className="flex justify-between items-center">
                         <div className="py-4 font-bold text-4xl">
