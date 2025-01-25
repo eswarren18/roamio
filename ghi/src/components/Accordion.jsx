@@ -115,24 +115,23 @@ export default function Accordion({ header, content }) {
         return formattedDate.replace(/\d+/, day + suffix(day))
     }
 
-    return (
-        <div className="text-cyan-900">
+    return ( content.length === 0 ? (
+        <div className="flex flex-col w-full border-t border-cyan-500 py-4 items-center">
+            <div className="flex justify-between w-11/12">
+                <span className="text-xl">{parseDate()}</span>
+                <p className="flex items-start text-sm text-slate-400">No events planned</p>
+            </div>
+        </div>
+
+    ) : (
+        <>
             <div
                 className="flex flex-col w-full border-t border-cyan-500 py-4 items-center cursor-pointer"
                 onClick={() => setAccordionOpen(!accordionOpen)}
             >
-                <div className="w-11/12">
-                    <div className="flex justify-between">
-                        <span className="text-xl">{parseDate()}</span>
-                        {accordionOpen ? <span>-</span> : <span>+</span>}
-                    </div>
-                    {content.length === 0 && (
-                        accordionOpen ? (
-                            <div className="flex items-start text-cyan-900 px-5 py-2 mt-3">Add an Activity</div>
-                        ) : (
-                            <p className="flex items-start text-sm text-slate-400">No events planned</p>
-                        )
-                    )}
+                <div className="flex justify-between w-11/12">
+                    <span className="text-xl">{parseDate()}</span>
+                    {accordionOpen ? <span>-</span> : <span>+</span>}
                 </div>
             </div>
             <div
@@ -151,6 +150,6 @@ export default function Accordion({ header, content }) {
                     ))}
                 </div>
             </div>
-        </div>
-    )
+        </>
+    ))
 }
