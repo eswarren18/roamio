@@ -14,8 +14,8 @@ function Dashboard() {
     const [mapMarkers, setMapMarkers] = useState([]);
 
     const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
-    console.log(apiKey);
-    console.log('All env variables:', import.meta.env);
+   // console.log(apiKey);
+    //console.log('All env variables:', import.meta.env);
     // const GoogleMap = () => {
     //     const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 
