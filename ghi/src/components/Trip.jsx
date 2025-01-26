@@ -98,7 +98,10 @@ function Trip() {
     },[location.pathname, toggleModal, isLoggedIn]);
 
     return (
-        <div className="flex flex-row m-8">
+        <div
+            className="flex flex-row m-8"
+            onClick={() => setIsDropdownOpen(false)}
+        >
             <div className="w-1/2">
                 <div className="relative mb-4 h-60 group">
                     <img className="object-cover w-full h-full rounded-lg" src={trip.trip_image}></img>
@@ -170,22 +173,28 @@ function Trip() {
                     ))}
                 </div>
             </div>
+
+            {/* Google Map */}
             <div className="w-1/2 p-8">
-        <APIProvider apiKey={apiKey}>
-            <Map
-                 style={{ width: '100%', height: '100%'}}
-                defaultCenter={{ lat: 40.6993, lng: -99.0817 }}
-                defaultZoom={8}
-            >
-                {mapMarkers.map((location, index) => (
-                    <Marker
-                        key={index}
-                        position={{ lat: location.latitude, lng: location.longitude }}
-                    />
-                ))}
-            </Map>
-        </APIProvider>
-</div>
+                <div className="bg-cyan-100 p-4 rounded-lg">
+                    <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
+                        <GoogleMap
+                            mapContainerStyle={mapContainerStyle}
+                            center={defaultCenter}
+                            zoom={10}
+                        >
+                            {mapMarkers.map((marker, index) => (
+                                <Marker
+                                    key={index}
+                                    position={marker.position}
+                                    title={marker.title}
+                                />
+                            ))}
+                        </GoogleMap>
+                    </LoadScript>
+                </div>
+            </div>
+
         </div>
     )
 }
