@@ -16,6 +16,8 @@ function Trip() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [mapMarkers, setMapMarkers] = useState([]);
 
+    const navToHome = () => {if (!isLoggedIn) {navigate("/")}}
+
     const mapContainerStyle = {
         width: '100%',
         height: '600px',
@@ -54,12 +56,6 @@ function Trip() {
             console.error(e);
         }
     };
-
-    const navToHome = () => {
-        if (!isLoggedIn) {
-            navigate("/")
-        }
-    }
 
     const setupAccordion = (tripData, flights, lodgings, events) => {
         const startDate = new Date(tripData.start_date);
@@ -108,7 +104,7 @@ function Trip() {
     useEffect(() => {
         navToHome();
         fetchTripData();
-    },[location.pathname, toggleModal]);
+    },[location.pathname, toggleModal, isLoggedIn]);
 
     return (
         <div className="flex flex-row m-8">

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AuthContext } from './AuthProvider';
 import { ModalContext } from './ModalProvider';
 import { useNavigate } from 'react-router-dom';
@@ -24,6 +24,8 @@ function Nav() {
             console.error(e)
         }
     }
+
+    useEffect(() => {},[isLoggedIn]);
 
     return (
         <nav id="nav" className="bg-cyan-100 text-gray-900 py-4 px-6 shadow-md font-sans">

@@ -14,6 +14,8 @@ function Dashboard() {
     const [activeButton, setActiveButton] = useState("upcoming");
     const [mapMarkers, setMapMarkers] = useState([]);
 
+    const navToHome = () => {if (!isLoggedIn) {navigate("/")}}
+
     const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
     // console.log(apiKey);
     //console.log('All env variables:', import.meta.env);
@@ -30,12 +32,6 @@ function Dashboard() {
             }
         } catch(e) {
             console.error(e)
-        }
-    }
-
-    const navToHome = () => {
-        if (!isLoggedIn) {
-            navigate("/")
         }
     }
 
@@ -62,7 +58,7 @@ function Dashboard() {
     useEffect(() => {
         navToHome();
         fetchTrips();
-    }, []);
+    }, [isLoggedIn]);
 
     useEffect(() => {
         handleTripSelection("upcoming");
@@ -133,9 +129,9 @@ function Dashboard() {
                 {selectedTrips.map((trip) => (
                     <button
                         key={trip.id}
-                        className="flex flex-col text-cyan-900 bg-cyan-100 rounded-lg
-                        m-4 transform hover:bg-cyan-200 hover:scale-105 hover:ring-2 hover:ring-cyan-500
-                        hover:origin-center hover:rotate-1 transition-all duration-200 h-60"
+                        className="flex flex-col text-cyan-900 bg-cyan-100 rounded-lg m-4 transform
+                        hover:bg-cyan-200 hover:scale-105 hover:ring-2 hover:ring-cyan-500
+                        transition-all duration-200 h-60"
                         onClick={() => navigate(`/trip/${trip.id}`)}
                     >
                         <div className="w-full h-1/3">
@@ -156,9 +152,9 @@ function Dashboard() {
                     </button>
                 ))}
                 <button
-                    className="flex flex-col text-cyan-900 bg-cyan-100 rounded-lg
-                    m-4 transform hover:bg-cyan-200 hover:scale-105 hover:ring-2 hover:ring-cyan-500
-                    hover:origin-center hover:rotate-1 transition-all duration-200 h-60"
+                    className="flex flex-col text-cyan-900 bg-cyan-100 rounded-lg m-4 transform
+                    hover:bg-cyan-200 hover:scale-105 hover:ring-2 hover:ring-cyan-500
+                    transition-all duration-200 h-60"
                     onClick={() => toggleModal({ form: "AddTripModal" })}
                 >
                     <div className="w-full h-1/3">
