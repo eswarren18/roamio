@@ -15,7 +15,7 @@ function Dashboard() {
     const [mapMarkers, setMapMarkers] = useState([]);
 
     const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
-   // console.log(apiKey);
+    // console.log(apiKey);
     //console.log('All env variables:', import.meta.env);
     // const GoogleMap = () => {
     //     const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
@@ -95,10 +95,10 @@ function Dashboard() {
 
             <div
                 id="filter"
-                className="flex flex-wrap content-start mt-8 mb-2 w-1/8 text-2xl font-medium text-cyan-100 border-b border-cyan-100"
+                className="flex flex-wrap content-start mt-6 mb-2 w-1/8 text-xl font-medium text-cyan-100 border-b border-cyan-100"
             >
                 <button
-                    className={`mr-2 inline-block p-4 rounded-t-lg ${activeButton === "all"
+                    className={`mx-2 inline-block px-4 py-2 rounded-t-lg ${activeButton === "all"
                         ? "text-cyan-900 bg-cyan-100 active"
                         : "bg-cyan-900 text-cyan-100 hover:bg-cyan-800"
                     }`}
@@ -107,7 +107,7 @@ function Dashboard() {
                     All
                 </button>
                 <button
-                    className={`mr-2 inline-block p-4 rounded-t-lg ${activeButton === "upcoming"
+                    className={`mx-2 inline-block px-4 py-2 rounded-t-lg ${activeButton === "upcoming"
                         ? "text-cyan-900 bg-cyan-100 active"
                         : "bg-cyan-900 text-cyan-100 hover:bg-cyan-800"
                     }`}
@@ -116,7 +116,7 @@ function Dashboard() {
                     Upcoming
                 </button>
                 <button
-                    className={`mr-2 inline-block p-4 rounded-t-lg ${activeButton === "past"
+                    className={`mx-2 inline-block px-4 py-2 rounded-t-lg ${activeButton === "past"
                         ? "text-cyan-900 bg-cyan-100 active"
                         : "bg-cyan-900 text-cyan-100 hover:bg-cyan-800"
                     }`}
@@ -128,12 +128,14 @@ function Dashboard() {
 
             <div
                 id="trip-cards"
-                className="flex flex-wrap justify-center w-full"
+                className="grid grid-cols-4 w-full"
             >
                 {selectedTrips.map((trip) => (
                     <button
                         key={trip.id}
-                        className="flex flex-col justify-between text-cyan-900 bg-cyan-100 rounded-lg w-96 m-4 h-60 transform hover:bg-cyan-200 hover:scale-105 hover:ring-2 hover:ring-cyan-500 hover:origin-center hover:rotate-1 transition-all duration-200"
+                        className="flex flex-col text-cyan-900 bg-cyan-100 rounded-lg
+                        m-4 transform hover:bg-cyan-200 hover:scale-105 hover:ring-2 hover:ring-cyan-500
+                        hover:origin-center hover:rotate-1 transition-all duration-200 h-60"
                         onClick={() => navigate(`/trip/${trip.id}`)}
                     >
                         <div className="w-full h-1/3">
@@ -154,7 +156,9 @@ function Dashboard() {
                     </button>
                 ))}
                 <button
-                    className="flex flex-col justify-between text-cyan-900 bg-cyan-100 rounded-lg w-96 m-4 h-60 transform hover:bg-cyan-200 hover:scale-105 hover:ring-2 hover:ring-cyan-500 hover:origin-center hover:rotate-1 transition-all duration-200"
+                    className="flex flex-col text-cyan-900 bg-cyan-100 rounded-lg
+                    m-4 transform hover:bg-cyan-200 hover:scale-105 hover:ring-2 hover:ring-cyan-500
+                    hover:origin-center hover:rotate-1 transition-all duration-200 h-60"
                     onClick={() => toggleModal({ form: "AddTripModal" })}
                 >
                     <div className="w-full h-1/3">
