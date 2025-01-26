@@ -13,7 +13,6 @@ function Trip() {
     const [trip, setTrip] = useState({});
     const [tripData, setTripData] = useState({});
     const { toggleModal } = useContext(ModalContext);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [mapMarkers, setMapMarkers] = useState([]);
 
     const navToHome = () => {if (!isLoggedIn) {navigate("/")}}
@@ -109,7 +108,6 @@ function Trip() {
     return (
         <div
             className="flex flex-row m-8"
-            onClick={() => setIsDropdownOpen(false)}
         >
             <div className="w-1/2">
                 <div className="relative mb-4 h-60 group">
@@ -140,38 +138,33 @@ function Trip() {
                         <div className="py-4 font-bold text-4xl">
                             Trip Itinerary
                         </div>
-                    <div className="relative inline-block">
-                        <div
-                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                            className="flex items-center bg-cyan-100 text-cyan-900 cursor-pointer"
-                        >
-                            <span className="text-3xl mr-1">+</span>
-                            <span className="pt-1 hover:underline">Add an Activity</span>
-                        </div>
+                        <div className="relative inline-block group">
+                            <div className="flex items-center bg-cyan-100 text-cyan-900 cursor-pointer">
+                                <span className="text-3xl mr-1">+</span>
+                                <span className="pt-1 hover:underline">Add an Activity</span>
+                            </div>
 
-                        {isDropdownOpen && (
-                        <div className="absolute mt-2 w-48 bg-white border rounded shadow-lg">
-                            <button
-                                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                                onClick={() => toggleModal({form:"AddEventModal", id:tripId, data:tripData })}
-                            >
-                                Add Event
-                            </button>
-                            <button
-                                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                                onClick={() => toggleModal({form:"AddFlightModal", id:tripId, data:tripData })}
-                            >
-                            Add Flight
-                            </button>
-                            <button
-                                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                                onClick={() => toggleModal({form:"AddLodgingModal", id:tripId, data:tripData })}
-                            >
-                            Add Lodging
-                            </button>
+                            <div className="absolute mt-2 w-48 bg-white border rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <button
+                                    className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                                    onClick={() => toggleModal({form:"AddEventModal", id:tripId, data:tripData })}
+                                >
+                                    Add Event
+                                </button>
+                                <button
+                                    className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                                    onClick={() => toggleModal({form:"AddFlightModal", id:tripId, data:tripData })}
+                                >
+                                Add Flight
+                                </button>
+                                <button
+                                    className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                                    onClick={() => toggleModal({form:"AddLodgingModal", id:tripId, data:tripData })}
+                                >
+                                Add Lodging
+                                </button>
+                            </div>
                         </div>
-                        )}
-                    </div>
                     </div>
                     {Object.entries(tripData).map(([date, activities]) => (
                         <Accordion
