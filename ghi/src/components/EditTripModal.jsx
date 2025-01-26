@@ -174,7 +174,7 @@ function EditTripModal() {
                         placeholder="Update End Date"
                     />
                     <input
-                        type="text"
+                        type="url"
                         name="trip_image"
                         value={trip_image}
                         onChange={handleFormChange}

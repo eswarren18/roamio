@@ -217,7 +217,7 @@ function AddTripModal() {
                             name="trip_image"
                             onChange={handleFormChange}
                             placeholder=" "
-                            type="text"
+                            type="url"
                             value={trip_image}
                         />
                         <label
@@ -228,7 +228,6 @@ function AddTripModal() {
                         </label>
                     </div>
                     <button
-                        className="bg-cyan-100 hover:bg-cyan-200 text-cyan-900 w-full px-5 py-2 mt-4 mb-2 text-xl border-2 border-cyan-900 rounded-full transition duration-200"
                         type="submit"
                     >
                         Create Trip
