@@ -24,7 +24,7 @@ function Home() {
     useEffect(() => {
         navToDashboard()
         const interval = setInterval(() => {
-            setImageIndex((prevImageIndex) => (prevImageIndex + 1) % images.length);}, 5000
+            setImageIndex((prevImageIndex) => (prevImageIndex + 1) % images.length);}, 6000
         );
         return () => clearInterval(interval);
     }, []);
@@ -71,7 +71,7 @@ function Home() {
                             key={index}
                             src={image}
                             alt={`Slide ${index + 1}`}
-                            className={`w-full h-full object-cover absolute transition-opacity duration-1000 ${
+                            className={`w-full h-full object-cover absolute transition-opacity duration-[2000ms] ${
                                 index === imageIndex ? "opacity-100" : "opacity-0"
                             }`}
                         />
