@@ -41,7 +41,7 @@ function Home() {
 
                     <div className="flex justify-center items-center">
                         <img src="/public/globe.svg" alt="Logo" className="w-12 h-12" />
-                        <div className="text-4xl font-bold tracking-tight ml-1">Roamio</div>
+                        <div className="text-4xl font-bold tracking-tight ml-3">Roamio</div>
                     </div>
 
 

@@ -32,8 +32,8 @@ function Nav() {
             <div className="max-w-7xl mx-auto flex items-center justify-between">
                 <div className="flex items-center">
                     <div className="flex justify-center items-center">
-                        <img src="/public/globe-900.svg" alt="Logo" className="w-12 h-12" />
-                        <div className="text-2xl font-bold text-cyan-900 tracking-tight ml-1 mr-10">Roamio</div>
+                        <img src="/public/globe-900.svg" alt="Logo" className="w-10 h-10" />
+                        <div className="text-2xl font-bold text-cyan-900 tracking-tight ml-3 mr-10">Roamio</div>
                     </div>
                     <div className="hidden md:flex space-x-6 text-lg">
                         <a href="/" className="hover:text-cyan-500 transition duration-200">
