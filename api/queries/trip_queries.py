@@ -12,10 +12,18 @@ class TripsQueries:
                 with conn.cursor(row_factory=class_row(TripOut)) as cur:
                     cur.execute(
                         """
-                        INSERT INTO trips
-                            (title, country, city, start_date, end_date, trip_image, user_id)
-                        VALUES
-                            (%s, %s, %s, %s, %s, %s, %s)
+                        INSERT INTO trips (
+                            title,
+                            country,
+                            city,
+                            start_date,
+                            end_date,
+                            trip_image,
+                            user_id
+                        )
+                        VALUES (
+                            %s, %s, %s, %s, %s, %s, %s
+                        )
                         RETURNING *;
                         """,
                         [
@@ -44,7 +52,15 @@ class TripsQueries:
                     cur.execute(
                         """
                         UPDATE trips
-                        SET id = %s, title = %s, country = %s, city = %s, start_date = %s, end_date = %s, trip_image = %s, user_id = %s
+                        SET
+                            id = %s,
+                            title = %s,
+                            country = %s,
+                            city = %s,
+                            start_date = %s,
+                            end_date = %s,
+                            trip_image = %s,
+                            user_id = %s
                         WHERE id = %s AND user_id = %s
                         RETURNING *;
                         """,
@@ -105,7 +121,15 @@ class TripsQueries:
                 with conn.cursor(row_factory=class_row(TripOut)) as cur:
                     cur.execute(
                         """
-                        SELECT id, title, country, city, start_date, end_date, trip_image, user_id
+                        SELECT
+                            id,
+                            title,
+                            country,
+                            city,
+                            start_date,
+                            end_date,
+                            trip_image,
+                            user_id
                         FROM trips
                         WHERE id = %s AND user_id = %s
                         """,

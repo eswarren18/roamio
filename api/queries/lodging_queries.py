@@ -52,7 +52,12 @@ class LodgingsQueries:
                 detail="Internal Server Error"
             )
 
-    def update(self, lodging_id: int, lodging: LodgingIn, user_id: int) -> LodgingOut:
+    def update(
+            self,
+            lodging_id: int,
+            lodging: LodgingIn,
+            user_id: int
+        ) -> LodgingOut:
         try:
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(LodgingOut)) as cur:
@@ -65,9 +70,15 @@ class LodgingsQueries:
                             WHERE id = %s AND user_id = %s
                         )
                         UPDATE lodgings
-                        SET name = %s, address = %s, check_in = %s, check_out = %s
+                        SET
+                            name = %s,
+                            address = %s,
+                            check_in = %s,
+                            check_out = %s
                         FROM trip_info
-                        WHERE lodgings.id = %s AND lodgings.trip_id = trip_info.id
+                        WHERE
+                            lodgings.id = %s
+                            AND lodgings.trip_id = trip_info.id
                         RETURNING lodgings.*;
                         """,
                         [
@@ -110,7 +121,9 @@ class LodgingsQueries:
                         )
                         DELETE FROM lodgings
                         USING trip_info
-                        WHERE trip_info.id = lodgings.trip_id AND lodgings.id = %s
+                        WHERE
+                            trip_info.id = lodgings.trip_id
+                            AND lodgings.id = %s
                         """,
                         [user_id, lodging_id]
                     )
