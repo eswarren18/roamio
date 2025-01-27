@@ -168,22 +168,22 @@ function Trip() {
             </div>
 
             {/* Google Map */}
-            <div className="w-1/2 p-8">
-        <APIProvider apiKey={apiKey}>
-            <Map
-                 style={{ width: '100%', height: '100%'}}
-                defaultCenter={{ lat: 40.6993, lng: -99.0817 }}
-                defaultZoom={8}
-            >
-                {mapMarkers.map((location, index) => (
-                    <Marker
-                        key={index}
-                        position={{ lat: location.latitude, lng: location.longitude }}
-                    />
-                ))}
-            </Map>
-        </APIProvider>
-</div>
+            <div className="w-1/2 pl-8">
+                <APIProvider apiKey={apiKey}>
+                    <Map
+                        style={{ width: '100%', height: '100%'}}
+                        defaultCenter={{ lat: 40.6993, lng: -99.0817 }}
+                        defaultZoom={8}
+                    >
+                        {mapMarkers.map((location, index) => (
+                            <Marker
+                                key={index}
+                                position={{ lat: location.latitude, lng: location.longitude }}
+                            />
+                        ))}
+                    </Map>
+                </APIProvider>
+            </div>
         </div>
     )
 }

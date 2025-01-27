@@ -96,7 +96,7 @@ function AddLodgingModal() {
                          peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
                          peer-focus:scale-75 peer-focus:-translate-y-6"
             >
-              Lodging Name <span className="text-red-500 text-xs">*</span>
+              Lodging Name<span className="text-red-500 text-xs">*</span>
             </label>
           </div>
           <div className="relative z-0 w-full mb-5 group">
@@ -119,7 +119,7 @@ function AddLodgingModal() {
                          peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
                          peer-focus:scale-75 peer-focus:-translate-y-6"
             >
-              Address <span className="text-red-500 text-xs">*</span>
+              Address<span className="text-red-500 text-xs">*</span>
             </label>
           </div>
           <div className="flex space-x-4 mb-5">
@@ -143,7 +143,7 @@ function AddLodgingModal() {
                            peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
                            peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Check-In <span className="text-red-500 text-xs">*</span>
+                Check-In<span className="text-red-500 text-xs">*</span>
               </label>
             </div>
 
@@ -167,16 +167,11 @@ function AddLodgingModal() {
                            peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
                            peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Check-Out <span className="text-red-500 text-xs">*</span>
+                Check-Out<span className="text-red-500 text-xs">*</span>
               </label>
             </div>
           </div>
-          <button
-            type="submit"
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
-            Create Lodging
-          </button>
+          <button type="submit">Create Lodging</button>
         </form>
       </div>
     </div>
