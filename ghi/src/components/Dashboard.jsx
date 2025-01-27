@@ -12,10 +12,15 @@ function Dashboard() {
     const [selectedTrips, setSelectedTrips] = useState([]);
     const [activeButton, setActiveButton] = useState("upcoming");
     const [mapMarkers, setMapMarkers] = useState([]);
+    const locations = [
+        { lat: 40.7128, lng: -74.0060 }, // NYC
+        { lat: 34.0522, lng: -118.2437 }, // LA
+        { lat: 41.8781, lng: -87.6298 }, // Chicago
+    ];
 
     const navToHome = () => {if (!isLoggedIn) {navigate("/")}}
 
-    const apiKey = "SecretKey" //import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+    const apiKey = "AIzaSyBgAB8wDzgXfmGxo34szPnH8TZckfVqco0" //import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
     //console.log(apiKey);
     //console.log(import.meta.env.MODE)
     //console.log('All env variables:', import.meta.env);
@@ -72,11 +77,15 @@ function Dashboard() {
                 >
                     <APIProvider apiKey={apiKey}>
                         <Map
-                            style={{ width: '100%', height: '400px' }}
+                            style={{ width: "100%", height: "400px" }}
                             defaultCenter={{ lat: 40.7128, lng: -74.0060 }}
-                            defaultZoom={10}
-                        />
-                        </APIProvider>
+                            defaultZoom={3}
+                        >
+                            {locations.map((location, index) => (
+                                <Marker key={index} position={location} />
+                            ))}
+                        </Map>
+                    </APIProvider>
                 </div>
                 <div
                     id="filter"
