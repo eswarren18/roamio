@@ -14,7 +14,10 @@ class LodgingIn(BaseModel):
 
     @field_validator("check_in", "check_out", mode="before")
     def truncate_microseconds(value: datetime) -> datetime:
-        return value.replace(microsecond=0) if isinstance(value, datetime) else value
+        return (value.replace(microsecond=0)
+                if isinstance(value, datetime)
+                else value)
+
 
 class LodgingOut(BaseModel):
     """
@@ -29,4 +32,6 @@ class LodgingOut(BaseModel):
 
     @field_validator("check_in", "check_out", mode="before")
     def truncate_microseconds(value: datetime) -> datetime:
-        return value.replace(microsecond=0) if isinstance(value, datetime) else value
+        return (value.replace(microsecond=0)
+                if isinstance(value, datetime)
+                else value)

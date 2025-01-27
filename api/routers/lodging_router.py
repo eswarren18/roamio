@@ -12,6 +12,7 @@ from utils.authentication import try_get_jwt_user_data
 
 router = APIRouter(tags=["Lodgings"], prefix="/api")
 
+
 @router.post("/lodgings", response_model=LodgingOut)
 async def create_lodging(
     lodging: LodgingIn,
@@ -24,6 +25,7 @@ async def create_lodging(
         )
     new_lodging = queries.create(lodging, user.id)
     return new_lodging
+
 
 @router.put("/lodgings/{lodging_id}", response_model=LodgingOut)
 async def update_lodging(
@@ -39,6 +41,7 @@ async def update_lodging(
     updated_lodging = queries.update(lodging_id, lodging, user.id)
     return updated_lodging
 
+
 @router.delete("/lodgings/{lodging_id}", response_model=bool)
 async def delete_lodging(
     lodging_id: int,
@@ -50,6 +53,7 @@ async def delete_lodging(
             status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
         )
     return queries.delete(lodging_id, user.id)
+
 
 @router.get("/trips/{trip_id}/lodgings", response_model=List[LodgingOut])
 async def get_lodgings(
@@ -63,6 +67,7 @@ async def get_lodgings(
         )
     lodgings = queries.get_for_trip(trip_id, user.id)
     return lodgings
+
 
 @router.get("/lodgings/{lodging_id}", response_model=LodgingOut)
 async def get_lodging(

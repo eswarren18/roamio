@@ -19,10 +19,15 @@ function AddFlightModal() {
         setFormData(prevState => {
             const newFormData = { ...prevState, [name]: value };
             const dates = Object.keys(tripData)
-            if ( newFormData.departure_date < dates[0] ) {
+
+            if ( newFormData.departure_date < dates[0] || newFormData.departure_date > dates[(dates.length)-1]) {
                 newFormData.departure_date = ""
             }
-            if (name === 'departure_date' || name === 'arrival_date' || name === 'checkbox') {
+            if ( newFormData.arrival_date < dates[0] || newFormData.arrival_date > dates[(dates.length)-1]) {
+                newFormData.arrival_date = ""
+            }
+
+            if (name === 'departure_date' || name === 'arrival_date') {
                 if (newFormData.arrival_date < newFormData.departure_date) {
                     newFormData.arrival_date = "";
                 }
@@ -60,12 +65,6 @@ function AddFlightModal() {
                         arrival_time: arrival_date_time,
                         trip_id: activityId
                     })
-                })
-                console.log({
-                    'flight_number': formData.flight_number,
-                    'departure_date_time': departure_date_time,
-                    'arrival_date_time': arrival_date_time,
-                    'trip_id': activityId
                 })
                 if (response.ok) {
                     resetForm()
@@ -105,7 +104,7 @@ function AddFlightModal() {
                 >
                     <img src="/public/x-icon.svg" alt="Cancel" className="w-8 h-8" />
                 </button>
-                <div className="text-center text-4xl font-bold mb-6">Add a Flight</div>
+                <div className="text-center text-4xl font-bold mb-6">Add Flight</div>
                 <form
                     onSubmit={handleFormSubmit}
                     className="flex flex-col w-4/5 mx-auto"
@@ -212,7 +211,7 @@ function AddFlightModal() {
                             </label>
                         </div>
                     </div>
-                    <button type="submit">Add Flight</button>
+                    <button type="submit">Create</button>
                 </form>
             </div>
         </div>

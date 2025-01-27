@@ -126,7 +126,7 @@ export default function Accordion({ header, content }) {
             }
         };
 
-        const day = date.getDate();
+        const day = date.getUTCDate();
         const formattedDate = date.toLocaleDateString('en-US', options)
 
         return formattedDate.replace(/\d+/, day + suffix(day))

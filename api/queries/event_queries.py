@@ -1,9 +1,9 @@
-import os
 from queries.pool import pool
 from typing import List
 from models.events import EventIn, EventOut
 from psycopg.rows import class_row
 from fastapi import HTTPException
+
 
 class EventsQueries:
     def create(self, event: EventIn, user_id: int) -> EventOut:
@@ -12,14 +12,19 @@ class EventsQueries:
                 with conn.cursor(row_factory=class_row(EventOut)) as cur:
                     cur.execute(
                         """
-                        WITH trip_info AS
-                        (
+                        WITH trip_info AS (
                             SELECT id
                             FROM trips
                             WHERE id = %s AND user_id = %s
                         )
-                        INSERT INTO events
-                            (name, start_date_time, end_date_time, location, description, trip_id)
+                        INSERT INTO events (
+                            name,
+                            start_date_time,
+                            end_date_time,
+                            location,
+                            description,
+                            trip_id
+                        )
                         SELECT
                             %s, %s, %s, %s, %s, trip_info.id
                         FROM trip_info
@@ -38,13 +43,19 @@ class EventsQueries:
                     new_event = cur.fetchone()
                     print(new_event)
                     if new_event is None:
-                        raise HTTPException(status_code=404, detail="Event not found")
+                        raise HTTPException(
+                            status_code=404,
+                            detail="Event not found"
+                        )
                     return new_event
         except HTTPException as http_exc:
             raise http_exc
         except Exception as e:
             print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )
 
     def update(self, event_id: int, event: EventIn, user_id: int) -> EventOut:
         try:
@@ -59,7 +70,11 @@ class EventsQueries:
                             WHERE id = %s AND user_id = %s
                         )
                         UPDATE events
-                        SET name = %s, start_date_time = %s, end_date_time = %s, location = %s, description = %s
+                        SET name = %s,
+                            start_date_time = %s,
+                            end_date_time = %s,
+                            location = %s,
+                            description = %s
                         FROM trip_info
                         WHERE events.id = %s AND events.trip_id = trip_info.id
                         RETURNING events.*;
@@ -77,14 +92,19 @@ class EventsQueries:
                     )
                     updated_event = cur.fetchone()
                     if updated_event is None:
-                        raise HTTPException(status_code=404, detail="Trip not found")
+                        raise HTTPException(
+                            status_code=404,
+                            detail="Trip not found"
+                        )
                     return updated_event
         except HTTPException as http_exc:
             raise http_exc
         except Exception as e:
             print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
-
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )
 
     def delete(self, event_id: int, user_id: int) -> bool:
         try:
@@ -105,13 +125,19 @@ class EventsQueries:
                         [user_id, event_id]
                     )
                     if cur.rowcount == 0:
-                        raise HTTPException(status_code=404, detail="Event not found")
+                        raise HTTPException(
+                            status_code=404,
+                            detail="Event not found"
+                        )
                     return True
         except HTTPException as http_exc:
             raise http_exc
         except Exception as e:
             print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )
 
     def get_for_trip(self, trip_id: int, user_id: int) -> List[EventOut]:
         try:
@@ -130,7 +156,10 @@ class EventsQueries:
                     return events
         except Exception as e:
             print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )
 
     def get_for_event(self, event_id: int, user_id: int) -> EventOut:
         try:
@@ -147,10 +176,16 @@ class EventsQueries:
                     )
                     event = cur.fetchone()
                     if event is None:
-                        raise HTTPException(status_code=404, detail="Event not found")
+                        raise HTTPException(
+                            status_code=404,
+                            detail="Event not found"
+                        )
                     return event
         except HTTPException as http_exc:
             raise http_exc
         except Exception as e:
             print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )
