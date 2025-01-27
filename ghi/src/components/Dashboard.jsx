@@ -12,20 +12,10 @@ function Dashboard() {
     const [selectedTrips, setSelectedTrips] = useState([]);
     const [activeButton, setActiveButton] = useState("upcoming");
     const [mapMarkers, setMapMarkers] = useState([]);
-    const locations = [
-        { lat: 40.7128, lng: -74.0060 }, // NYC
-        { lat: 34.0522, lng: -118.2437 }, // LA
-        { lat: 41.8781, lng: -87.6298 }, // Chicago
-    ];
 
     const navToHome = () => {if (!isLoggedIn) {navigate("/")}}
 
-    const apiKey = "AIzaSyBgAB8wDzgXfmGxo34szPnH8TZckfVqco0" //import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-    //console.log(apiKey);
-    //console.log(import.meta.env.MODE)
-    //console.log('All env variables:', import.meta.env);
-    // const GoogleMap = () => {
-    // const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
+    const apiKey = "SecretKey"
 
     const fetchTrips = async () => {
         try {
@@ -33,8 +23,24 @@ function Dashboard() {
             if (response.ok) {
                 const data = await response.json();
                 setTrips(data);
-                setMapMarkers(data.flatMap(trip => trip.locations || []));
+                fetchLatLng();
             }
+        } catch(e) {
+            console.error(e)
+        }
+    }
+
+    const fetchLatLng = async () => {
+        try {
+            const markers = []
+            for (let trip of trips) {
+                const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${trip.city},${trip.country}&key=${apiKey}`)
+                if (response.ok) {
+                    const data = await response.json();
+                    markers.push(data.results[0].geometry.location)
+                }
+            }
+            setMapMarkers(markers);
         } catch(e) {
             console.error(e)
         }
@@ -81,9 +87,11 @@ function Dashboard() {
                             defaultCenter={{ lat: 40.7128, lng: -74.0060 }}
                             defaultZoom={3}
                         >
-                            {locations.map((location, index) => (
-                                <Marker key={index} position={location} />
-                            ))}
+                            {mapMarkers.map((mapMarker, index) => {
+                                return (
+                                    <Marker key={index} position={mapMarker} />
+                                )
+                            })}
                         </Map>
                     </APIProvider>
                 </div>

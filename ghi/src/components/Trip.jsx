@@ -39,8 +39,6 @@ function Trip() {
                 setTrip(tripData);
                 setupAccordion(tripData, flightsData, lodgingsData, eventsData);
                 setMapMarkers(tripData.locations || []);
-            } else {
-                navigate("/404NotFound");
             }
         } catch (e) {
             console.error(e);
