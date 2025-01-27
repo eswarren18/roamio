@@ -129,13 +129,13 @@ function Trip() {
                         <div className="py-4 font-bold text-4xl">
                             Trip Itinerary
                         </div>
-                        <div className="relative inline-block group">
+                        <div className="relative inline-block group z-10">
                             <div className="flex items-center bg-cyan-100 text-cyan-900 cursor-pointer">
                                 <span className="text-3xl mr-1">+</span>
                                 <span className="pt-1 hover:underline">Add an Activity</span>
                             </div>
-
-                            <div className="absolute mt-2 w-48 bg-white border rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div className="absolute w-48 bg-white border rounded-lg shadow-lg opacity-0 pointer-events-none
+                                group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-300">
                                 <button
                                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"
                                     onClick={() => toggleModal({form:"AddEventModal", id:tripId, data:tripData })}

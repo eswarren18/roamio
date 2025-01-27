@@ -10,23 +10,29 @@ export default function Accordion({ header, content }) {
             case "event":
                 return (
                     <div className="flex w-11/12 justify-between relative group">
-                        <div className="border-2 border-cyan-900 rounded-lg py-2 px-4 w-full">
-                            <div>
-                                <span className="font-bold text-2xl mr-4">{activity.name}</span>
-                                <span>
-                                    {new Date(activity.start_date_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                    -
-                                    {new Date(activity.end_date_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                </span>
+                        <div className="flex flex-col bg-gray-50 text-gray-500 rounded-lg py-2 px-4 w-full">
+                            <div className="font-bold text-2xl mb-2 text-black">{activity.name}</div>
+                            <div className="flex">
+                                <div className="w-2/5 flex flex-col justify-between h-full">
+                                    <div>{activity.location}</div>
+                                    <div className="mt-2 p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">
+                                        {new Date(activity.start_date_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                        -
+                                        {new Date(activity.end_date_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                    </div>
+                                </div>
+                                <div className="w-3/5 border-l border-black pl-2">
+                                    <div>Description:</div>
+                                    <div>{activity.description}</div>
+                                </div>
                             </div>
-                            <div>{activity.description}</div>
                         </div>
-                        <div className="flex flex-col p-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button onClick={() => toggleModal({form:"DeleteActivityModal", id:activity.id, type:"events"})}>
-                                <img src="/delete-icon-900.svg" alt="Delete" className="w-6 h-6" />
-                            </button>
+                        <div className="flex p-2 gap-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                             <button onClick={() => toggleModal({form:"EditEventModal", id:activity.id})}>
-                                <img src="/edit-icon-900.svg" alt="Edit" className="w-6 h-6" />
+                                <img src="/public/edit-icon-gray.svg" alt="Edit" className="w-6 h-6" />
+                            </button>
+                            <button onClick={() => toggleModal({form:"DeleteActivityModal", id:activity.id, type:"events"})}>
+                                <img src="/public/delete-icon-gray.svg" alt="Delete" className="w-6 h-6" />
                             </button>
                         </div>
                     </div>
@@ -34,20 +40,26 @@ export default function Accordion({ header, content }) {
             case "flight":
                 return (
                     <div className="flex w-11/12 justify-between relative group">
-                        <div className="border-2 border-cyan-900 rounded-lg py-2 px-4 w-full">
-                            <div>
-                                <div className="font-bold text-2xl mr-4">Flight Number: {activity.flight_number}</div>
-                                <div>Departure: {new Date(activity.departure_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                                <div>Arrival: {new Date(activity.arrival_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                        <div className="flex flex-col bg-gray-50 text-gray-500 rounded-lg py-2 px-4 w-full">
+                            <div className="font-bold text-2xl mb-2 text-black">Flight</div>
+                            <div>Flight Number: {activity.flight_number}</div>
+                            <div className="mt-2 w-fit">
+                                <div>
+                                    <span className="mr-1">Departure:</span>
+                                    <span className="bg-orange-100 text-orange-500 rounded-lg p-1">{new Date(activity.departure_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                </div>
+                                <div>
+                                    <span className="mr-1">Arrival:</span>
+                                    <span className="bg-orange-100 text-orange-500 rounded-lg p-1">{new Date(activity.arrival_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                </div>
                             </div>
-                            <div>{activity.description}</div>
                         </div>
-                        <div className="flex flex-col p-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            <button onClick={() => toggleModal({form:"DeleteActivityModal", id:activity.id, type:"flights"})}>
-                                <img src="/delete-icon-900.svg" alt="Delete" className="w-6 h-6" />
-                            </button>
+                        <div className="flex p-2 gap-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                             <button onClick={() => toggleModal({form:"EditFlightModal", id:activity.id})}>
-                                <img src="/edit-icon-900.svg" alt="Edit" className="w-6 h-6" />
+                                <img src="/public/edit-icon-gray.svg" alt="Edit" className="w-6 h-6" />
+                            </button>
+                            <button onClick={() => toggleModal({form:"DeleteActivityModal", id:activity.id, type:"flights"})}>
+                                <img src="/public/delete-icon-gray.svg" alt="Delete" className="w-6 h-6" />
                             </button>
                         </div>
                     </div>
@@ -55,17 +67,20 @@ export default function Accordion({ header, content }) {
             case "lodging_check_in":
                 return (
                     <div className="flex w-11/12 justify-between relative group">
-                        <div className="border-2 border-cyan-900 rounded-lg py-2 px-4 w-full">
-                            <div className="font-bold text-2xl mr-4">Hotel: {activity.name}</div>
+                        <div className="flex flex-col bg-gray-50 text-gray-500 rounded-lg py-2 px-4 w-full">
+                            <div className="font-bold text-2xl mb-2 text-black">Check-In</div>
+                            <div className="font-bold">{activity.name}</div>
                             <div>{activity.address}</div>
-                            <div>Check-in: {new Date(activity.check_in).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                            <div className="mt-2 p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">
+                                {new Date(activity.check_in).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </div>
                         </div>
-                        <div className="flex flex-col p-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            <button onClick={() => toggleModal({form:"DeleteActivityModal", id:activity.id, type:"lodgings"})}>
-                                <img src="/delete-icon-900.svg" alt="Delete" className="w-6 h-6" />
-                            </button>
+                        <div className="flex p-2 gap-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                             <button onClick={() => toggleModal({form:"EditLodgingModal", id:activity.id})}>
-                                <img src="/edit-icon-900.svg" alt="Edit" className="w-6 h-6" />
+                                <img src="/public/edit-icon-gray.svg" alt="Edit" className="w-6 h-6" />
+                            </button>
+                            <button onClick={() => toggleModal({form:"DeleteActivityModal", id:activity.id, type:"lodgings"})}>
+                                <img src="/public/delete-icon-gray.svg" alt="Delete" className="w-6 h-6" />
                             </button>
                         </div>
                     </div>
@@ -73,17 +88,20 @@ export default function Accordion({ header, content }) {
             default:
                 return (
                     <div className="flex w-11/12 justify-between relative group">
-                        <div className="border-2 border-cyan-900 rounded-lg py-2 px-4 w-full">
-                            <div className="font-bold text-2xl mr-4">Hotel: {activity.name}</div>
+                        <div className="flex flex-col bg-gray-50 text-gray-500 rounded-lg py-2 px-4 w-full">
+                            <div className="font-bold text-2xl mb-2 text-black">Check-Out</div>
+                            <div className="font-bold">{activity.name}</div>
                             <div>{activity.address}</div>
-                            <div>Check-out: {new Date(activity.check_out).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                            <div className="mt-2 p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">
+                                {new Date(activity.check_out).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </div>
                         </div>
-                        <div className="flex flex-col p-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <div className="flex p-2 gap-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                             <button onClick={() => toggleModal({form:"DeleteActivityModal", id:activity.id, type:"lodgings"})}>
-                                <img src="/delete-icon-900.svg" alt="Delete" className="w-6 h-6" />
+                                <img src="/public/delete-icon-gray.svg" alt="Delete" className="w-6 h-6" />
                             </button>
                             <button onClick={() => toggleModal({form:"EditLodgingModal", id:activity.id})}>
-                                <img src="/edit-icon-900.svg" alt="Edit" className="w-6 h-6" />
+                                <img src="/public/edit-icon-gray.svg" alt="Edit" className="w-6 h-6" />
                             </button>
                         </div>
                     </div>
@@ -93,7 +111,6 @@ export default function Accordion({ header, content }) {
 
     const parseDate = () => {
         const date = new Date(header);
-        console.log(date)
         const options = {
             weekday: 'long',
             month: 'long',

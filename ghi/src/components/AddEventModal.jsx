@@ -100,7 +100,7 @@ function AddEventModal() {
 
     return (
         <div
-            className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center"
+            className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-20"
             onClick={toggleModal}
         >
             {/* Modal content */}
