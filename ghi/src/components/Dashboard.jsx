@@ -12,10 +12,9 @@ function Dashboard() {
     const [selectedTrips, setSelectedTrips] = useState([]);
     const [activeButton, setActiveButton] = useState("upcoming");
     const [mapMarkers, setMapMarkers] = useState([]);
+    const apiKey = import.meta.env.GOOGLE_API_KEY;
 
     const navToHome = () => {if (!isLoggedIn) {navigate("/")}}
-
-    const apiKey = "AIzaSyBgAB8wDzgXfmGxo34szPnH8TZckfVqco0"
 
     const fetchTrips = async () => {
         try {

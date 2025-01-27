@@ -14,7 +14,7 @@ function Trip() {
     const [tripData, setTripData] = useState({});
     const { toggleModal } = useContext(ModalContext);
     const [mapMarkers, setMapMarkers] = useState([]);
-    const apiKey = "AIzaSyBgAB8wDzgXfmGxo34szPnH8TZckfVqco0"
+    const apiKey = import.meta.env.GOOGLE_API_KEY;
 
     const navToHome = () => {if (!isLoggedIn) {navigate("/")}}
 

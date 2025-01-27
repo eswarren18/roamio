@@ -39,5 +39,6 @@ services:
         environment:
             VITE_API_HOST: http://localhost:8000
             BASE_URL: http://localhost:5173
+            GOOGLE_API_KEY: ${GOOGLE_API_KEY}
         ports:
             - "5173:5173"
