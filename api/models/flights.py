@@ -13,7 +13,10 @@ class FlightIn(BaseModel):
 
     @field_validator("departure_time", "arrival_time", mode="before")
     def truncate_microseconds(value: datetime) -> datetime:
-        return value.replace(microsecond=0) if isinstance(value, datetime) else value
+        return (value.replace(microsecond=0)
+                if isinstance(value, datetime)
+                else value)
+
 
 class FlightOut(BaseModel):
     """
@@ -27,4 +30,6 @@ class FlightOut(BaseModel):
 
     @field_validator("departure_time", "arrival_time", mode="before")
     def truncate_microseconds(value: datetime) -> datetime:
-        return value.replace(microsecond=0) if isinstance(value, datetime) else value
+        return (value.replace(microsecond=0)
+                if isinstance(value, datetime)
+                else value)

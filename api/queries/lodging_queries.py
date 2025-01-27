@@ -1,9 +1,10 @@
-import os
+
 from queries.pool import pool
 from typing import List
 from models.lodgings import LodgingIn, LodgingOut
 from psycopg.rows import class_row
 from fastapi import HTTPException
+
 
 class LodgingsQueries:
     def create(self, lodging: LodgingIn, user_id: int) -> LodgingOut:
@@ -37,13 +38,19 @@ class LodgingsQueries:
                     new_lodging = cur.fetchone()
                     print(new_lodging)
                     if new_lodging is None:
-                        raise HTTPException(status_code=404, detail="Trip not found")
+                        raise HTTPException(
+                            status_code=404,
+                            detail="Trip not found"
+                        )
                     return new_lodging
         except HTTPException as http_exc:
             raise http_exc
         except Exception as e:
             print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )
 
     def update(self, lodging_id: int, lodging: LodgingIn, user_id: int) -> LodgingOut:
         try:
@@ -75,13 +82,19 @@ class LodgingsQueries:
                     )
                     updated_lodging = cur.fetchone()
                     if updated_lodging is None:
-                        raise HTTPException(status_code=404, detail="Trip not found")
+                        raise HTTPException(
+                            status_code=404,
+                            detail="Trip not found"
+                        )
                     return updated_lodging
         except HTTPException as http_exc:
             raise http_exc
         except Exception as e:
             print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )
 
     def delete(self, lodging_id: int, user_id: int) -> bool:
         try:
@@ -102,13 +115,19 @@ class LodgingsQueries:
                         [user_id, lodging_id]
                     )
                     if cur.rowcount == 0:
-                        raise HTTPException(status_code=404, detail="Lodging not found")
+                        raise HTTPException(
+                            status_code=404,
+                            detail="Lodging not found"
+                        )
                     return True
         except HTTPException as http_exc:
             raise http_exc
         except Exception as e:
             print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )
 
     def get_for_trip(self, trip_id: int, user_id: int) -> List[LodgingOut]:
         try:
@@ -127,7 +146,10 @@ class LodgingsQueries:
                     return lodgings
         except Exception as e:
             print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )
 
     def get_for_lodging(self, lodging_id: int, user_id: int) -> LodgingOut:
         try:
@@ -144,10 +166,16 @@ class LodgingsQueries:
                     )
                     lodging = cur.fetchone()
                     if lodging is None:
-                        raise HTTPException(status_code=404, detail="Lodging not found")
+                        raise HTTPException(
+                            status_code=404,
+                            detail="Lodging not found"
+                        )
                     return lodging
         except HTTPException as http_exc:
             raise http_exc
         except Exception as e:
             print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )

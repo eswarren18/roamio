@@ -15,7 +15,10 @@ class EventIn(BaseModel):
 
     @field_validator("start_date_time", "end_date_time", mode="before")
     def truncate_microseconds(value: datetime) -> datetime:
-        return value.replace(microsecond=0) if isinstance(value, datetime) else value
+        return (value.replace(microsecond=0)
+                if isinstance(value, datetime)
+                else value)
+
 
 class EventOut(BaseModel):
     """
@@ -31,4 +34,6 @@ class EventOut(BaseModel):
 
     @field_validator("start_date_time", "end_date_time", mode="before")
     def truncate_microseconds(value: datetime) -> datetime:
-        return value.replace(microsecond=0) if isinstance(value, datetime) else value
+        return (value.replace(microsecond=0)
+                if isinstance(value, datetime)
+                else value)

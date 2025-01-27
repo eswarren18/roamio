@@ -1,9 +1,9 @@
-import os
 from queries.pool import pool
 from typing import List
 from models.flights import FlightIn, FlightOut
 from psycopg.rows import class_row
 from fastapi import HTTPException
+
 
 class FlightsQueries:
     def create(self, flight: FlightIn, user_id: int) -> FlightOut:
@@ -36,13 +36,19 @@ class FlightsQueries:
                     new_flight = cur.fetchone()
                     print(new_flight)
                     if new_flight is None:
-                        raise HTTPException(status_code=404, detail="Trip not found")
+                        raise HTTPException(
+                            status_code=404,
+                            detail="Trip not found"
+                        )
                     return new_flight
         except HTTPException as http_exc:
             raise http_exc
         except Exception as e:
             print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )
 
     def update(self, flight_id: int, flight: FlightIn, user_id: int) -> FlightOut:
         try:
@@ -73,13 +79,19 @@ class FlightsQueries:
                     )
                     updated_flight = cur.fetchone()
                     if updated_flight is None:
-                        raise HTTPException(status_code=404, detail="Trip not found")
+                        raise HTTPException(
+                            status_code=404,
+                            detail="Trip not found"
+                        )
                     return updated_flight
         except HTTPException as http_exc:
             raise http_exc
         except Exception as e:
             print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )
 
     def delete(self, flight_id: int, user_id: int) -> bool:
         try:
@@ -100,13 +112,19 @@ class FlightsQueries:
                         [user_id, flight_id]
                     )
                     if cur.rowcount == 0:
-                        raise HTTPException(status_code=404, detail="Flight not found")
+                        raise HTTPException(
+                            status_code=404,
+                            detail="Flight not found"
+                        )
                     return True
         except HTTPException as http_exc:
             raise http_exc
         except Exception as e:
             print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )
 
     def get_for_trip(self, trip_id: int, user_id: int) -> List[FlightOut]:
         try:
@@ -125,7 +143,10 @@ class FlightsQueries:
                     return flights
         except Exception as e:
             print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )
 
     def get_for_flight(self, flight_id: int, user_id: int) -> FlightOut:
         try:
@@ -142,10 +163,16 @@ class FlightsQueries:
                     )
                     flight = cur.fetchone()
                     if flight is None:
-                        raise HTTPException(status_code=404, detail="Flight not found")
+                        raise HTTPException(
+                            status_code=404,
+                            detail="Flight not found"
+                        )
                     return flight
         except HTTPException as http_exc:
             raise http_exc
         except Exception as e:
             print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )

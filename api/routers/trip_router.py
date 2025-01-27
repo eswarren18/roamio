@@ -12,6 +12,7 @@ from utils.authentication import try_get_jwt_user_data
 
 router = APIRouter(tags=["Trips"], prefix="/api/trips")
 
+
 @router.post("", response_model=TripOut)
 async def create_trip(
     trip: TripIn,
@@ -24,6 +25,7 @@ async def create_trip(
         )
     new_trip = queries.create(trip, user.id)
     return new_trip
+
 
 @router.put("/{trip_id}", response_model=TripOut)
 async def update_trip(
@@ -39,6 +41,7 @@ async def update_trip(
     updated_trip = queries.update(trip_id, trip, user.id)
     return updated_trip
 
+
 @router.get("", response_model=List[TripOut])
 async def get_trips(
     user: UserResponse = Depends(try_get_jwt_user_data),
@@ -50,6 +53,7 @@ async def get_trips(
         )
     trips = queries.get_all(user.id)
     return trips
+
 
 @router.get("/{trip_id}", response_model=TripOut)
 async def get_trip(
@@ -63,6 +67,7 @@ async def get_trip(
         )
     trip = queries.get_one(trip_id, user.id)
     return trip
+
 
 @router.delete("/{trip_id}", response_model=bool)
 async def delete_trip(

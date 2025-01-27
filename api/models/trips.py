@@ -1,6 +1,7 @@
 from pydantic import BaseModel, validator
 from datetime import date
 
+
 class TripIn(BaseModel):
     """
     Represents a the parameters needed to create a new trip
@@ -17,6 +18,7 @@ class TripIn(BaseModel):
         if not value:
             return "/passport-stamps.png"
         return value
+
 
 class TripOut(BaseModel):
     """

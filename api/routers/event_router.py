@@ -12,6 +12,7 @@ from utils.authentication import try_get_jwt_user_data
 
 router = APIRouter(tags=["Events"], prefix="/api")
 
+
 @router.post("/events", response_model=EventOut)
 async def create_event(
     event: EventIn,
@@ -24,6 +25,7 @@ async def create_event(
         )
     new_event = queries.create(event, user.id)
     return new_event
+
 
 @router.put("/events/{event_id}", response_model=EventOut)
 async def update_event(
@@ -52,6 +54,7 @@ async def delete_event(
         )
     return queries.delete(event_id, user.id)
 
+
 @router.get("/trips/{trip_id}/events", response_model=List[EventOut])
 async def get_events(
     trip_id: int,
@@ -64,6 +67,7 @@ async def get_events(
         )
     events = queries.get_for_trip(trip_id, user.id)
     return events
+
 
 @router.get("/events/{event_id}", response_model=EventOut)
 async def get_event(

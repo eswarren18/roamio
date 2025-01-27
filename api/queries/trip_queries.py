@@ -1,4 +1,3 @@
-import os
 from queries.pool import pool
 from typing import List
 from models.trips import TripOut, TripIn
@@ -33,7 +32,10 @@ class TripsQueries:
                     return new_trip
         except Exception as e:
             print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )
 
     def update(self, trip_id: int, trip: TripIn, user_id: int) -> TripOut:
         try:
@@ -61,13 +63,19 @@ class TripsQueries:
                     )
                     updated_trip = cur.fetchone()
                     if updated_trip is None:
-                        raise HTTPException(status_code=404, detail="Trip not found")
+                        raise HTTPException(
+                            status_code=404,
+                            detail="Trip not found"
+                        )
                     return updated_trip
         except HTTPException as http_exc:
             raise http_exc
         except Exception as e:
             print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )
 
     def get_all(self, user_id: int) -> List[TripOut]:
         try:
@@ -86,29 +94,38 @@ class TripsQueries:
                     return trips
         except Exception as e:
             print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )
 
     def get_one(self, trip_id: int, user_id: int) -> TripOut:
-            try:
-                with pool.connection() as conn:
-                    with conn.cursor(row_factory=class_row(TripOut)) as cur:
-                        cur.execute(
-                            """
-                            SELECT id, title, country, city, start_date, end_date, trip_image, user_id
-                            FROM trips
-                            WHERE id = %s AND user_id = %s
-                            """,
-                            [trip_id, user_id]
+        try:
+            with pool.connection() as conn:
+                with conn.cursor(row_factory=class_row(TripOut)) as cur:
+                    cur.execute(
+                        """
+                        SELECT id, title, country, city, start_date, end_date, trip_image, user_id
+                        FROM trips
+                        WHERE id = %s AND user_id = %s
+                        """,
+                        [trip_id, user_id]
+                    )
+                    trip = cur.fetchone()
+                    if trip is None:
+                        raise HTTPException(
+                            status_code=404,
+                            detail="Trip not found"
                         )
-                        trip = cur.fetchone()
-                        if trip is None:
-                            raise HTTPException(status_code=404, detail="Trip not found")
-                        return trip
-            except HTTPException as http_exc:
-                raise http_exc
-            except Exception as e:
-                print(f"Error: {e}")
-                raise HTTPException(status_code=500, detail="Internal Server Error")
+                    return trip
+        except HTTPException as http_exc:
+            raise http_exc
+        except Exception as e:
+            print(f"Error: {e}")
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )
 
     def delete(self, trip_id: int, user_id: int) -> bool:
         try:
@@ -122,11 +139,17 @@ class TripsQueries:
                         [trip_id, user_id]
                     )
                     if cur.rowcount == 0:
-                        raise HTTPException(status_code=404, detail="Trip not found")
+                        raise HTTPException(
+                            status_code=404,
+                            detail="Trip not found"
+                        )
                     else:
                         return True
         except HTTPException as http_exc:
-                raise http_exc
+            raise http_exc
         except Exception as e:
             print(f"Error: {e}")
-            raise HTTPException(status_code=500, detail="Internal Server Error")
+            raise HTTPException(
+                status_code=500,
+                detail="Internal Server Error"
+            )
