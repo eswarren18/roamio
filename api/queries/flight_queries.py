@@ -59,7 +59,7 @@ class FlightsQueries:
             flight_id: int,
             flight: FlightIn,
             user_id: int
-        ) -> FlightOut:
+    ) -> FlightOut:
         try:
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(FlightOut)) as cur:

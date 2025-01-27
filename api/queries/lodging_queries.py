@@ -57,7 +57,7 @@ class LodgingsQueries:
             lodging_id: int,
             lodging: LodgingIn,
             user_id: int
-        ) -> LodgingOut:
+    ) -> LodgingOut:
         try:
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(LodgingOut)) as cur:
