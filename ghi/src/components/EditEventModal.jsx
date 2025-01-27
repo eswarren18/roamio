@@ -66,9 +66,13 @@ function EditEventModal() {
         setFormData(prevState => {
             const newFormData = { ...prevState, [name]: value };
             const tripStartDate = tripData.start_date
+            const tripEndDate = tripData.end_date
 
-            if ( newFormData.start_date < tripStartDate ) {
+            if ( newFormData.start_date < tripStartDate || newFormData.start_date > tripEndDate) {
                 newFormData.start_date = ""
+            }
+            if ( newFormData.end_date < tripStartDate || newFormData.end_date > tripEndDate) {
+                newFormData.end_date = ""
             }
 
             if (isMultipleDays) {
@@ -160,7 +164,7 @@ function EditEventModal() {
                 >
                     <img src="/public/x-icon.svg" alt="Cancel" className="w-8 h-8" />
                 </button>
-                <div className="text-center text-4xl font-bold mb-6">Edit Event</div>
+                <div className="text-center text-4xl font-bold mb-6">Update Event</div>
                 <form
                     onSubmit={handleFormSubmit}
                     className="flex flex-col w-4/5 mx-auto"

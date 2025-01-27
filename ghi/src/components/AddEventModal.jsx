@@ -21,8 +21,11 @@ function AddEventModal() {
         setFormData(prevState => {
             const newFormData = { ...prevState, [name]: value };
             const dates = Object.keys(tripData)
-            if ( newFormData.start_date < dates[0] ) {
+            if ( newFormData.start_date < dates[0] || newFormData.start_date > dates[(dates.length)-1]) {
                 newFormData.start_date = ""
+            }
+            if ( newFormData.end_date < dates[0] || newFormData.end_date > dates[(dates.length)-1]) {
+                newFormData.end_date = ""
             }
             if (isMultipleDays) {
                 if (name === 'start_date' || name === 'end_date' || name === 'checkbox') {
@@ -114,7 +117,7 @@ function AddEventModal() {
                 >
                     <img src="/public/x-icon.svg" alt="Cancel" className="w-8 h-8" />
                 </button>
-                <div className="text-center text-4xl font-bold mb-6">Add an Event</div>
+                <div className="text-center text-4xl font-bold mb-6">Create Event</div>
                 <form
                     onSubmit={handleFormSubmit}
                     className="flex flex-col w-4/5 mx-auto"
@@ -273,7 +276,7 @@ function AddEventModal() {
                         </textarea>
                     </div>
 
-                    <button type="submit">Create Event</button>
+                    <button type="submit">Create</button>
                 </form>
             </div>
         </div>

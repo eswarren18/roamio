@@ -13,21 +13,35 @@ function AddLodgingModal() {
 
   const handleFormChange = ({ target: { value, name } }) => {
     setFormData((prevData) => {
-      const newData = { ...prevData, [name]: value };
-      if (tripData) {
-        const tripStart = tripData.start_date;
-        const tripEnd = tripData.end_date;
+      const newFormData = { ...prevData, [name]: value };
+      const dates = Object.keys(tripData)
 
-        if (newData.check_in && newData.check_in < tripStart) {
-          newData.check_in = '';
-        }
+      if ( newFormData.check_in < dates[0] || newFormData.check_in > dates[(dates.length)-1]) {
+                newFormData.check_in = ""
+            }
+            if ( newFormData.check_out < dates[0] || newFormData.check_out > dates[(dates.length)-1]) {
+                newFormData.check_out = ""
+            }
 
-        if (newData.check_out && newData.check_out > tripEnd) {
-          newData.check_out = '';
-        }
-      }
-
-      return newData;
+            if (name === 'check_in' || name === 'check_out') {
+                if (newFormData.check_out < newFormData.check_in) {
+                    newFormData.check_out = "";
+                }
+                if (newFormData.arrival_date === newFormData.check_in && newFormData.check_out < newFormData.check_in) {
+                    newFormData.check_out = "";
+                }
+                if (newFormData.check_out < newFormData.check_in) {
+                    newFormData.check_out = "";
+                }
+            }
+            if (newFormData.check_in === newFormData.check_out) {
+                if (name === 'check_out' || name === 'check_in') {
+                    if (newFormData.check_out < newFormData.check_in) {
+                        newFormData.check_out = "";
+                    }
+                }
+            }
+            return newFormData;
     });
   };
 
@@ -171,7 +185,7 @@ function AddLodgingModal() {
               </label>
             </div>
           </div>
-          <button type="submit">Create Lodging</button>
+          <button type="submit">Create</button>
         </form>
       </div>
     </div>
