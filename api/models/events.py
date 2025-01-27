@@ -9,7 +9,7 @@ class EventIn(BaseModel):
     name: str
     start_date_time: datetime
     end_date_time: datetime
-    location: str
+    address: str
     description: str
     trip_id: int
 
@@ -28,7 +28,7 @@ class EventOut(BaseModel):
     name: str
     start_date_time: datetime
     end_date_time: datetime
-    location: str
+    address: str
     description: str
     trip_id: int
 

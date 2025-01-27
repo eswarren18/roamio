@@ -15,7 +15,7 @@ function Dashboard() {
 
     const navToHome = () => {if (!isLoggedIn) {navigate("/")}}
 
-    const apiKey = "SecretKey"
+    const apiKey = "AIzaSyBgAB8wDzgXfmGxo34szPnH8TZckfVqco0"
 
     const fetchTrips = async () => {
         try {

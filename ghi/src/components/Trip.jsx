@@ -2,9 +2,8 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from './AuthProvider';
 import { ModalContext } from './ModalProvider';
-import { Marker } from '@react-google-maps/api';
 import Accordion from './Accordion';
-import { APIProvider, Map } from '@vis.gl/react-google-maps';
+import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
 
 function Trip() {
     const { isLoggedIn } = useContext(AuthContext);
@@ -15,7 +14,7 @@ function Trip() {
     const [tripData, setTripData] = useState({});
     const { toggleModal } = useContext(ModalContext);
     const [mapMarkers, setMapMarkers] = useState([]);
-    const apiKey = "SecretKey"
+    const apiKey = "AIzaSyBgAB8wDzgXfmGxo34szPnH8TZckfVqco0"
 
     const navToHome = () => {if (!isLoggedIn) {navigate("/")}}
 
@@ -38,12 +37,29 @@ function Trip() {
 
                 setTrip(tripData);
                 setupAccordion(tripData, flightsData, lodgingsData, eventsData);
-                setMapMarkers(tripData.locations || []);
+                const latLngData = lodgingsData.concat(eventsData);
+                fetchLatLng(latLngData);
             }
         } catch (e) {
             console.error(e);
         }
     };
+
+    const fetchLatLng = async (activities) => {
+        try {
+            const markers = []
+            for (let activity of activities) {
+                const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${activity.address}&key=${apiKey}`)
+                if (response.ok) {
+                    const data = await response.json();
+                    markers.push(data.results[0].geometry.location)
+                }
+            }
+            setMapMarkers(markers);
+        } catch(e) {
+            console.error(e)
+        }
+    }
 
     const setupAccordion = (tripData, flights, lodgings, events) => {
         const startDate = new Date(tripData.start_date);
@@ -171,14 +187,13 @@ function Trip() {
                     <Map
                         style={{ width: '100%', height: '100%'}}
                         defaultCenter={{ lat: 40.6993, lng: -99.0817 }}
-                        defaultZoom={8}
+                        defaultZoom={3}
                     >
-                        {mapMarkers.map((location, index) => (
-                            <Marker
-                                key={index}
-                                position={{ lat: location.latitude, lng: location.longitude }}
-                            />
-                        ))}
+                        {mapMarkers.map((mapMarker, index) => {
+                            return (
+                                <Marker key={index} position={mapMarker} />
+                            )
+                        })}
                     </Map>
                 </APIProvider>
             </div>

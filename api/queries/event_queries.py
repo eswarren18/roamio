@@ -21,7 +21,7 @@ class EventsQueries:
                             name,
                             start_date_time,
                             end_date_time,
-                            location,
+                            address,
                             description,
                             trip_id
                         )
@@ -36,7 +36,7 @@ class EventsQueries:
                             event.name,
                             event.start_date_time,
                             event.end_date_time,
-                            event.location,
+                            event.address,
                             event.description,
                         ]
                     )
@@ -73,7 +73,7 @@ class EventsQueries:
                         SET name = %s,
                             start_date_time = %s,
                             end_date_time = %s,
-                            location = %s,
+                            address = %s,
                             description = %s
                         FROM trip_info
                         WHERE events.id = %s AND events.trip_id = trip_info.id
@@ -85,7 +85,7 @@ class EventsQueries:
                             event.name,
                             event.start_date_time,
                             event.end_date_time,
-                            event.location,
+                            event.address,
                             event.description,
                             event_id
                         ]
