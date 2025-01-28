@@ -23,7 +23,6 @@ function Dashboard() {
             if (response.ok) {
                 const data = await response.json();
                 setTrips(data);
-                fetchLatLng();
             }
         } catch(e) {
             console.error(e)
@@ -68,11 +67,20 @@ function Dashboard() {
 
     useEffect(() => {
         navToHome();
-        fetchTrips();
     }, [isLoggedIn]);
 
     useEffect(() => {
-        handleTripSelection("upcoming");
+        fetchTrips();
+    }, []);
+
+    useEffect(() => {
+        handleTripSelection(activeButton);
+    }, [trips, activeButton]);
+
+    useEffect(() => {
+        if (trips.length > 0) {
+            fetchLatLng();
+        }
     }, [trips]);
 
     return (

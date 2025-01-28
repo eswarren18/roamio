@@ -1,6 +1,9 @@
 # Roamio
-*"tagline here!"* <br>
+*Plan, Explore, Enjoy!* <br>
+*Where Adventure Meets Simplicity!* <br>
+
 <br>
+
 ## Developers
 **Eric Warren**<br>
 LinkedIn: https://www.linkedin.com/in/eric-warren-b-s-9074b661/ <br>
@@ -20,6 +23,14 @@ Email: Reinis.Gregory@gmail.com <br>
 <br>
 
 ## Project Description <br>
+Roamio is your simple solution for planning your next trip! With a beautiful interface and simple GUI, users will find Roamio to be both functional and light-weight.
+On a technical level, <br>
+Roamio utilizes FastAPI endpoints, with a PostgreSQL database. The frontend is constructed with React.js with TailwindCSS styling throughout.
+
+
+
+
+
 ## Tech Stack
 ![A collage of various tech logos](./techstack_collage_438.png) <br>
 **FastAPI** <br>
@@ -36,9 +47,51 @@ Email: Reinis.Gregory@gmail.com <br>
 ## "Building the App" Enter Wireframing + general history
 
 ## How To Run This App - "Getting Started?"
+ *Downloading The Roamio Repository* <br>
+In the directory where you want Roamio to live, run:<br>
+```
+git clone https://gitlab.com/man-down/roamio.git
+```
+<br>
+You now have your own Roamio! Navigate to your new Roamio directory:<br>
 
+```bash
+cd Roamio
+```
 
-## Usage/Features - include screenshots?
+<br>
+
+**Start Docker Desktop**  <br>
+Make sure Docker Desktop is installed and running on your machine before proceeding.<br>
+    *If you’re on Windows or macOS, launch Docker Desktop from <br>
+      your applications. On Linux, ensure the Docker daemon is running.*<br>
+<br>
+Now run:
+```
+docker volume create beta-data
+docker-compose build
+docker-compose up
+```
+
+<br>
+
+Finally, <br>
+Navigate to http://localhost:5173/ in your web browser <br>
+
+### Congrations! You're free to now experience Roamio!
+
+<br>
+
+## Usage & Features
+Roamio provides a streamlined way to plan and manage your trips!
+
+**Features include:**
+- **User Accounts**: Create a new account or sign in to an existing one.
+- **Trip Management**: Set up and organize multiple trips, each containing its own itinerary.
+- **Event Scheduling**: Add and manage events, flights, and lodging details for each trip.
+- **Interactive Map**: Explore points of interest via an integrated Google Maps API, right inside the application.
+
+<br>
 
 ## FastAPI API Endpoints
 ### Authentication
@@ -226,7 +279,7 @@ Submit a POST request to localhost:8000/api/events <br>
   "name": "string",
   "start_date_time": "2025-01-25T21:30:46.605Z",
   "end_date_time": "2025-01-25T21:30:46.605Z",
-  "location": "string",
+  "address": "string",
   "description": "string",
   "trip_id": 0
 }
@@ -243,7 +296,7 @@ Submit a POST request to localhost:8000/api/trips/{trip_id}/events <br>
     "name": "string",
     "start_date_time": "2025-01-25T21:31:44.983Z",
     "end_date_time": "2025-01-25T21:31:44.983Z",
-    "location": "string",
+    "address": "string",
     "description": "string",
     "trip_id": 0
   }
@@ -260,7 +313,7 @@ Submit a PUT request to localhost:8000/api/events/{event_id}
   "name": "string",
   "start_date_time": "2025-01-25T21:36:20.592Z",
   "end_date_time": "2025-01-25T21:36:20.592Z",
-  "location": "string",
+  "address": "string",
   "description": "string",
   "trip_id": 0
 }
@@ -276,7 +329,7 @@ Submit a PUT request to localhost:8000/api/events/{event_id}
   "name": "string",
   "start_date_time": "2025-01-25T21:43:10.062Z",
   "end_date_time": "2025-01-25T21:43:10.062Z",
-  "location": "string",
+  "address": "string",
   "description": "string",
   "trip_id": 0
 }
@@ -364,45 +417,19 @@ true
 ---
 
 ## Roadmap / Future Improvements
+**Features to be added include:**
+- **Expanded User Account Functionality**:
+Create an account profile, complete with capability for users to upload custom profile pictures!
+- **Expanded Map Functionality**: Adding new features to our maps that include driving directions, air quality, weather, driving directions, ability to detect user location, and more!
+- **Social Media Functionality**: Ability for users to message one another in an instant messanger, as well as capability to add other users to project, share comments on other user's events, and more!
+- **Secure Login with 0Auth**: Expanding our users' ability to log into Roamio with greater ease!
 
 
 
+<br> <br> <br> <br> <br> <br>
+Documentation: 5%
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+The README.md file for the project and associated files in your docs directory should accurately represent what the application is, what it does, how it's built, what the future of the application would be, have correct spelling and grammar. This is also something that hiring managers will look at, so do it right for them (and for this grade). Here's an example of a very nice README.md
 
 ## Install Extensions
 
@@ -417,13 +444,6 @@ true
 -   [ ] GitLab issue board is setup and in use (or project management tool of choice)
 -   [ ] Journals
 
-## Project layout
-
-The layout of the project is just like all of the projects
-you did with `docker-compose` in module #2. You will create
-a directory in the root of the repository for each service
-that you add to your project just like those previous
-projects were setup.
 
 ### Directories
 
@@ -434,63 +454,13 @@ about your project that you create and to put your
 project-journal entries. See the _README.md_ file in each
 directory for more info.
 
-The other directories, `ghi` and `api`, are services, that
-you can start building off of.
 
-Inside of `ghi` is a minimal React app that has an "under construction" page.
-This app is written using the [Vite](https://vitejs.dev/) bundler. The example
-code is also using [jsdoc](https://jsdoc.app/) to provide type hints for
-JavaScript. You are not required to use JSDoc yourself, and you will be removing
-these examples and providing your own code for `App.jsx`
-
-Inside of `api` is a minimal FastAPI application.
-"Where are all the files?" you might ask? Well, the
-`main.py` file is the whole thing, and go take look inside
-of it... There's not even much in there..., hmm? That is
-FastAPI, we'll learn more about it in the coming days. Can
-you figure out what this little web-application does even
-though you haven't learned about FastAPI yet?
-
-Also in `api` is a directory for your migrations.
-If you choose to use PostgreSQL, then you'll want to use
-migrations to control your database. Unlike Django, where
-migrations were automatically created for you, you'll write
-yours by hand using DDL. Don't worry about not knowing what
-DDL means; we have you covered. There's a sample migration
-in there that creates two tables so you can see what they
-look like.
-
-The Dockerfile and Dockerfile.dev run your migrations
-for you automatically.
-
-### Other files
-
-The following project files have been created as a minimal
-starting point. Please follow the guidance for each one for
-a most successful project.
-
--   `docker-compose.yaml`: there isn't much in here, just a
-    **really** simple UI and FastAPI service. Add services
-    (like a database) to this file as you did with previous
-    projects in module #2.
 -   `.gitlab-ci.yml`: This is your "ci/cd" file where you will
     configure automated unit tests, code quality checks, and
     the building and deployment of your production system.
     Currently, all it does is deploy an "under construction"
     page to your production UI on GitLab and a sample backend
     to CapRover. We will learn much more about this file.
--   `.gitignore`: This is a file that prevents unwanted files
-    from getting added to your repository, files like
-    `pyc` files, `__pycache__`, etc. We've set it up so that
-    it has a good default configuration for Python projects.
--   `.env.sample`: This file is a template to copy when
-    creating environment variables for your team. Create a
-    copy called `.env` and put your own passwords in here
-    without fear of it being committed to git (see `.env`
-    listed in `.gitignore`). You can also put team related
-    environment variables in here, things like api and signing
-    keys that shouldn't be committed; these should be
-    duplicated in your deployed environments.
 
 ### Installing python dependencies locally
 

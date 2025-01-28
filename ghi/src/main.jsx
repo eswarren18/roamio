@@ -15,7 +15,6 @@ const BASE_URL = import.meta.env.BASE_URL
 if (!BASE_URL) {
     throw new Error('BASE_URL is not defined')
 }
-
 const rootElement = document.getElementById('root')
 if (!rootElement) {
     throw new Error('root element was not found!')

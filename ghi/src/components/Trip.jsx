@@ -13,9 +13,11 @@ function Trip() {
     const location = useLocation();
     const [trip, setTrip] = useState({});
     const [tripData, setTripData] = useState({});
+    const [latLngData, setLatLngData] = useState([]);
     const { toggleModal } = useContext(ModalContext);
     const [mapMarkers, setMapMarkers] = useState([]);
-
+    const [defaultCenter, setDefaultCenter] = useState();
+    const [defaultZoom, setDefaultZoom] = useState();
 
     const navToHome = () => {if (!isLoggedIn) {navigate("/")}}
 
@@ -35,11 +37,11 @@ function Trip() {
                     lodgingsRes.json(),
                     eventsRes.json()
                 ]);
-
                 setTrip(tripData);
                 setupAccordion(tripData, flightsData, lodgingsData, eventsData);
-                const latLngData = lodgingsData.concat(eventsData);
-                fetchLatLng(latLngData);
+                setLatLngData(lodgingsData.concat(eventsData))
+                // const latLngData = ;
+                // await fetchLatLng(latLngData);
             }
         } catch (e) {
             console.error(e);
@@ -60,6 +62,23 @@ function Trip() {
         } catch(e) {
             console.error(e)
         }
+    }
+
+    const findCenterAndZoom = (markers) => {
+        if (markers.length === 0) {
+            setDefaultCenter({lat: 33.8, lng: -97.7});
+            return;
+        }
+
+        const center = markers.reduce((acc, marker) => ({
+            lat: acc.lat + marker.lat,
+            lng: acc.lng + marker.lng
+        }), { lat: 0, lng: 0 });
+
+        center.lat /= markers.length;
+        center.lng /= markers.length;
+        setDefaultCenter(center);
+        setDefaultZoom(10);
     }
 
     const setupAccordion = (tripData, flights, lodgings, events) => {
@@ -108,15 +127,18 @@ function Trip() {
         setTripData(tripAccordionData);
     };
 
-    useEffect(() => {
-        navToHome();
-        fetchTripData();
-    },[location.pathname, toggleModal, isLoggedIn]);
+    useEffect(() => {navToHome()},[isLoggedIn]);
+
+    useEffect(() => {fetchTripData()},[location.pathname, toggleModal]);
+
+    useEffect(() => {if (latLngData.length > 0) {fetchLatLng(latLngData);}},[latLngData]);
+
+    useEffect(() => {if (mapMarkers.length > 0) {findCenterAndZoom(mapMarkers);}},[mapMarkers]);
+
+    useEffect(() => {},[defaultCenter, defaultZoom]);
 
     return (
-        <div
-            className="flex flex-row m-8"
-        >
+        <div className="flex flex-row m-8">
             <div className="w-1/2">
                 <div className="relative mb-4 h-60 group">
                     <img className="object-cover w-full h-full rounded-lg" src={trip.trip_image}></img>
@@ -163,13 +185,13 @@ function Trip() {
                                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"
                                     onClick={() => toggleModal({form:"AddFlightModal", id:tripId, data:tripData })}
                                 >
-                                Add Flight
+                                    Add Flight
                                 </button>
                                 <button
                                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"
                                     onClick={() => toggleModal({form:"AddLodgingModal", id:tripId, data:tripData })}
                                 >
-                                Add Lodging
+                                    Add Lodging
                                 </button>
                             </div>
                         </div>
@@ -183,14 +205,13 @@ function Trip() {
                     ))}
                 </div>
             </div>
-
-            {/* Google Map */}
             <div className="w-1/2 pl-8">
+            {defaultCenter && (
                 <APIProvider apiKey={apiKey}>
                     <Map
                         style={{ width: '100%', height: '100%'}}
-                        defaultCenter={{ lat: 40.6993, lng: -99.0817 }}
-                        defaultZoom={3}
+                        defaultCenter={defaultCenter}
+                        defaultZoom={defaultZoom}
                     >
                         {mapMarkers.map((mapMarker, index) => {
                             return (
@@ -199,6 +220,7 @@ function Trip() {
                         })}
                     </Map>
                 </APIProvider>
+            )}
             </div>
         </div>
     )
