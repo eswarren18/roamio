@@ -136,7 +136,6 @@ function Trip() {
 
     useEffect(() => {fetchTripData()},[location.pathname, toggleModal]);
 
-    console.log("render")
     return (
         <div className="flex flex-row m-8">
             <div className="w-1/2">
