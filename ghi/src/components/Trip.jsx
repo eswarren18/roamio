@@ -13,7 +13,6 @@ function Trip() {
     const location = useLocation();
     const [trip, setTrip] = useState({});
     const [tripData, setTripData] = useState({});
-    const [latLngData, setLatLngData] = useState([]);
     const { toggleModal } = useContext(ModalContext);
     const [mapMarkers, setMapMarkers] = useState([]);
     const [defaultCenter, setDefaultCenter] = useState();
@@ -39,27 +38,33 @@ function Trip() {
                 ]);
                 setTrip(tripData);
                 setupAccordion(tripData, flightsData, lodgingsData, eventsData);
-                setLatLngData(lodgingsData.concat(eventsData))
-                // const latLngData = ;
-                // await fetchLatLng(latLngData);
+                const combinedLatLngData = [...lodgingsData, ...eventsData];
+
+                let markers;
+                if (combinedLatLngData.length > 0) {
+                    markers = await Promise.all(combinedLatLngData.map( (activity)=> {
+                        return fetchLatLng(activity)
+                    }));
+                } else {
+                    const marker = fetchLatLng({ address: `${tripData.city}, ${tripData.country}` });
+                    markers = [marker]
+                }
+                setMapMarkers(markers)
+                findCenterAndZoom(markers)
             }
         } catch (e) {
             console.error(e);
         }
     };
 
-    const fetchLatLng = async (activities) => {
+    const fetchLatLng = async (activity) => {
         try {
-            const markers = []
-            for (let activity of activities) {
                 const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${activity.address}&key=${apiKey}`)
                 if (response.ok) {
                     const data = await response.json();
-                    markers.push(data.results[0].geometry.location)
+                    return data.results[0].geometry.location;
                 }
-            }
-            setMapMarkers(markers);
-        } catch(e) {
+            } catch(e) {
             console.error(e)
         }
     }
@@ -131,12 +136,7 @@ function Trip() {
 
     useEffect(() => {fetchTripData()},[location.pathname, toggleModal]);
 
-    useEffect(() => {if (latLngData.length > 0) {fetchLatLng(latLngData);}},[latLngData]);
-
-    useEffect(() => {if (mapMarkers.length > 0) {findCenterAndZoom(mapMarkers);}},[mapMarkers]);
-
-    useEffect(() => {},[defaultCenter, defaultZoom]);
-
+    console.log("render")
     return (
         <div className="flex flex-row m-8">
             <div className="w-1/2">
@@ -213,6 +213,7 @@ function Trip() {
                         defaultCenter={defaultCenter}
                         defaultZoom={defaultZoom}
                     >
+                    { }
                         {mapMarkers.map((mapMarker, index) => {
                             return (
                                 <Marker key={index} position={mapMarker} />
