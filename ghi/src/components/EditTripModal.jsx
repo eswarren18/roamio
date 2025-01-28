@@ -24,7 +24,11 @@ function EditTripModal() {
 
             if (response.ok) {
                 const data = await response.json();
-                setFormData(data)
+                setFormData(prevFormData => ({
+                    ...prevFormData,
+                    ...data,
+                    trip_image: data.trip_image === "/passport-stamps.png" ? prevFormData.trip_image : data.trip_image
+                }))
             }
         } catch(e) {
             console.error(e)
