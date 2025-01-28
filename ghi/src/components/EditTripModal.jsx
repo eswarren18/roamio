@@ -70,7 +70,6 @@ function EditTripModal() {
             }
 
             setToDelete(newToDelete);
-            console.log(newToDelete);
         };
 
     useEffect(() => {
