@@ -4,6 +4,7 @@ import { AuthContext } from './AuthProvider';
 import { ModalContext } from './ModalProvider';
 import Accordion from './Accordion';
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
+const apiKey = import.meta.env.GOOGLE_API_KEY;
 
 function Trip() {
     const { isLoggedIn } = useContext(AuthContext);
@@ -14,7 +15,7 @@ function Trip() {
     const [tripData, setTripData] = useState({});
     const { toggleModal } = useContext(ModalContext);
     const [mapMarkers, setMapMarkers] = useState([]);
-    const apiKey = import.meta.env.GOOGLE_API_KEY;
+
 
     const navToHome = () => {if (!isLoggedIn) {navigate("/")}}
 
