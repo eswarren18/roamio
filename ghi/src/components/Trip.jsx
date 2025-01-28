@@ -73,7 +73,9 @@ function Trip() {
         }
 
         const addDataToDate = (item, type, dateKey) => {
-            tripAccordionData[dateKey].push({ ...item, type });
+            if (tripAccordionData[dateKey]) {
+                tripAccordionData[dateKey].push({ ...item, type });
+            }
         };
 
         flights.forEach(flight => {
