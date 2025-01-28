@@ -68,10 +68,10 @@ function Dashboard() {
 
     useEffect(() => {
         navToHome();
-        fetchTrips();
     }, [isLoggedIn]);
 
     useEffect(() => {
+        fetchTrips();
         handleTripSelection("upcoming");
     }, [trips]);
 
