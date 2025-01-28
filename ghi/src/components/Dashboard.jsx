@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './AuthProvider';
 import { ModalContext } from './ModalProvider';
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
+const apiKey = import.meta.env.GOOGLE_API_KEY;
 
 function Dashboard() {
     const { toggleModal } = useContext(ModalContext);
@@ -12,7 +13,7 @@ function Dashboard() {
     const [selectedTrips, setSelectedTrips] = useState([]);
     const [activeButton, setActiveButton] = useState("upcoming");
     const [mapMarkers, setMapMarkers] = useState([]);
-    const apiKey = import.meta.env.GOOGLE_API_KEY;
+
 
     const navToHome = () => {if (!isLoggedIn) {navigate("/")}}
 

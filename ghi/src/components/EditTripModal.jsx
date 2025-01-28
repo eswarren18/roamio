@@ -3,6 +3,7 @@ import { ModalContext } from './ModalProvider'
 
 function EditTripModal() {
     const { toggleModal, tripData, activityId } = useContext(ModalContext)
+    const [toDelete, setToDelete] = useState([])
     const [ formData, setFormData ] = useState({
         id: "",
         title: "",
@@ -32,6 +33,45 @@ function EditTripModal() {
 
     useEffect(() => {
         fetchTrip() }, [])
+
+    const updateToDelete = () => {
+        if (!tripData) return;
+
+            const dates = Object.keys(tripData);
+            const activitiesByDate = Object.values(tripData);
+            const newToDelete = [];
+
+            if (formData.start_date && formData.start_date > dates[0]) {
+                for (let i = 0; i < activitiesByDate.length; i++) {
+                    if (dates[i] < formData.start_date) {
+                        for (let j = 0; j < activitiesByDate[i].length; j++) {
+                            newToDelete.push([activitiesByDate[i][j].id, activitiesByDate[i][j].type]);
+                        }
+                    } else {
+                        break;
+                    }
+                }
+            }
+
+            if (formData.end_date && formData.end_date < dates[dates.length - 1]) {
+                for (let i = dates.length - 1; i >= 0; i--) {
+                    if (dates[i] > formData.end_date) {
+                        for (let j = 0; j < activitiesByDate[i].length; j++) {
+                            newToDelete.push([activitiesByDate[i][j].id, activitiesByDate[i][j].type]);
+                        }
+                    } else {
+                        break;
+                    }
+                }
+            }
+
+            setToDelete(newToDelete);
+            console.log(newToDelete); // Logs updated `toDelete` array
+        };
+
+    useEffect(() => {
+        updateToDelete() }, [formData.start_date, formData.end_date, tripData])
+
 
     const handleFormChange = ({ target: { value, name } }) => {
         setFormData({
@@ -137,6 +177,9 @@ function EditTripModal() {
                 onClick={(e) => e.stopPropagation()} // Prevent click outside from closing modal
             >
                 <button onClick={toggleModal}>X</button>
+                <div className='flex h-screen items-center justify-center bg-'>
+
+                </div>
                 <form onSubmit={handleFormSubmit}>
                     <input
                         type="text"
