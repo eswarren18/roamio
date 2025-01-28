@@ -13,10 +13,11 @@ function Trip() {
     const location = useLocation();
     const [trip, setTrip] = useState({});
     const [tripData, setTripData] = useState({});
+    const [latLngData, setLatLngData] = useState([]);
     const { toggleModal } = useContext(ModalContext);
     const [mapMarkers, setMapMarkers] = useState([]);
-    const [defaultCenter, setDefaultCenter] = useState({lat: 33.8, lng: -97.7});
-    const [defaultZoom, setDefaultZoom] = useState(3);
+    const [defaultCenter, setDefaultCenter] = useState();
+    const [defaultZoom, setDefaultZoom] = useState();
 
     const navToHome = () => {if (!isLoggedIn) {navigate("/")}}
 
@@ -38,9 +39,9 @@ function Trip() {
                 ]);
                 setTrip(tripData);
                 setupAccordion(tripData, flightsData, lodgingsData, eventsData);
-
-                const latLngData = lodgingsData.concat(eventsData);
-                await fetchLatLng(latLngData);
+                setLatLngData(lodgingsData.concat(eventsData))
+                // const latLngData = ;
+                // await fetchLatLng(latLngData);
             }
         } catch (e) {
             console.error(e);
@@ -58,7 +59,6 @@ function Trip() {
                 }
             }
             setMapMarkers(markers);
-            findCenterAndZoom(markers);
         } catch(e) {
             console.error(e)
         }
@@ -129,6 +129,12 @@ function Trip() {
 
     useEffect(() => {fetchTripData()},[location.pathname, toggleModal]);
 
+    useEffect(() => {if (latLngData.length > 0) {fetchLatLng(latLngData);}},[latLngData]);
+
+    useEffect(() => {if (mapMarkers.length > 0) {findCenterAndZoom(mapMarkers);}},[mapMarkers]);
+
+    useEffect(() => {},[defaultCenter, defaultZoom]);
+
     return (
         <div className="flex flex-row m-8">
             <div className="w-1/2">
@@ -177,13 +183,13 @@ function Trip() {
                                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"
                                     onClick={() => toggleModal({form:"AddFlightModal", id:tripId, data:tripData })}
                                 >
-                                Add Flight
+                                    Add Flight
                                 </button>
                                 <button
                                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"
                                     onClick={() => toggleModal({form:"AddLodgingModal", id:tripId, data:tripData })}
                                 >
-                                Add Lodging
+                                    Add Lodging
                                 </button>
                             </div>
                         </div>
@@ -202,8 +208,8 @@ function Trip() {
                 <APIProvider apiKey={apiKey}>
                     <Map
                         style={{ width: '100%', height: '100%'}}
-                        center={defaultCenter}
-                        zoom={defaultZoom}
+                        defaultCenter={defaultCenter}
+                        defaultZoom={defaultZoom}
                     >
                         {mapMarkers.map((mapMarker, index) => {
                             return (
