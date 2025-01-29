@@ -1,31 +1,54 @@
-import { useContext, useEffect, useState } from 'react'
-import { ModalContext } from './ModalProvider'
+import { useContext, useEffect, useState, useRef } from 'react';
+import { ModalContext } from './ModalProvider';
+import { useLoadScript, Autocomplete } from '@react-google-maps/api'; // NEW - AUTOCOMPLETE
+
+const apiKey = import.meta.env.GOOGLE_API_KEY;
 
 function AddEventModal() {
-    const { toggleModal, activityId, tripData } = useContext(ModalContext)
-    const [ isMultipleDays, setIsMultipleDays ] = useState(false)
-    const [ formData, setFormData ] = useState({
-        name:"",
-        start_date:"",
-        end_date:"",
+    const { toggleModal, activityId, tripData } = useContext(ModalContext);
+    const [isMultipleDays, setIsMultipleDays] = useState(false);
+    const [formData, setFormData] = useState({
+        name: "",
+        start_date: "",
+        end_date: "",
         start_time: "",
         end_time: "",
         address: "",
         description: "",
         trip_id: activityId
-    })
+    });
+
+    // NEW - AUTOCOMPLETE - 28 JAN 20:44
+    const { isLoaded } = useLoadScript({
+        googleMapsApiKey: apiKey,
+        libraries: ['places'],
+    });
+
+    // NEW - AUTOCOMPLETE
+    const addressAutocompleteRef = useRef(null);
+
+    // NEW AUTOCOMPLETE
+    const onAddressPlaceChanged = () => {
+        const place = addressAutocompleteRef.current.getPlace();
+        const address = place.formatted_address || '';
+
+        setFormData(prevState => ({
+            ...prevState,
+            address: address
+        }));
+    };
 
     const handleFormChange = ({ target }) => {
         const { value, name } = target;
 
         setFormData(prevState => {
             const newFormData = { ...prevState, [name]: value };
-            const dates = Object.keys(tripData)
-            if ( newFormData.start_date < dates[0] || newFormData.start_date > dates[(dates.length)-1]) {
-                newFormData.start_date = ""
+            const dates = Object.keys(tripData);
+            if (newFormData.start_date < dates[0] || newFormData.start_date > dates[(dates.length) - 1]) {
+                newFormData.start_date = "";
             }
-            if ( newFormData.end_date < dates[0] || newFormData.end_date > dates[(dates.length)-1]) {
-                newFormData.end_date = ""
+            if (newFormData.end_date < dates[0] || newFormData.end_date > dates[(dates.length) - 1]) {
+                newFormData.end_date = "";
             }
             if (isMultipleDays) {
                 if (name === 'start_date' || name === 'end_date' || name === 'checkbox') {
@@ -52,10 +75,10 @@ function AddEventModal() {
     };
 
     const handleFormSubmit = async (e) => {
-        e.preventDefault()
-        let start_date_time = ""
-        let end_date_time = ""
-        if ( isMultipleDays ) {
+        e.preventDefault();
+        let start_date_time = "";
+        let end_date_time = "";
+        if (isMultipleDays) {
             start_date_time = (`${start_date}T${start_time}`);
             end_date_time = (`${end_date}T${end_time}`);
         } else {
@@ -63,28 +86,27 @@ function AddEventModal() {
             end_date_time = (`${start_date}T${end_time}`);
         }
         try {
-            const response = await fetch("http://localhost:8000/api/events",
-                {
-                    method: "POST",
-                    headers: {'Content-Type' : 'application/json'},
-                    credentials: "include",
-                    body : JSON.stringify({
-                        name: formData.name,
-                        start_date_time: start_date_time,
-                        end_date_time: end_date_time,
-                        address: formData.address,
-                        description: formData.description,
-                        trip_id: activityId
-                    })
+            const response = await fetch("http://localhost:8000/api/events", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                credentials: "include",
+                body: JSON.stringify({
+                    name: formData.name,
+                    start_date_time: start_date_time,
+                    end_date_time: end_date_time,
+                    address: formData.address,
+                    description: formData.description,
+                    trip_id: activityId
                 })
-                if (response.ok) {
-                    resetForm()
-                    toggleModal("", null, "")
-                }
+            });
+            if (response.ok) {
+                resetForm();
+                toggleModal("", null, "");
+            }
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
-    }
+    };
 
     const resetForm = () => {
         setFormData({
@@ -96,10 +118,12 @@ function AddEventModal() {
             address: "",
             description: "",
             trip_id: ""
-        })
-    }
+        });
+    };
 
-    const { name, start_date, end_date, start_time, end_time, address, description } = formData
+    const { name, start_date, end_date, start_time, end_time, address, description } = formData;
+
+    if (!isLoaded) return <div>Loading...</div>;
 
     return (
         <div
@@ -142,7 +166,7 @@ function AddEventModal() {
                         </label>
                     </div>
                     <div className="flex items-center">
-                        <div className={`relative z-0 mb-5 group ${isMultipleDays ? "w-full": "w-5/12" }`}>
+                        <div className={`relative z-0 mb-5 group ${isMultipleDays ? "w-full" : "w-5/12"}`}>
                             <input
                                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 id="start_date"
@@ -157,11 +181,11 @@ function AddEventModal() {
                                 htmlFor="start_date_time"
                                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                             >
-                                { isMultipleDays ? "Start Date" : "Date" }
+                                {isMultipleDays ? "Start Date" : "Date"}
                                 <span className="text-red-500 text-xs">*</span>
                             </label>
                         </div>
-                        { isMultipleDays ? (
+                        {isMultipleDays ? (
                             <>
                                 <span className="mx-4 text-gray-500">to</span>
                                 <div className="relative z-0 w-full mb-5 group">
@@ -230,28 +254,33 @@ function AddEventModal() {
                         </div>
                     </div>
                     <div className="flex items-center mb-4">
-                            <input
-                                id="checkbox"
-                                name="checkbox"
-                                type="checkbox"
-                                onChange={handleFormChange}
-                                value=""
-                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
-                                onClick={() => setIsMultipleDays(!isMultipleDays)}
-                            />
-                            <label htmlFor="checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Multiple Days?</label>
+                        <input
+                            id="checkbox"
+                            name="checkbox"
+                            type="checkbox"
+                            onChange={handleFormChange}
+                            value=""
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
+                            onClick={() => setIsMultipleDays(!isMultipleDays)}
+                        />
+                        <label htmlFor="checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Multiple Days?</label>
                     </div>
                     <div className="relative z-0 w-full mb-5 group">
-                        <input
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            id="address"
-                            name="address"
-                            onChange={handleFormChange}
-                            placeholder=" "
-                            type="text"
-                            value={address}
-                            required
-                        />
+                        <Autocomplete
+                            onLoad={(autocomplete) => (addressAutocompleteRef.current = autocomplete)}
+                            onPlaceChanged={onAddressPlaceChanged}
+                        >
+                            <input
+                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                id="address"
+                                name="address"
+                                onChange={handleFormChange}
+                                placeholder=" "
+                                type="text"
+                                value={address}
+                                required
+                            />
+                        </Autocomplete>
                         <label
                             htmlFor="address"
                             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -283,4 +312,4 @@ function AddEventModal() {
     );
 }
 
-export default AddEventModal
+export default AddEventModal;

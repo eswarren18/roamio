@@ -1,5 +1,8 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef } from 'react';
 import { ModalContext } from './ModalProvider';
+import { useLoadScript, Autocomplete } from '@react-google-maps/api';
+
+const apiKey = import.meta.env.GOOGLE_API_KEY;
 
 function AddLodgingModal() {
   const { toggleModal, activityId, tripData } = useContext(ModalContext);
@@ -11,40 +14,47 @@ function AddLodgingModal() {
     trip_id: activityId,
   });
 
+  // NEW - Autocomplete - 29 JAN 10:39
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: apiKey,
+    libraries: ['places'],
+  });
+  const addressAutocompleteRef = useRef(null);
+
+  const onAddressPlaceChanged = () => {
+    const place = addressAutocompleteRef.current.getPlace();
+    const address = place.formatted_address || '';
+    setFormData(prev => ({
+      ...prev,
+      address: address
+    }));
+  };
+
   const handleFormChange = ({ target: { value, name } }) => {
     setFormData((prevData) => {
       const newFormData = { ...prevData, [name]: value };
-      const dates = Object.keys(tripData)
+      const dates = Object.keys(tripData);
 
-      if ( newFormData.check_in < dates[0] || newFormData.check_in > dates[(dates.length)-1]) {
-                newFormData.check_in = ""
-            }
-            if ( newFormData.check_out < dates[0] || newFormData.check_out > dates[(dates.length)-1]) {
-                newFormData.check_out = ""
-            }
+      if (newFormData.check_in < dates[0] || newFormData.check_in > dates[dates.length - 1]) {
+        newFormData.check_in = "";
+      }
+      if (newFormData.check_out < dates[0] || newFormData.check_out > dates[dates.length - 1]) {
+        newFormData.check_out = "";
+      }
 
-            if (name === 'check_in' || name === 'check_out') {
-                if (newFormData.check_out < newFormData.check_in) {
-                    newFormData.check_out = "";
-                }
-                if (newFormData.arrival_date === newFormData.check_in && newFormData.check_out < newFormData.check_in) {
-                    newFormData.check_out = "";
-                }
-                if (newFormData.check_out < newFormData.check_in) {
-                    newFormData.check_out = "";
-                }
-            }
-            if (newFormData.check_in === newFormData.check_out) {
-                if (name === 'check_out' || name === 'check_in') {
-                    if (newFormData.check_out < newFormData.check_in) {
-                        newFormData.check_out = "";
-                    }
-                }
-            }
-            return newFormData;
+      if (name === 'check_in' || name === 'check_out') {
+        if (newFormData.check_out < newFormData.check_in) {
+          newFormData.check_out = "";
+        }
+        if (newFormData.check_in === newFormData.check_out) {
+          if (name === 'check_out' && newFormData.check_out < newFormData.check_in) {
+            newFormData.check_out = "";
+          }
+        }
+      }
+      return newFormData;
     });
   };
-
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -76,6 +86,8 @@ function AddLodgingModal() {
 
   const { name, address, check_in, check_out } = formData;
 
+  if (!isLoaded) return <div>Loading...</div>;
+
   return (
     <div
       className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-20"
@@ -97,45 +109,51 @@ function AddLodgingModal() {
               value={name}
               onChange={handleFormChange}
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0
-                         border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0
-                         focus:border-blue-600 peer"
+                       border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0
+                       focus:border-blue-600 peer"
               placeholder=" "
               required
             />
             <label
               htmlFor="name"
               className="peer-focus:font-medium absolute text-sm text-gray-500
-                         duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]
-                         peer-focus:left-0 peer-focus:text-blue-600
-                         peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
-                         peer-focus:scale-75 peer-focus:-translate-y-6"
+                       duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]
+                       peer-focus:left-0 peer-focus:text-blue-600
+                       peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
+                       peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Lodging Name<span className="text-red-500 text-xs">*</span>
             </label>
           </div>
+
           <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="text"
-              name="address"
-              value={address}
-              onChange={handleFormChange}
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0
-                         border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0
-                         focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            />
+            <Autocomplete
+              onLoad={(autocomplete) => (addressAutocompleteRef.current = autocomplete)}
+              onPlaceChanged={onAddressPlaceChanged}
+            >
+              <input
+                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                id="address"
+                name="address"
+                onChange={handleFormChange}
+                placeholder=" "
+                type="text"
+                value={address}
+                required
+              />
+            </Autocomplete>
             <label
               htmlFor="address"
               className="peer-focus:font-medium absolute text-sm text-gray-500
-                         duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]
-                         peer-focus:left-0 peer-focus:text-blue-600
-                         peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
-                         peer-focus:scale-75 peer-focus:-translate-y-6"
+                       duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]
+                       peer-focus:left-0 peer-focus:text-blue-600
+                       peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
+                       peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Address<span className="text-red-500 text-xs">*</span>
             </label>
           </div>
+
           <div className="flex space-x-4 mb-5">
             <div className="relative z-0 w-1/2 group">
               <input
@@ -144,18 +162,18 @@ function AddLodgingModal() {
                 value={check_in}
                 onChange={handleFormChange}
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0
-                           border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0
-                           focus:border-blue-600 peer"
+                         border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0
+                         focus:border-blue-600 peer"
                 placeholder=" "
                 required
               />
               <label
                 htmlFor="check_in"
                 className="peer-focus:font-medium absolute text-sm text-gray-500
-                           duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]
-                           peer-focus:left-0 peer-focus:text-blue-600
-                           peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
-                           peer-focus:scale-75 peer-focus:-translate-y-6"
+                         duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]
+                         peer-focus:left-0 peer-focus:text-blue-600
+                         peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
+                         peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Check-In<span className="text-red-500 text-xs">*</span>
               </label>
@@ -168,24 +186,31 @@ function AddLodgingModal() {
                 value={check_out}
                 onChange={handleFormChange}
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0
-                           border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0
-                           focus:border-blue-600 peer"
+                         border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0
+                         focus:border-blue-600 peer"
                 placeholder=" "
                 required
               />
               <label
                 htmlFor="check_out"
                 className="peer-focus:font-medium absolute text-sm text-gray-500
-                           duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]
-                           peer-focus:left-0 peer-focus:text-blue-600
-                           peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
-                           peer-focus:scale-75 peer-focus:-translate-y-6"
+                         duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]
+                         peer-focus:left-0 peer-focus:text-blue-600
+                         peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
+                         peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Check-Out<span className="text-red-500 text-xs">*</span>
               </label>
             </div>
           </div>
-          <button type="submit">Create</button>
+          <button
+            type="submit"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
+                     focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5
+                     text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Create
+          </button>
         </form>
       </div>
     </div>
