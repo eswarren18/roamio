@@ -15,8 +15,8 @@ function Trip() {
     const [tripData, setTripData] = useState({});
     const { toggleModal } = useContext(ModalContext);
     const [mapMarkers, setMapMarkers] = useState([]);
-    const [defaultCenter, setDefaultCenter] = useState();
-    const [defaultZoom, setDefaultZoom] = useState();
+    const [center, setCenter] = useState();
+    const [zoom, setZoom] = useState();
 
     const navToHome = () => {if (!isLoggedIn) {navigate("/")}}
 
@@ -28,7 +28,6 @@ function Trip() {
                 fetch(`http://localhost:8000/api/trips/${tripId}/lodgings`, { credentials: "include", headers: { "Content-Type": "application/json" } }),
                 fetch(`http://localhost:8000/api/trips/${tripId}/events`, { credentials: "include", headers: { "Content-Type": "application/json" } })
             ]);
-
             if (tripRes.ok && flightsRes.ok && lodgingsRes.ok && eventsRes.ok) {
                 const [tripData, flightsData, lodgingsData, eventsData] = await Promise.all([
                     tripRes.json(),
@@ -41,16 +40,17 @@ function Trip() {
                 const combinedLatLngData = [...lodgingsData, ...eventsData];
 
                 let markers;
+                console.log(combinedLatLngData.length)
                 if (combinedLatLngData.length > 0) {
                     markers = await Promise.all(combinedLatLngData.map(activity => fetchLatLng(activity)));
                 } else {
                     const tripLatLng = await fetchLatLng({ address: `${tripData.city}, ${tripData.country}` });
-                    setDefaultCenter(tripLatLng);
-                    setDefaultZoom(10);
+                    setCenter(tripLatLng);
+                    setZoom(10);
                     markers = [];
-                    return;
+                    console.log("Inside the else block")
                 }
-                setMapMarkers(markers.filter(marker => marker && !isNaN(marker.lat) && !isNaN(marker.lng)));
+                setMapMarkers(markers);
                 findCenterAndZoom(markers);
             }
         } catch (e) {
@@ -80,27 +80,24 @@ function Trip() {
 
     const findCenterAndZoom = (markers) => {
         if (markers.length === 0) {
-            setDefaultCenter({ lat: 33.8, lng: -97.7 });
-            setDefaultZoom(10);
+            setZoom(10);
             return;
         }
 
-        const validMarkers = markers.filter(marker => marker && !isNaN(marker.lat) && !isNaN(marker.lng));
-        if (validMarkers.length === 0) {
-            setDefaultCenter({ lat: 33.8, lng: -97.7 });
-            setDefaultZoom(10);
+        if (markers.length === 0) {
+            setZoom(10);
             return;
         }
 
-        const center = validMarkers.reduce((acc, marker) => ({
+        const center = markers.reduce((acc, marker) => ({
             lat: acc.lat + marker.lat,
             lng: acc.lng + marker.lng
         }), { lat: 0, lng: 0 });
 
-        center.lat /= validMarkers.length;
-        center.lng /= validMarkers.length;
-        setDefaultCenter(center);
-        setDefaultZoom(10);
+        center.lat /= markers.length;
+        center.lng /= markers.length;
+        setCenter(center);
+        setZoom(10);
     };
 
     const setupAccordion = (tripData, flights, lodgings, events) => {
@@ -222,12 +219,12 @@ function Trip() {
                 </div>
             </div>
             <div className="w-1/2 pl-8">
-            {defaultCenter && (
+            {center && (
                 <APIProvider apiKey={apiKey}>
                     <Map
                         style={{ width: '100%', height: '100%'}}
-                        defaultCenter={defaultCenter}
-                        defaultZoom={defaultZoom}
+                        center={center}
+                        zoom={zoom}
                     >
                     {mapMarkers.map((mapMarker, index) => {
                         return (
