@@ -11,7 +11,7 @@ function Dashboard() {
     const navigate = useNavigate();
     const [trips, setTrips] = useState([]);
     const [selectedTrips, setSelectedTrips] = useState([]);
-    const [activeButton, setActiveButton] = useState("upcoming");
+    const [activeButton, setActiveButton] = useState(localStorage.getItem('activeButton') || 'upcoming');
     const [mapMarkers, setMapMarkers] = useState([]);
 
 
@@ -63,6 +63,7 @@ function Dashboard() {
                 setActiveButton("all")
                 setSelectedTrips(trips);
         }
+        localStorage.setItem('activeButton', selection);
     }
 
     useEffect(() => {
