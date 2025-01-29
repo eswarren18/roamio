@@ -1,5 +1,6 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState, useRef } from 'react'
 import { ModalContext } from './ModalProvider'
+import { Autocomplete } from '@react-google-maps/api'
 
 function EditLodgingModal() {
     const { toggleModal, activityId } = useContext(ModalContext)
@@ -12,6 +13,18 @@ function EditLodgingModal() {
         check_out: "",
         trip_id: ""
     })
+
+    const addressAutocompleteRef = useRef(null);
+
+    const onAddressPlaceChanged = () => {
+        const place = addressAutocompleteRef.current.getPlace();
+        const address = place.formatted_address || '';
+
+        setFormData(prevState => ({
+            ...prevState,
+            address: address
+        }));
+    };
 
     const fetchLodging = async (e) => {
         try {
@@ -153,27 +166,32 @@ function EditLodgingModal() {
             </label>
           </div>
           <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="text"
-              name="address"
-              value={address}
-              onChange={handleFormChange}
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0
-                         border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0
-                         focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            />
-            <label
-              htmlFor="address"
-              className="peer-focus:font-medium absolute text-sm text-gray-500
-                         duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]
-                         peer-focus:left-0 peer-focus:text-blue-600
-                         peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
-                         peer-focus:scale-75 peer-focus:-translate-y-6"
+            <Autocomplete
+                onLoad={ref => addressAutocompleteRef.current = ref}
+                onPlaceChanged={onAddressPlaceChanged}
             >
-              Address<span className="text-red-500 text-xs">*</span>
-            </label>
+              <input
+                type="text"
+                name="address"
+                value={address}
+                onChange={handleFormChange}
+                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0
+                          border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0
+                          focus:border-blue-600 peer"
+                placeholder=" "
+                required
+              />
+              <label
+                htmlFor="address"
+                className="peer-focus:font-medium absolute text-sm text-gray-500
+                          duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]
+                          peer-focus:left-0 peer-focus:text-blue-600
+                          peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
+                          peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Address<span className="text-red-500 text-xs">*</span>
+              </label>
+            </Autocomplete>
           </div>
           <div className="flex space-x-4 mb-5">
             <div className="relative z-0 w-1/2 group">

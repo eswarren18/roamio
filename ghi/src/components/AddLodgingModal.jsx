@@ -1,8 +1,6 @@
 import { useContext, useState, useRef } from 'react';
 import { ModalContext } from './ModalProvider';
-import { useLoadScript, Autocomplete } from '@react-google-maps/api';
-
-const apiKey = import.meta.env.GOOGLE_API_KEY;
+import { Autocomplete } from '@react-google-maps/api';
 
 function AddLodgingModal() {
   const { toggleModal, activityId, tripData } = useContext(ModalContext);
@@ -14,20 +12,16 @@ function AddLodgingModal() {
     trip_id: activityId,
   });
 
-  // NEW - Autocomplete - 29 JAN 10:39
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: apiKey,
-    libraries: ['places'],
-  });
   const addressAutocompleteRef = useRef(null);
 
   const onAddressPlaceChanged = () => {
-    const place = addressAutocompleteRef.current.getPlace();
-    const address = place.formatted_address || '';
-    setFormData(prev => ({
-      ...prev,
-      address: address
-    }));
+      const place = addressAutocompleteRef.current.getPlace();
+      const address = place.formatted_address || '';
+
+      setFormData(prevState => ({
+          ...prevState,
+          address: address
+      }));
   };
 
   const handleFormChange = ({ target: { value, name } }) => {
@@ -86,8 +80,6 @@ function AddLodgingModal() {
 
   const { name, address, check_in, check_out } = formData;
 
-  if (!isLoaded) return <div>Loading...</div>;
-
   return (
     <div
       className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-20"
@@ -128,8 +120,8 @@ function AddLodgingModal() {
 
           <div className="relative z-0 w-full mb-5 group">
             <Autocomplete
-              onLoad={(autocomplete) => (addressAutocompleteRef.current = autocomplete)}
-              onPlaceChanged={onAddressPlaceChanged}
+                onLoad={ref => addressAutocompleteRef.current = ref}
+                onPlaceChanged={onAddressPlaceChanged}
             >
               <input
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"

@@ -8,6 +8,7 @@ import ModalProvider from './components/ModalProvider'
 import Dashboard from './components/Dashboard'
 import Home from './components/Home'
 import Trip from './components/Trip'
+import { GoogleMapsLoader } from './components/GoogleMapsLoader'
 
 import './index.css'
 
@@ -29,8 +30,16 @@ root.render(
                         <Routes>
                             <Route path="/" element={<App />}>
                                 <Route index element={<Home />} />
-                                <Route path="dashboard" element={<Dashboard />} />
-                                <Route path="trip/:tripId" element={<Trip />} />
+                                <Route path="dashboard" element={
+                                    <GoogleMapsLoader>
+                                        <Dashboard />
+                                    </GoogleMapsLoader>
+                                } />
+                                <Route path="trip/:tripId" element={
+                                    <GoogleMapsLoader>
+                                        <Trip />
+                                    </GoogleMapsLoader>
+                                } />
                             </Route>
                         </Routes>
                     </ModalProvider>

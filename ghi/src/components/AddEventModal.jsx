@@ -1,8 +1,6 @@
-import { useContext, useEffect, useState, useRef } from 'react';
+import { useContext, useState, useRef } from 'react';
 import { ModalContext } from './ModalProvider';
-import { useLoadScript, Autocomplete } from '@react-google-maps/api'; // NEW - AUTOCOMPLETE
-
-const apiKey = import.meta.env.GOOGLE_API_KEY;
+import { Autocomplete } from '@react-google-maps/api'
 
 function AddEventModal() {
     const { toggleModal, activityId, tripData } = useContext(ModalContext);
@@ -18,16 +16,8 @@ function AddEventModal() {
         trip_id: activityId
     });
 
-    // NEW - AUTOCOMPLETE - 28 JAN 20:44
-    const { isLoaded } = useLoadScript({
-        googleMapsApiKey: apiKey,
-        libraries: ['places'],
-    });
-
-    // NEW - AUTOCOMPLETE
     const addressAutocompleteRef = useRef(null);
 
-    // NEW AUTOCOMPLETE
     const onAddressPlaceChanged = () => {
         const place = addressAutocompleteRef.current.getPlace();
         const address = place.formatted_address || '';
@@ -123,14 +113,11 @@ function AddEventModal() {
 
     const { name, start_date, end_date, start_time, end_time, address, description } = formData;
 
-    if (!isLoaded) return <div>Loading...</div>;
-
     return (
         <div
             className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-20"
             onClick={toggleModal}
         >
-            {/* Modal content */}
             <div
                 className="flex flex-col bg-white rounded-lg shadow-lg w-1/3 p-8"
                 onClick={(e) => e.stopPropagation()}
@@ -267,7 +254,7 @@ function AddEventModal() {
                     </div>
                     <div className="relative z-0 w-full mb-5 group">
                         <Autocomplete
-                            onLoad={(autocomplete) => (addressAutocompleteRef.current = autocomplete)}
+                            onLoad={ref => addressAutocompleteRef.current = ref}
                             onPlaceChanged={onAddressPlaceChanged}
                         >
                             <input
