@@ -40,7 +40,6 @@ function Trip() {
                 const combinedLatLngData = [...lodgingsData, ...eventsData];
 
                 let markers;
-                console.log(combinedLatLngData.length)
                 if (combinedLatLngData.length > 0) {
                     markers = await Promise.all(combinedLatLngData.map(activity => fetchLatLng(activity)));
                 } else {
@@ -48,7 +47,6 @@ function Trip() {
                     setCenter(tripLatLng);
                     setZoom(10);
                     markers = [];
-                    console.log("Inside the else block")
                 }
                 setMapMarkers(markers);
                 findCenterAndZoom(markers);
