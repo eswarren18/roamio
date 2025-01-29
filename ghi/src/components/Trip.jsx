@@ -212,12 +212,11 @@ function Trip() {
                         defaultCenter={defaultCenter}
                         defaultZoom={defaultZoom}
                     >
-                    { }
-                        {mapMarkers.map((mapMarker, index) => {
-                            return (
-                                <Marker key={index} position={mapMarker} />
-                            )
-                        })}
+                    {mapMarkers.map((mapMarker, index) => {
+                        return (
+                            <Marker key={index} position={mapMarker} />
+                        )
+                    })}
                     </Map>
                 </APIProvider>
             )}
