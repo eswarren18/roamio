@@ -23,10 +23,10 @@ function Trip() {
     const fetchTripData = async () => {
         try {
             const [tripRes, flightsRes, lodgingsRes, eventsRes] = await Promise.all([
-                fetch(`http://localhost:8000/api/trips/${tripId}`, { credentials: "include", headers: {"Content-Type": "application/json"} }),
-                fetch(`http://localhost:8000/api/trips/${tripId}/flights`, { credentials: "include", headers: {"Content-Type": "application/json"} }),
-                fetch(`http://localhost:8000/api/trips/${tripId}/lodgings`, { credentials: "include", headers: {"Content-Type": "application/json"} }),
-                fetch(`http://localhost:8000/api/trips/${tripId}/events`, { credentials: "include", headers: {"Content-Type": "application/json"} })
+                fetch(`http://localhost:8000/api/trips/${tripId}`, { credentials: "include", headers: { "Content-Type": "application/json" } }),
+                fetch(`http://localhost:8000/api/trips/${tripId}/flights`, { credentials: "include", headers: { "Content-Type": "application/json" } }),
+                fetch(`http://localhost:8000/api/trips/${tripId}/lodgings`, { credentials: "include", headers: { "Content-Type": "application/json" } }),
+                fetch(`http://localhost:8000/api/trips/${tripId}/events`, { credentials: "include", headers: { "Content-Type": "application/json" } })
             ]);
 
             if (tripRes.ok && flightsRes.ok && lodgingsRes.ok && eventsRes.ok) {
@@ -42,15 +42,16 @@ function Trip() {
 
                 let markers;
                 if (combinedLatLngData.length > 0) {
-                    markers = await Promise.all(combinedLatLngData.map( (activity)=> {
-                        return fetchLatLng(activity)
-                    }));
+                    markers = await Promise.all(combinedLatLngData.map(activity => fetchLatLng(activity)));
                 } else {
-                    const marker = fetchLatLng({ address: `${tripData.city}, ${tripData.country}` });
-                    markers = [marker]
+                    const tripLatLng = await fetchLatLng({ address: `${tripData.city}, ${tripData.country}` });
+                    setDefaultCenter(tripLatLng);
+                    setDefaultZoom(10);
+                    markers = [];
+                    return;
                 }
-                setMapMarkers(markers)
-                findCenterAndZoom(markers)
+                setMapMarkers(markers.filter(marker => marker && !isNaN(marker.lat) && !isNaN(marker.lng)));
+                findCenterAndZoom(markers);
             }
         } catch (e) {
             console.error(e);
@@ -59,32 +60,48 @@ function Trip() {
 
     const fetchLatLng = async (activity) => {
         try {
-                const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${activity.address}&key=${apiKey}`)
-                if (response.ok) {
-                    const data = await response.json();
+            const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${activity.address}&key=${apiKey}`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data.results.length > 0) {
                     return data.results[0].geometry.location;
+                } else {
+                    console.error(`No results found for address: ${activity.address}`);
+                    return { lat: 0, lng: 0 };
                 }
-            } catch(e) {
-            console.error(e)
+            } else {
+                console.error(`Failed to fetch geocode data for address: ${activity.address}`);
+            }
+        } catch(e) {
+            console.error(`Error fetching geocode data for address: ${activity.address}`, e);
         }
+        return { lat: 0, lng: 0 };
     }
 
     const findCenterAndZoom = (markers) => {
         if (markers.length === 0) {
-            setDefaultCenter({lat: 33.8, lng: -97.7});
+            setDefaultCenter({ lat: 33.8, lng: -97.7 });
+            setDefaultZoom(10);
             return;
         }
 
-        const center = markers.reduce((acc, marker) => ({
+        const validMarkers = markers.filter(marker => marker && !isNaN(marker.lat) && !isNaN(marker.lng));
+        if (validMarkers.length === 0) {
+            setDefaultCenter({ lat: 33.8, lng: -97.7 });
+            setDefaultZoom(10);
+            return;
+        }
+
+        const center = validMarkers.reduce((acc, marker) => ({
             lat: acc.lat + marker.lat,
             lng: acc.lng + marker.lng
         }), { lat: 0, lng: 0 });
 
-        center.lat /= markers.length;
-        center.lng /= markers.length;
+        center.lat /= validMarkers.length;
+        center.lng /= validMarkers.length;
         setDefaultCenter(center);
         setDefaultZoom(10);
-    }
+    };
 
     const setupAccordion = (tripData, flights, lodgings, events) => {
         const startDate = new Date(tripData.start_date);
