@@ -305,16 +305,18 @@ function EditEventModal() {
                             onLoad={ref => addressAutocompleteRef.current = ref}
                             onPlaceChanged={onAddressPlaceChanged}
                         >
-                            <input
-                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                id="address"
-                                name="address"
-                                onChange={handleFormChange}
-                                placeholder=" "
-                                type="text"
-                                value={address}
-                                required
-                            />
+                            <div>
+                                <input
+                                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                    id="address"
+                                    name="address"
+                                    onChange={handleFormChange}
+                                    placeholder=" "
+                                    type="text"
+                                    value={address}
+                                    required
+                                />
+                            </div>
                         </Autocomplete>
                         <label
                             htmlFor="address"
