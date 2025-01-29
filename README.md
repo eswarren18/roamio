@@ -1,86 +1,132 @@
-# Roamio
-*Plan, Explore, Enjoy!* <br>
-*Where Adventure Meets Simplicity!* <br>
+<!-- Roamio: A Project by Eric Warren, Gregory Reinis & David Iukuridze MMXXV-->
+<h2 style="display: inline; font-size: 3em;">Roamio</h2>
+<span style="font-size: 1.2em; font-style: italic; padding-left: 30px;">Where Adventure Meets Simplicity!</span>
 
-<br>
+<br><br>
 
-## Developers
-**Eric Warren**<br>
-LinkedIn: https://www.linkedin.com/in/eric-warren-b-s-9074b661/ <br>
-GitLab: https://gitlab.com/eswarren18<br>
-
-**David Iukuridze**<br>
-LinkedIn: https://www.linkedin.com/in/david-iukuridze/ <br>
-GitLab: https://gitlab.com/davidiukuridze <br>
-
-**Gregory Reinis** <br>
-LinkedIn: https://www.linkedin.com/in/gregoryreinis/ <br>
-GitLab: https://gitlab.com/GReinis <br>
-Email: Reinis.Gregory@gmail.com <br>
+<h3 style="display: inline; font-size: 2em; margin-bottom: 0.3em;">Developers</h3>
 
 ---
+
+<div style="margin-left: 20px;">
+
+  <div style="margin-bottom: 15px;">
+    <strong style="font-size:1.2em;">Eric Warren</strong><br>
+    <a href="https://www.linkedin.com/in/eric-warren-b-s-9074b661/" style="color:#0077b5; text-decoration: none;">LinkedIn</a> |
+    <a href="https://gitlab.com/eswarren18" style="color:#fc6d26; text-decoration: none;">GitLab</a>
+  </div>
+
+  <div style="margin-bottom: 15px;">
+    <strong style="font-size:1.2em;">David Iukuridze</strong><br>
+    <a href="https://www.linkedin.com/in/david-iukuridze/" style="color:#0077b5; text-decoration: none;">LinkedIn</a> |
+    <a href="https://gitlab.com/davidiukuridze" style="color:#fc6d26; text-decoration: none;">GitLab</a>
+  </div>
+
+  <div style="margin-bottom: 15px;">
+    <strong style="font-size:1.2em;">Gregory Reinis</strong><br>
+    <a href="https://www.linkedin.com/in/gregoryreinis/" style="color:#0077b5; text-decoration: none;">LinkedIn</a> |
+    <a href="https://gitlab.com/GReinis" style="color:#fc6d26; text-decoration: none;">GitLab</a> |
+    <a href="mailto:Reinis.Gregory@gmail.com" style="color:#D44638; text-decoration: none;">Email</a>
+  </div>
+
+</div>
 
 <br>
 
 ## Project Description <br>
-Roamio is your simple solution for planning your next trip! With a beautiful interface and simple GUI, users will find Roamio to be both functional and light-weight.
-On a technical level, <br>
-Roamio utilizes FastAPI endpoints, with a PostgreSQL database. The frontend is constructed with React.js with TailwindCSS styling throughout.
+Roamio is your simple solution for planning your next trip! With a beautiful interface and simple GUI, users will find Roamio to be both functional and light-weight!  Designed with a sleek and intuitive interface, Roamio offers travelers a seamless experience for organizing trips, exploring destinations, and managing itineraries. Whether you're a casual traveler or a seasoned explorer, Roamio provides the tools you need to create memorable journeys effortlessly. <br>
+
+**Key Features**
+---
+   - Trip Planning: Create and customize detailed trip itineraries, including destinations, activities, and schedules.
+   - Destination Explorer: Discover new places with comprehensive information, images, and user reviews.
+   - User Authentication: Secure sign-up and login functionalities to protect user data and personalize experiences.
+   - Real-time Updates: Receive timely notifications and updates about your trips and bookings.
+   - Responsive Design: Enjoy a consistent and optimized experience across desktop and mobile devices.
 
 
+**Technical Overview**
+---
+*Roamio is built with a modern and scalable technology stack, ensuring high performance and maintainability*:
+  - **Frontend**: Developed using React.js with Vite for fast bundling and optimized performance. The user interface is styled with TailwindCSS, providing a flexible and aesthetically pleasing design.
+  - **Backend**: Powered by FastAPI, delivering high-performance RESTful API endpoints that facilitate efficient communication between the frontend and backend services.
+  - **Database**: Utilizes PostgreSQL for reliable and scalable data storage, supporting complex queries and ensuring data integrity.
+  - **Containerization**: The entire application is containerized using Docker, enabling consistent environments across development, testing, and production. This facilitates easy deployment and scalability.
 
+**Architecture**
+---
+*Roamio follows a modular architecture, separating concerns between the frontend and backend to enhance scalability and maintainability*:
+  - **Frontend**: The React.js application communicates with the FastAPI backend through defined API endpoints. TailwindCSS ensures a cohesive and responsive design across all components.
+  - **Backend**: FastAPI handles business logic, processes API requests, and interacts with the PostgreSQL database to manage data operations.
+  - **Database**: PostgreSQL serves as the primary data store, managing user information, trip details, and other essential data securely and efficiently.
+  - **Docker**: Docker containers encapsulate each component, ensuring that the application runs consistently across different environments and simplifying the deployment process.
 
 
 ## Tech Stack
-![A collage of various tech logos](./techstack_collage_438.png) <br>
-**FastAPI** <br>
-**Vite** <br>
-**Docker** <br>
-**React.js** <br>
-**PostgreSQL** <br>
-**JavaScript** <br>
-**TailwindCSS** <br>
-**Python** <br>
-**HTML5** <br>
-**CSS**<br>
-
-## "Building the App" Enter Wireframing + general history
-
-## How To Run This App - "Getting Started?"
- *Downloading The Roamio Repository* <br>
-In the directory where you want Roamio to live, run:<br>
-```
-git clone https://gitlab.com/man-down/roamio.git
-```
+<div align="center" style="background-color: #f9f9f9; color: black; padding: 20px; border-radius: 5px;">
+  <strong>FastAPI</strong> | <strong>Vite</strong> | <strong>Docker</strong> | <strong>React.js</strong> |
+  <strong>PostgreSQL</strong> | <strong>JavaScript</strong> | <strong>TailwindCSS</strong> |
+  <strong>Python</strong> | <strong>HTML5</strong> | <strong>CSS</strong> <br>
+  <img src="./techstack_collage_438.png" alt="Tech Stack Image" style="margin-top: 15px; max-width: 100%; height: auto;" />
+</div>
 <br>
-You now have your own Roamio! Navigate to your new Roamio directory:<br>
-
-```bash
-cd Roamio
-```
-
 <br>
 
-**Start Docker Desktop**  <br>
-Make sure Docker Desktop is installed and running on your machine before proceeding.<br>
-    *If you’re on Windows or macOS, launch Docker Desktop from <br>
-      your applications. On Linux, ensure the Docker daemon is running.*<br>
-<br>
-Now run:
-```
-docker volume create beta-data
-docker-compose build
-docker-compose up
-```
+# Getting Started with Roamio
 
-<br>
+<div style="background-color: #f9f9f9; padding: 20px; border-radius: 5px; color: black;">
 
-Finally, <br>
-Navigate to http://localhost:5173/ in your web browser <br>
+<p>Welcome to <strong>Roamio</strong>! Follow the steps below to set up and run the application on your local machine.</p>
 
-### Congrations! You're free to now experience Roamio!
+<h3>1. Clone the Repository</h3>
 
-<br>
+<p>First, clone the Roamio repository to your desired directory:</p>
+
+<pre><code class="bash">git clone https://gitlab.com/man-down/roamio.git</code></pre>
+
+<p>Navigate to the newly cloned directory:</p>
+
+<pre><code class="bash">cd Roamio</code></pre>
+
+<h3>2. Install and Start Docker</h3>
+
+<p>Ensure that <strong>Docker Desktop</strong> is installed and running on your machine before proceeding.</p>
+
+<ul>
+  <li><strong>Windows/macOS:</strong> Launch Docker Desktop from your applications menu.</li>
+  <li><strong>Linux:</strong> Make sure the Docker daemon is running. You can start it using:</li>
+</ul>
+
+<pre><code class="bash">sudo systemctl start docker</code></pre>
+
+<h3>3. Build and Run the Application</h3>
+
+<p>Create a Docker volume:</p>
+
+<pre><code class="bash">docker volume create beta-data</code></pre>
+
+<p>Build the Docker containers:</p>
+
+<pre><code class="bash">docker-compose build</code></pre>
+
+<p>Start the application:</p>
+
+<pre><code class="bash">docker-compose up</code></pre>
+
+<h3>4. Access the Application</h3>
+
+<p>Once the containers are up and running, open your web browser and navigate to:</p>
+
+<p><a href="http://localhost:5173/" target="_blank">http://localhost:5173/</a></p>
+
+<h3>🎉 Congratulations!</h3>
+
+<p>You're all set! Enjoy exploring and using <strong>Roamio</strong>.</p>
+
+</div>
+
+---
+
 
 ## Usage & Features
 Roamio provides a streamlined way to plan and manage your trips!
@@ -90,7 +136,6 @@ Roamio provides a streamlined way to plan and manage your trips!
 - **Trip Management**: Set up and organize multiple trips, each containing its own itinerary.
 - **Event Scheduling**: Add and manage events, flights, and lodging details for each trip.
 - **Interactive Map**: Explore points of interest via an integrated Google Maps API, right inside the application.
-
 <br>
 
 ## FastAPI API Endpoints
@@ -415,6 +460,8 @@ Submit a PUT request to localhost:8000/api/lodgings/{lodging_id}
 true
 ```
 ---
+<br>
+<!-- old style -->
 
 ## Roadmap / Future Improvements
 **Features to be added include:**
@@ -424,94 +471,64 @@ Create an account profile, complete with capability for users to upload custom p
 - **Social Media Functionality**: Ability for users to message one another in an instant messanger, as well as capability to add other users to project, share comments on other user's events, and more!
 - **Secure Login with 0Auth**: Expanding our users' ability to log into Roamio with greater ease!
 
+<!-- with new CSS -->
 
 
-<br> <br> <br> <br> <br> <br>
-Documentation: 5%
+<div style="max-width: 800px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif;">
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px; color: white;">
+        <h2 style="margin: 0; font-size: 28px; text-align: center; margin-bottom: 20px;">Development Roadmap</h2>
+         <div style="background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 8px;">
+            <div style="margin-bottom: 25px;">
+                <h3 style="color: #ffffff; font-size: 20px; margin-bottom: 15px;">
+                    <span style="display: inline-block; background: #4CAF50; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; margin-right: 10px;">1</span>
+                    Expanded User Account Functionality
+                </h3>
+                <p style="margin: 0 0 0 34px; line-height: 1.6;">Create an account profile, complete with capability for users to upload custom profile pictures!</p>
+            </div>
+            <div style="margin-bottom: 25px;">
+                <h3 style="color: #ffffff; font-size: 20px; margin-bottom: 15px;">
+                    <span style="display: inline-block; background: #2196F3; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; margin-right: 10px;">2</span>
+                    Expanded Map Functionality
+                </h3>
+                <p style="margin: 0 0 0 34px; line-height: 1.6;">Adding new features to our maps that include driving directions, air quality, weather, driving directions, ability to detect user location, and more!</p>
+            </div>
+            <div style="margin-bottom: 25px;">
+                <h3 style="color: #ffffff; font-size: 20px; margin-bottom: 15px;">
+                    <span style="display: inline-block; background: #FF9800; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; margin-right: 10px;">3</span>
+                    Social Media Functionality
+                </h3>
+                <p style="margin: 0 0 0 34px; line-height: 1.6;">Ability for users to message one another in an instant messanger, as well as the capability to add other users to project, share comments on other user's events, and more!</p>
+            </div>
+            <div>
+                <h3 style="color: #ffffff; font-size: 20px; margin-bottom: 15px;">
+                    <span style="display: inline-block; background: #E91E63; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; margin-right: 10px;">4</span>
+                    Secure Login with OAuth
+                </h3>
+                <p style="margin: 0 0 0 34px; line-height: 1.6;">Expanding our users' ability to log into Roamio with greater ease!</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-The README.md file for the project and associated files in your docs directory should accurately represent what the application is, what it does, how it's built, what the future of the application would be, have correct spelling and grammar. This is also something that hiring managers will look at, so do it right for them (and for this grade). Here's an example of a very nice README.md
 
-## Install Extensions
-
--   Prettier: <https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode>
--   Black Formatter: <https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter>
-
-## Deliverables
-
--   [ ] Wire-frame diagrams
--   [ ] API documentation
--   [ ] Project is deployed to Caprover (BE, DB) & GitLab-pages (FE)
--   [ ] GitLab issue board is setup and in use (or project management tool of choice)
--   [ ] Journals
-
-
-### Directories
-
-Several directories have been added to your project. The
-directories `docs` and `journals` are places for you and
-your team-mates to, respectively, put any documentation
-about your project that you create and to put your
-project-journal entries. See the _README.md_ file in each
-directory for more info.
-
-
--   `.gitlab-ci.yml`: This is your "ci/cd" file where you will
-    configure automated unit tests, code quality checks, and
-    the building and deployment of your production system.
-    Currently, all it does is deploy an "under construction"
-    page to your production UI on GitLab and a sample backend
-    to CapRover. We will learn much more about this file.
-
-### Installing python dependencies locally
-
-In order for VSCode's built in code completion and intelligence to
-work correctly, it needs the dependencies from the requirements.txt file
-installed. We do this inside docker, but not in the workspace.
-
-So we need to create a virtual environment and pip install the requirements.
-
-From inside the `api` folder:
-
-```bash
-python -m venv .venv
-```
-
-Then activate the virtual environment
-
-```bash
-source .venv/bin/activate
-```
-
-And finally install the dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-Then make sure the venv is selected in VSCode by checking the lower right of the
-VSCode status bar
-
-### Setup GitLab repo/project
-
--   make sure this project is in a group. If it isn't, stop
-    now and move it to a GitLab group
--   remove the fork relationship: In GitLab go to:
-
-    Settings -> General -> Advanced -> Remove fork relationship
-
--   add these GitLab CI/CD variables:
-    -   PUBLIC_URL : this is your gitlab pages URL
-    -   VITE_APP_API_HOST: enter "blank" for now
-
-#### Your GitLab pages URL
-
-You can't find this in GitLab until after you've done a deploy
-but you can figure it out yourself from your GitLab project URL.
-
-If this is your project URL
-
-https://gitlab.com/GROUP_NAME/PROJECT_NAME
-
-then your GitLab pages URL will be
-
-https://GROUP_NAME.gitlab.io/PROJECT_NAME
+<div style="max-width: 800px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif;">
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px; color: white; text-align: center;">
+        <div style="background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 8px;">
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 20px;">
+                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">FastAPI</span>
+                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">Vite</span>
+                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">Docker</span>
+                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">React.js</span>
+                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">PostgreSQL</span>
+                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">JavaScript</span>
+                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">TailwindCSS</span>
+                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">Python</span>
+                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">HTML5</span>
+                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">CSS</span>
+            </div>
+            <div style="margin-top: 20px;">
+                <img src="./techstack_collage_438.png" alt="Tech Stack Image" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" />
+            </div>
+        </div>
+    </div>
+</div>
