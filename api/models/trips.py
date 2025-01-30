@@ -1,4 +1,4 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_validator
 from datetime import date
 
 
@@ -13,7 +13,7 @@ class TripIn(BaseModel):
     end_date: date
     trip_image: str
 
-    @validator("trip_image", pre=True, always=True)
+    @field_validator("trip_image", mode="before")
     def set_default_trip_image(cls, value):
         if not value:
             return "/passport-stamps.png"
