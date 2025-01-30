@@ -28,7 +28,7 @@ function Nav() {
     useEffect(() => {},[isLoggedIn]);
 
     return ( isLoggedIn && (
-        <nav id="nav" className="bg-cyan-100 text-cyan-900 py-4 px-6 shadow-2xl font-sans">
+        <nav id="nav" className="fixed top-0 left-0 w-full bg-cyan-100 text-cyan-900 py-4 px-6 shadow-2xl font-sans z-50">
             <div className="max-w-7xl mx-auto flex items-center justify-between">
                 <div className="flex items-center">
                     <div className="flex justify-center items-center">
