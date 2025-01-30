@@ -13,7 +13,7 @@ export default function Accordion({ header, content }) {
                         <div className="flex flex-col bg-gray-50 text-gray-500 rounded-lg py-2 px-4 w-full">
                             <div className="font-bold text-2xl mb-2 text-black">{activity.name}</div>
                             <div className="flex">
-                                <div className="w-2/5 flex flex-col justify-between h-full">
+                                <div className="w-2/5 flex flex-col justify-between h-full mr-2">
                                     <div>{activity.address}</div>
                                     <div className="mt-2 p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">
                                         {new Date(activity.start_date_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}

@@ -165,7 +165,7 @@ function Trip() {
         <div className="flex flex-row h-[calc(100vh-4rem)] w-full">
             <div className="w-4/12 flex flex-col h-full drop-shadow-[0_50px_50px_rgba(0,0,0,0.55)] z-10">
                 <div className="relative h-60 group">
-                    <img className="object-cover w-full h-full rounded-lg" src={trip.trip_image}></img>
+                    <img className="object-cover w-full h-full" src={trip.trip_image}></img>
                     <div className="absolute top-0 left-0 w-full h-full flex justify-between items-end bg-gradient-to-t from-black/80 to-transparent p-4 rounded-t-lg rounded-b-lg">
                         <div className="flex flex-col text-cyan-100">
                             <h1 className="font-bold text-6xl">{trip.title}</h1>
@@ -185,7 +185,7 @@ function Trip() {
                         </div>
                     </div>
                 </div>
-                <div className="scrollbar-hidden px-4 rounded-lg bg-cyan-100 text-cyan-900 flex-grow overflow-x-hidden">
+                <div className="scrollbar-hidden px-4 bg-cyan-100 text-cyan-900 flex-grow overflow-x-hidden">
                     <div className="flex justify-between items-center">
                         <div className="py-4 font-bold text-4xl">Trip Itinerary</div>
                         <div className="relative inline-block group z-10">

@@ -28,23 +28,19 @@ function SignInModal() {
             className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-20"
             onClick={toggleModal}
         >
-            {/* Modal content */}
             <div
-                className="flex flex-col bg-white rounded-lg shadow-lg w-1/3 p-8"
+                className="flex flex-col items-center bg-white rounded-lg shadow-lg w-1/3 p-6"
                 onClick={(e) => e.stopPropagation()}
             >
-                <button
-                    onClick={toggleModal}
-                    className="flex justify-end"
-                >
+                <button onClick={toggleModal} className="self-end">
                     <img src="/public/x-icon.svg" alt="Cancel" className="w-8 h-8" />
                 </button>
-                <div className="text-center text-4xl font-bold mb-6">Sign In</div>
+                <div className="text-4xl font-bold mb-6">Log In</div>
                 <form
                     onSubmit={handleFormSubmit}
-                    className="flex flex-col w-4/5 mx-auto"
+                    className="flex flex-col w-5/6"
                 >
-                    <div className="relative z-0 w-full mb-5 group">
+                    <div className="relative z-0 w-full mb-5">
                         <input
                             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             id="username"
@@ -63,7 +59,7 @@ function SignInModal() {
                             <span className="text-red-500 text-xs">*</span>
                         </label>
                     </div>
-                    <div className="relative z-0 w-full mb-5 group">
+                    <div className="relative z-0 w-full mb-5">
                         <input
                             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             id="password"
@@ -82,7 +78,7 @@ function SignInModal() {
                             <span className="text-red-500 text-xs">*</span>
                         </label>
                     </div>
-                    <button type="submit">Sign In</button>
+                    <button className="hover:underline" type="submit">Log In</button>
                 </form>
             </div>
         </div>

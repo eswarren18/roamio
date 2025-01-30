@@ -291,6 +291,7 @@ function EditTripModal() {
                         </label>
                     </div>
                     <button
+                        className="hover:underline"
                         type="submit"
                     >
                         Update

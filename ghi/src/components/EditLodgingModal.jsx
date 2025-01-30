@@ -241,7 +241,7 @@ function EditLodgingModal() {
               </label>
             </div>
           </div>
-          <button type="submit">Update</button>
+          <button className="hover:underline" type="submit">Update</button>
                 </form>
             </div>
         </div>
