@@ -162,36 +162,32 @@ function Trip() {
     useEffect(() => {fetchTripData()},[location.pathname, toggleModal]);
 
     return (
-        <div className="flex flex-row m-8">
-            <div className="w-1/2">
-                <div className="relative mb-4 h-60 group">
-                    <img className="object-cover w-full h-full rounded-lg" src={trip.trip_image}></img>
-                    <div className="flex flex-row justify-between">
-                        <div className="absolute top-0 left-0 w-full h-full flex justify-between items-end bg-gradient-to-t from-black/80 to-transparent p-4 rounded-t-lg rounded-b-lg overflow-hidden">
-                            <div className="flex flex-col text-cyan-100">
-                                <h1 className="font-bold text-6xl">{trip.title}</h1>
-                                <p className="text-cyan-100">{trip.start_date} - {trip.end_date}</p>
-                            </div>
-                            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <button
-                                    onClick={() => toggleModal({form:"EditTripModal", data:tripData, id:tripId})}
-                                >
-                                    <img src="/public/edit-icon-100.svg" alt="Edit" className="w-10 h-10" />
-                                </button>
-                                <button
-                                    onClick={() => toggleModal({form:"DeleteActivityModal", id:tripId, type:"trips"})}
-                                >
-                                    <img src="/public/delete-icon-100.svg" alt="Delete" className="w-10 h-10" />
-                                </button>
-                            </div>
+        <div className="flex flex-row h-[calc(100vh-4rem)] w-full">
+            <div className="w-4/12 flex flex-col h-full drop-shadow-[0_50px_50px_rgba(0,0,0,0.55)] z-10">
+                <div className="relative h-60 group">
+                    <img className="object-cover w-full h-full" src={trip.trip_image}></img>
+                    <div className="absolute top-0 left-0 w-full h-full flex justify-between items-end bg-gradient-to-t from-black/80 to-transparent p-4 rounded-t-lg rounded-b-lg">
+                        <div className="flex flex-col text-cyan-100">
+                            <h1 className="font-bold text-6xl">{trip.title}</h1>
+                            <p className="text-cyan-100">{trip.start_date} - {trip.end_date}</p>
+                        </div>
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button
+                                onClick={() => toggleModal({form:"EditTripModal", data:tripData, id:tripId})}
+                            >
+                                <img src="/public/edit-icon-100.svg" alt="Edit" className="w-10 h-10" />
+                            </button>
+                            <button
+                                onClick={() => toggleModal({form:"DeleteActivityModal", id:tripId, type:"trips"})}
+                            >
+                                <img src="/public/delete-icon-100.svg" alt="Delete" className="w-10 h-10" />
+                            </button>
                         </div>
                     </div>
                 </div>
-                <div className="px-4 rounded-lg bg-cyan-100 text-cyan-900">
+                <div className="scrollbar-hidden px-4 bg-cyan-100 text-cyan-900 flex-grow overflow-x-hidden">
                     <div className="flex justify-between items-center">
-                        <div className="py-4 font-bold text-4xl">
-                            Trip Itinerary
-                        </div>
+                        <div className="py-4 font-bold text-4xl">Trip Itinerary</div>
                         <div className="relative inline-block group z-10">
                             <div className="flex items-center bg-cyan-100 text-cyan-900 cursor-pointer">
                                 <span className="text-3xl mr-1">+</span>
@@ -229,22 +225,23 @@ function Trip() {
                     ))}
                 </div>
             </div>
-            <div className="w-1/2 pl-8">
-            {center && (
-                <APIProvider apiKey={apiKey}>
-                    <Map
-                        style={{ width: '100%', height: '100%'}}
-                        defaultCenter={center}
-                        defaultZoom={zoom}
-                    >
-                    {mapMarkers.map((mapMarker, index) => {
-                        return (
-                            <Marker key={index} position={mapMarker} />
-                        )
-                    })}
-                    </Map>
-                </APIProvider>
-            )}
+
+            <div className="w-8/12 h-full sticky top-0">
+                {center && (
+                    <APIProvider apiKey={apiKey}>
+                        <Map
+                            style={{ width: '100%', height: '100%'}}
+                            defaultCenter={center}
+                            defaultZoom={zoom}
+                        >
+                        {mapMarkers.map((mapMarker, index) => {
+                            return (
+                                <Marker key={index} position={mapMarker} />
+                            )
+                        })}
+                        </Map>
+                    </APIProvider>
+                )}
             </div>
         </div>
     )

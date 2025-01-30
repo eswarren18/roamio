@@ -291,8 +291,7 @@ function AddEventModal() {
                         >
                         </textarea>
                     </div>
-
-                    <button type="submit">Create</button>
+                    <button className="hover:underline" type="submit">Create</button>
                 </form>
             </div>
         </div>

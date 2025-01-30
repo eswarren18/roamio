@@ -29,24 +29,27 @@ function AddLodgingModal() {
       const newFormData = { ...prevData, [name]: value };
       const dates = Object.keys(tripData);
 
-      if (newFormData.check_in < dates[0] || newFormData.check_in > dates[dates.length - 1]) {
-        newFormData.check_in = "";
-      }
-      if (newFormData.check_out < dates[0] || newFormData.check_out > dates[dates.length - 1]) {
-        newFormData.check_out = "";
-      }
+      const newStartDate = newFormData.check_in.split('T')[0]
+      const newStartTime = newFormData.check_in.split('T')[1]
+      const newEndDate = newFormData.check_out.split('T')[0]
+      const newEndTime = newFormData.check_out.split('T')[1]
 
-      if (name === 'check_in' || name === 'check_out') {
-        if (newFormData.check_out < newFormData.check_in) {
+      if (name === 'check_in') {
+        if (newFormData.check_in < dates[0] || newStartDate > dates[dates.length-1] ) {
+          newFormData.check_in = "";
+        }
+      }
+      if (name === 'check_out') {
+        if (newFormData.check_out < dates[0] || newEndDate > dates[dates.length-1] || newFormData.check_out < newFormData.check_in) {
           newFormData.check_out = "";
         }
-        if (newFormData.check_in === newFormData.check_out) {
-          if (name === 'check_out' && newFormData.check_out < newFormData.check_in) {
-            newFormData.check_out = "";
-          }
+      }
+      if (name === 'check_in' || name === 'check_out') {
+        if (newStartDate === newEndDate && newStartTime > newEndTime ) {
+          newFormData.check_out = "";
         }
       }
-      return newFormData;
+    return newFormData;
     });
   };
 
@@ -195,12 +198,7 @@ function AddLodgingModal() {
               </label>
             </div>
           </div>
-          <button
-            type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
-                     focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5
-                     text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
+          <button type="submit" className="hover:underline">
             Create
           </button>
         </form>

@@ -62,7 +62,7 @@ function EditFlightModal() {
             const tripStartDate = tripData.start_date
             const tripEndDate = tripData.end_date
 
-            if ( newFormData.departure_date < tripStartDate || newFormData.departure_date > tripEndDate) {
+            if (newFormData.departure_date > tripEndDate) {
                 newFormData.departure_date = ""
             }
             if ( newFormData.arrival_date < tripStartDate || newFormData.arrival_date > tripEndDate) {
@@ -254,7 +254,7 @@ function EditFlightModal() {
                             </label>
                         </div>
                     </div>
-                    <button type="submit">Update</button>
+                    <button className="hover:underline" type="submit">Update</button>
                 </form>
             </div>
         </div>

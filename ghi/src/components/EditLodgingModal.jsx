@@ -41,6 +41,7 @@ function EditLodgingModal() {
                 if (tripResponse.ok) {
                     const tripData = await tripResponse.json()
                     setTripData(tripData)
+
                 }
             }
         } catch(e) {
@@ -51,43 +52,38 @@ function EditLodgingModal() {
     useEffect(() => {
         fetchLodging() }, [])
 
-    const handleFormChange = ({ target }) => {
-        const { value, name } = target;
+    const handleFormChange = ({ target: { value, name } }) => {
+      setFormData((prevData) => {
+        console.log("check-in: ", formData.check_in,"check-out: ", formData.check_out)
+        const newFormData = { ...prevData, [name]: value };
+        const dates = Object.keys(tripData);
 
-        setFormData(prevState => {
-            const newFormData = { ...prevState, [name]: value };
-            const tripStartDate = tripData.start_date
-            const tripEndDate = tripData.end_date
+        const newStartDate = newFormData.check_in.split('T')[0]
+        const newStartTime = newFormData.check_in.split('T')[1]
+        const newEndDate = newFormData.check_out.split('T')[0]
+        const newEndTime = newFormData.check_out.split('T')[1]
 
-            if ( newFormData.check_in < tripStartDate || newFormData.check_in > tripEndDate) {
-                newFormData.check_in = ""
+        console.log("check-in: ", newStartDate,"check-out: ", newEndDate, "trip_start: ", tripData.start_date)
+        if (name === 'check_in') {
+            if (newStartDate < tripData.start_date || newStartDate > tripData.end_date ) {
+              newFormData.check_in = "";
+              console.log("1", newStartDate < dates[0], newStartDate > tripData.end_date)
             }
-
-            if ( newFormData.check_out < tripStartDate || newFormData.check_out > tripEndDate) {
-                newFormData.check_out = ""
+          }
+          if (name === 'check_out') {
+            if (newFormData.check_out < tripData.start_date || newEndDate > tripData.end_date || newFormData.check_out < newFormData.check_in) {
+            newFormData.check_out = "";
+            console.log("2")
             }
-
-            if (name === 'check_in' || name === 'check_out') {
-                if (newFormData.check_out < newFormData.check_in) {
-                    newFormData.end_date = "";
-                }
-                if (newFormData.check_out === newFormData.check_in && newFormData.check_out < newFormData.check_in) {
-                    newFormData.check_out = "";
-                }
-                if (newFormData.check_out < newFormData.check_in) {
-                    newFormData.check_out = "";
-                }
+          }
+          if (name === 'check_in' || name === 'check_out') {
+            if (newStartDate === newEndDate && newStartTime > newEndTime ) {
+              newFormData.check_out = "";
+              console.log("1")
             }
-
-            if (newFormData.check_in === newFormData.check_out) {
-                if (name === 'check_out' || name === 'check_in') {
-                    if (newFormData.check_out < newFormData.check_in) {
-                        newFormData.check_out = "";
-                    }
-                }
-            }
-            return newFormData;
-        });
+          }
+        return newFormData;
+      });
     };
 
     const handleFormSubmit = async (e) => {
@@ -245,7 +241,7 @@ function EditLodgingModal() {
               </label>
             </div>
           </div>
-          <button type="submit">Update</button>
+          <button className="hover:underline" type="submit">Update</button>
                 </form>
             </div>
         </div>

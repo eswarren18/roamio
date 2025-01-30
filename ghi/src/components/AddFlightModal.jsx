@@ -20,7 +20,7 @@ function AddFlightModal() {
             const newFormData = { ...prevState, [name]: value };
             const dates = Object.keys(tripData)
 
-            if ( newFormData.departure_date < dates[0] || newFormData.departure_date > dates[(dates.length)-1]) {
+            if (newFormData.departure_date > dates[(dates.length)-1]) {
                 newFormData.departure_date = ""
             }
             if ( newFormData.arrival_date < dates[0] || newFormData.arrival_date > dates[(dates.length)-1]) {
@@ -211,7 +211,7 @@ function AddFlightModal() {
                             </label>
                         </div>
                     </div>
-                    <button type="submit">Create</button>
+                    <button className="hover:underline" type="submit">Create</button>
                 </form>
             </div>
         </div>

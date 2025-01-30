@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 
@@ -19,6 +19,9 @@ if (!API_HOST) {
 function App() {
     const [launchInfo, setLaunchInfo] = useState()
     const [error, setError] = useState(null)
+    const location = useLocation()
+
+    const isHomePage = location.pathname === "/"
 
     useEffect(() => {
         async function getData() {
@@ -42,7 +45,9 @@ function App() {
     return (
         <>
             <Nav />
-            <Outlet />
+            <div className={isHomePage ? '' : "pt-16"}>
+                <Outlet />
+            </div>
             <ErrorNotification error={error} />
         </>
     )

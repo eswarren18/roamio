@@ -9,7 +9,7 @@ stages:
 # Run flake8 to check for code quality
 # And also optionally run unit tests
 tests:
-    image: python:3-10
+    image: python:3.10-bullseye
     stage: test
     script:
         - pip install flake8
@@ -18,6 +18,16 @@ tests:
         # - cd api
         # - pip install -r requirements.txt
         # - python -m pytest
+
+# Frontend lint tests
+# frontend-tests:
+#     image: node:lts-bullseye
+#     stage: test
+#     script:
+#         - cd ghi
+#         - npm install
+#         - npm run lint
+
 # # Build API Image:
 # # This job builds the API docker image and pushes it to the GitLab docker registry
 # # When this job finishes you will need to use the glv-cloud-cli reset command

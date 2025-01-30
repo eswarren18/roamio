@@ -55,7 +55,6 @@ function AddTripModal() {
         });
     };
 
-
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         try {
@@ -97,7 +96,7 @@ function AddTripModal() {
             onClick={toggleModal}
         >
             <div
-                className="flex flex-col bg-white rounded-lg shadow-lg w-1/3 p-8"
+                className="flex flex-col bg-white rounded-lg shadow-lg w-1/3 aspect-2/4 p-8"
                 onClick={(e) => e.stopPropagation()}
             >
                 <button
@@ -227,9 +226,7 @@ function AddTripModal() {
                             Enter Image URL
                         </label>
                     </div>
-                    <button
-                        type="submit"
-                    >
+                    <button className="hover:underline" type="submit">
                         Create Trip
                     </button>
                 </form>
