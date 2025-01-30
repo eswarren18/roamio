@@ -95,7 +95,20 @@ function Trip() {
         center.lat /= markers.length;
         center.lng /= markers.length;
         setCenter(center);
-        setZoom(10);
+
+        const latitudes = markers.map(m => m.lat);
+        const longitudes = markers.map(m => m.lng);
+        const latDiff = Math.max(...latitudes) - Math.min(...latitudes);
+        const lngDiff = Math.max(...longitudes) - Math.min(...longitudes);
+
+        let newZoom = 10;
+        if (latDiff > 10 || lngDiff > 10) newZoom = 4;
+        else if (latDiff > 5 || lngDiff > 5) newZoom = 6;
+        else if (latDiff > 2 || lngDiff > 2) newZoom = 8;
+        else if (latDiff > 0.5 || lngDiff > 0.5) newZoom = 10;
+        else newZoom = 12;
+
+        setZoom(newZoom);
     };
 
     const setupAccordion = (tripData, flights, lodgings, events) => {
@@ -221,8 +234,8 @@ function Trip() {
                 <APIProvider apiKey={apiKey}>
                     <Map
                         style={{ width: '100%', height: '100%'}}
-                        center={center}
-                        zoom={zoom}
+                        defaultCenter={center}
+                        defaultZoom={zoom}
                     >
                     {mapMarkers.map((mapMarker, index) => {
                         return (
