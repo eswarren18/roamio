@@ -9,7 +9,7 @@ function SignInModal() {
         const { toggleModal } = useContext(ModalContext)
         const [username, setUsername] = useState('')
         const [password, setPassword] = useState('')
-        const { signin, user, error } = useAuthService()
+        const { signin, user } = useAuthService()
         const navigate = useNavigate()
 
         async function handleFormSubmit(e) {
