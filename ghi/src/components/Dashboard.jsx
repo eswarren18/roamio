@@ -85,25 +85,23 @@ function Dashboard() {
     }, [trips]);
 
     return (
-            <div className="flex flex-col items-center m-8">
-                <div
-                    id="map"
-                    className="w-full"
-                >
-                    <APIProvider apiKey={apiKey}>
-                        <Map
-                            style={{ width: "100%", height: "400px" }}
-                            defaultCenter={{ lat: 40.7128, lng: -74.0060 }}
-                            defaultZoom={3}
-                        >
-                            {mapMarkers.map((mapMarker, index) => {
-                                return (
-                                    <Marker key={index} position={mapMarker} />
-                                )
-                            })}
-                        </Map>
-                    </APIProvider>
-                </div>
+        <>
+            <div id="map" className="w-full">
+                <APIProvider apiKey={apiKey}>
+                    <Map
+                        style={{ width: "100%", height: "500px" }}
+                        defaultCenter={{ lat: 40.7128, lng: -74.0060 }}
+                        defaultZoom={3}
+                    >
+                        {mapMarkers.map((mapMarker, index) => {
+                            return (
+                                <Marker key={index} position={mapMarker} />
+                            )
+                        })}
+                    </Map>
+                </APIProvider>
+            </div>
+            <div className="flex flex-col items-center m-8 mt-1">
                 <div
                     id="filter"
                     className="flex flex-wrap content-start mt-6 mb-2 w-1/8 text-xl font-medium text-cyan-100 border-b border-cyan-100"
@@ -184,7 +182,7 @@ function Dashboard() {
                     </button>
                 </div>
             </div>
-
+        </>
         );
     }
     export default Dashboard;

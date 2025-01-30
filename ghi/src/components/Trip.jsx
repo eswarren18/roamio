@@ -162,8 +162,8 @@ function Trip() {
     useEffect(() => {fetchTripData()},[location.pathname, toggleModal]);
 
     return (
-        <div className="flex flex-row m-8">
-            <div className="w-1/2">
+        <div className="flex flex-row m-8 h-screen">
+            <div className="w-1/2 flex flex-col">
                 <div className="relative mb-4 h-60 group">
                     <img className="object-cover w-full h-full rounded-lg" src={trip.trip_image}></img>
                     <div className="flex flex-row justify-between">
