@@ -37,12 +37,13 @@
 ## Project Description <br>
 Roamio is your simple solution for planning your next trip! With a beautiful interface and simple GUI, users will find Roamio to be both functional and light-weight!  Designed with a sleek and intuitive interface, Roamio offers travelers a seamless experience for organizing trips, exploring destinations, and managing itineraries. Whether you're a casual traveler or a seasoned explorer, Roamio provides the tools you need to create memorable journeys effortlessly. <br>
 
+![Wireframe Diagram for Roamio](./roamio_wireframes.png)
+
 **Key Features**
 ---
-   - Trip Planning: Create and customize detailed trip itineraries, including destinations, activities, and schedules.
+   - Trip Planning: Create and customize detailed trip itineraries, including destinations and activities.
    - Destination Explorer: Discover new places with comprehensive information, images, and user reviews.
-   - User Authentication: Secure sign-up and login functionalities to protect user data and personalize experiences.
-   - Real-time Updates: Receive timely notifications and updates about your trips and bookings.
+   - User Authentication: Secure signup and login functionalities to protect user data and personalize experiences.
    - Responsive Design: Enjoy a consistent and optimized experience across desktop and mobile devices.
 
 
@@ -78,7 +79,7 @@ Roamio is your simple solution for planning your next trip! With a beautiful int
 
 <p>Navigate to the newly cloned directory:</p>
 
-<pre><code class="bash">cd Roamio</code></pre>
+<pre><code class="bash">cd roamio</code></pre>
 
 <h3>2. Install and Start Docker</h3>
 
@@ -163,7 +164,6 @@ Submit a POST request to `localhost:8000/api/trips` <br>
 *A successful call will return the following:*
 ```
 {
-  {
   "id": 0,
   "title": "string",
   "country": "string",
@@ -172,7 +172,6 @@ Submit a POST request to `localhost:8000/api/trips` <br>
   "end_date": "2025-01-25",
   "trip_image": "string",
   "user_id": 0
-}
 }
 ```
 ---
