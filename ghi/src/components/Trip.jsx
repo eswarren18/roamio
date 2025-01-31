@@ -112,7 +112,7 @@ function Trip() {
         setZoom(newZoom);
     };
 
-    // Organizes the trip information and the associated flights, lodgings, and events
+    // Organizes db info for trip, flights, lodgings, and events to display in the accordion dropdown
     const setupAccordion = (tripData, flights, lodgings, events) => {
         const startDate = new Date(tripData.start_date);
         const endDate = new Date(tripData.end_date);
@@ -166,6 +166,7 @@ function Trip() {
     return (
         <div className="flex flex-row h-[calc(100vh-4rem)] w-full">
             <div className="w-4/12 flex flex-col h-full drop-shadow-[0_50px_50px_rgba(0,0,0,0.55)] z-10">
+                {/* Trip photo and info */}
                 <div className="relative h-60 group">
                     <img className="object-cover w-full h-full" src={trip.trip_image}></img>
                     <div className="absolute top-0 left-0 w-full h-full flex justify-between items-end bg-gradient-to-t from-black/80 to-transparent p-4 rounded-t-lg rounded-b-lg">
@@ -187,6 +188,7 @@ function Trip() {
                         </div>
                     </div>
                 </div>
+                {/* Trip itinerary */}
                 <div className="scrollbar-hidden px-4 bg-cyan-100 text-cyan-900 flex-grow overflow-x-hidden">
                     <div className="flex justify-between items-center">
                         <div className="py-4 font-bold text-4xl">Trip Itinerary</div>
@@ -227,7 +229,7 @@ function Trip() {
                     ))}
                 </div>
             </div>
-
+            {/* Google map from Maps JavaScript API */}
             <div className="w-8/12 h-full sticky top-0">
                 {center && (
                     <APIProvider apiKey={apiKey}>

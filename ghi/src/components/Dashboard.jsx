@@ -90,7 +90,7 @@ function Dashboard() {
 
     return (
         <div className="flex flex-col h-[calc(100vh-4rem)] w-full">
-            {/* Google map with trip markers */}
+            {/* Google map from Maps JavaScript API */}
             <div id="map" className="w-full h-[50vh]">
                 <APIProvider apiKey={apiKey}>
                     <Map

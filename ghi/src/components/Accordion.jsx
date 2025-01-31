@@ -1,10 +1,12 @@
 import { useState, useContext } from 'react';
 import { ModalContext } from './ModalProvider';
 
+// Accordion components are displayed on the users Trip page. One dropdown accordion component is displayed per date.
 export default function Accordion({ header, content }) {
     const [accordionOpen, setAccordionOpen] = useState(false)
     const { toggleModal } = useContext(ModalContext)
 
+    // Returns cards to the appropriately dated accordion component based on activity
     const parseContent = (activity) => {
         switch (activity.type) {
             case "event":
@@ -121,6 +123,7 @@ export default function Accordion({ header, content }) {
         }
     }
 
+    // Reformats the date for accordion components
     const parseDate = () => {
         const date = new Date(header);
         const options = {
@@ -145,14 +148,15 @@ export default function Accordion({ header, content }) {
     }
 
     return ( content.length === 0 ? (
+        // Header
         <div className="flex flex-col w-full border-t border-cyan-500 py-4 items-center">
             <div className="flex justify-between w-11/12">
                 <span className="text-xl">{parseDate()}</span>
                 <p className="flex items-start text-sm text-slate-400">No events planned</p>
             </div>
         </div>
-
     ) : (
+        // Dropdown
         <>
             <div
                 className="flex flex-col w-full border-t border-cyan-500 py-4 items-center cursor-pointer"
