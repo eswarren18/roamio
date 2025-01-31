@@ -2,6 +2,7 @@ import { useContext, useEffect, useState, useRef } from 'react'
 import { ModalContext } from './ModalProvider'
 import { Autocomplete } from '@react-google-maps/api'
 
+// The EditEventModal component handles the editing of event details
 function EditEventModal() {
     const { toggleModal, activityId } = useContext(ModalContext)
     const [ isMultipleDays, setIsMultipleDays ] = useState(false)
@@ -18,6 +19,7 @@ function EditEventModal() {
         trip_id: ""
     })
 
+    // Fetches the event data from the backend based on the activityId
     const fetchEvent = async () => {
         try {
             const response = await fetch(`http://localhost:8000/api/events/${activityId}`, {
@@ -61,8 +63,10 @@ function EditEventModal() {
     useEffect(() => {
         fetchEvent() }, [])
 
+    // Reference to handle the autocompelte functionality for the address input field
     const addressAutocompleteRef = useRef(null);
 
+    // Updates the address in formData when the place changes in t he address autocomplete field
     const onAddressPlaceChanged = () => {
         const place = addressAutocompleteRef.current.getPlace();
         const address = place.formatted_address || '';
@@ -73,6 +77,7 @@ function EditEventModal() {
         }));
     };
 
+    // Handles form input changes with additional checks for date and time field validity
     const handleFormChange = ({ target }) => {
         const { value, name } = target;
 
@@ -112,6 +117,7 @@ function EditEventModal() {
         });
     };
 
+    // Handles the form submission to update the event details
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         let start_date_time = ""

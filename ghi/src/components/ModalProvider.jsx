@@ -14,6 +14,7 @@ import EditTripModal from './EditTripModal';
 
 export const ModalContext = createContext(null)
 
+// ModalProvider componenet that provides modal state and logic to its children
 export default function ModalProvider({ children }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formType, setFormType] = useState("");
@@ -21,6 +22,7 @@ export default function ModalProvider({ children }) {
     const [activityId, setActivityId] = useState(0)
     const [activityType, setActivityType] = useState("");
 
+    // Function to toggle the modal open or closed, and set any additional form information
     const toggleModal = ({form = "", id = 0, data = null, type = ""}) => {
         setFormType(form)
         setTripData(data)
@@ -29,10 +31,9 @@ export default function ModalProvider({ children }) {
         setIsModalOpen((imo) => !imo);
     };
 
+    // Function to render the appropriate form based on the set formType
     const renderForm = () => {
         switch (formType) {
-            // case "SettingsForm":
-            //     return <SettingsForm toggleModal={() => toggleModal()} />;
             case "AddTripModal":
                 return <AddTripModal />;
             case "SignInModal":
@@ -61,6 +62,7 @@ export default function ModalProvider({ children }) {
         }
     };
 
+    // Provide the modal state and logic to child components
     return (
         <ModalContext.Provider value ={{ isModalOpen, toggleModal, tripData, activityType, activityId }}>
             {children}
