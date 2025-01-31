@@ -254,7 +254,7 @@ Submit a POST request to `localhost:8000/api/flights` <br>
 ---
 #### Get Flights
 ---
-Submit a PUT request to `localhost:8000/api/trips/{trip_id}/flights` <br>
+Submit a GET request to `localhost:8000/api/trips/{trip_id}/flights` <br>
 *A successful call will return the following:*
 ```
 [
@@ -284,7 +284,7 @@ Submit a PUT request to `localhost:8000/api/flights/{flight_id}` <br>
 ---
 #### Get Flight
 ---
-Submit a PUT request to `localhost:8000/api/flights/{flight_id}` <br>
+Submit a GET request to `localhost:8000/api/flights/{flight_id}` <br>
 *A successful call will return the following:*
 ```
 {
@@ -298,7 +298,7 @@ Submit a PUT request to `localhost:8000/api/flights/{flight_id}` <br>
 ---
 #### Delete Flight
 ---
-Submit a PUT request to `localhost:8000/api/flights/{flight_id}` <br>
+Submit a DELETE request to `localhost:8000/api/flights/{flight_id}` <br>
 *A successful call will return the following:*
 ```
 true
@@ -323,7 +323,7 @@ Submit a POST request to `localhost:8000/api/events` <br>
 ---
 #### Get Events
 ---
-Submit a POST request to `localhost:8000/api/trips/{trip_id}/events` <br>
+Submit a GET request to `localhost:8000/api/trips/{trip_id}/events` <br>
 *A successful call will return the following:*
 ```
 [
@@ -357,7 +357,7 @@ Submit a PUT request to `localhost:8000/api/events/{event_id}` <br>
 ---
 #### Get Event
 ---
-Submit a PUT request to `localhost:8000/api/events/{event_id}` <br>
+Submit a GET request to `localhost:8000/api/events/{event_id}` <br>
 *A successful call will return the following:*
 ```
 {
@@ -373,7 +373,7 @@ Submit a PUT request to `localhost:8000/api/events/{event_id}` <br>
 ---
 #### Delete Event
 ---
-Submit a PUT request to `localhost:8000/api/events/{event_id}` <br>
+Submit a DELETE request to `localhost:8000/api/events/{event_id}` <br>
 *A successful call will return the following:*
 ```
 true
@@ -445,7 +445,7 @@ Submit a GET request to `localhost:8000/api/lodgings/{lodging_id}` <br>
 ---
 #### Delete Lodging
 ---
-Submit a PUT request to `localhost:8000/api/lodgings/{lodging_id}` <br>
+Submit a DELETE request to `localhost:8000/api/lodgings/{lodging_id}` <br>
 *A successful call will return the following:*
 ```
 true
