@@ -8,6 +8,9 @@ export default function Accordion({ header, content }) {
     const parseContent = (activity) => {
         switch (activity.type) {
             case "event":
+                const startDateTime = new Date(activity.start_date_time);
+                const endDateTime = new Date(activity.end_date_time);
+                const sameDay = startDateTime.toDateString() === endDateTime.toDateString()
                 return (
                     <div className="flex w-11/12 justify-between relative group">
                         <div className="flex flex-col bg-gray-50 text-gray-500 rounded-lg py-2 px-4 w-full">
@@ -15,11 +18,20 @@ export default function Accordion({ header, content }) {
                             <div className="flex">
                                 <div className="w-2/5 flex flex-col justify-between h-full mr-2">
                                     <div>{activity.address}</div>
-                                    <div className="mt-2 p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">
-                                        {new Date(activity.start_date_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                        -
-                                        {new Date(activity.end_date_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                    </div>
+                                    {sameDay ? (
+                                            <div className="mt-2 p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">
+                                                <span>{startDateTime.toLocaleTimeString([], { month: "short", day: "2-digit", hour: '2-digit', minute: '2-digit' })}</span>
+                                                <span> - </span>
+                                                <span>{endDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                            </div>
+                                        ) : (
+                                            <div className="flex items-center mt-2 p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">
+                                                <span>{startDateTime.toLocaleTimeString([], { month: "short", day: "2-digit", hour: '2-digit', minute: '2-digit' })}</span>
+                                                <span className="mx-1"> - </span>
+                                                <span>{endDateTime.toLocaleTimeString([], { month: "short", day: "2-digit", hour: '2-digit', minute: '2-digit' })}</span>
+                                            </div>
+                                        )
+                                    }
                                 </div>
                                 <div className="w-3/5 border-l border-black pl-2">
                                     <div>Description:</div>
