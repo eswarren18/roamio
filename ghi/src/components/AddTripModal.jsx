@@ -28,33 +28,16 @@ function AddTripModal() {
                 const endDate = new Date(prevState.end_date)
 
                 if (endDate < newStartDate) {
-                    target.setCustomValidity(
-                        'Start date cannot be after the end date.'
-                    )
-                    target.reportValidity()
-                    return prevState
-                } else {
-                    target.setCustomValidity('')
+                    newFormData.end_date = ""
                 }
-
-                newFormData.start_date = value
             } else if (name === 'end_date') {
                 const startDate = new Date(prevState.start_date)
                 const newEndDate = new Date(value)
 
                 if (newEndDate < startDate) {
-                    target.setCustomValidity(
-                        'End date cannot be before the start date.'
-                    )
-                    target.reportValidity()
-                    return prevState
-                } else {
-                    target.setCustomValidity('')
+                    newFormData.start_date = ""
                 }
-
-                newFormData.end_date = value
             }
-
             return newFormData
         })
     }
