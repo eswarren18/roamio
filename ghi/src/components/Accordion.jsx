@@ -16,7 +16,7 @@ export default function Accordion({ header, content }) {
                 return (
                     <div className="flex w-11/12 justify-between relative group">
                         <div className="flex flex-col bg-gray-50 text-gray-500 rounded-lg py-2 px-4 w-full">
-                            <div className="font-bold text-2xl mb-2 text-black">{activity.name}</div>
+                            <div className="font-bold text-2xl mb-1 text-black">{activity.name}</div>
                             <div>{activity.address}</div>
                             <div className="flex flex-col justify-between h-full mr-2">
                             <div>
@@ -24,16 +24,18 @@ export default function Accordion({ header, content }) {
                                 <div>{activity.description}</div>
                             </div>
                             {sameDay ? (
-                                    <div className="mt-2 p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">
-                                        <span>{startDateTime.toLocaleTimeString([], { month: "short", day: "2-digit", hour: '2-digit', minute: '2-digit' })}</span>
-                                        <span> - </span>
-                                        <span>{endDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                    <div className="mt-4">
+                                        {`${startDateTime.toLocaleDateString([], { month: "short", day: "2-digit" })} `}
+                                        <span className="p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">{startDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                        {" - "}
+                                        <span className="p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">{endDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                     </div>
                                 ) : (
-                                    <div className="flex items-center mt-2 p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">
-                                        <span>{startDateTime.toLocaleTimeString([], { month: "short", day: "2-digit", hour: '2-digit', minute: '2-digit' })}</span>
-                                        <span className="mx-1"> - </span>
-                                        <span>{endDateTime.toLocaleTimeString([], { month: "short", day: "2-digit", hour: '2-digit', minute: '2-digit' })}</span>
+                                    <div className="mt-4">
+                                        {`${startDateTime.toLocaleDateString([], { month: "short", day: "2-digit" })} `}
+                                        <span className="p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">{startDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                        {` - ${endDateTime.toLocaleDateString([], { month: "short", day: "2-digit" })} `}
+                                        <span className="p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">{endDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                     </div>
                                 )
                             }
@@ -53,7 +55,7 @@ export default function Accordion({ header, content }) {
                 return (
                     <div className="flex w-11/12 justify-between relative group">
                         <div className="flex flex-col bg-gray-50 text-gray-500 rounded-lg py-2 px-4 w-full">
-                            <div className="font-bold text-2xl mb-2 text-black">Flight</div>
+                            <div className="font-bold text-2xl mb-1 text-black">Flight</div>
                             <div>Flight Number: {activity.flight_number}</div>
                             <div className="mt-2 w-fit">
                                 <span className="mr-1">Departure:</span>
@@ -76,7 +78,7 @@ export default function Accordion({ header, content }) {
                 return (
                     <div className="flex w-11/12 justify-between relative group">
                         <div className="flex flex-col bg-gray-50 text-gray-500 rounded-lg py-2 px-4 w-full">
-                            <div className="font-bold text-2xl mb-2 text-black">Check-In</div>
+                            <div className="font-bold text-2xl mb-1 text-black">Check-In</div>
                             <div className="font-bold">{activity.name}</div>
                             <div>{activity.address}</div>
                             <div className="mt-2 p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">
@@ -97,7 +99,7 @@ export default function Accordion({ header, content }) {
                 return (
                     <div className="flex w-11/12 justify-between relative group">
                         <div className="flex flex-col bg-gray-50 text-gray-500 rounded-lg py-2 px-4 w-full">
-                            <div className="font-bold text-2xl mb-2 text-black">Check-Out</div>
+                            <div className="font-bold text-2xl mb-1 text-black">Check-Out</div>
                             <div className="font-bold">{activity.name}</div>
                             <div>{activity.address}</div>
                             <div className="mt-2 p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">
