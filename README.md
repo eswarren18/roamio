@@ -53,15 +53,6 @@ Roamio is your simple solution for planning your next trip! With a beautiful int
   - **Database**: Utilizes PostgreSQL for reliable and scalable data storage, supporting complex queries and ensuring data integrity.
   - **Containerization**: The entire application is containerized using Docker, enabling consistent environments across development, testing, and production. This facilitates easy deployment and scalability.
 
-**Architecture**
----
-*Roamio follows a modular architecture, separating concerns between the frontend and backend to enhance scalability and maintainability*:
-  - **Frontend**: The React.js application communicates with the FastAPI backend through defined API endpoints. TailwindCSS ensures a cohesive and responsive design across all components.
-  - **Backend**: FastAPI handles business logic, processes API requests, and interacts with the PostgreSQL database to manage data operations.
-  - **Database**: PostgreSQL serves as the primary data store, managing user information, trip details, and other essential data securely and efficiently.
-  - **Docker**: Docker containers encapsulate each component, ensuring that the application runs consistently across different environments and simplifying the deployment process.
-
-
 ## Tech Stack
 <div align="center" style="background-color: #f9f9f9; color: black; padding: 20px; border-radius: 5px;">
   <strong>FastAPI</strong> | <strong>Vite</strong> | <strong>Docker</strong> | <strong>React.js</strong> |
@@ -134,8 +125,8 @@ Roamio provides a streamlined way to plan and manage your trips!
 **Features include:**
 - **User Accounts**: Create a new account or sign in to an existing one.
 - **Trip Management**: Set up and organize multiple trips, each containing its own itinerary.
-- **Event Scheduling**: Add and manage events, flights, and lodging details for each trip.
-- **Interactive Map**: Explore points of interest via an integrated Google Maps API, right inside the application.
+- **Event Scheduling**: Add and manage Events, Flights, and Lodging details for each trip.
+- **Interactive Map**: Explore points of interest via an integrated Google Maps API, right inside the application!
 <br>
 
 ## FastAPI API Endpoints
@@ -463,10 +454,12 @@ true
 <br>
 
 
-## Roadmap / Future Improvements
+## Development Roadmap
 **Features to be added include:**
 - **Expanded User Account Functionality**:
 Create an account profile, complete with capability for users to upload custom profile pictures!
-- **Expanded Map Functionality**: Adding new features to our maps that include driving directions, air quality, weather, driving directions, ability to detect user location, and more!
-- **Social Media Functionality**: Ability for users to message one another in an instant messanger, as well as capability to add other users to project, share comments on other user's events, and more!
-- **Secure Login with 0Auth**: Expanding our users' ability to log into Roamio with greater ease!
+- **Expanded Map Functionality**: Adding new features to our maps that include driving directions, air quality, weather, the ability to detect user location and more!
+- **Social Media Functionality**: Ability for users to message one another in an instant messanger, as well as capability to add other users to project, share comments on other users' events, and more!
+- **Secure Login with 0Auth**: Expanding our users' ease in logging into Roamio!
+- **User Reviews and Ratings**: Allow users to rate and to review events and locations!
+- **AI-Powered Chat Assitanct**: Integrating a useful AI chat agent to help users plan their next vacation!
