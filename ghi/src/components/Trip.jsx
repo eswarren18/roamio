@@ -64,12 +64,9 @@ function Trip() {
                 if (data.results.length > 0) {
                     return data.results[0].geometry.location;
                 } else {
-                    console.error(`No results found for address: ${activity.address}`);
                     return { lat: 0, lng: 0 };
                 }
-            } else {
-                console.error(`Failed to fetch geocode data for address: ${activity.address}`);
-            }
+            } 
         } catch(e) {
             console.error(`Error fetching geocode data for address: ${activity.address}`, e);
         }

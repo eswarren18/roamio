@@ -53,15 +53,6 @@ Roamio is your simple solution for planning your next trip! With a beautiful int
   - **Database**: Utilizes PostgreSQL for reliable and scalable data storage, supporting complex queries and ensuring data integrity.
   - **Containerization**: The entire application is containerized using Docker, enabling consistent environments across development, testing, and production. This facilitates easy deployment and scalability.
 
-**Architecture**
----
-*Roamio follows a modular architecture, separating concerns between the frontend and backend to enhance scalability and maintainability*:
-  - **Frontend**: The React.js application communicates with the FastAPI backend through defined API endpoints. TailwindCSS ensures a cohesive and responsive design across all components.
-  - **Backend**: FastAPI handles business logic, processes API requests, and interacts with the PostgreSQL database to manage data operations.
-  - **Database**: PostgreSQL serves as the primary data store, managing user information, trip details, and other essential data securely and efficiently.
-  - **Docker**: Docker containers encapsulate each component, ensuring that the application runs consistently across different environments and simplifying the deployment process.
-
-
 ## Tech Stack
 <div align="center" style="background-color: #f9f9f9; color: black; padding: 20px; border-radius: 5px;">
   <strong>FastAPI</strong> | <strong>Vite</strong> | <strong>Docker</strong> | <strong>React.js</strong> |
@@ -134,15 +125,15 @@ Roamio provides a streamlined way to plan and manage your trips!
 **Features include:**
 - **User Accounts**: Create a new account or sign in to an existing one.
 - **Trip Management**: Set up and organize multiple trips, each containing its own itinerary.
-- **Event Scheduling**: Add and manage events, flights, and lodging details for each trip.
-- **Interactive Map**: Explore points of interest via an integrated Google Maps API, right inside the application.
+- **Event Scheduling**: Add and manage Events, Flights, and Lodging details for each trip.
+- **Interactive Map**: Explore points of interest via an integrated Google Maps API, right inside the application!
 <br>
 
 ## FastAPI API Endpoints
 ### Authentication
 #### Signup
 ---
-Submit a POST request to localhost:8000/api/auth/signup <br>
+Submit a POST request to `localhost:8000/api/auth/signup` <br>
 *A successful call will return the following:*
 ```
 {
@@ -153,7 +144,7 @@ Submit a POST request to localhost:8000/api/auth/signup <br>
 ---
 #### Signin
 ---
-Submit a POST request to localhost:8000/api/auth/signin <br>
+Submit a POST request to `localhost:8000/api/auth/signin` <br>
 *A successful call will return the following:*
 ```
 {
@@ -167,7 +158,7 @@ Submit a POST request to localhost:8000/api/auth/signin <br>
 ### Trips <br>
 #### Create Trip
 ---
-Submit a POST request to localhost:8000/api/trips <br>
+Submit a POST request to `localhost:8000/api/trips` <br>
 *A successful call will return the following:*
 ```
 {
@@ -186,7 +177,7 @@ Submit a POST request to localhost:8000/api/trips <br>
 ---
 #### Get Trips
 ---
-Submit a GET request to localhost:8000/api/trips <br>
+Submit a GET request to `localhost:8000/api/trips` <br>
 *A successful call will return the following:*
 ```
 [
@@ -205,7 +196,7 @@ Submit a GET request to localhost:8000/api/trips <br>
 ---
 #### Update Trip
 ---
-Submit a PUT request to localhost:8000/api/trips/{trip_id} <br>
+Submit a PUT request to `localhost:8000/api/trips/{trip_id}` <br>
 *A successful call will return the following:*
 ```
 {
@@ -222,7 +213,7 @@ Submit a PUT request to localhost:8000/api/trips/{trip_id} <br>
 ---
 #### Get A Single Trip
 ---
-Submit a GET request to localhost:8000/api/trips/{trip_id} <br>
+Submit a GET request to `localhost:8000/api/trips/{trip_id}` <br>
 *A successful call will return the following:*
 ```
 {
@@ -239,7 +230,7 @@ Submit a GET request to localhost:8000/api/trips/{trip_id} <br>
 ---
 #### Delete A Trip
 ---
-Submit a DELETE request to localhost:8000/api/trips/{trip_id} <br>
+Submit a DELETE request to `localhost:8000/api/trips/{trip_id}` <br>
 *A successful call will return the following:*
 ```
 true
@@ -249,7 +240,7 @@ true
 ### Flights <br>
 #### Create Flight
 ---
-Submit a POST request to localhost:8000/api/flights <br>
+Submit a POST request to `localhost:8000/api/flights` <br>
 *A successful call will return the following:*
 ```
 {
@@ -263,7 +254,7 @@ Submit a POST request to localhost:8000/api/flights <br>
 ---
 #### Get Flights
 ---
-Submit a PUT request to localhost:8000/api/trips/{trip_id}/flights <br>
+Submit a GET request to `localhost:8000/api/trips/{trip_id}/flights` <br>
 *A successful call will return the following:*
 ```
 [
@@ -279,7 +270,7 @@ Submit a PUT request to localhost:8000/api/trips/{trip_id}/flights <br>
 ---
 #### Update Flight
 ---
-Submit a PUT request to localhost:8000/api/flights/{flight_id} <br>
+Submit a PUT request to `localhost:8000/api/flights/{flight_id}` <br>
 *A successful call will return the following:*
 ```
 {
@@ -293,7 +284,7 @@ Submit a PUT request to localhost:8000/api/flights/{flight_id} <br>
 ---
 #### Get Flight
 ---
-Submit a PUT request to localhost:8000/api/flights/{flight_id} <br>
+Submit a GET request to `localhost:8000/api/flights/{flight_id}` <br>
 *A successful call will return the following:*
 ```
 {
@@ -307,7 +298,7 @@ Submit a PUT request to localhost:8000/api/flights/{flight_id} <br>
 ---
 #### Delete Flight
 ---
-Submit a PUT request to localhost:8000/api/flights/{flight_id} <br>
+Submit a DELETE request to `localhost:8000/api/flights/{flight_id}` <br>
 *A successful call will return the following:*
 ```
 true
@@ -317,7 +308,7 @@ true
 ### Events
 #### Create Event
 ---
-Submit a POST request to localhost:8000/api/events <br>
+Submit a POST request to `localhost:8000/api/events` <br>
 *A successful call will return the following:*
 ```
 {
@@ -332,7 +323,7 @@ Submit a POST request to localhost:8000/api/events <br>
 ---
 #### Get Events
 ---
-Submit a POST request to localhost:8000/api/trips/{trip_id}/events <br>
+Submit a GET request to `localhost:8000/api/trips/{trip_id}/events` <br>
 *A successful call will return the following:*
 ```
 [
@@ -350,7 +341,7 @@ Submit a POST request to localhost:8000/api/trips/{trip_id}/events <br>
 ---
 #### Update Event
 ---
-Submit a PUT request to localhost:8000/api/events/{event_id}
+Submit a PUT request to `localhost:8000/api/events/{event_id}` <br>
 *A successful call will return the following:*
 ```
 {
@@ -366,7 +357,7 @@ Submit a PUT request to localhost:8000/api/events/{event_id}
 ---
 #### Get Event
 ---
-Submit a PUT request to localhost:8000/api/events/{event_id}
+Submit a GET request to `localhost:8000/api/events/{event_id}` <br>
 *A successful call will return the following:*
 ```
 {
@@ -382,7 +373,7 @@ Submit a PUT request to localhost:8000/api/events/{event_id}
 ---
 #### Delete Event
 ---
-Submit a PUT request to localhost:8000/api/events/{event_id}
+Submit a DELETE request to `localhost:8000/api/events/{event_id}` <br>
 *A successful call will return the following:*
 ```
 true
@@ -391,7 +382,7 @@ true
 ### Lodgings
 #### Create Lodging
 ---
-Submit a POST request to localhost:8000/api/lodgings <br>
+Submit a POST request to `localhost:8000/api/lodgings` <br>
 *A successful call will return the following:*
 ```
 {
@@ -406,7 +397,7 @@ Submit a POST request to localhost:8000/api/lodgings <br>
 ---
 #### Get Lodgings
 ---
-Submit a GET request to localhost:8000/api/trips/{trip_id}/lodgings <br>
+Submit a GET request to `localhost:8000/api/trips/{trip_id}/lodgings` <br>
 *A successful call will return the following:*
 ```
 [
@@ -423,7 +414,7 @@ Submit a GET request to localhost:8000/api/trips/{trip_id}/lodgings <br>
 ---
 #### Update Lodging
 ---
-Submit a PUT request to localhost:8000/api/lodgings/{lodging_id}
+Submit a PUT request to `localhost:8000/api/lodgings/{lodging_id}` <br>
 *A successful call will return the following:*
 ```
 {
@@ -438,7 +429,7 @@ Submit a PUT request to localhost:8000/api/lodgings/{lodging_id}
 ---
 #### Get Lodging
 ---
-Submit a GET request to localhost:8000/api/lodgings/{lodging_id}
+Submit a GET request to `localhost:8000/api/lodgings/{lodging_id}` <br>
 *A successful call will return the following:*
 ```
 {
@@ -454,81 +445,21 @@ Submit a GET request to localhost:8000/api/lodgings/{lodging_id}
 ---
 #### Delete Lodging
 ---
-Submit a PUT request to localhost:8000/api/lodgings/{lodging_id}
+Submit a DELETE request to `localhost:8000/api/lodgings/{lodging_id}` <br>
 *A successful call will return the following:*
 ```
 true
 ```
 ---
 <br>
-<!-- old style -->
 
-## Roadmap / Future Improvements
+
+## Development Roadmap
 **Features to be added include:**
 - **Expanded User Account Functionality**:
 Create an account profile, complete with capability for users to upload custom profile pictures!
-- **Expanded Map Functionality**: Adding new features to our maps that include driving directions, air quality, weather, driving directions, ability to detect user location, and more!
-- **Social Media Functionality**: Ability for users to message one another in an instant messanger, as well as capability to add other users to project, share comments on other user's events, and more!
-- **Secure Login with 0Auth**: Expanding our users' ability to log into Roamio with greater ease!
-
-<!-- with new CSS -->
-
-
-<div style="max-width: 800px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif;">
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px; color: white;">
-        <h2 style="margin: 0; font-size: 28px; text-align: center; margin-bottom: 20px;">Development Roadmap</h2>
-         <div style="background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 8px;">
-            <div style="margin-bottom: 25px;">
-                <h3 style="color: #ffffff; font-size: 20px; margin-bottom: 15px;">
-                    <span style="display: inline-block; background: #4CAF50; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; margin-right: 10px;">1</span>
-                    Expanded User Account Functionality
-                </h3>
-                <p style="margin: 0 0 0 34px; line-height: 1.6;">Create an account profile, complete with capability for users to upload custom profile pictures!</p>
-            </div>
-            <div style="margin-bottom: 25px;">
-                <h3 style="color: #ffffff; font-size: 20px; margin-bottom: 15px;">
-                    <span style="display: inline-block; background: #2196F3; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; margin-right: 10px;">2</span>
-                    Expanded Map Functionality
-                </h3>
-                <p style="margin: 0 0 0 34px; line-height: 1.6;">Adding new features to our maps that include driving directions, air quality, weather, driving directions, ability to detect user location, and more!</p>
-            </div>
-            <div style="margin-bottom: 25px;">
-                <h3 style="color: #ffffff; font-size: 20px; margin-bottom: 15px;">
-                    <span style="display: inline-block; background: #FF9800; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; margin-right: 10px;">3</span>
-                    Social Media Functionality
-                </h3>
-                <p style="margin: 0 0 0 34px; line-height: 1.6;">Ability for users to message one another in an instant messanger, as well as the capability to add other users to project, share comments on other user's events, and more!</p>
-            </div>
-            <div>
-                <h3 style="color: #ffffff; font-size: 20px; margin-bottom: 15px;">
-                    <span style="display: inline-block; background: #E91E63; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; margin-right: 10px;">4</span>
-                    Secure Login with OAuth
-                </h3>
-                <p style="margin: 0 0 0 34px; line-height: 1.6;">Expanding our users' ability to log into Roamio with greater ease!</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div style="max-width: 800px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif;">
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px; color: white; text-align: center;">
-        <div style="background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 8px;">
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 20px;">
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">FastAPI</span>
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">Vite</span>
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">Docker</span>
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">React.js</span>
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">PostgreSQL</span>
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">JavaScript</span>
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">TailwindCSS</span>
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">Python</span>
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">HTML5</span>
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">CSS</span>
-            </div>
-            <div style="margin-top: 20px;">
-                <img src="./techstack_collage_438.png" alt="Tech Stack Image" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" />
-            </div>
-        </div>
-    </div>
-</div>
+- **Expanded Map Functionality**: Adding new features to our maps that include driving directions, air quality, weather, the ability to detect user location and more!
+- **Social Media Functionality**: Ability for users to message one another in an instant messanger, as well as capability to add other users to project, share comments on other users' events, and more!
+- **Secure Login with 0Auth**: Expanding our users' ease in logging into Roamio!
+- **User Reviews and Ratings**: Allow users to rate and to review events and locations!
+- **AI-Powered Chat Assitant**: Integrating a useful AI chat agent to help users plan their next vacation!
