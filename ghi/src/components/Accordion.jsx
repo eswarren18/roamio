@@ -180,66 +180,22 @@ export default function Accordion({ header, content }) {
                     </div>
                 )
             case 'lodging_check_in':
-                return (
-                    <div className="flex w-11/12 justify-between relative group">
-                        <div className="flex flex-col bg-gray-50 text-gray-500 rounded-lg py-2 px-4 w-full">
-                            <div className="font-bold text-2xl mb-1 text-black">
-                                Check-In
-                            </div>
-                            <div className="font-bold">{activity.name}</div>
-                            <div>{activity.address}</div>
-                            <div className="mt-2 p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">
-                                {new Date(activity.check_in).toLocaleTimeString(
-                                    [],
-                                    { hour: '2-digit', minute: '2-digit' }
-                                )}
-                            </div>
-                        </div>
-                        <div className="flex p-2 gap-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            <button
-                                onClick={() =>
-                                    toggleModal({
-                                        form: 'EditLodgingModal',
-                                        id: activity.id,
-                                    })
-                                }
-                            >
-                                <img
-                                    src="/public/edit-icon-gray.svg"
-                                    alt="Edit"
-                                    className="w-6 h-6"
-                                />
-                            </button>
-                            <button
-                                onClick={() =>
-                                    toggleModal({
-                                        form: 'DeleteActivityModal',
-                                        id: activity.id,
-                                        type: 'lodgings',
-                                    })
-                                }
-                            >
-                                <img
-                                    src="/public/delete-icon-gray.svg"
-                                    alt="Delete"
-                                    className="w-6 h-6"
-                                />
-                            </button>
-                        </div>
-                    </div>
-                )
             default:
                 return (
                     <div className="flex w-11/12 justify-between relative group">
                         <div className="flex flex-col bg-gray-50 text-gray-500 rounded-lg py-2 px-4 w-full">
                             <div className="font-bold text-2xl mb-1 text-black">
-                                Check-Out
+                                {activity.type === 'lodging_check_in'
+                                    ? 'Check-In'
+                                    : 'Check-Out'}
                             </div>
                             <div className="font-bold">{activity.name}</div>
                             <div>{activity.address}</div>
                             <div className="mt-2 p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">
                                 {new Date(
-                                    activity.check_out
+                                    activity.type === 'lodging_check_in'
+                                        ? activity.check_in
+                                        : activity.check_out
                                 ).toLocaleTimeString([], {
                                     hour: '2-digit',
                                     minute: '2-digit',
@@ -250,6 +206,20 @@ export default function Accordion({ header, content }) {
                             <button
                                 onClick={() =>
                                     toggleModal({
+                                        form: 'EditLodgingModal',
+                                        id: activity.id,
+                                    })
+                                }
+                            >
+                                <img
+                                    src="/public/edit-icon-gray.svg"
+                                    alt="Edit"
+                                    className="w-6 h-6"
+                                />
+                            </button>
+                            <button
+                                onClick={() =>
+                                    toggleModal({
                                         form: 'DeleteActivityModal',
                                         id: activity.id,
                                         type: 'lodgings',
@@ -259,20 +229,6 @@ export default function Accordion({ header, content }) {
                                 <img
                                     src="/public/delete-icon-gray.svg"
                                     alt="Delete"
-                                    className="w-6 h-6"
-                                />
-                            </button>
-                            <button
-                                onClick={() =>
-                                    toggleModal({
-                                        form: 'EditLodgingModal',
-                                        id: activity.id,
-                                    })
-                                }
-                            >
-                                <img
-                                    src="/public/edit-icon-gray.svg"
-                                    alt="Edit"
                                     className="w-6 h-6"
                                 />
                             </button>
