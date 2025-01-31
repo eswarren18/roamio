@@ -9,9 +9,11 @@ from datetime import date
 
 client = TestClient(app)
 
+
 class EmptyTripsQueries:
     def get_all(self, user_id):
         return []
+
 
 class NonEmptyTripsQueries:
     def get_all(self, user_id):
@@ -28,6 +30,7 @@ class NonEmptyTripsQueries:
             }
         ]
 
+
 class CreateTripsQueries:
     def create(self, trip, user_id):
         result = {
@@ -43,6 +46,7 @@ class CreateTripsQueries:
         result.update(trip)
         return result
 
+
 class MockTripsQueries:
     def get_one(self, trip_id: int, user_id: int):
         return TripOut(
@@ -50,11 +54,12 @@ class MockTripsQueries:
             title="Mock Trip",
             country="Mock Country",
             city="Mock City",
-            start_date=date(2025, 5, 1), #start_date field in TripOut is a datetime.date object
+            start_date=date(2025, 5, 1),
             end_date=date(2025, 5, 15),
             trip_image="mock_image.png",
             user_id=1
         )
+
     def update(self, trip_id: int, trip_in, user_id: int):
         return TripOut(
             id=trip_id,
@@ -67,6 +72,7 @@ class MockTripsQueries:
             user_id=user_id
         )
 
+
 class TrueDeleteQueries:
     def delete(self, trip_id, user_id):
         return True
@@ -74,6 +80,7 @@ class TrueDeleteQueries:
 class FalseDeleteQueries:
     def delete(self, trip_id, user_id):
         raise HTTPException(status_code=404, detail="Trip not found")
+
 
 def fake_get_jwt_user_data():
     return UserResponse(id=1, username="testuser")
@@ -90,6 +97,7 @@ def test_get_empty_trips():
     # Assert
     assert response.status_code == 200
     assert response.json() == []
+
 
 def test_create_trips():
     # Arrange
@@ -121,6 +129,7 @@ def test_create_trips():
     assert response.status_code == 200
     assert response.json() == expected
 
+
 def test_get_non_empty_trips():
     # Arrange
     app.dependency_overrides[TripsQueries] = NonEmptyTripsQueries
@@ -145,6 +154,7 @@ def test_get_non_empty_trips():
     assert response.status_code == 200
     assert response.json() == expected
 
+
 def test_get_one():
     # Arrange
     app.dependency_overrides[TripsQueries] = MockTripsQueries
@@ -158,9 +168,10 @@ def test_get_one():
     assert trip.country == "Mock Country"
     assert trip.city == "Mock City"
     assert trip.start_date == date(2025, 5, 1)
-    assert trip.end_date == date(2025, 5,15)
+    assert trip.end_date == date(2025, 5, 15)
     assert trip.trip_image == "mock_image.png"
     assert trip.user_id == 1
+
 
 def test_update_trip():
     # Arrange
@@ -193,6 +204,7 @@ def test_update_trip():
     assert response.status_code == 200
     assert response.json() == expected
 
+
 def test_delete_trip_true():
     # Arrange
     trip_id = 1
@@ -208,6 +220,7 @@ def test_delete_trip_true():
     # Assert
     assert response.status_code == 200
     assert response.json() is True
+
 
 def test_delete_trip_false():
     # Arrange
