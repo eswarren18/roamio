@@ -2,6 +2,7 @@ import { useContext, useEffect, useState, useRef } from 'react'
 import { ModalContext } from './ModalProvider'
 import { Autocomplete } from '@react-google-maps/api'
 
+// The EditLodgingModal component handles the editing of lodging details
 function EditLodgingModal() {
     const { toggleModal, activityId } = useContext(ModalContext)
     const [ tripData, setTripData ] = useState({})
@@ -14,8 +15,10 @@ function EditLodgingModal() {
         trip_id: ""
     })
 
+    // Reference to handle the autocomplete functionality for address input
     const addressAutocompleteRef = useRef(null);
 
+    // Updates the address in formData when the address is updated in the input field
     const onAddressPlaceChanged = () => {
         const place = addressAutocompleteRef.current.getPlace();
         const address = place.formatted_address || '';
@@ -26,6 +29,7 @@ function EditLodgingModal() {
         }));
     };
 
+    // Fetches the lodging data from the backend using the activityId
     const fetchLodging = async (e) => {
         try {
             const response = await fetch(`http://localhost:8000/api/lodgings/${activityId}`, {
@@ -52,6 +56,7 @@ function EditLodgingModal() {
     useEffect(() => {
         fetchLodging() }, [])
 
+    // Handles form input changes with additional checks for date field validity
     const handleFormChange = ({ target: { value, name } }) => {
       setFormData((prevData) => {
         const newFormData = { ...prevData, [name]: value };
@@ -81,6 +86,7 @@ function EditLodgingModal() {
       });
     };
 
+    // Handles the form submission to update the lodging details
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         try {

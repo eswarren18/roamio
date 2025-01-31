@@ -2,14 +2,17 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ModalContext } from './ModalProvider';
 
+// The DeleteActivityModal component handles the deletion of varius activities (events, flights, trips, lodgings)
 export default function DeleteActivityModal() {
     const { toggleModal, activityId, activityType } = useContext(ModalContext)
     const navigate = useNavigate();
 
+    // Handles the deletion of the activity based on its type
     const handleDelete = async (e) => {
         e.preventDefault()
         try {
             let url;
+            // Determine the API endpoint based on the activity type
             if (activityType === "events") {
                 url = `http://localhost:8000/api/events/${activityId}`
             }
@@ -22,6 +25,7 @@ export default function DeleteActivityModal() {
             else {
                 url = `http://localhost:8000/api/lodgings/${activityId}`
             }
+            // Make the DELETE request to the appropriate API Endpoint
             const response = await fetch(
                 url,
                 {
@@ -30,6 +34,7 @@ export default function DeleteActivityModal() {
                     credentials: "include"
                 }
             )
+            // If the DELETE is successful, close the modal and navigate to the dashboard
             if (response.ok) {
                 toggleModal("", null, "");
                 if (activityType === "trips") {

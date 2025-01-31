@@ -1,10 +1,10 @@
 import { useContext, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ModalContext } from './ModalProvider'
-
 import useAuthService from '../hooks/useAuthService'
 
 
+// The SignUpModal displays a form for a user to create an account
 function SignUpModal() {
         const { toggleModal } = useContext(ModalContext)
         const [username, setUsername] = useState('')
@@ -12,6 +12,7 @@ function SignUpModal() {
         const { signup, user } = useAuthService()
         const navigate = useNavigate()
 
+        // Handles the form submittion by calling the signup function
         async function handleFormSubmit(e) {
             e.preventDefault()
             await signup({ username, password })

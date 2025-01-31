@@ -1,27 +1,29 @@
 import { useContext, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ModalContext } from './ModalProvider'
-
 import useAuthService from '../hooks/useAuthService'
 
 
+// The SignInModal displays a form for a user to sign into their account
 function SignInModal() {
-        const { toggleModal } = useContext(ModalContext)
-        const [username, setUsername] = useState('')
-        const [password, setPassword] = useState('')
-        const { signin, user } = useAuthService()
-        const navigate = useNavigate()
+    const { toggleModal } = useContext(ModalContext)
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const { signin, user } = useAuthService()
+    const navigate = useNavigate()
 
-        async function handleFormSubmit(e) {
-            e.preventDefault()
-            await signin({ username, password })
+    // Handles the form submittion by calling the signin function
+    async function handleFormSubmit(e) {
+        e.preventDefault()
+        await signin({ username, password })
+    }
+
+    useEffect(() => {
+        if (user) {
+            toggleModal('', null, '')
+            navigate('/dashboard')
         }
-
-        useEffect(() => {
-             if (user) {
-                toggleModal("", null, "")
-                navigate("/dashboard") }
-            },)
+    })
 
     return (
         <div
@@ -33,7 +35,11 @@ function SignInModal() {
                 onClick={(e) => e.stopPropagation()}
             >
                 <button onClick={toggleModal} className="self-end">
-                    <img src="/public/x-icon.svg" alt="Cancel" className="w-8 h-8" />
+                    <img
+                        src="/public/x-icon.svg"
+                        alt="Cancel"
+                        className="w-8 h-8"
+                    />
                 </button>
                 <div className="text-4xl font-bold mb-6">Log In</div>
                 <form
@@ -78,11 +84,13 @@ function SignInModal() {
                             <span className="text-red-500 text-xs">*</span>
                         </label>
                     </div>
-                    <button className="hover:underline" type="submit">Log In</button>
+                    <button className="hover:underline" type="submit">
+                        Log In
+                    </button>
                 </form>
             </div>
         </div>
-    );
+    )
 }
 
 export default SignInModal

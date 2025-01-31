@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import { ModalContext } from './ModalProvider'
 
+// The EditFlightModal component handles the editing of flight details
 function EditFlightModal() {
     const { toggleModal, activityId } = useContext(ModalContext)
     const [ tripData, setTripData ] = useState({})
@@ -14,6 +15,7 @@ function EditFlightModal() {
         trip_id: ""
     })
 
+    // Fetches the flight data from the backend based on the activityId
     const fetchFlight = async (e) => {
         try {
             const response = await fetch(`http://localhost:8000/api/flights/${activityId}`, {
@@ -54,6 +56,7 @@ function EditFlightModal() {
     useEffect(() => {
         fetchFlight() }, [])
 
+    // Handles form input changes with additional checks for date field validity
     const handleFormChange = ({ target }) => {
         const { value, name } = target;
 
@@ -90,6 +93,7 @@ function EditFlightModal() {
         });
     };
 
+    // Handles the form submission to update the flight details
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         let departure_date_time = (`${departure_date}T${departure_time}`);

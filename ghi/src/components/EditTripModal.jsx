@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import { ModalContext } from './ModalProvider'
 
+// The EditTripModal component handles editing a trip's details
 function EditTripModal() {
     const { toggleModal, tripData, activityId } = useContext(ModalContext)
     const [toDelete, setToDelete] = useState([])
@@ -15,6 +16,7 @@ function EditTripModal() {
         user_id: ""
     })
 
+    // Fetches the trips data using activityId to populate the form
     const fetchTrip = async (e) => {
         try {
             const response = await fetch(`http://localhost:8000/api/trips/${activityId}`, {
@@ -38,6 +40,7 @@ function EditTripModal() {
     useEffect(() => {
         fetchTrip() }, [])
 
+    // Updates the list of activities needed to be deleted based on new trip date range
     const updateToDelete = () => {
         if (!tripData) return;
 
@@ -75,7 +78,7 @@ function EditTripModal() {
     useEffect(() => {
         updateToDelete() }, [formData.start_date, formData.end_date, tripData])
 
-
+    // Handles form input changes and updates the formData state
     const handleFormChange = ({ target: { value, name } }) => {
         setFormData({
             ...formData,
@@ -83,6 +86,7 @@ function EditTripModal() {
         })
     }
 
+    // Deletes activities that fall outside the specified date range
     const deleteOutOfRangeItems = async () => {
         for ( let activity of toDelete ) {
             let url;
@@ -106,6 +110,7 @@ function EditTripModal() {
         }
     }
 
+    // Handles the form submission to update the trip details and delete out-of-range activities
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         try {
