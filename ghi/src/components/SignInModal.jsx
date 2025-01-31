@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { ModalContext } from './ModalProvider'
 import useAuthService from '../hooks/useAuthService'
 
-
 // The SignInModal displays a form for a user to sign into their account
 function SignInModal() {
     const { toggleModal } = useContext(ModalContext)

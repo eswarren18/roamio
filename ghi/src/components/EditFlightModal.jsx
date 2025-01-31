@@ -4,118 +4,133 @@ import { ModalContext } from './ModalProvider'
 // The EditFlightModal component handles the editing of flight details
 function EditFlightModal() {
     const { toggleModal, activityId } = useContext(ModalContext)
-    const [ tripData, setTripData ] = useState({})
-    const [ formData, setFormData ] = useState({
+    const [tripData, setTripData] = useState({})
+    const [formData, setFormData] = useState({
         id: activityId,
-        flight_number: "",
-        departure_date: "",
-        departure_time: "",
-        arrival_date: "",
-        arrival_time: "",
-        trip_id: ""
+        flight_number: '',
+        departure_date: '',
+        departure_time: '',
+        arrival_date: '',
+        arrival_time: '',
+        trip_id: '',
     })
 
     // Fetches the flight data from the backend based on the activityId
     const fetchFlight = async (e) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/flights/${activityId}`, {
-                credentials: "include",
-                headers: {"Content-Type": "application/json"}
-            });
+            const response = await fetch(
+                `http://localhost:8000/api/flights/${activityId}`,
+                {
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            )
 
             if (response.ok) {
-                const data = await response.json();
-                const departure_date = data.departure_time.split("T")[0]
-                const departure_time = data.departure_time.split("T")[1]
-                const arrival_date = data.arrival_time.split("T")[0]
-                const arrival_time = data.arrival_time.split("T")[1]
-                setFormData(prevState => ({
+                const data = await response.json()
+                const departure_date = data.departure_time.split('T')[0]
+                const departure_time = data.departure_time.split('T')[1]
+                const arrival_date = data.arrival_time.split('T')[0]
+                const arrival_time = data.arrival_time.split('T')[1]
+                setFormData((prevState) => ({
                     ...prevState,
-                    flight_number : data.flight_number,
+                    flight_number: data.flight_number,
                     departure_date: departure_date,
                     departure_time: departure_time,
                     arrival_date: arrival_date,
                     arrival_time: arrival_time,
-                    trip_id: data.trip_id
+                    trip_id: data.trip_id,
                 }))
 
-                const tripResponse = await fetch(`http://localhost:8000/api/trips/${data.trip_id}`, {
-                    credentials: "include",
-                    headers: {"Content-Type": "application/json"}
-                })
+                const tripResponse = await fetch(
+                    `http://localhost:8000/api/trips/${data.trip_id}`,
+                    {
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json' },
+                    }
+                )
                 if (tripResponse.ok) {
                     const tripData = await tripResponse.json()
                     setTripData(tripData)
                 }
             }
-        } catch(e) {
+        } catch (e) {
             console.error(e)
         }
     }
 
     useEffect(() => {
-        fetchFlight() }, [])
+        fetchFlight()
+    }, [])
 
     // Handles form input changes with additional checks for date field validity
     const handleFormChange = ({ target }) => {
-        const { value, name } = target;
+        const { value, name } = target
 
-        setFormData(prevState => {
-            const newFormData = { ...prevState, [name]: value };
+        setFormData((prevState) => {
+            const newFormData = { ...prevState, [name]: value }
             const tripStartDate = tripData.start_date
             const tripEndDate = tripData.end_date
 
             if (newFormData.departure_date > tripEndDate) {
-                newFormData.departure_date = ""
+                newFormData.departure_date = ''
             }
-            if ( newFormData.arrival_date < tripStartDate || newFormData.arrival_date > tripEndDate) {
-                newFormData.arrival_date = ""
+            if (
+                newFormData.arrival_date < tripStartDate ||
+                newFormData.arrival_date > tripEndDate
+            ) {
+                newFormData.arrival_date = ''
             }
             if (name === 'departure_date' || name === 'arrival_date') {
                 if (newFormData.arrival_date < newFormData.departure_date) {
-                    newFormData.arrival_date = "";
+                    newFormData.arrival_date = ''
                 }
-                if (newFormData.arrival_date === newFormData.departure_date && newFormData.arrival_time < newFormData.departure_time) {
-                    newFormData.arrival_time = "";
+                if (
+                    newFormData.arrival_date === newFormData.departure_date &&
+                    newFormData.arrival_time < newFormData.departure_time
+                ) {
+                    newFormData.arrival_time = ''
                 }
                 if (newFormData.arrival_time < newFormData.departure_time) {
-                    newFormData.arrival_time = "";
+                    newFormData.arrival_time = ''
                 }
             }
             if (newFormData.departure_date === newFormData.arrival_date) {
                 if (name === 'arrival_time' || name === 'departure_time') {
                     if (newFormData.arrival_time < newFormData.departure_time) {
-                        newFormData.arrival_time = "";
+                        newFormData.arrival_time = ''
                     }
                 }
             }
-            return newFormData;
-        });
-    };
+            return newFormData
+        })
+    }
 
     // Handles the form submission to update the flight details
     const handleFormSubmit = async (e) => {
         e.preventDefault()
-        let departure_date_time = (`${departure_date}T${departure_time}`);
-        let arrival_date_time = (`${arrival_date}T${arrival_time}`);
+        let departure_date_time = `${departure_date}T${departure_time}`
+        let arrival_date_time = `${arrival_date}T${arrival_time}`
 
         try {
-            const response = await fetch(`http://localhost:8000/api/flights/${activityId}`,
+            const response = await fetch(
+                `http://localhost:8000/api/flights/${activityId}`,
                 {
-                    method: "PUT",
-                    headers: {'Content-Type' : 'application/json'},
-                    credentials: "include",
-                    body : JSON.stringify({
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({
                         flight_number: formData.flight_number,
                         departure_time: departure_date_time,
                         arrival_time: arrival_date_time,
-                        trip_id: formData.trip_id
-                    })
-                })
-                if (response.ok) {
-                    resetForm()
-                    toggleModal("", null, "")
+                        trip_id: formData.trip_id,
+                    }),
                 }
+            )
+            if (response.ok) {
+                resetForm()
+                toggleModal('', null, '')
+            }
         } catch (e) {
             console.error(e)
         }
@@ -123,17 +138,23 @@ function EditFlightModal() {
 
     const resetForm = () => {
         setFormData({
-            id: "",
-            flight_number: "",
-            departure_date: "",
-            departure_time: "",
-            arrival_date: "",
-            arrival_time: "",
-            trip_id: ""
+            id: '',
+            flight_number: '',
+            departure_date: '',
+            departure_time: '',
+            arrival_date: '',
+            arrival_time: '',
+            trip_id: '',
         })
     }
 
-    const { flight_number, departure_date, departure_time, arrival_date, arrival_time } = formData
+    const {
+        flight_number,
+        departure_date,
+        departure_time,
+        arrival_date,
+        arrival_time,
+    } = formData
 
     return (
         <div
@@ -145,13 +166,16 @@ function EditFlightModal() {
                 className="flex flex-col bg-white rounded-lg shadow-lg w-1/3 p-8"
                 onClick={(e) => e.stopPropagation()}
             >
-                <button
-                    onClick={toggleModal}
-                    className="flex justify-end"
-                >
-                    <img src="/public/x-icon.svg" alt="Cancel" className="w-8 h-8" />
+                <button onClick={toggleModal} className="flex justify-end">
+                    <img
+                        src="/public/x-icon.svg"
+                        alt="Cancel"
+                        className="w-8 h-8"
+                    />
                 </button>
-                <div className="text-center text-4xl font-bold mb-6">Update Flight</div>
+                <div className="text-center text-4xl font-bold mb-6">
+                    Update Flight
+                </div>
                 <form
                     onSubmit={handleFormSubmit}
                     className="flex flex-col w-4/5 mx-auto"
@@ -258,11 +282,13 @@ function EditFlightModal() {
                             </label>
                         </div>
                     </div>
-                    <button className="hover:underline" type="submit">Update</button>
+                    <button className="hover:underline" type="submit">
+                        Update
+                    </button>
                 </form>
             </div>
         </div>
-    );
+    )
 }
 
 export default EditFlightModal

@@ -2,76 +2,76 @@ import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ModalContext } from './ModalProvider'
 
-
 function AddTripModal() {
     const { toggleModal } = useContext(ModalContext)
-    const [ formData, setFormData ] = useState({
-        title:"",
-        country:"",
-        city:"",
-        start_date: "",
-        end_date: "",
-        trip_image: ""
+    const [formData, setFormData] = useState({
+        title: '',
+        country: '',
+        city: '',
+        start_date: '',
+        end_date: '',
+        trip_image: '',
     })
     const navigate = useNavigate()
 
     const handleFormChange = ({ target }) => {
-        const { value, name } = target;
+        const { value, name } = target
 
-        setFormData(prevState => {
-            const newFormData = { ...prevState, [name]: value };
+        setFormData((prevState) => {
+            const newFormData = { ...prevState, [name]: value }
 
             if (name === 'start_date') {
-                const newStartDate = new Date(value);
-                const endDate = new Date(prevState.end_date);
+                const newStartDate = new Date(value)
+                const endDate = new Date(prevState.end_date)
 
                 if (endDate < newStartDate) {
-                    target.setCustomValidity("Start date cannot be after the end date.");
-                    target.reportValidity();
-                    return prevState;
+                    target.setCustomValidity(
+                        'Start date cannot be after the end date.'
+                    )
+                    target.reportValidity()
+                    return prevState
                 } else {
-                    target.setCustomValidity("");
+                    target.setCustomValidity('')
                 }
 
-                newFormData.start_date = value;
-            }
-
-            else if (name === 'end_date') {
-                const startDate = new Date(prevState.start_date);
-                const newEndDate = new Date(value);
+                newFormData.start_date = value
+            } else if (name === 'end_date') {
+                const startDate = new Date(prevState.start_date)
+                const newEndDate = new Date(value)
 
                 if (newEndDate < startDate) {
-                    target.setCustomValidity("End date cannot be before the start date.");
-                    target.reportValidity();
-                    return prevState;
+                    target.setCustomValidity(
+                        'End date cannot be before the start date.'
+                    )
+                    target.reportValidity()
+                    return prevState
                 } else {
-                    target.setCustomValidity("");
+                    target.setCustomValidity('')
                 }
 
-                newFormData.end_date = value;
+                newFormData.end_date = value
             }
 
-            return newFormData;
-        });
-    };
+            return newFormData
+        })
+    }
 
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch("http://localhost:8000/api/trips",
-                {
-                    method: "POST",
-                    headers: {'Content-Type' : 'application/json'},
-                    credentials: "include",
-                    body : JSON.stringify(formData)
-                })
-                if (response.ok) {
-                    const responseData = await response.json()
-                    const tripId = responseData.id
-                    resetForm()
-                    toggleModal("", null, "")
-                    navigate(`/trip/${tripId}`)
-                }
+            const response = await fetch('http://localhost:8000/api/trips', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify(formData),
+            })
+            if (response.ok) {
+                const responseData = await response.json()
+                const tripId = responseData.id
+                resetForm()
+                toggleModal('', null, '')
+                navigate(`/trip/${tripId}`)
+            }
         } catch (e) {
             console.error(e)
         }
@@ -79,18 +79,18 @@ function AddTripModal() {
 
     const resetForm = () => {
         setFormData({
-            title:"",
-            country:"",
-            city:"",
-            start_date: "",
-            end_date: "",
-            trip_image: ""
+            title: '',
+            country: '',
+            city: '',
+            start_date: '',
+            end_date: '',
+            trip_image: '',
         })
     }
 
     const { title, country, city, start_date, end_date, trip_image } = formData
 
-      return (
+    return (
         <div
             className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-20"
             onClick={toggleModal}
@@ -99,13 +99,16 @@ function AddTripModal() {
                 className="flex flex-col bg-white rounded-lg shadow-lg w-1/3 aspect-2/4 p-8"
                 onClick={(e) => e.stopPropagation()}
             >
-                <button
-                    onClick={toggleModal}
-                    className="flex justify-end"
-                >
-                    <img src="/public/x-icon.svg" alt="Cancel" className="w-8 h-8" />
+                <button onClick={toggleModal} className="flex justify-end">
+                    <img
+                        src="/public/x-icon.svg"
+                        alt="Cancel"
+                        className="w-8 h-8"
+                    />
                 </button>
-                <div className="text-center text-4xl font-bold mb-6">Add a Trip</div>
+                <div className="text-center text-4xl font-bold mb-6">
+                    Add a Trip
+                </div>
                 <form
                     onSubmit={handleFormSubmit}
                     className="flex flex-col w-4/5 mx-auto"
@@ -207,7 +210,6 @@ function AddTripModal() {
                                 <span className="text-red-500">*</span>
                             </label>
                         </div>
-
                     </div>
                     <div className="relative z-0 w-full mb-5 group">
                         <input
@@ -232,7 +234,7 @@ function AddTripModal() {
                 </form>
             </div>
         </div>
-    );
+    )
 }
 
 export default AddTripModal

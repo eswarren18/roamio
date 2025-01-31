@@ -1,44 +1,38 @@
-import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ModalContext } from './ModalProvider';
+import { useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { ModalContext } from './ModalProvider'
 
 // The DeleteActivityModal component handles the deletion of varius activities (events, flights, trips, lodgings)
 export default function DeleteActivityModal() {
     const { toggleModal, activityId, activityType } = useContext(ModalContext)
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     // Handles the deletion of the activity based on its type
     const handleDelete = async (e) => {
         e.preventDefault()
         try {
-            let url;
+            let url
             // Determine the API endpoint based on the activity type
-            if (activityType === "events") {
+            if (activityType === 'events') {
                 url = `http://localhost:8000/api/events/${activityId}`
-            }
-            else if (activityType === "flights") {
+            } else if (activityType === 'flights') {
                 url = `http://localhost:8000/api/flights/${activityId}`
-            }
-            else if (activityType === "trips") {
+            } else if (activityType === 'trips') {
                 url = `http://localhost:8000/api/trips/${activityId}`
-            }
-            else {
+            } else {
                 url = `http://localhost:8000/api/lodgings/${activityId}`
             }
             // Make the DELETE request to the appropriate API Endpoint
-            const response = await fetch(
-                url,
-                {
-                    method: "DELETE",
-                    headers: {'Content-Type' : 'application/json'},
-                    credentials: "include"
-                }
-            )
+            const response = await fetch(url, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+            })
             // If the DELETE is successful, close the modal and navigate to the dashboard
             if (response.ok) {
-                toggleModal("", null, "");
-                if (activityType === "trips") {
-                    navigate("/dashboard")
+                toggleModal('', null, '')
+                if (activityType === 'trips') {
+                    navigate('/dashboard')
                 }
             }
         } catch (e) {
@@ -55,18 +49,25 @@ export default function DeleteActivityModal() {
                 className="flex flex-col bg-white rounded-lg shadow-lg w-1/3 p-8"
                 onClick={(e) => e.stopPropagation()}
             >
-                <button
-                    onClick={toggleModal}
-                    className="flex justify-end"
-                >
-                    <img src="/public/x-icon.svg" alt="Cancel" className="w-8 h-8" />
+                <button onClick={toggleModal} className="flex justify-end">
+                    <img
+                        src="/public/x-icon.svg"
+                        alt="Cancel"
+                        className="w-8 h-8"
+                    />
                 </button>
-                <div className="text-center text-4xl font-bold mb-6">Are you sure?</div>
+                <div className="text-center text-4xl font-bold mb-6">
+                    Are you sure?
+                </div>
                 <div className="flex justify-evenly">
-                    <button className="hover:underline" onClick={toggleModal}>Cancel</button>
-                    <button className="hover:underline" onClick={handleDelete}>Delete</button>
+                    <button className="hover:underline" onClick={toggleModal}>
+                        Cancel
+                    </button>
+                    <button className="hover:underline" onClick={handleDelete}>
+                        Delete
+                    </button>
                 </div>
             </div>
         </div>
-    );
+    )
 }

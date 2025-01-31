@@ -3,26 +3,26 @@ import { useNavigate } from 'react-router-dom'
 import { ModalContext } from './ModalProvider'
 import useAuthService from '../hooks/useAuthService'
 
-
 // The SignUpModal displays a form for a user to create an account
 function SignUpModal() {
-        const { toggleModal } = useContext(ModalContext)
-        const [username, setUsername] = useState('')
-        const [password, setPassword] = useState('')
-        const { signup, user } = useAuthService()
-        const navigate = useNavigate()
+    const { toggleModal } = useContext(ModalContext)
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const { signup, user } = useAuthService()
+    const navigate = useNavigate()
 
-        // Handles the form submittion by calling the signup function
-        async function handleFormSubmit(e) {
-            e.preventDefault()
-            await signup({ username, password })
+    // Handles the form submittion by calling the signup function
+    async function handleFormSubmit(e) {
+        e.preventDefault()
+        await signup({ username, password })
+    }
+
+    useEffect(() => {
+        if (user) {
+            toggleModal('', null, '')
+            navigate('/dashboard')
         }
-
-        useEffect(() => {
-             if (user) {
-                toggleModal("", null, "")
-                navigate("/dashboard") }
-            },)
+    })
 
     return (
         <div
@@ -34,7 +34,11 @@ function SignUpModal() {
                 onClick={(e) => e.stopPropagation()}
             >
                 <button onClick={toggleModal} className="flex self-end">
-                    <img src="/public/x-icon.svg" alt="Cancel" className="w-8 h-8" />
+                    <img
+                        src="/public/x-icon.svg"
+                        alt="Cancel"
+                        className="w-8 h-8"
+                    />
                 </button>
                 <div className="text-4xl font-bold mb-6">Sign Up</div>
                 <form
@@ -79,11 +83,13 @@ function SignUpModal() {
                             <span className="text-red-500 text-xs">*</span>
                         </label>
                     </div>
-                    <button className="hover:underline" type="submit">Sign Up</button>
+                    <button className="hover:underline" type="submit">
+                        Sign Up
+                    </button>
                 </form>
             </div>
         </div>
-    );
+    )
 }
 
 export default SignUpModal

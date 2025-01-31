@@ -2,7 +2,6 @@ import { useLocation } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
 import Nav from './components/Nav'
 
-
 import './App.css'
 
 const API_HOST = import.meta.env.VITE_API_HOST
@@ -13,12 +12,12 @@ if (!API_HOST) {
 
 function App() {
     const location = useLocation()
-    const isHomePage = location.pathname === "/"
+    const isHomePage = location.pathname === '/'
 
     return (
         <>
             <Nav />
-            <div className={isHomePage ? '' : "pt-16"}>
+            <div className={isHomePage ? '' : 'pt-16'}>
                 <Outlet />
             </div>
         </>

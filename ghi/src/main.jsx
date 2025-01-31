@@ -25,25 +25,31 @@ const root = ReactDOM.createRoot(rootElement)
 root.render(
     <React.StrictMode>
         <AuthProvider>
-                <BrowserRouter>
-                    <ModalProvider>
-                        <Routes>
-                            <Route path="/" element={<App />}>
-                                <Route index element={<Home />} />
-                                <Route path="dashboard" element={
+            <BrowserRouter>
+                <ModalProvider>
+                    <Routes>
+                        <Route path="/" element={<App />}>
+                            <Route index element={<Home />} />
+                            <Route
+                                path="dashboard"
+                                element={
                                     <GoogleMapsLoader>
                                         <Dashboard />
                                     </GoogleMapsLoader>
-                                } />
-                                <Route path="trip/:tripId" element={
+                                }
+                            />
+                            <Route
+                                path="trip/:tripId"
+                                element={
                                     <GoogleMapsLoader>
                                         <Trip />
                                     </GoogleMapsLoader>
-                                } />
-                            </Route>
-                        </Routes>
-                    </ModalProvider>
-                </BrowserRouter>
+                                }
+                            />
+                        </Route>
+                    </Routes>
+                </ModalProvider>
+            </BrowserRouter>
         </AuthProvider>
     </React.StrictMode>
 )
