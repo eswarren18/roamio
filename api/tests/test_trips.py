@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from fastapi.testclient import TestClient
 from main import app
 from queries.trip_queries import TripsQueries
@@ -11,6 +12,21 @@ client = TestClient(app)
 class EmptyTripsQueries:
     def get_all(self, user_id):
         return []
+
+class NonEmptyTripsQueries:
+    def get_all(self, user_id):
+        return [
+            {
+                "id": 1,
+                "title": "Test Trip 1",
+                "country": "Country 1",
+                "city": "City 1",
+                "start_date": "2025-01-30",
+                "end_date": "2025-02-05",
+                "trip_image": "image1.png",
+                "user_id": user_id
+            }
+        ]
 
 class CreateTripsQueries:
     def create(self, trip, user_id):
@@ -27,20 +43,6 @@ class CreateTripsQueries:
         result.update(trip)
         return result
 
-class NonEmptyTripsQueries:
-    def get_all(self, user_id):
-        return [
-            {
-                "id": 1,
-                "title": "Test Trip 1",
-                "country": "Country 1",
-                "city": "City 1",
-                "start_date": "2025-01-30",
-                "end_date": "2025-02-05",
-                "trip_image": "image1.png",
-                "user_id": user_id
-            }
-        ]
 class MockTripsQueries:
     def get_one(self, trip_id: int, user_id: int):
         return TripOut(
@@ -64,8 +66,18 @@ class MockTripsQueries:
             trip_image=trip_in.trip_image,
             user_id=user_id
         )
+
+class TrueDeleteQueries:
+    def delete(self, trip_id, user_id):
+        return True
+
+class FalseDeleteQueries:
+    def delete(self, trip_id, user_id):
+        raise HTTPException(status_code=404, detail="Trip not found")
+
 def fake_get_jwt_user_data():
     return UserResponse(id=1, username="testuser")
+
 
 def test_get_empty_trips():
     # Arrange
@@ -179,4 +191,36 @@ def test_update_trip():
     app.dependency_overrides = {}
     # Assert
     assert response.status_code == 200
+    assert response.json() == expected
+
+def test_delete_trip_true():
+    # Arrange
+    trip_id = 1
+    app.dependency_overrides[try_get_jwt_user_data] = fake_get_jwt_user_data
+    app.dependency_overrides[TripsQueries] = TrueDeleteQueries
+
+    # Act
+    response = client.delete(f"/api/trips/{trip_id}")
+
+    # Clean-up
+    app.dependency_overrides = {}
+
+    # Assert
+    assert response.status_code == 200
+    assert response.json() is True
+
+def test_delete_trip_false():
+    # Arrange
+    trip_id = 1
+    app.dependency_overrides[try_get_jwt_user_data] = fake_get_jwt_user_data
+    app.dependency_overrides[TripsQueries] = FalseDeleteQueries
+    expected = {"detail": "Trip not found"}
+    # Act
+    response = client.delete(f"/api/trips/{trip_id}")
+
+    # Clean-up
+    app.dependency_overrides = {}
+
+    # Assert
+    assert response.status_code == 404
     assert response.json() == expected
