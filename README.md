@@ -133,7 +133,7 @@ Roamio provides a streamlined way to plan and manage your trips!
 ### Authentication
 #### Signup
 ---
-Submit a POST request to localhost:8000/api/auth/signup <br>
+Submit a POST request to `localhost:8000/api/auth/signup` <br>
 *A successful call will return the following:*
 ```
 {
@@ -144,7 +144,7 @@ Submit a POST request to localhost:8000/api/auth/signup <br>
 ---
 #### Signin
 ---
-Submit a POST request to localhost:8000/api/auth/signin <br>
+Submit a POST request to `localhost:8000/api/auth/signin` <br>
 *A successful call will return the following:*
 ```
 {
@@ -158,7 +158,7 @@ Submit a POST request to localhost:8000/api/auth/signin <br>
 ### Trips <br>
 #### Create Trip
 ---
-Submit a POST request to localhost:8000/api/trips <br>
+Submit a POST request to `localhost:8000/api/trips` <br>
 *A successful call will return the following:*
 ```
 {
@@ -177,7 +177,7 @@ Submit a POST request to localhost:8000/api/trips <br>
 ---
 #### Get Trips
 ---
-Submit a GET request to localhost:8000/api/trips <br>
+Submit a GET request to `localhost:8000/api/trips` <br>
 *A successful call will return the following:*
 ```
 [
@@ -196,7 +196,7 @@ Submit a GET request to localhost:8000/api/trips <br>
 ---
 #### Update Trip
 ---
-Submit a PUT request to localhost:8000/api/trips/{trip_id} <br>
+Submit a PUT request to `localhost:8000/api/trips/{trip_id}` <br>
 *A successful call will return the following:*
 ```
 {
@@ -213,7 +213,7 @@ Submit a PUT request to localhost:8000/api/trips/{trip_id} <br>
 ---
 #### Get A Single Trip
 ---
-Submit a GET request to localhost:8000/api/trips/{trip_id} <br>
+Submit a GET request to `localhost:8000/api/trips/{trip_id}` <br>
 *A successful call will return the following:*
 ```
 {
@@ -230,7 +230,7 @@ Submit a GET request to localhost:8000/api/trips/{trip_id} <br>
 ---
 #### Delete A Trip
 ---
-Submit a DELETE request to localhost:8000/api/trips/{trip_id} <br>
+Submit a DELETE request to `localhost:8000/api/trips/{trip_id}` <br>
 *A successful call will return the following:*
 ```
 true
@@ -240,7 +240,7 @@ true
 ### Flights <br>
 #### Create Flight
 ---
-Submit a POST request to localhost:8000/api/flights <br>
+Submit a POST request to `localhost:8000/api/flights` <br>
 *A successful call will return the following:*
 ```
 {
@@ -254,7 +254,7 @@ Submit a POST request to localhost:8000/api/flights <br>
 ---
 #### Get Flights
 ---
-Submit a PUT request to localhost:8000/api/trips/{trip_id}/flights <br>
+Submit a PUT request to `localhost:8000/api/trips/{trip_id}/flights` <br>
 *A successful call will return the following:*
 ```
 [
@@ -270,7 +270,7 @@ Submit a PUT request to localhost:8000/api/trips/{trip_id}/flights <br>
 ---
 #### Update Flight
 ---
-Submit a PUT request to localhost:8000/api/flights/{flight_id} <br>
+Submit a PUT request to `localhost:8000/api/flights/{flight_id}` <br>
 *A successful call will return the following:*
 ```
 {
@@ -284,7 +284,7 @@ Submit a PUT request to localhost:8000/api/flights/{flight_id} <br>
 ---
 #### Get Flight
 ---
-Submit a PUT request to localhost:8000/api/flights/{flight_id} <br>
+Submit a PUT request to `localhost:8000/api/flights/{flight_id}` <br>
 *A successful call will return the following:*
 ```
 {
@@ -298,7 +298,7 @@ Submit a PUT request to localhost:8000/api/flights/{flight_id} <br>
 ---
 #### Delete Flight
 ---
-Submit a PUT request to localhost:8000/api/flights/{flight_id} <br>
+Submit a PUT request to `localhost:8000/api/flights/{flight_id}` <br>
 *A successful call will return the following:*
 ```
 true
@@ -308,7 +308,7 @@ true
 ### Events
 #### Create Event
 ---
-Submit a POST request to localhost:8000/api/events <br>
+Submit a POST request to `localhost:8000/api/events` <br>
 *A successful call will return the following:*
 ```
 {
@@ -323,7 +323,7 @@ Submit a POST request to localhost:8000/api/events <br>
 ---
 #### Get Events
 ---
-Submit a POST request to localhost:8000/api/trips/{trip_id}/events <br>
+Submit a POST request to `localhost:8000/api/trips/{trip_id}/events` <br>
 *A successful call will return the following:*
 ```
 [
@@ -341,7 +341,7 @@ Submit a POST request to localhost:8000/api/trips/{trip_id}/events <br>
 ---
 #### Update Event
 ---
-Submit a PUT request to localhost:8000/api/events/{event_id}
+Submit a PUT request to `localhost:8000/api/events/{event_id}` <br>
 *A successful call will return the following:*
 ```
 {
@@ -357,7 +357,7 @@ Submit a PUT request to localhost:8000/api/events/{event_id}
 ---
 #### Get Event
 ---
-Submit a PUT request to localhost:8000/api/events/{event_id}
+Submit a PUT request to `localhost:8000/api/events/{event_id}` <br>
 *A successful call will return the following:*
 ```
 {
@@ -373,7 +373,7 @@ Submit a PUT request to localhost:8000/api/events/{event_id}
 ---
 #### Delete Event
 ---
-Submit a PUT request to localhost:8000/api/events/{event_id}
+Submit a PUT request to `localhost:8000/api/events/{event_id}` <br>
 *A successful call will return the following:*
 ```
 true
@@ -382,7 +382,7 @@ true
 ### Lodgings
 #### Create Lodging
 ---
-Submit a POST request to localhost:8000/api/lodgings <br>
+Submit a POST request to `localhost:8000/api/lodgings` <br>
 *A successful call will return the following:*
 ```
 {
@@ -397,7 +397,7 @@ Submit a POST request to localhost:8000/api/lodgings <br>
 ---
 #### Get Lodgings
 ---
-Submit a GET request to localhost:8000/api/trips/{trip_id}/lodgings <br>
+Submit a GET request to `localhost:8000/api/trips/{trip_id}/lodgings` <br>
 *A successful call will return the following:*
 ```
 [
@@ -414,7 +414,7 @@ Submit a GET request to localhost:8000/api/trips/{trip_id}/lodgings <br>
 ---
 #### Update Lodging
 ---
-Submit a PUT request to localhost:8000/api/lodgings/{lodging_id}
+Submit a PUT request to `localhost:8000/api/lodgings/{lodging_id}` <br>
 *A successful call will return the following:*
 ```
 {
@@ -429,7 +429,7 @@ Submit a PUT request to localhost:8000/api/lodgings/{lodging_id}
 ---
 #### Get Lodging
 ---
-Submit a GET request to localhost:8000/api/lodgings/{lodging_id}
+Submit a GET request to `localhost:8000/api/lodgings/{lodging_id}` <br>
 *A successful call will return the following:*
 ```
 {
@@ -445,7 +445,7 @@ Submit a GET request to localhost:8000/api/lodgings/{lodging_id}
 ---
 #### Delete Lodging
 ---
-Submit a PUT request to localhost:8000/api/lodgings/{lodging_id}
+Submit a PUT request to `localhost:8000/api/lodgings/{lodging_id}` <br>
 *A successful call will return the following:*
 ```
 true
@@ -462,4 +462,4 @@ Create an account profile, complete with capability for users to upload custom p
 - **Social Media Functionality**: Ability for users to message one another in an instant messanger, as well as capability to add other users to project, share comments on other users' events, and more!
 - **Secure Login with 0Auth**: Expanding our users' ease in logging into Roamio!
 - **User Reviews and Ratings**: Allow users to rate and to review events and locations!
-- **AI-Powered Chat Assitanct**: Integrating a useful AI chat agent to help users plan their next vacation!
+- **AI-Powered Chat Assitant**: Integrating a useful AI chat agent to help users plan their next vacation!
