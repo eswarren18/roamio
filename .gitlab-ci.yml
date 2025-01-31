@@ -11,6 +11,8 @@ stages:
 tests:
     image: python:3.10-bullseye
     stage: test
+    variables:
+     DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}"
     script:
         - pip install flake8
         - flake8 api
