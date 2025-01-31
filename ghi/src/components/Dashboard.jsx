@@ -5,6 +5,7 @@ import { ModalContext } from './ModalProvider';
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
 const apiKey = import.meta.env.GOOGLE_API_KEY;
 
+// The Dashboard component displays all the user's trips
 function Dashboard() {
     const { toggleModal } = useContext(ModalContext);
     const { isLoggedIn } = useContext(AuthContext);
@@ -17,6 +18,7 @@ function Dashboard() {
 
     const navToHome = () => {if (!isLoggedIn) {navigate("/")}}
 
+    // Fetches all the users trips from the db
     const fetchTrips = async () => {
         try {
             const response = await fetch("http://localhost:8000/api/trips", {credentials: "include", headers: {"Content-Type": "application/json"}});
@@ -29,6 +31,7 @@ function Dashboard() {
         }
     }
 
+    // Fetches latitude and longitude information for each trip from Google's Geocoding API
     const fetchLatLng = async () => {
         try {
             const markers = []
@@ -45,6 +48,7 @@ function Dashboard() {
         }
     }
 
+    // Filters the trip cards visible on the page
     const handleTripSelection = (selection) => {
         const todaysDate = new Date().toISOString().split('T')[0];
         let filteredTrips = [];
@@ -86,6 +90,7 @@ function Dashboard() {
 
     return (
         <div className="flex flex-col h-[calc(100vh-4rem)] w-full">
+            {/* Google map with trip markers */}
             <div id="map" className="w-full h-[50vh]">
                 <APIProvider apiKey={apiKey}>
                     <Map
@@ -101,7 +106,9 @@ function Dashboard() {
                     </Map>
                 </APIProvider>
             </div>
+
             <div className="mt-2">
+                {/* Filter tabs for trip cards */}
                 <div className="flex flex-col items-center top-0 w-full z-10">
                     <div
                         id="filter"
@@ -135,8 +142,9 @@ function Dashboard() {
                             Past
                         </button>
                     </div>
-            </div>
-            <div className="scrollbar-hidden flex flex-col items-center w-full h-[calc(100vh-4rem-50vh)] overflow-y-scroll">
+                </div>
+                {/* Trip cards */}
+                <div className="scrollbar-hidden flex flex-col items-center w-full h-[calc(100vh-4rem-50vh)] overflow-y-scroll">
                     <div
                         id="trip-cards"
                         className="grid grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 w-full"
@@ -150,9 +158,9 @@ function Dashboard() {
                                 onClick={() => navigate(`/trip/${trip.id}`)}
                             >
                                 <img className="object-cover w-full h-full rounded-lg" src={trip.trip_image}></img>
-                                <div className="absolute top-0 left-0 w-full h-full flex justify-between items-end rounded-lg bg-gradient-to-t  from-black/90 to-transparent drop-shadow">
-                                    <div className="flex flex-col  items-center justify-center w-full h-2/3 px-2">
-                                        <h1 className="font-bold text-2xl"> {trip.title}</h1>
+                                <div className="absolute top-0 left-0 w-full h-full flex justify-between items-end rounded-lg bg-gradient-to-t from-black/90 to-transparent drop-shadow">
+                                    <div className="flex flex-col items-center justify-center w-full h-2/3 px-2">
+                                        <h1 className="font-bold text-2xl">{trip.title}</h1>
                                         <p className="pt-2">
                                             {trip.city}, {trip.country}
                                         </p>
@@ -167,25 +175,21 @@ function Dashboard() {
                             </button>
                         ))}
                         <button
-                            className="flex flex-col text-cyan-900 bg-cyan-100 rounded-lg m-4 transform
+                            className="flex flex-col relative text-cyan-100 rounded-lg m-4 transform
                             hover:bg-cyan-200 hover:scale-105 hover:ring-2 hover:ring-cyan-500
                             transition-all duration-200 h-60"
                             onClick={() => toggleModal({ form: "AddTripModal" })}
                         >
-                            <div className="w-full h-1/3">
-                                <img className="object-cover w-full h-full rounded-t-lg" src="/passport-stamps.png" alt="Passport Stamps Stock Image"></img>
-                            </div>
-                            <div className="flex flex-col items-center justify-center w-full h-2/3">
-                                <h1 className="font-bold text-2xl mb-7">Add a Trip</h1>
-                            </div>
-                            <div className="flex flex-col justify-center w-full">
-                                <div className="border-t border-black w-3/4 mx-auto justify-center mb-10"></div>
+                            <img className="object-cover w-full h-full rounded-lg" src="/passport-stamps.png" alt="Passport Stamps Stock Image"></img>
+                            <div className="absolute top-0 left-0 w-full h-full flex justify-between items-end rounded-lg bg-gradient-to-t from-black/90 to-transparent drop-shadow">
+                                <div className="flex flex-col items-center justify-center w-full h-2/3 px-2">
+                                    <h1 className="font-bold text-2xl pb-8">Add a Trip</h1>
+                                </div>
                             </div>
                         </button>
                     </div>
                 </div>
             </div>
-
         </div>
         );
     }

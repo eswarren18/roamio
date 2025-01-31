@@ -9,6 +9,7 @@ const images = [
     "/public/desert-road.jpg"
 ];
 
+// The Home component is displayed when the user is logged out
 function Home() {
     const { isLoggedIn } = useContext(AuthContext);
     const [imageIndex, setImageIndex] = useState(0);
@@ -31,20 +32,17 @@ function Home() {
 
     return (
         <div className="relative flex flex-col w-full">
+            {/* Navigation bar */}
             <div
                 className="absolute top-0 z-10 text-cyan-100 px-4 pt-8 pb-24 w-full bg-gradient-to-b from-black/80 to-transparent"
                 id="navigation"
             >
                 <div className="w-11/12 grid grid-cols-3 items-center mx-auto">
                     <div></div>
-
-
                     <div className="flex justify-center items-center">
                         <img src="/public/globe.svg" alt="Logo" className="w-12 h-12" />
                         <div className="text-4xl font-bold tracking-tight ml-3">Roamio</div>
                     </div>
-
-
                     <div className="flex space-x-4 justify-end">
                         <button
                             className="text-cyan-100 hover:underline"
@@ -61,6 +59,7 @@ function Home() {
                     </div>
                 </div>
             </div>
+            {/* Carousel of images */}
             <div
                 className="relative w-full h-screen"
                 id="carousel"

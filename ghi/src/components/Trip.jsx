@@ -6,6 +6,7 @@ import Accordion from './Accordion';
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
 const apiKey = import.meta.env.GOOGLE_API_KEY;
 
+// The Trip component displays details for a single user trip
 function Trip() {
     const { isLoggedIn } = useContext(AuthContext);
     const { tripId } = useParams();
@@ -20,6 +21,7 @@ function Trip() {
 
     const navToHome = () => {if (!isLoggedIn) {navigate("/")}}
 
+    // Fetches trip details from the db
     const fetchTripData = async () => {
         try {
             const [tripRes, flightsRes, lodgingsRes, eventsRes] = await Promise.all([
@@ -56,6 +58,7 @@ function Trip() {
         }
     };
 
+    // Fetches latitude and longitude information for each event and lodging from Google's Geocoding API
     const fetchLatLng = async (activity) => {
         try {
             const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${activity.address}&key=${apiKey}`);
@@ -66,13 +69,14 @@ function Trip() {
                 } else {
                     return { lat: 0, lng: 0 };
                 }
-            } 
+            }
         } catch(e) {
             console.error(`Error fetching geocode data for address: ${activity.address}`, e);
         }
         return { lat: 0, lng: 0 };
     }
 
+    // Calculates the map's center and zoom level based on the event and lodging markers
     const findCenterAndZoom = (markers) => {
         if (markers.length === 0) {
             setZoom(10);
@@ -108,6 +112,7 @@ function Trip() {
         setZoom(newZoom);
     };
 
+    // Organizes the trip information and the associated flights, lodgings, and events
     const setupAccordion = (tripData, flights, lodgings, events) => {
         const startDate = new Date(tripData.start_date);
         const endDate = new Date(tripData.end_date);
