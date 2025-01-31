@@ -20,6 +20,7 @@
     <strong style="font-size:1.2em;">David Iukuridze</strong><br>
     <a href="https://www.linkedin.com/in/david-iukuridze/" style="color:#0077b5; text-decoration: none;">LinkedIn</a> |
     <a href="https://gitlab.com/davidiukuridze" style="color:#fc6d26; text-decoration: none;">GitLab</a>
+    <a href="mailto:david.iukuridze@gmail.com" style="color:#D44638; text-decoration: none;">Email</a>
   </div>
 
   <div style="margin-bottom: 15px;">

@@ -14,10 +14,10 @@ tests:
     script:
         - pip install flake8
         - flake8 api
-        # Run unit tests
-        # - cd api
-        # - pip install -r requirements.txt
-        # - python -m pytest
+        Run unit tests
+        - cd api
+        - pip install -r requirements.txt
+        - python -m pytest
 
 # Frontend lint tests
 # frontend-tests:
