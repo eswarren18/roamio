@@ -1,75 +1,79 @@
 import { useContext, useState } from 'react'
 import { ModalContext } from './ModalProvider'
 
-
 function AddFlightModal() {
     const { toggleModal, activityId, tripData } = useContext(ModalContext)
-    const [ formData, setFormData ] = useState({
-        flight_number:"",
-        departure_date:"",
-        departure_time:"",
-        arrival_date:"",
-        arrival_time:"",
-        trip_id: activityId
+    const [formData, setFormData] = useState({
+        flight_number: '',
+        departure_date: '',
+        departure_time: '',
+        arrival_date: '',
+        arrival_time: '',
+        trip_id: activityId,
     })
 
     const handleFormChange = ({ target }) => {
-        const { value, name } = target;
+        const { value, name } = target
 
-        setFormData(prevState => {
-            const newFormData = { ...prevState, [name]: value };
+        setFormData((prevState) => {
+            const newFormData = { ...prevState, [name]: value }
             const dates = Object.keys(tripData)
 
-            if (newFormData.departure_date > dates[(dates.length)-1]) {
-                newFormData.departure_date = ""
+            if (newFormData.departure_date > dates[dates.length - 1]) {
+                newFormData.departure_date = ''
             }
-            if ( newFormData.arrival_date < dates[0] || newFormData.arrival_date > dates[(dates.length)-1]) {
-                newFormData.arrival_date = ""
+            if (
+                newFormData.arrival_date < dates[0] ||
+                newFormData.arrival_date > dates[dates.length - 1]
+            ) {
+                newFormData.arrival_date = ''
             }
 
             if (name === 'departure_date' || name === 'arrival_date') {
                 if (newFormData.arrival_date < newFormData.departure_date) {
-                    newFormData.arrival_date = "";
+                    newFormData.arrival_date = ''
                 }
-                if (newFormData.arrival_date === newFormData.departure_date && newFormData.arrival_time < newFormData.departure_time) {
-                    newFormData.arrival_time = "";
+                if (
+                    newFormData.arrival_date === newFormData.departure_date &&
+                    newFormData.arrival_time < newFormData.departure_time
+                ) {
+                    newFormData.arrival_time = ''
                 }
                 if (newFormData.arrival_time < newFormData.departure_time) {
-                    newFormData.arrival_time = "";
+                    newFormData.arrival_time = ''
                 }
             }
             if (newFormData.departure_date === newFormData.arrival_date) {
                 if (name === 'arrival_time' || name === 'departure_time') {
                     if (newFormData.arrival_time < newFormData.departure_time) {
-                        newFormData.arrival_time = "";
+                        newFormData.arrival_time = ''
                     }
                 }
             }
-            return newFormData;
-        });
-    };
+            return newFormData
+        })
+    }
 
     const handleFormSubmit = async (e) => {
         e.preventDefault()
-        let departure_date_time = (`${departure_date}T${departure_time}`);
-        let arrival_date_time = (`${arrival_date}T${arrival_time}`);
+        let departure_date_time = `${departure_date}T${departure_time}`
+        let arrival_date_time = `${arrival_date}T${arrival_time}`
         try {
-            const response = await fetch("http://localhost:8000/api/flights",
-                {
-                    method: "POST",
-                    headers: {'Content-Type' : 'application/json'},
-                    credentials: "include",
-                    body : JSON.stringify({
-                        flight_number: formData.flight_number,
-                        departure_time: departure_date_time,
-                        arrival_time: arrival_date_time,
-                        trip_id: activityId
-                    })
-                })
-                if (response.ok) {
-                    resetForm()
-                    toggleModal("", null, "")
-                }
+            const response = await fetch('http://localhost:8000/api/flights', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({
+                    flight_number: formData.flight_number,
+                    departure_time: departure_date_time,
+                    arrival_time: arrival_date_time,
+                    trip_id: activityId,
+                }),
+            })
+            if (response.ok) {
+                resetForm()
+                toggleModal('', null, '')
+            }
         } catch (e) {
             console.error(e)
         }
@@ -77,16 +81,22 @@ function AddFlightModal() {
 
     const resetForm = () => {
         setFormData({
-            flight_number:"",
-            departure_date:"",
-            departure_time:"",
-            arrival_date:"",
-            arrival_time:"",
-            trip_id: ""
+            flight_number: '',
+            departure_date: '',
+            departure_time: '',
+            arrival_date: '',
+            arrival_time: '',
+            trip_id: '',
         })
     }
 
-    const { flight_number, departure_date, departure_time, arrival_date, arrival_time } = formData
+    const {
+        flight_number,
+        departure_date,
+        departure_time,
+        arrival_date,
+        arrival_time,
+    } = formData
 
     return (
         <div
@@ -98,13 +108,16 @@ function AddFlightModal() {
                 className="flex flex-col bg-white rounded-lg shadow-lg w-1/3 p-8"
                 onClick={(e) => e.stopPropagation()}
             >
-                <button
-                    onClick={toggleModal}
-                    className="flex justify-end"
-                >
-                    <img src="/public/x-icon.svg" alt="Cancel" className="w-8 h-8" />
+                <button onClick={toggleModal} className="flex justify-end">
+                    <img
+                        src="/public/x-icon.svg"
+                        alt="Cancel"
+                        className="w-8 h-8"
+                    />
                 </button>
-                <div className="text-center text-4xl font-bold mb-6">Add Flight</div>
+                <div className="text-center text-4xl font-bold mb-6">
+                    Add Flight
+                </div>
                 <form
                     onSubmit={handleFormSubmit}
                     className="flex flex-col w-4/5 mx-auto"
@@ -211,11 +224,13 @@ function AddFlightModal() {
                             </label>
                         </div>
                     </div>
-                    <button className="hover:underline" type="submit">Create</button>
+                    <button className="hover:underline" type="submit">
+                        Create
+                    </button>
                 </form>
             </div>
         </div>
-    );
+    )
 }
 
 export default AddFlightModal

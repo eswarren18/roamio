@@ -5,108 +5,117 @@ import { ModalContext } from './ModalProvider'
 function EditTripModal() {
     const { toggleModal, tripData, activityId } = useContext(ModalContext)
     const [toDelete, setToDelete] = useState([])
-    const [ formData, setFormData ] = useState({
-        id: "",
-        title: "",
-        country: "",
-        city: "",
-        start_date: "",
-        end_date: "",
-        trip_image: "",
-        user_id: ""
+    const [formData, setFormData] = useState({
+        id: '',
+        title: '',
+        country: '',
+        city: '',
+        start_date: '',
+        end_date: '',
+        trip_image: '',
+        user_id: '',
     })
 
     // Fetches the trips data using activityId to populate the form
     const fetchTrip = async (e) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/trips/${activityId}`, {
-                credentials: "include",
-                headers: {"Content-Type": "application/json"}
-            });
+            const response = await fetch(
+                `http://localhost:8000/api/trips/${activityId}`,
+                {
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            )
 
             if (response.ok) {
-                const data = await response.json();
-                setFormData(prevFormData => ({
+                const data = await response.json()
+                setFormData((prevFormData) => ({
                     ...prevFormData,
                     ...data,
-                    trip_image: data.trip_image === "/passport-stamps.png" ? prevFormData.trip_image : data.trip_image
+                    trip_image:
+                        data.trip_image === '/passport-stamps.png'
+                            ? prevFormData.trip_image
+                            : data.trip_image,
                 }))
             }
-        } catch(e) {
+        } catch (e) {
             console.error(e)
         }
     }
 
     useEffect(() => {
-        fetchTrip() }, [])
+        fetchTrip()
+    }, [])
 
     // Updates the list of activities needed to be deleted based on new trip date range
     const updateToDelete = () => {
-        if (!tripData) return;
+        if (!tripData) return
 
-            const dates = Object.keys(tripData);
-            const activitiesByDate = Object.values(tripData);
-            const newToDelete = [];
+        const dates = Object.keys(tripData)
+        const activitiesByDate = Object.values(tripData)
+        const newToDelete = []
 
-            if (formData.start_date && formData.start_date > dates[0]) {
-                for (let i = 0; i < activitiesByDate.length; i++) {
-                    if (dates[i] < formData.start_date) {
-                        for (let j = 0; j < activitiesByDate[i].length; j++) {
-                            newToDelete.push([activitiesByDate[i][j].id, activitiesByDate[i][j].type]);
-                        }
-                    } else {
-                        break;
+        if (formData.start_date && formData.start_date > dates[0]) {
+            for (let i = 0; i < activitiesByDate.length; i++) {
+                if (dates[i] < formData.start_date) {
+                    for (let j = 0; j < activitiesByDate[i].length; j++) {
+                        newToDelete.push([
+                            activitiesByDate[i][j].id,
+                            activitiesByDate[i][j].type,
+                        ])
                     }
+                } else {
+                    break
                 }
             }
+        }
 
-            if (formData.end_date && formData.end_date < dates[dates.length - 1]) {
-                for (let i = dates.length - 1; i >= 0; i--) {
-                    if (dates[i] > formData.end_date) {
-                        for (let j = 0; j < activitiesByDate[i].length; j++) {
-                            newToDelete.push([activitiesByDate[i][j].id, activitiesByDate[i][j].type]);
-                        }
-                    } else {
-                        break;
+        if (formData.end_date && formData.end_date < dates[dates.length - 1]) {
+            for (let i = dates.length - 1; i >= 0; i--) {
+                if (dates[i] > formData.end_date) {
+                    for (let j = 0; j < activitiesByDate[i].length; j++) {
+                        newToDelete.push([
+                            activitiesByDate[i][j].id,
+                            activitiesByDate[i][j].type,
+                        ])
                     }
+                } else {
+                    break
                 }
             }
+        }
 
-            setToDelete(newToDelete);
-        };
+        setToDelete(newToDelete)
+    }
 
     useEffect(() => {
-        updateToDelete() }, [formData.start_date, formData.end_date, tripData])
+        updateToDelete()
+    }, [formData.start_date, formData.end_date, tripData])
 
     // Handles form input changes and updates the formData state
     const handleFormChange = ({ target: { value, name } }) => {
         setFormData({
             ...formData,
-            [name]: value
+            [name]: value,
         })
     }
 
     // Deletes activities that fall outside the specified date range
     const deleteOutOfRangeItems = async () => {
-        for ( let activity of toDelete ) {
-            let url;
-            if (activity[1] === "event") {
+        for (let activity of toDelete) {
+            let url
+            if (activity[1] === 'event') {
                 url = `http://localhost:8000/api/events/${activity[0]}`
-            }
-            else if (activity[1] === "flight") {
+            } else if (activity[1] === 'flight') {
                 url = `http://localhost:8000/api/flights/${activity[0]}`
-            }
-            else {
+            } else {
                 url = `http://localhost:8000/api/lodgings/${activity[0]}`
             }
-            const response = await fetch(
-                url,
-                {
-                    method: "DELETE",
-                    headers: {'Content-Type' : 'application/json'},
-                    credentials: "include"
-                }
-            )
+            const response = await fetch(url, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+            })
         }
     }
 
@@ -114,25 +123,27 @@ function EditTripModal() {
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch(`http://localhost:8000/api/trips/${activityId}`,
+            const response = await fetch(
+                `http://localhost:8000/api/trips/${activityId}`,
                 {
-                    method: "PUT",
-                    headers: {'Content-Type' : 'application/json'},
-                    credentials: "include",
-                    body : JSON.stringify({
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({
                         title: formData.title,
                         country: formData.country,
                         city: formData.city,
                         start_date: formData.start_date,
                         end_date: formData.end_date,
                         trip_image: formData.trip_image,
-                    })
-                })
-                if (response.ok) {
-                    deleteOutOfRangeItems()
-                    resetForm()
-                    toggleModal("", null, "")
+                    }),
                 }
+            )
+            if (response.ok) {
+                deleteOutOfRangeItems()
+                resetForm()
+                toggleModal('', null, '')
+            }
         } catch (e) {
             console.error(e)
         }
@@ -140,14 +151,14 @@ function EditTripModal() {
 
     const resetForm = () => {
         setFormData({
-            id: "",
-            title: "",
-            country: "",
-            city: "",
-            start_date: "",
-            end_date: "",
-            trip_image: "",
-            user_id: ""
+            id: '',
+            title: '',
+            country: '',
+            city: '',
+            start_date: '',
+            end_date: '',
+            trip_image: '',
+            user_id: '',
         })
     }
 
@@ -162,18 +173,33 @@ function EditTripModal() {
                 className="flex items-center flex-col bg-white rounded-lg shadow-lg w-1/3 p-8"
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className='flex justify-end w-full'>
+                <div className="flex justify-end w-full">
                     <button onClick={toggleModal}>
-                        <img src="/public/x-icon.svg" alt="Cancel" className="w-8 h-8" />
+                        <img
+                            src="/public/x-icon.svg"
+                            alt="Cancel"
+                            className="w-8 h-8"
+                        />
                     </button>
                 </div>
-                <div className="text-center text-4xl font-bold mb-6">Edit Trip</div>
-                { toDelete.length > 0 && (
+                <div className="text-center text-4xl font-bold mb-6">
+                    Edit Trip
+                </div>
+                {toDelete.length > 0 && (
                     <div className="flex items-center w-4/5 justify-center mb-6 rounded-lg bg-gray-700 p-3 text-yellow-500">
-                        <svg className="me-3 inline h-4 w-4 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        <svg
+                            className="me-3 inline h-4 w-4 flex-shrink-0"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                        >
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                         </svg>
-                        <div className='text-sm'><span className="font-medium">Warning:</span> Out of range itinerary items will be deleted.</div>
+                        <div className="text-sm">
+                            <span className="font-medium">Warning:</span> Out of
+                            range itinerary items will be deleted.
+                        </div>
                     </div>
                 )}
                 <form
@@ -295,16 +321,13 @@ function EditTripModal() {
                             Enter Image URL
                         </label>
                     </div>
-                    <button
-                        className="hover:underline"
-                        type="submit"
-                    >
+                    <button className="hover:underline" type="submit">
                         Update
                     </button>
                 </form>
             </div>
         </div>
-    );
+    )
 }
 
 export default EditTripModal
