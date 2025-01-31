@@ -5,7 +5,7 @@ import { Autocomplete } from '@react-google-maps/api'
 function AddEventModal() {
     const { toggleModal, activityId, tripData } = useContext(ModalContext)
     const [isMultipleDays, setIsMultipleDays] = useState(false)
-    const [formData, setFormData] = useState({
+    const initialFormData = {
         name: '',
         start_date: '',
         end_date: '',
@@ -14,7 +14,8 @@ function AddEventModal() {
         address: '',
         description: '',
         trip_id: activityId,
-    })
+    }
+    const [formData, setFormData] = useState(initialFormData)
 
     const addressAutocompleteRef = useRef(null)
 
@@ -115,16 +116,7 @@ function AddEventModal() {
     }
 
     const resetForm = () => {
-        setFormData({
-            name: '',
-            start_date: '',
-            end_date: '',
-            start_time: '',
-            end_time: '',
-            address: '',
-            description: '',
-            trip_id: '',
-        })
+        setFormData(initialFormData)
     }
 
     const {
