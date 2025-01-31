@@ -17,28 +17,26 @@ export default function Accordion({ header, content }) {
                     <div className="flex w-11/12 justify-between relative group">
                         <div className="flex flex-col bg-gray-50 text-gray-500 rounded-lg py-2 px-4 w-full">
                             <div className="font-bold text-2xl mb-2 text-black">{activity.name}</div>
-                            <div className="flex">
-                                <div className="w-2/5 flex flex-col justify-between h-full mr-2">
-                                    <div>{activity.address}</div>
-                                    {sameDay ? (
-                                            <div className="mt-2 p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">
-                                                <span>{startDateTime.toLocaleTimeString([], { month: "short", day: "2-digit", hour: '2-digit', minute: '2-digit' })}</span>
-                                                <span> - </span>
-                                                <span>{endDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                                            </div>
-                                        ) : (
-                                            <div className="flex items-center mt-2 p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">
-                                                <span>{startDateTime.toLocaleTimeString([], { month: "short", day: "2-digit", hour: '2-digit', minute: '2-digit' })}</span>
-                                                <span className="mx-1"> - </span>
-                                                <span>{endDateTime.toLocaleTimeString([], { month: "short", day: "2-digit", hour: '2-digit', minute: '2-digit' })}</span>
-                                            </div>
-                                        )
-                                    }
-                                </div>
-                                <div className="w-3/5 border-l border-black pl-2">
-                                    <div>Description:</div>
-                                    <div>{activity.description}</div>
-                                </div>
+                            <div>{activity.address}</div>
+                            <div className="flex flex-col justify-between h-full mr-2">
+                            <div>
+                                <div className="pt-2">Description:</div>
+                                <div>{activity.description}</div>
+                            </div>
+                            {sameDay ? (
+                                    <div className="mt-2 p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">
+                                        <span>{startDateTime.toLocaleTimeString([], { month: "short", day: "2-digit", hour: '2-digit', minute: '2-digit' })}</span>
+                                        <span> - </span>
+                                        <span>{endDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center mt-2 p-1 w-fit bg-orange-100 text-orange-500 rounded-lg">
+                                        <span>{startDateTime.toLocaleTimeString([], { month: "short", day: "2-digit", hour: '2-digit', minute: '2-digit' })}</span>
+                                        <span className="mx-1"> - </span>
+                                        <span>{endDateTime.toLocaleTimeString([], { month: "short", day: "2-digit", hour: '2-digit', minute: '2-digit' })}</span>
+                                    </div>
+                                )
+                            }
                             </div>
                         </div>
                         <div className="flex p-2 gap-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -58,14 +56,10 @@ export default function Accordion({ header, content }) {
                             <div className="font-bold text-2xl mb-2 text-black">Flight</div>
                             <div>Flight Number: {activity.flight_number}</div>
                             <div className="mt-2 w-fit">
-                                <div>
-                                    <span className="mr-1">Departure:</span>
-                                    <span className="bg-orange-100 text-orange-500 rounded-lg p-1">{new Date(activity.departure_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                                </div>
-                                <div>
-                                    <span className="mr-1">Arrival:</span>
-                                    <span className="bg-orange-100 text-orange-500 rounded-lg p-1">{new Date(activity.arrival_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                                </div>
+                                <span className="mr-1">Departure:</span>
+                                <span className="bg-orange-100 text-orange-500 rounded-lg p-1">{new Date(activity.departure_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                <span className="ml-3 mr-1">Arrival:</span>
+                                <span className="bg-orange-100 text-orange-500 rounded-lg p-1">{new Date(activity.arrival_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                             </div>
                         </div>
                         <div className="flex p-2 gap-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
