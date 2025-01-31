@@ -2,6 +2,7 @@ import { useContext, useState, useRef } from 'react'
 import { ModalContext } from './ModalProvider'
 import { Autocomplete } from '@react-google-maps/api'
 
+// The AddEventModal component handles the creation of a new event
 function AddEventModal() {
     const { toggleModal, activityId, tripData } = useContext(ModalContext)
     const [isMultipleDays, setIsMultipleDays] = useState(false)
@@ -17,8 +18,10 @@ function AddEventModal() {
     }
     const [formData, setFormData] = useState(initialFormData)
 
+    // Reference to handle the autocomplete functionality for the address input
     const addressAutocompleteRef = useRef(null)
 
+    // Updates the address in the formData when the place changes in the address autocomplete field
     const onAddressPlaceChanged = () => {
         const place = addressAutocompleteRef.current.getPlace()
         const address = place.formatted_address || ''
@@ -29,6 +32,7 @@ function AddEventModal() {
         }))
     }
 
+    // Handles form input changes with additional checks for date and time field validity
     const handleFormChange = ({ target }) => {
         const { value, name } = target
 

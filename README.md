@@ -19,7 +19,7 @@
   <div style="margin-bottom: 15px;">
     <strong style="font-size:1.2em;">David Iukuridze</strong><br>
     <a href="https://www.linkedin.com/in/david-iukuridze/" style="color:#0077b5; text-decoration: none;">LinkedIn</a> |
-    <a href="https://gitlab.com/davidiukuridze" style="color:#fc6d26; text-decoration: none;">GitLab</a>
+    <a href="https://gitlab.com/davidiukuridze" style="color:#fc6d26; text-decoration: none;">GitLab</a> |
     <a href="mailto:david.iukuridze@gmail.com" style="color:#D44638; text-decoration: none;">Email</a>
   </div>
 
@@ -35,27 +35,29 @@
 <br>
 
 ## Project Description <br>
-Roamio is your simple solution for planning your next trip! With a beautiful interface and simple GUI, users will find Roamio to be both functional and light-weight!  Designed with a sleek and intuitive interface, Roamio offers travelers a seamless experience for organizing trips, exploring destinations, and managing itineraries. Whether you're a casual traveler or a seasoned explorer, Roamio provides the tools you need to create memorable journeys effortlessly. <br>
+
+Roamio is your simple solution for planning your next trip! With a beautiful interface and simple GUI, users will find Roamio to be both functional and light-weight! Designed with a sleek and intuitive interface, Roamio offers travelers a seamless experience for organizing trips, exploring destinations, and managing itineraries. Whether you're a casual traveler or a seasoned explorer, Roamio provides the tools you need to create memorable journeys effortlessly. <br>
 
 ![Wireframe Diagram for Roamio](./roamio_wireframes.png)
 
-**Key Features**
----
-   - Trip Planning: Create and customize detailed trip itineraries, including destinations and activities.
-   - Destination Explorer: Discover new places with comprehensive information, images, and user reviews.
-   - User Authentication: Secure signup and login functionalities to protect user data and personalize experiences.
-   - Responsive Design: Enjoy a consistent and optimized experience across desktop and mobile devices.
+## **Key Features**
 
+-   Trip Planning: Create and customize detailed trip itineraries, including destinations and activities.
+-   Destination Explorer: Discover new places with comprehensive information, images, and user reviews.
+-   User Authentication: Secure signup and login functionalities to protect user data and personalize experiences.
+-   Responsive Design: Enjoy a consistent and optimized experience across desktop and mobile devices.
 
-**Technical Overview**
----
-*Roamio is built with a modern and scalable technology stack, ensuring high performance and maintainability*:
-  - **Frontend**: Developed using React.js with Vite for fast bundling and optimized performance. The user interface is styled with TailwindCSS, providing a flexible and aesthetically pleasing design.
-  - **Backend**: Powered by FastAPI, delivering high-performance RESTful API endpoints that facilitate efficient communication between the frontend and backend services.
-  - **Database**: Utilizes PostgreSQL for reliable and scalable data storage, supporting complex queries and ensuring data integrity.
-  - **Containerization**: The entire application is containerized using Docker, enabling consistent environments across development, testing, and production. This facilitates easy deployment and scalability.
+## **Technical Overview**
+
+_Roamio is built with a modern and scalable technology stack, ensuring high performance and maintainability_:
+
+-   **Frontend**: Developed using React.js with Vite for fast bundling and optimized performance. The user interface is styled with TailwindCSS, providing a flexible and aesthetically pleasing design.
+-   **Backend**: Powered by FastAPI, delivering high-performance RESTful API endpoints that facilitate efficient communication between the frontend and backend services.
+-   **Database**: Utilizes PostgreSQL for reliable and scalable data storage, supporting complex queries and ensuring data integrity.
+-   **Containerization**: The entire application is containerized using Docker, enabling consistent environments across development, testing, and production. This facilitates easy deployment and scalability.
 
 ## Tech Stack
+
 <div align="center" style="background-color: #f9f9f9; color: black; padding: 20px; border-radius: 5px;">
   <strong>FastAPI</strong> | <strong>Vite</strong> | <strong>Docker</strong> | <strong>React.js</strong> |
   <strong>PostgreSQL</strong> | <strong>JavaScript</strong> | <strong>TailwindCSS</strong> |
@@ -120,48 +122,63 @@ Roamio is your simple solution for planning your next trip! With a beautiful int
 
 ---
 
-
 ## Usage & Features
+
 Roamio provides a streamlined way to plan and manage your trips!
 
 **Features include:**
-- **User Accounts**: Create a new account or sign in to an existing one.
-- **Trip Management**: Set up and organize multiple trips, each containing its own itinerary.
-- **Event Scheduling**: Add and manage Events, Flights, and Lodging details for each trip.
-- **Interactive Map**: Explore points of interest via an integrated Google Maps API, right inside the application!
-<br>
+
+-   **User Accounts**: Create a new account or sign in to an existing one.
+-   **Trip Management**: Set up and organize multiple trips, each containing its own itinerary.
+-   **Event Scheduling**: Add and manage Events, Flights, and Lodging details for each trip.
+-   **Interactive Map**: Explore points of interest via an integrated Google Maps API, right inside the application!
+    <br>
 
 ## FastAPI API Endpoints
+
 ### Authentication
+
 #### Signup
----
-Submit a POST request to `localhost:8000/api/auth/signup` <br>
-*A successful call will return the following:*
-```
-{
-  "id": 0,
-  "username": "string"
-}
-```
----
-#### Signin
----
-Submit a POST request to `localhost:8000/api/auth/signin` <br>
-*A successful call will return the following:*
-```
-{
-  "id": 0,
-  "username": "string"
-}
-```
+
 ---
 
+Submit a POST request to `localhost:8000/api/auth/signup` <br>
+_A successful call will return the following:_
+
+```
+{
+  "id": 0,
+  "username": "string"
+}
+```
+
+---
+
+#### Signin
+
+---
+
+Submit a POST request to `localhost:8000/api/auth/signin` <br>
+_A successful call will return the following:_
+
+```
+{
+  "id": 0,
+  "username": "string"
+}
+```
+
+---
 
 ### Trips <br>
+
 #### Create Trip
+
 ---
+
 Submit a POST request to `localhost:8000/api/trips` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 {
   "id": 0,
@@ -174,11 +191,16 @@ Submit a POST request to `localhost:8000/api/trips` <br>
   "user_id": 0
 }
 ```
+
 ---
+
 #### Get Trips
+
 ---
+
 Submit a GET request to `localhost:8000/api/trips` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 [
   {
@@ -193,11 +215,16 @@ Submit a GET request to `localhost:8000/api/trips` <br>
   }
 ]
 ```
+
 ---
+
 #### Update Trip
+
 ---
+
 Submit a PUT request to `localhost:8000/api/trips/{trip_id}` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 {
   "id": 0,
@@ -210,11 +237,16 @@ Submit a PUT request to `localhost:8000/api/trips/{trip_id}` <br>
   "user_id": 0
 }
 ```
+
 ---
+
 #### Get A Single Trip
+
 ---
+
 Submit a GET request to `localhost:8000/api/trips/{trip_id}` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 {
   "id": 0,
@@ -227,21 +259,29 @@ Submit a GET request to `localhost:8000/api/trips/{trip_id}` <br>
   "user_id": 0
 }
 ```
+
 ---
+
 #### Delete A Trip
+
 ---
+
 Submit a DELETE request to `localhost:8000/api/trips/{trip_id}` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 true
 ```
 
-
 ### Flights <br>
+
 #### Create Flight
+
 ---
+
 Submit a POST request to `localhost:8000/api/flights` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 {
   "id": 0,
@@ -251,11 +291,16 @@ Submit a POST request to `localhost:8000/api/flights` <br>
   "trip_id": 0
 }
 ```
+
 ---
+
 #### Get Flights
+
 ---
+
 Submit a GET request to `localhost:8000/api/trips/{trip_id}/flights` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 [
   {
@@ -267,11 +312,16 @@ Submit a GET request to `localhost:8000/api/trips/{trip_id}/flights` <br>
   }
 ]
 ```
+
 ---
+
 #### Update Flight
+
 ---
+
 Submit a PUT request to `localhost:8000/api/flights/{flight_id}` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 {
   "id": 0,
@@ -281,11 +331,16 @@ Submit a PUT request to `localhost:8000/api/flights/{flight_id}` <br>
   "trip_id": 0
 }
 ```
+
 ---
+
 #### Get Flight
+
 ---
+
 Submit a GET request to `localhost:8000/api/flights/{flight_id}` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 {
   "id": 0,
@@ -295,21 +350,31 @@ Submit a GET request to `localhost:8000/api/flights/{flight_id}` <br>
   "trip_id": 0
 }
 ```
+
 ---
+
 #### Delete Flight
+
 ---
+
 Submit a DELETE request to `localhost:8000/api/flights/{flight_id}` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 true
 ```
+
 ---
 
 ### Events
+
 #### Create Event
+
 ---
+
 Submit a POST request to `localhost:8000/api/events` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 {
   "name": "string",
@@ -320,11 +385,16 @@ Submit a POST request to `localhost:8000/api/events` <br>
   "trip_id": 0
 }
 ```
+
 ---
+
 #### Get Events
+
 ---
+
 Submit a GET request to `localhost:8000/api/trips/{trip_id}/events` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 [
   {
@@ -338,11 +408,16 @@ Submit a GET request to `localhost:8000/api/trips/{trip_id}/events` <br>
   }
 ]
 ```
+
 ---
+
 #### Update Event
+
 ---
+
 Submit a PUT request to `localhost:8000/api/events/{event_id}` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 {
   "id": 0,
@@ -354,11 +429,16 @@ Submit a PUT request to `localhost:8000/api/events/{event_id}` <br>
   "trip_id": 0
 }
 ```
+
 ---
+
 #### Get Event
+
 ---
+
 Submit a GET request to `localhost:8000/api/events/{event_id}` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 {
   "id": 0,
@@ -370,20 +450,31 @@ Submit a GET request to `localhost:8000/api/events/{event_id}` <br>
   "trip_id": 0
 }
 ```
+
 ---
+
 #### Delete Event
+
 ---
+
 Submit a DELETE request to `localhost:8000/api/events/{event_id}` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 true
 ```
+
 ---
+
 ### Lodgings
+
 #### Create Lodging
+
 ---
+
 Submit a POST request to `localhost:8000/api/lodgings` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 {
   "id": 0,
@@ -394,11 +485,16 @@ Submit a POST request to `localhost:8000/api/lodgings` <br>
   "trip_id": 0
 }
 ```
+
 ---
+
 #### Get Lodgings
+
 ---
+
 Submit a GET request to `localhost:8000/api/trips/{trip_id}/lodgings` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 [
   {
@@ -411,11 +507,16 @@ Submit a GET request to `localhost:8000/api/trips/{trip_id}/lodgings` <br>
   }
 ]
 ```
+
 ---
+
 #### Update Lodging
+
 ---
+
 Submit a PUT request to `localhost:8000/api/lodgings/{lodging_id}` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 {
   "id": 0,
@@ -426,11 +527,16 @@ Submit a PUT request to `localhost:8000/api/lodgings/{lodging_id}` <br>
   "trip_id": 0
 }
 ```
+
 ---
+
 #### Get Lodging
+
 ---
+
 Submit a GET request to `localhost:8000/api/lodgings/{lodging_id}` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 {
   "id": 0,
@@ -442,24 +548,32 @@ Submit a GET request to `localhost:8000/api/lodgings/{lodging_id}` <br>
   "trip_id": 0
 }
 ```
+
 ---
+
 #### Delete Lodging
+
 ---
+
 Submit a DELETE request to `localhost:8000/api/lodgings/{lodging_id}` <br>
-*A successful call will return the following:*
+_A successful call will return the following:_
+
 ```
 true
 ```
+
 ---
+
 <br>
 
-
 ## Development Roadmap
+
 **Features to be added include:**
-- **Expanded User Account Functionality**:
-Create an account profile, complete with capability for users to upload custom profile pictures!
-- **Expanded Map Functionality**: Adding new features to our maps that include driving directions, air quality, weather, the ability to detect user location and more!
-- **Social Media Functionality**: Ability for users to message one another in an instant messanger, as well as capability to add other users to project, share comments on other users' events, and more!
-- **Secure Login with 0Auth**: Expanding our users' ease in logging into Roamio!
-- **User Reviews and Ratings**: Allow users to rate and to review events and locations!
-- **AI-Powered Chat Assitant**: Integrating a useful AI chat agent to help users plan their next vacation!
+
+-   **Expanded User Account Functionality**:
+    Create an account profile, complete with capability for users to upload custom profile pictures!
+-   **Expanded Map Functionality**: Adding new features to our maps that include driving directions, air quality, weather, the ability to detect user location and more!
+-   **Social Media Functionality**: Ability for users to message one another in an instant messanger, as well as capability to add other users to project, share comments on other users' events, and more!
+-   **Secure Login with 0Auth**: Expanding our users' ease in logging into Roamio!
+-   **User Reviews and Ratings**: Allow users to rate and to review events and locations!
+-   **AI-Powered Chat Assitant**: Integrating a useful AI chat agent to help users plan their next vacation!
