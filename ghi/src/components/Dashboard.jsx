@@ -176,18 +176,16 @@ function Dashboard() {
                                     className="object-cover w-full h-full rounded-lg"
                                     src={trip.trip_image}
                                 ></img>
-                                <div className="absolute top-0 left-0 w-full h-full flex justify-between items-end rounded-lg bg-gradient-to-t from-black/90 to-transparent drop-shadow">
-                                    <div className="flex flex-col items-center justify-center w-full h-2/3 px-2">
+                                <div className="absolute bottom-0 left-0 w-full h-full flex justify-between items-end rounded-lg bg-gradient-to-t from-black/90 to-transparent drop-shadow">
+                                    <div className="flex flex-col items-center justify-end w-full h-2/3 px-2">
                                         <h1 className="font-bold text-2xl">
                                             {trip.title}
                                         </h1>
                                         <p className="pt-2">
                                             {trip.city}, {trip.country}
                                         </p>
-                                    </div>
-                                    <div className="flex flex-col absolute justify-center w-full px-2">
-                                        <div className="border-t border-cyan-100 w-3/4 mx-auto justify-center"></div>
-                                        <p className="my-2">
+                                        <div className="border-t border-cyan-100 w-3/4 mx-auto mt-2 justify-center"></div>
+                                        <p className="mt-1 mb-4">
                                             {trip.start_date} - {trip.end_date}
                                         </p>
                                     </div>
@@ -209,7 +207,7 @@ function Dashboard() {
                             ></img>
                             <div className="absolute top-0 left-0 w-full h-full flex justify-between items-end rounded-lg bg-gradient-to-t from-black/90 to-transparent drop-shadow">
                                 <div className="flex flex-col items-center justify-center w-full h-2/3 px-2">
-                                    <h1 className="font-bold text-2xl pb-8">
+                                    <h1 className="font-bold text-2xl pb-10">
                                         Add a Trip
                                     </h1>
                                 </div>

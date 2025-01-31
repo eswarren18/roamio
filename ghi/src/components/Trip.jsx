@@ -216,7 +216,7 @@ function Trip() {
 
     useEffect(() => {
         fetchTripData()
-    }, [location.pathname, toggleModal])
+    }, [location.pathname, toggleModal, tripId])
 
     return (
         <div className="flex flex-row h-[calc(100vh-4rem)] w-full">
@@ -227,7 +227,7 @@ function Trip() {
                         className="object-cover w-full h-full"
                         src={trip.trip_image}
                     ></img>
-                    <div className="absolute top-0 left-0 w-full h-full flex justify-between items-end bg-gradient-to-t from-black/80 to-transparent p-4 rounded-t-lg rounded-b-lg">
+                    <div className="absolute top-0 left-0 w-full h-full flex justify-between items-end bg-gradient-to-t from-black/80 to-transparent p-4 rounded-t-lg">
                         <div className="flex flex-col text-cyan-100">
                             <h1 className="font-bold text-6xl">{trip.title}</h1>
                             <p className="text-cyan-100">
