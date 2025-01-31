@@ -5,17 +5,18 @@ import { ModalContext } from './ModalProvider'
 // The AddTripModal component handles the creation of a new trip
 function AddTripModal() {
     const { toggleModal } = useContext(ModalContext)
-    const [formData, setFormData] = useState({
+    const navigate = useNavigate()
+    const initialFormData = {
         title: '',
         country: '',
         city: '',
         start_date: '',
         end_date: '',
         trip_image: '',
-    })
-    const navigate = useNavigate()
+    }
+    const [formData, setFormData] = useState(initialFormData)
 
-    // Handles form input changes with additional checks for date and time field validity
+    // Handles form input changes with additional checks for date field validity
     const handleFormChange = ({ target }) => {
         const { value, name } = target
 
@@ -81,14 +82,7 @@ function AddTripModal() {
     }
 
     const resetForm = () => {
-        setFormData({
-            title: '',
-            country: '',
-            city: '',
-            start_date: '',
-            end_date: '',
-            trip_image: '',
-        })
+        setFormData(initialFormData)
     }
 
     const { title, country, city, start_date, end_date, trip_image } = formData

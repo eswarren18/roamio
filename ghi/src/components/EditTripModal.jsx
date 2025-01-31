@@ -5,7 +5,7 @@ import { ModalContext } from './ModalProvider'
 function EditTripModal() {
     const { toggleModal, tripData, activityId } = useContext(ModalContext)
     const [toDelete, setToDelete] = useState([])
-    const [formData, setFormData] = useState({
+    const initialFormData = {
         id: '',
         title: '',
         country: '',
@@ -14,7 +14,8 @@ function EditTripModal() {
         end_date: '',
         trip_image: '',
         user_id: '',
-    })
+    }
+    const [formData, setFormData] = useState(initialFormData)
 
     // Fetches the trips data using activityId to populate the form
     const fetchTrip = async (e) => {
@@ -92,7 +93,7 @@ function EditTripModal() {
         updateToDelete()
     }, [formData.start_date, formData.end_date, tripData])
 
-    // Handles form input changes with additional checks for date and time field validity
+    // Handles form input changes with additional checks for date field validity
     const handleFormChange = ({ target }) => {
         const { value, name } = target
 
@@ -185,16 +186,7 @@ function EditTripModal() {
     }
 
     const resetForm = () => {
-        setFormData({
-            id: '',
-            title: '',
-            country: '',
-            city: '',
-            start_date: '',
-            end_date: '',
-            trip_image: '',
-            user_id: '',
-        })
+        setFormData(initialFormData)
     }
 
     const { title, country, city, start_date, end_date, trip_image } = formData

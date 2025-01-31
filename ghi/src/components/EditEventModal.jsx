@@ -7,7 +7,7 @@ function EditEventModal() {
     const { toggleModal, activityId } = useContext(ModalContext)
     const [isMultipleDays, setIsMultipleDays] = useState(false)
     const [tripData, setTripData] = useState({})
-    const [formData, setFormData] = useState({
+    const initialFormData = {
         id: activityId,
         name: '',
         start_date: '',
@@ -17,8 +17,8 @@ function EditEventModal() {
         address: '',
         description: '',
         trip_id: '',
-    })
-
+    }
+    const [formData, setFormData] = useState(initialFormData)
     // Fetches the event data from the backend based on the activityId
     const fetchEvent = async () => {
         try {
@@ -182,15 +182,7 @@ function EditEventModal() {
     }
 
     const resetForm = () => {
-        setFormData({
-            id: '',
-            name: '',
-            start_date_time: '',
-            end_date_time: '',
-            address: '',
-            description: '',
-            trip_id: '',
-        })
+        setFormData(initialFormData)
     }
 
     const {

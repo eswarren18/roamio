@@ -6,14 +6,15 @@ import { Autocomplete } from '@react-google-maps/api'
 function EditLodgingModal() {
     const { toggleModal, activityId } = useContext(ModalContext)
     const [tripData, setTripData] = useState({})
-    const [formData, setFormData] = useState({
+    const initialFormData = {
         id: activityId,
         name: '',
         address: '',
         check_in: '',
         check_out: '',
         trip_id: '',
-    })
+    }
+    const [formData, setFormData] = useState(initialFormData)
 
     // Reference to handle the autocomplete functionality for address input
     const addressAutocompleteRef = useRef(null)
@@ -131,14 +132,7 @@ function EditLodgingModal() {
     }
 
     const resetForm = () => {
-        setFormData({
-            id: '',
-            name: '',
-            address: '',
-            check_in: '',
-            check_out: '',
-            trip_id: '',
-        })
+        setFormData(initialFormData)
     }
 
     const { name, address, check_in, check_out } = formData

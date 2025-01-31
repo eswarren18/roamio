@@ -5,7 +5,7 @@ import { ModalContext } from './ModalProvider'
 function EditFlightModal() {
     const { toggleModal, activityId } = useContext(ModalContext)
     const [tripData, setTripData] = useState({})
-    const [formData, setFormData] = useState({
+    const initialFormData = {
         id: activityId,
         flight_number: '',
         departure_date: '',
@@ -13,7 +13,8 @@ function EditFlightModal() {
         arrival_date: '',
         arrival_time: '',
         trip_id: '',
-    })
+    }
+    const [formData, setFormData] = useState(initialFormData)
 
     // Fetches the flight data from the backend based on the activityId
     const fetchFlight = async (e) => {
@@ -137,15 +138,7 @@ function EditFlightModal() {
     }
 
     const resetForm = () => {
-        setFormData({
-            id: '',
-            flight_number: '',
-            departure_date: '',
-            departure_time: '',
-            arrival_date: '',
-            arrival_time: '',
-            trip_id: '',
-        })
+        setFormData(initialFormData)
     }
 
     const {

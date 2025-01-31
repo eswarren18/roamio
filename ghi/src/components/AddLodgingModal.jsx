@@ -5,13 +5,14 @@ import { Autocomplete } from '@react-google-maps/api'
 // The AddLodgingModal component handles the creation of a new lodging entry
 function AddLodgingModal() {
     const { toggleModal, activityId, tripData } = useContext(ModalContext)
-    const [formData, setFormData] = useState({
+    const initialFormData = {
         name: '',
         address: '',
         check_in: '',
         check_out: '',
         trip_id: activityId,
-    })
+    }
+    const [formData, setFormData] = useState(initialFormData)
 
     // Reference to handle the autocomplete functionality for the address input field
     const addressAutocompleteRef = useRef(null)
@@ -84,13 +85,7 @@ function AddLodgingModal() {
     }
 
     const resetForm = () => {
-        setFormData({
-            name: '',
-            address: '',
-            check_in: '',
-            check_out: '',
-            trip_id: '',
-        })
+        setFormData(initialFormData)
     }
 
     const { name, address, check_in, check_out } = formData
