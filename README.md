@@ -461,7 +461,7 @@ true
 ```
 ---
 <br>
-<!-- old style -->
+
 
 ## Roadmap / Future Improvements
 **Features to be added include:**
@@ -470,65 +470,3 @@ Create an account profile, complete with capability for users to upload custom p
 - **Expanded Map Functionality**: Adding new features to our maps that include driving directions, air quality, weather, driving directions, ability to detect user location, and more!
 - **Social Media Functionality**: Ability for users to message one another in an instant messanger, as well as capability to add other users to project, share comments on other user's events, and more!
 - **Secure Login with 0Auth**: Expanding our users' ability to log into Roamio with greater ease!
-
-<!-- with new CSS -->
-
-
-<div style="max-width: 800px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif;">
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px; color: white;">
-        <h2 style="margin: 0; font-size: 28px; text-align: center; margin-bottom: 20px;">Development Roadmap</h2>
-         <div style="background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 8px;">
-            <div style="margin-bottom: 25px;">
-                <h3 style="color: #ffffff; font-size: 20px; margin-bottom: 15px;">
-                    <span style="display: inline-block; background: #4CAF50; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; margin-right: 10px;">1</span>
-                    Expanded User Account Functionality
-                </h3>
-                <p style="margin: 0 0 0 34px; line-height: 1.6;">Create an account profile, complete with capability for users to upload custom profile pictures!</p>
-            </div>
-            <div style="margin-bottom: 25px;">
-                <h3 style="color: #ffffff; font-size: 20px; margin-bottom: 15px;">
-                    <span style="display: inline-block; background: #2196F3; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; margin-right: 10px;">2</span>
-                    Expanded Map Functionality
-                </h3>
-                <p style="margin: 0 0 0 34px; line-height: 1.6;">Adding new features to our maps that include driving directions, air quality, weather, driving directions, ability to detect user location, and more!</p>
-            </div>
-            <div style="margin-bottom: 25px;">
-                <h3 style="color: #ffffff; font-size: 20px; margin-bottom: 15px;">
-                    <span style="display: inline-block; background: #FF9800; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; margin-right: 10px;">3</span>
-                    Social Media Functionality
-                </h3>
-                <p style="margin: 0 0 0 34px; line-height: 1.6;">Ability for users to message one another in an instant messanger, as well as the capability to add other users to project, share comments on other user's events, and more!</p>
-            </div>
-            <div>
-                <h3 style="color: #ffffff; font-size: 20px; margin-bottom: 15px;">
-                    <span style="display: inline-block; background: #E91E63; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; margin-right: 10px;">4</span>
-                    Secure Login with OAuth
-                </h3>
-                <p style="margin: 0 0 0 34px; line-height: 1.6;">Expanding our users' ability to log into Roamio with greater ease!</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div style="max-width: 800px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif;">
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px; color: white; text-align: center;">
-        <div style="background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 8px;">
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 20px;">
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">FastAPI</span>
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">Vite</span>
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">Docker</span>
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">React.js</span>
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">PostgreSQL</span>
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">JavaScript</span>
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">TailwindCSS</span>
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">Python</span>
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">HTML5</span>
-                <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-weight: bold;">CSS</span>
-            </div>
-            <div style="margin-top: 20px;">
-                <img src="./techstack_collage_438.png" alt="Tech Stack Image" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" />
-            </div>
-        </div>
-    </div>
-</div>

@@ -1,8 +1,10 @@
 from fastapi.testclient import TestClient
 from main import app
 from queries.trip_queries import TripsQueries
+from models.trips import TripOut
 from models.users import UserResponse
 from utils.authentication import try_get_jwt_user_data
+from datetime import date
 
 client = TestClient(app)
 
@@ -39,7 +41,29 @@ class NonEmptyTripsQueries:
                 "user_id": user_id
             }
         ]
-
+class MockTripsQueries:
+    def get_one(self, trip_id: int, user_id: int):
+        return TripOut(
+            id=1,
+            title="Mock Trip",
+            country="Mock Country",
+            city="Mock City",
+            start_date=date(2025, 5, 1), #start_date field in TripOut is a datetime.date object
+            end_date=date(2025, 5, 15),
+            trip_image="mock_image.png",
+            user_id=1
+        )
+    def update(self, trip_id: int, trip_in, user_id: int):
+        return TripOut(
+            id=trip_id,
+            title=trip_in.title,
+            country=trip_in.country,
+            city=trip_in.city,
+            start_date=trip_in.start_date,
+            end_date=trip_in.end_date,
+            trip_image=trip_in.trip_image,
+            user_id=user_id
+        )
 def fake_get_jwt_user_data():
     return UserResponse(id=1, username="testuser")
 
@@ -103,6 +127,54 @@ def test_get_non_empty_trips():
     ]
     # Act
     response = client.get("/api/trips")
+    # Clean-up
+    app.dependency_overrides = {}
+    # Assert
+    assert response.status_code == 200
+    assert response.json() == expected
+
+def test_get_one():
+    # Arrange
+    app.dependency_overrides[TripsQueries] = MockTripsQueries
+    trip_id = 1
+    user_id = 1
+    # Act
+    trip = MockTripsQueries().get_one(trip_id, user_id)
+    # Assert
+    assert trip.id == 1
+    assert trip.title == "Mock Trip"
+    assert trip.country == "Mock Country"
+    assert trip.city == "Mock City"
+    assert trip.start_date == date(2025, 5, 1)
+    assert trip.end_date == date(2025, 5,15)
+    assert trip.trip_image == "mock_image.png"
+    assert trip.user_id == 1
+
+def test_update_trip():
+    # Arrange
+    app.dependency_overrides[try_get_jwt_user_data] = fake_get_jwt_user_data
+    app.dependency_overrides[TripsQueries] = MockTripsQueries
+    json = {
+        "title": "Updated Trip",
+        "country": "Updated Country",
+        "city": "Updated City",
+        "start_date": "2025-02-01",
+        "end_date": "2025-02-07",
+        "trip_image": "updated.jpg"
+    }
+    expected = {
+        "id": 1,
+        "title": "Updated Trip",
+        "country": "Updated Country",
+        "city": "Updated City",
+        "start_date": "2025-02-01",
+        "end_date": "2025-02-07",
+        "trip_image": "updated.jpg",
+        "user_id": 1
+    }
+
+    # Act
+    response = client.put("/api/trips/1", json=json)
     # Clean-up
     app.dependency_overrides = {}
     # Assert
