@@ -92,11 +92,46 @@ function EditTripModal() {
         updateToDelete()
     }, [formData.start_date, formData.end_date, tripData])
 
-    // Handles form input changes and updates the formData state
-    const handleFormChange = ({ target: { value, name } }) => {
-        setFormData({
-            ...formData,
-            [name]: value,
+    // Handles form input changes with additional checks for date and time field validity
+    const handleFormChange = ({ target }) => {
+        const { value, name } = target
+
+        setFormData((prevState) => {
+            const newFormData = { ...prevState, [name]: value }
+
+            if (name === 'start_date') {
+                const newStartDate = new Date(value)
+                const endDate = new Date(prevState.end_date)
+
+                if (endDate < newStartDate) {
+                    target.setCustomValidity(
+                        'Start date cannot be after the end date.'
+                    )
+                    target.reportValidity()
+                    return prevState
+                } else {
+                    target.setCustomValidity('')
+                }
+
+                newFormData.start_date = value
+            } else if (name === 'end_date') {
+                const startDate = new Date(prevState.start_date)
+                const newEndDate = new Date(value)
+
+                if (newEndDate < startDate) {
+                    target.setCustomValidity(
+                        'End date cannot be before the start date.'
+                    )
+                    target.reportValidity()
+                    return prevState
+                } else {
+                    target.setCustomValidity('')
+                }
+
+                newFormData.end_date = value
+            }
+
+            return newFormData
         })
     }
 

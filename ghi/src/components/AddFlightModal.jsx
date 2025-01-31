@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react'
 import { ModalContext } from './ModalProvider'
 
+// The AddFlightModal component handles the creation of a new flight entry
 function AddFlightModal() {
     const { toggleModal, activityId, tripData } = useContext(ModalContext)
     const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ function AddFlightModal() {
         trip_id: activityId,
     })
 
+    // Handles form input changes with additional checks for date and time field validity
     const handleFormChange = ({ target }) => {
         const { value, name } = target
 
@@ -54,6 +56,7 @@ function AddFlightModal() {
         })
     }
 
+    // Handles the form submission to create a new flight entry
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         let departure_date_time = `${departure_date}T${departure_time}`

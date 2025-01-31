@@ -2,6 +2,7 @@ import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ModalContext } from './ModalProvider'
 
+// The AddTripModal component handles the creation of a new trip
 function AddTripModal() {
     const { toggleModal } = useContext(ModalContext)
     const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ function AddTripModal() {
     })
     const navigate = useNavigate()
 
+    // Handles form input changes with additional checks for date and time field validity
     const handleFormChange = ({ target }) => {
         const { value, name } = target
 
@@ -56,6 +58,7 @@ function AddTripModal() {
         })
     }
 
+    // Handles the form submission to create a new trip
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         try {
