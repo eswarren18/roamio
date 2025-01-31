@@ -77,6 +77,7 @@ class TrueDeleteQueries:
     def delete(self, trip_id, user_id):
         return True
 
+
 class FalseDeleteQueries:
     def delete(self, trip_id, user_id):
         raise HTTPException(status_code=404, detail="Trip not found")
