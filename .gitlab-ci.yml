@@ -13,6 +13,7 @@ tests:
     stage: test
     variables:
      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}"
+     SIGNING_KEY: ${SIGNING_KEY}
     script:
         - pip install flake8
         - flake8 api
