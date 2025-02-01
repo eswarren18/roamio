@@ -338,6 +338,7 @@ function Trip() {
                 {center && (
                     <APIProvider apiKey={apiKey}>
                         <Map
+                            key={`${tripId}-${center.lat}-${center.lng}`} // Adding key to force re-render on center
                             style={{ width: '100%', height: '100%' }}
                             defaultCenter={center}
                             defaultZoom={zoom}
