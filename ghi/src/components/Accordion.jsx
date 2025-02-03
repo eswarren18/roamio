@@ -269,7 +269,7 @@ export default function Accordion({ header, content }) {
     return content.length === 0 ? (
         // Header
         <div className="flex flex-col w-full border-t border-cyan-500 py-4 items-center">
-            <div className="flex justify-between w-11/12">
+            <div className="flex items-center justify-between w-11/12">
                 <span className="text-xl">{parseDate()}</span>
                 <p className="flex items-start text-sm text-slate-400">
                     No events planned

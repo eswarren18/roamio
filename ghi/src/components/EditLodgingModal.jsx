@@ -143,7 +143,7 @@ function EditLodgingModal() {
             onClick={toggleModal}
         >
             <div
-                className="flex flex-col bg-white rounded-lg shadow-lg w-1/3 p-8"
+                className="flex flex-col bg-white rounded-lg shadow-lg w-96 p-6"
                 onClick={(e) => e.stopPropagation()}
             >
                 <button onClick={toggleModal} className="flex justify-end mb-2">
@@ -217,56 +217,53 @@ function EditLodgingModal() {
                             <span className="text-red-500 text-xs">*</span>
                         </label>
                     </div>
-                    <div className="flex space-x-4 mb-5">
-                        <div className="relative z-0 w-1/2 group">
-                            <input
-                                type="datetime-local"
-                                name="check_in"
-                                value={check_in}
-                                onChange={handleFormChange}
-                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0
+                    <div className="relative z-0 w-full mb-5 group">
+                        <input
+                            type="datetime-local"
+                            name="check_in"
+                            value={check_in}
+                            onChange={handleFormChange}
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0
                            border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0
                            focus:border-blue-600 peer"
-                                placeholder=" "
-                                required
-                            />
-                            <label
-                                htmlFor="check_in"
-                                className="peer-focus:font-medium absolute text-sm text-gray-500
+                            placeholder=" "
+                            required
+                        />
+                        <label
+                            htmlFor="check_in"
+                            className="peer-focus:font-medium absolute text-sm text-gray-500
                            duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]
                            peer-focus:left-0 peer-focus:text-blue-600
                            peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
                            peer-focus:scale-75 peer-focus:-translate-y-6"
-                            >
-                                Check-In
-                                <span className="text-red-500 text-xs">*</span>
-                            </label>
-                        </div>
-
-                        <div className="relative z-0 w-1/2 group">
-                            <input
-                                type="datetime-local"
-                                name="check_out"
-                                value={check_out}
-                                onChange={handleFormChange}
-                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0
+                        >
+                            Check-In
+                            <span className="text-red-500 text-xs">*</span>
+                        </label>
+                    </div>
+                    <div className="relative z-0 w-full mb-5 group">
+                        <input
+                            type="datetime-local"
+                            name="check_out"
+                            value={check_out}
+                            onChange={handleFormChange}
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0
                            border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0
                            focus:border-blue-600 peer"
-                                placeholder=" "
-                                required
-                            />
-                            <label
-                                htmlFor="check_out"
-                                className="peer-focus:font-medium absolute text-sm text-gray-500
+                            placeholder=" "
+                            required
+                        />
+                        <label
+                            htmlFor="check_out"
+                            className="peer-focus:font-medium absolute text-sm text-gray-500
                            duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]
                            peer-focus:left-0 peer-focus:text-blue-600
                            peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
                            peer-focus:scale-75 peer-focus:-translate-y-6"
-                            >
-                                Check-Out
-                                <span className="text-red-500 text-xs">*</span>
-                            </label>
-                        </div>
+                        >
+                            Check-Out
+                            <span className="text-red-500 text-xs">*</span>
+                        </label>
                     </div>
                     <button className="hover:underline" type="submit">
                         Update

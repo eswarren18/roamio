@@ -46,7 +46,7 @@ export default function DeleteActivityModal() {
             onClick={toggleModal}
         >
             <div
-                className="flex flex-col bg-white rounded-lg shadow-lg w-1/3 p-8"
+                className="flex flex-col bg-white rounded-lg shadow-lg w-96 p-6"
                 onClick={(e) => e.stopPropagation()}
             >
                 <button onClick={toggleModal} className="flex justify-end">

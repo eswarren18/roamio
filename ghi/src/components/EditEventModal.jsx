@@ -201,7 +201,7 @@ function EditEventModal() {
             onClick={toggleModal}
         >
             <div
-                className="flex flex-col bg-white rounded-lg shadow-lg w-1/3 p-8"
+                className="flex flex-col bg-white rounded-lg shadow-lg w-96 p-6"
                 onClick={(e) => e.stopPropagation()}
             >
                 <button onClick={toggleModal} className="flex justify-end">
@@ -244,7 +244,7 @@ function EditEventModal() {
                             }`}
                         >
                             <input
-                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                className="block py-2.5 px-0 w-full text-xs text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 id="start_date"
                                 name="start_date"
                                 onChange={handleFormChange}
@@ -266,7 +266,7 @@ function EditEventModal() {
                                 <span className="mx-4 text-gray-500">to</span>
                                 <div className="relative z-0 w-full mb-5 group">
                                     <input
-                                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                        className="block py-2.5 px-0 w-full text-xs text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                         id="end_date"
                                         name="end_date"
                                         onChange={handleFormChange}
