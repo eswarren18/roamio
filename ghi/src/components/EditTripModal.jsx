@@ -112,7 +112,7 @@ function EditTripModal() {
                 const newEndDate = new Date(value)
 
                 if (newEndDate < startDate) {
-                    newFormData.start_date = ''
+                    newFormData.end_date = ''
                 }
             }
             return newFormData
