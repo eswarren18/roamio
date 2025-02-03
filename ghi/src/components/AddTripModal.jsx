@@ -28,14 +28,14 @@ function AddTripModal() {
                 const endDate = new Date(prevState.end_date)
 
                 if (endDate < newStartDate) {
-                    newFormData.end_date = ""
+                    newFormData.end_date = ''
                 }
             } else if (name === 'end_date') {
                 const startDate = new Date(prevState.start_date)
                 const newEndDate = new Date(value)
 
                 if (newEndDate < startDate) {
-                    newFormData.start_date = ""
+                    newFormData.start_date = ''
                 }
             }
             return newFormData
@@ -198,6 +198,7 @@ function AddTripModal() {
                             name="trip_image"
                             onChange={handleFormChange}
                             placeholder=" "
+                            maxLength="1000"
                             type="url"
                             value={trip_image}
                         />
