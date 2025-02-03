@@ -118,8 +118,7 @@ function Dashboard() {
                     </Map>
                 </APIProvider>
             </div>
-
-            <div className="mt-2">
+            <div className="pt-2 shadow-[0_-25px_50px_-12px_rgba(0,0,0,0.25)] z-10">
                 {/* Filter tabs for trip cards */}
                 <div className="flex flex-col items-center top-0 w-full z-10">
                     <div

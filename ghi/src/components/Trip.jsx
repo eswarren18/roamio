@@ -220,7 +220,7 @@ function Trip() {
 
     return (
         <div className="flex flex-row h-[calc(100vh-4rem)] w-full">
-            <div className="w-4/12 flex flex-col h-full drop-shadow-[0_50px_50px_rgba(0,0,0,0.55)] z-10">
+            <div className="w-4/12 flex flex-col h-full drop-shadow-[0_50px_50px_rgba(0,0,0,0.25)] z-10">
                 {/* Trip photo and info */}
                 <div className="relative h-60 group">
                     <img
