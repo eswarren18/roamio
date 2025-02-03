@@ -45,7 +45,26 @@ Roamio is your simple solution for planning your next trip! With a beautiful int
 -   Trip Planning: Create and customize detailed trip itineraries, including destinations and activities.
 -   Destination Explorer: Discover new places with comprehensive information, images, and user reviews.
 -   User Authentication: Secure signup and login functionalities to protect user data and personalize experiences.
--   Responsive Design: Enjoy a consistent and optimized experience across desktop and mobile devices.
+-   Responsive Design: Enjoy a consistent and optimized experience across desktop and mobile devices. <br>
+<br>
+
+<p align="center"><i>Roamio's Homepage</i><br>
+<img src="site_images/roamio_screenshot_005.jpeg" alt="Roamio's Homepage"></p>
+
+---
+
+<p align="center"><i>A User's Dashboard showcasing the "All" Trip Card Filter</i><br>
+<img src="site_images/roamio_screenshot_004.jpeg" alt="A Google map"></p>
+
+---
+
+<p align="center"><i>
+The 'Trip Page' For An Adventure To Rome</i><br>
+<img src="site_images/roamio_screenshot_002.jpeg" alt="A Google map"></p>
+
+---
+<p align="center"><i>The 'Create Event" Modal Form</i><br>
+<img src="site_images/roamio_screenshot_001.jpeg" alt="A Google map"></p>
 
 ## **Technical Overview**
 
