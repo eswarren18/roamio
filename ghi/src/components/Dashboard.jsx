@@ -84,10 +84,25 @@ function Dashboard() {
         localStorage.setItem('activeButton', selection)
     }
 
-    const formatDate = (dateString) => {
-        const options = { year: 'numeric', month: 'short', day: 'numeric' }
-        return new Date(dateString).toLocaleDateString('en-US', options)
-    }
+const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split('-') // Split the date string
+    const months = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+    ]
+
+    return `${months[parseInt(month, 10) - 1]} ${parseInt(day, 10)}, ${year}`
+}
 
     useEffect(() => {
         navToHome()

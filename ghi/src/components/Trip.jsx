@@ -210,9 +210,27 @@ function Trip() {
         setTripData(tripAccordionData)
     }
 
+    // Function to format provided date string to desired Month Day, Year format
     const formatDate = (dateString) => {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' }
-        return new Date(dateString).toLocaleDateString('en-US', options)
+        if (!dateString) return ''
+
+        const [year, month, day] = dateString.split('-') // Split by "-"
+        const months = [
+            'Janurary',
+            'Feburary',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December',
+        ]
+
+        return `${months[+month - 1]} ${+day}, ${year}`
     }
 
     useEffect(() => {
@@ -236,7 +254,8 @@ function Trip() {
                         <div className="flex flex-col text-cyan-100">
                             <h1 className="font-bold text-6xl">{trip.title}</h1>
                             <p className="text-cyan-100 pt-3">
-                                {formatDate(trip.start_date)} - {formatDate(trip.end_date)}
+                                {formatDate(trip.start_date)} -{' '}
+                                {formatDate(trip.end_date)}
                             </p>
                         </div>
                         <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
