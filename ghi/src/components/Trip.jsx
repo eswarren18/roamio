@@ -210,6 +210,11 @@ function Trip() {
         setTripData(tripAccordionData)
     }
 
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' }
+        return new Date(dateString).toLocaleDateString('en-US', options)
+    }
+
     useEffect(() => {
         navToHome()
     }, [isLoggedIn])
@@ -230,8 +235,8 @@ function Trip() {
                     <div className="absolute top-0 left-0 w-full h-full flex justify-between items-end bg-gradient-to-t from-black/80 to-transparent p-4 rounded-t-lg">
                         <div className="flex flex-col text-cyan-100">
                             <h1 className="font-bold text-6xl">{trip.title}</h1>
-                            <p className="text-cyan-100">
-                                {trip.start_date} - {trip.end_date}
+                            <p className="text-cyan-100 pt-3">
+                                {formatDate(trip.start_date)} - {formatDate(trip.end_date)}
                             </p>
                         </div>
                         <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">

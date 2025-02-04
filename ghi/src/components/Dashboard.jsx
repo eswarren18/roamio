@@ -84,6 +84,11 @@ function Dashboard() {
         localStorage.setItem('activeButton', selection)
     }
 
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'short', day: 'numeric' }
+        return new Date(dateString).toLocaleDateString('en-US', options)
+    }
+
     useEffect(() => {
         navToHome()
     }, [isLoggedIn])
@@ -185,7 +190,7 @@ function Dashboard() {
                                         </p>
                                         <div className="border-t border-cyan-100 w-3/4 mx-auto mt-2 justify-center"></div>
                                         <p className="mt-1 mb-4">
-                                            {trip.start_date} - {trip.end_date}
+                                            {formatDate(trip.start_date)} - {formatDate(trip.end_date)}
                                         </p>
                                     </div>
                                 </div>
