@@ -245,6 +245,7 @@ export default function Accordion({ header, content }) {
             weekday: 'long',
             month: 'long',
             day: 'numeric',
+            timeZone: 'UTC'
         }
         const suffix = (day) => {
             if (day >= 11 && day <= 13) return 'th'
