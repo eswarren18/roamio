@@ -1,6 +1,9 @@
+from collections import defaultdict
 from queries.pool import pool
 from typing import List
-from models.trips import TripOut, TripIn
+from models.trips import TripOut, TripIn, TripDetailsOut
+from models.flights import FlightOut
+from models.events import EventOut
 from psycopg.rows import class_row
 from fastapi import HTTPException
 
@@ -115,8 +118,9 @@ class TripsQueries:
                 detail="Internal Server Error"
             )
 
-    def get_one(self, trip_id: int, user_id: int) -> TripOut:
+    def get_one(self, trip_id: int, user_id: int) -> TripDetailsOut:
         try:
+            details = {}
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(TripOut)) as cur:
                     cur.execute(
@@ -141,7 +145,45 @@ class TripsQueries:
                             status_code=404,
                             detail="Trip not found"
                         )
-                    return trip
+                    # print(trip)
+
+            with pool.connection() as conn:
+                with conn.cursor(row_factory=class_row(FlightOut)) as cur:
+                    cur.execute(
+                        """
+                        SELECT *
+                        FROM flights
+                        WHERE trip_id = %s
+                        ORDER BY departure_time
+                        """,
+                        [trip_id]
+                    )
+                    flights = cur.fetchall()
+                    for flight in flights:
+                        departure_date = flight.departure_time.date().isoformat()  # Extract only the date
+                        details.setdefault(departure_date, []).append(flight)
+
+            with pool.connection() as conn:
+                with conn.cursor(row_factory=class_row(EventOut)) as cur:
+                    cur.execute(
+                        """
+                        SELECT *
+                        FROM events
+                        WHERE trip_id = %s
+                        ORDER BY start_date_time
+                        """,
+                        [trip_id]
+                    )
+                    events = cur.fetchall()
+                    for event in events:
+                        start_date = event.start_date_time.date().isoformat()
+                        details.setdefault(start_date, []).append(event)
+
+            trip_details = TripDetailsOut(**trip.dict(), details=details)
+            print(trip_details)
+
+            return trip_details
+
         except HTTPException as http_exc:
             raise http_exc
         except Exception as e:

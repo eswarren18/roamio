@@ -6,7 +6,7 @@ from fastapi import (
 )
 from typing import List
 from models.users import UserResponse
-from models.trips import TripIn, TripOut
+from models.trips import TripIn, TripOut, TripDetailsOut
 from queries.trip_queries import TripsQueries
 from utils.authentication import try_get_jwt_user_data
 
@@ -55,12 +55,12 @@ async def get_trips(
     return trips
 
 
-@router.get("/{trip_id}", response_model=TripOut)
+@router.get("/{trip_id}", response_model=TripDetailsOut)
 async def get_trip(
     trip_id: int,
     user: UserResponse = Depends(try_get_jwt_user_data),
     queries: TripsQueries = Depends()
-) -> TripOut:
+) -> TripDetailsOut:
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
