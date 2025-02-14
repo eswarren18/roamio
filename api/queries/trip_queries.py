@@ -122,6 +122,25 @@ class TripsQueries:
     def get_one(self, trip_id: int, user_id: int) -> TripDetailsOut:
         try:
             details = {}
+
+            #Helper function to fetch and group data date.
+            def fetch_and_group_by_date(table: str, date_field: str, row_class):
+                with pool.connection() as conn:
+                    with conn.cursor(row_factory=class_row(row_class)) as cur:
+                        cur.execute(
+                            f"""
+                            SELECT * FROM {table}
+                            WHERE trip_id = %s
+                            ORDER BY {date_field}
+                            """,
+                            [trip_id]
+                        )
+                        records = cur.fetchall()
+                        for record in records:
+                            record_date = getattr(record, date_field).date().isoformat()
+                            details.setdefault(record_date, []).append(record)
+
+            # Fetch trip details
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(TripOut)) as cur:
                     cur.execute(
@@ -147,56 +166,12 @@ class TripsQueries:
                             detail="Trip not found"
                         )
 
-            with pool.connection() as conn:
-                with conn.cursor(row_factory=class_row(FlightOut)) as cur:
-                    cur.execute(
-                        """
-                        SELECT *
-                        FROM flights
-                        WHERE trip_id = %s
-                        ORDER BY departure_time
-                        """,
-                        [trip_id]
-                    )
-                    flights = cur.fetchall()
-                    for flight in flights:
-                        departure_date = flight.departure_time.date().isoformat()
-                        details.setdefault(departure_date, []).append(flight)
+            # Fetch and process flights, events, and lodgings
+            fetch_and_group_by_date("flights", "departure_time", FlightOut)
+            fetch_and_group_by_date("events", "start_date_time", EventOut)
+            fetch_and_group_by_date("lodgings", "check_in", LodgingOut)
 
-            with pool.connection() as conn:
-                with conn.cursor(row_factory=class_row(EventOut)) as cur:
-                    cur.execute(
-                        """
-                        SELECT *
-                        FROM events
-                        WHERE trip_id = %s
-                        ORDER BY start_date_time
-                        """,
-                        [trip_id]
-                    )
-                    events = cur.fetchall()
-                    for event in events:
-                        start_date = event.start_date_time.date().isoformat()
-                        details.setdefault(start_date, []).append(event)
-
-            with pool.connection() as conn:
-                with conn.cursor(row_factory=class_row(LodgingOut)) as cur:
-                    cur.execute(
-                        """
-                        SELECT *
-                        FROM lodgings
-                        WHERE trip_id = %s
-                        ORDER BY check_in
-                        """,
-                        [trip_id]
-                    )
-                    lodgings = cur.fetchall()
-                    for lodging in lodgings:
-                        check_in_date = lodging.check_in.date().isoformat()
-                        details.setdefault(check_in_date, []).append(lodging)
-
-            trip_details = TripDetailsOut(**trip.dict(), details=details)
-            return trip_details
+            return TripDetailsOut(**trip.dict(), details=details)
 
         except HTTPException as http_exc:
             raise http_exc
