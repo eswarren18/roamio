@@ -4,6 +4,7 @@ from typing import List
 from models.trips import TripOut, TripIn, TripDetailsOut
 from models.flights import FlightOut
 from models.events import EventOut
+from models.lodgings import LodgingOut
 from psycopg.rows import class_row
 from fastapi import HTTPException
 
@@ -145,7 +146,6 @@ class TripsQueries:
                             status_code=404,
                             detail="Trip not found"
                         )
-                    # print(trip)
 
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(FlightOut)) as cur:
@@ -160,7 +160,7 @@ class TripsQueries:
                     )
                     flights = cur.fetchall()
                     for flight in flights:
-                        departure_date = flight.departure_time.date().isoformat()  # Extract only the date
+                        departure_date = flight.departure_time.date().isoformat()
                         details.setdefault(departure_date, []).append(flight)
 
             with pool.connection() as conn:
@@ -179,9 +179,23 @@ class TripsQueries:
                         start_date = event.start_date_time.date().isoformat()
                         details.setdefault(start_date, []).append(event)
 
-            trip_details = TripDetailsOut(**trip.dict(), details=details)
-            print(trip_details)
+            with pool.connection() as conn:
+                with conn.cursor(row_factory=class_row(LodgingOut)) as cur:
+                    cur.execute(
+                        """
+                        SELECT *
+                        FROM lodgings
+                        WHERE trip_id = %s
+                        ORDER BY check_in
+                        """,
+                        [trip_id]
+                    )
+                    lodgings = cur.fetchall()
+                    for lodging in lodgings:
+                        check_in_date = lodging.check_in.date().isoformat()
+                        details.setdefault(check_in_date, []).append(lodging)
 
+            trip_details = TripDetailsOut(**trip.dict(), details=details)
             return trip_details
 
         except HTTPException as http_exc:

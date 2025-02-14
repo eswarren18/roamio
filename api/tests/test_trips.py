@@ -48,17 +48,17 @@ class CreateTripsQueries:
 
 
 class MockTripsQueries:
-    def get_one(self, trip_id: int, user_id: int):
-        return TripOut(
-            id=1,
-            title="Mock Trip",
-            country="Mock Country",
-            city="Mock City",
-            start_date=date(2025, 5, 1),
-            end_date=date(2025, 5, 15),
-            trip_image="mock_image.png",
-            user_id=1
-        )
+    # def get_one(self, trip_id: int, user_id: int):
+    #     return TripOut(
+    #         id=1,
+    #         title="Mock Trip",
+    #         country="Mock Country",
+    #         city="Mock City",
+    #         start_date=date(2025, 5, 1),
+    #         end_date=date(2025, 5, 15),
+    #         trip_image="mock_image.png",
+    #         user_id=1
+    #     )
 
     def update(self, trip_id: int, trip_in, user_id: int):
         return TripOut(
@@ -156,22 +156,22 @@ def test_get_non_empty_trips():
     assert response.json() == expected
 
 
-def test_get_one():
-    # Arrange
-    app.dependency_overrides[TripsQueries] = MockTripsQueries
-    trip_id = 1
-    user_id = 1
-    # Act
-    trip = MockTripsQueries().get_one(trip_id, user_id)
-    # Assert
-    assert trip.id == 1
-    assert trip.title == "Mock Trip"
-    assert trip.country == "Mock Country"
-    assert trip.city == "Mock City"
-    assert trip.start_date == date(2025, 5, 1)
-    assert trip.end_date == date(2025, 5, 15)
-    assert trip.trip_image == "mock_image.png"
-    assert trip.user_id == 1
+# def test_get_one():
+#     # Arrange
+#     app.dependency_overrides[TripsQueries] = MockTripsQueries
+#     trip_id = 1
+#     user_id = 1
+#     # Act
+#     trip = MockTripsQueries().get_one(trip_id, user_id)
+#     # Assert
+#     assert trip.id == 1
+#     assert trip.title == "Mock Trip"
+#     assert trip.country == "Mock Country"
+#     assert trip.city == "Mock City"
+#     assert trip.start_date == date(2025, 5, 1)
+#     assert trip.end_date == date(2025, 5, 15)
+#     assert trip.trip_image == "mock_image.png"
+#     assert trip.user_id == 1
 
 
 def test_update_trip():

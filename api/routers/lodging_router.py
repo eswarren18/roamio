@@ -55,20 +55,6 @@ async def delete_lodging(
     return queries.delete(lodging_id, user.id)
 
 
-@router.get("/trips/{trip_id}/lodgings", response_model=List[LodgingOut])
-async def get_lodgings(
-    trip_id: int,
-    user: UserResponse = Depends(try_get_jwt_user_data),
-    queries: LodgingsQueries = Depends()
-) -> List[LodgingOut]:
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Not logged in"
-        )
-    lodgings = queries.get_for_trip(trip_id, user.id)
-    return lodgings
-
-
 @router.get("/lodgings/{lodging_id}", response_model=LodgingOut)
 async def get_lodging(
     lodging_id: int,
