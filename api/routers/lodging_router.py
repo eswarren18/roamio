@@ -4,7 +4,6 @@ from fastapi import (
     Depends,
     status,
 )
-from typing import List
 from models.users import UserResponse
 from models.lodgings import LodgingIn, LodgingOut
 from queries.lodging_queries import LodgingsQueries

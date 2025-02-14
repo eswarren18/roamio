@@ -1,4 +1,3 @@
-from collections import defaultdict
 from queries.pool import pool
 from typing import List
 from models.trips import TripOut, TripIn, TripDetailsOut
@@ -123,8 +122,12 @@ class TripsQueries:
         try:
             details = {}
 
-            #Helper function to fetch and group data date.
-            def fetch_and_group_by_date(table: str, date_field: str, row_class):
+            # Helper function to fetch and group data date.
+            def fetch_and_group_by_date(
+                table: str,
+                date_field:
+                str, row_class
+            ):
                 with pool.connection() as conn:
                     with conn.cursor(row_factory=class_row(row_class)) as cur:
                         cur.execute(
@@ -137,8 +140,8 @@ class TripsQueries:
                         )
                         records = cur.fetchall()
                         for record in records:
-                            record_date = getattr(record, date_field).date().isoformat()
-                            details.setdefault(record_date, []).append(record)
+                            dt = getattr(record, date_field).date().isoformat()
+                            details.setdefault(dt, []).append(record)
 
             # Fetch trip details
             with pool.connection() as conn:

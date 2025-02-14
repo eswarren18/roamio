@@ -1,5 +1,4 @@
 from queries.pool import pool
-from typing import List
 from models.flights import FlightIn, FlightOut
 from psycopg.rows import class_row
 from fastapi import HTTPException
@@ -54,7 +53,12 @@ class FlightsQueries:
                 detail="Internal Server Error"
             )
 
-    def update(self, flight_id: int, flight: FlightIn, user_id: int) -> FlightOut:
+    def update(
+        self,
+        flight_id: int,
+        flight: FlightIn,
+        user_id: int
+    ) -> FlightOut:
         try:
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(FlightOut)) as cur:

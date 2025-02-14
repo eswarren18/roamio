@@ -1,5 +1,4 @@
 from queries.pool import pool
-from typing import List
 from models.events import EventIn, EventOut
 from psycopg.rows import class_row
 from fastapi import HTTPException

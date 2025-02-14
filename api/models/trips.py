@@ -1,6 +1,6 @@
 from pydantic import BaseModel, field_validator
 from datetime import date
-from typing import Dict, List, Union
+from typing import Dict, List
 from models.flights import FlightOut
 from models.lodgings import LodgingOut
 from models.events import EventOut
@@ -23,6 +23,7 @@ class TripIn(BaseModel):
             return "/passport-stamps.png"
         return value
 
+
 class TripOut(BaseModel):
     """
     Represents a trip
@@ -35,6 +36,7 @@ class TripOut(BaseModel):
     end_date: date
     trip_image: str
     user_id: int
+
 
 class TripDetailsOut(BaseModel):
     """

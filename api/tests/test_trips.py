@@ -5,7 +5,6 @@ from queries.trip_queries import TripsQueries
 from models.trips import TripOut
 from models.users import UserResponse
 from utils.authentication import try_get_jwt_user_data
-from datetime import date
 
 client = TestClient(app)
 

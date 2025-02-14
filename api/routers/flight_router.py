@@ -4,7 +4,6 @@ from fastapi import (
     Depends,
     status,
 )
-from typing import List
 from models.users import UserResponse
 from models.flights import FlightIn, FlightOut
 from queries.flight_queries import FlightsQueries

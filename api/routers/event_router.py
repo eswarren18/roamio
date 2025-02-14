@@ -4,7 +4,6 @@ from fastapi import (
     Depends,
     status,
 )
-from typing import List
 from models.users import UserResponse
 from models.events import EventIn, EventOut
 from queries.event_queries import EventsQueries

@@ -1,6 +1,4 @@
-
 from queries.pool import pool
-from typing import List
 from models.lodgings import LodgingIn, LodgingOut
 from psycopg.rows import class_row
 from fastapi import HTTPException
@@ -52,7 +50,12 @@ class LodgingsQueries:
                 detail="Internal Server Error"
             )
 
-    def update(self, lodging_id: int, lodging: LodgingIn, user_id: int) -> LodgingOut:
+    def update(
+        self,
+        lodging_id: int,
+        lodging: LodgingIn,
+        user_id: int
+    ) -> LodgingOut:
         try:
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(LodgingOut)) as cur:
