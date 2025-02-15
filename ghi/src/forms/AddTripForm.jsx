@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { ModalContext } from '../components/ModalProvider'
 
 // The AddTripForm component handles the creation of a new trip
-function AddTripForm() {
-    const { toggleModal } = useContext(ModalContext)
+function AddTripForm({ open, onClose }) {
     const navigate = useNavigate()
     const initialFormData = {
         title: '',
@@ -56,7 +55,7 @@ function AddTripForm() {
                 const responseData = await response.json()
                 const tripId = responseData.id
                 resetForm()
-                toggleModal('', null, '')
+                onClose()
                 navigate(`/trip/${tripId}`)
             }
         } catch (e) {
@@ -72,7 +71,7 @@ function AddTripForm() {
 
     return (
         <>
-            <button onClick={toggleModal} className="flex justify-end">
+            <button onClick={onClose} className="flex justify-end">
                 <img
                     src="/public/x-icon.svg"
                     alt="Cancel"

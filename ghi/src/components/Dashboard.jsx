@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from './AuthProvider'
-import { ModalContext } from './ModalProvider'
 import Modal from './Modal'
 import AddTripForm from '../forms/AddTripForm'
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
@@ -9,7 +8,6 @@ const apiKey = import.meta.env.GOOGLE_API_KEY
 
 // The Dashboard component displays all the user's trips
 function Dashboard() {
-    const { toggleModal } = useContext(ModalContext)
     const [isOpen, setIsOpen] = useState(false)
     const { isLoggedIn } = useContext(AuthContext)
     const navigate = useNavigate()
@@ -150,7 +148,7 @@ function Dashboard() {
                 <div className="flex flex-col items-center top-0 w-full z-10">
                     <div
                         id="filter"
-                        className="flex flex-wrap content-start mb-2 w-1/8 text-xl font-medium text-cyan-100 border-b border-cyan-100"
+                        className="flex flex-wrap content-start w-1/8 text-xl font-medium text-cyan-100 border-b border-cyan-100"
                     >
                         <button
                             className={`mx-2 inline-block px-4 py-2 rounded-t-lg ${
@@ -243,7 +241,7 @@ function Dashboard() {
             </div>
             {/* Modal */}
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-                <AddTripForm />
+                <AddTripForm onClose={() => setIsOpen(false)} />
             </Modal>
         </div>
     )

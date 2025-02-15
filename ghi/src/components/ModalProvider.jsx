@@ -2,7 +2,7 @@ import { createContext, useState } from 'react'
 import SignInModal from './SignInModal'
 import SignUpModal from './SignUpModal'
 import AddTripForm from '../forms/AddTripForm'
-import AddEventModal from './AddEventModal'
+import AddEventForm from '../forms/AddEventForm'
 import AddFlightModal from './AddFlightModal'
 import EditEventModal from './EditEventModal'
 import AddLodgingModal from './AddLodgingModal'
@@ -41,8 +41,8 @@ export default function ModalProvider({ children }) {
                 return <SignUpModal />
             case 'EditTripForm':
                 return <EditTripForm />
-            case 'AddEventModal':
-                return <AddEventModal />
+            case 'AddEventForm':
+                return <AddEventForm />
             case 'AddFlightModal':
                 return <AddFlightModal />
             case 'AddLodgingModal':
