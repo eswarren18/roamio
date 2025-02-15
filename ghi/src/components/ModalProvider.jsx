@@ -9,7 +9,7 @@ import AddLodgingModal from './AddLodgingModal'
 import EditFlightModal from './EditFlightModal'
 import EditLodgingModal from './EditLodgingModal'
 import DeleteActivityModal from './DeleteActivityModal'
-import EditTripForm from './EditTripForm'
+import EditTripForm from '../forms/EditTripForm'
 
 export const ModalContext = createContext(null)
 

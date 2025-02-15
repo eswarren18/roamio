@@ -12,7 +12,6 @@ function Modal({ open, onClose, children }) {
                 className="flex flex-col bg-white rounded-lg shadow-lg w-96 p-6"
                 onClick={(e) => e.stopPropagation()}
             >
-                <button onClick={onClose}>Close Modal</button>
                 {children}
             </div>
         </div>

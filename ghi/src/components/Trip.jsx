@@ -3,7 +3,7 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { AuthContext } from './AuthProvider'
 import { ModalContext } from './ModalProvider'
 import Modal from './Modal'
-import EditTripForm from './EditTripForm'
+import EditTripForm from '../forms/EditTripForm'
 import Accordion from './Accordion'
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
 const apiKey = import.meta.env.GOOGLE_API_KEY

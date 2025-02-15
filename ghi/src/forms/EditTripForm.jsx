@@ -15,11 +15,11 @@ function EditTripForm({ tripData, tripId, onClose }) {
     }
     const [formData, setFormData] = useState(initialFormData)
 
-    // Fetches the trips data using activityId to populate the form
+    // Fetches the trips data using tripId to populate the form
     const fetchTrip = async (e) => {
         try {
             const response = await fetch(
-                `http://localhost:8000/api/trips/${activityId}`,
+                `http://localhost:8000/api/trips/${tripId}`,
                 {
                     credentials: 'include',
                     headers: { 'Content-Type': 'application/json' },
@@ -141,7 +141,7 @@ function EditTripForm({ tripData, tripId, onClose }) {
         e.preventDefault()
         try {
             const response = await fetch(
-                `http://localhost:8000/api/trips/${activityId}`,
+                `http://localhost:8000/api/trips/${tripId}`,
                 {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
