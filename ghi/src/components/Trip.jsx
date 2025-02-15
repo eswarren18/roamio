@@ -2,6 +2,8 @@ import { useContext, useEffect, useState } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { AuthContext } from './AuthProvider'
 import { ModalContext } from './ModalProvider'
+import Modal from './Modal'
+import EditTripForm from './EditTripForm'
 import Accordion from './Accordion'
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
 const apiKey = import.meta.env.GOOGLE_API_KEY
@@ -15,6 +17,7 @@ function Trip() {
     const [trip, setTrip] = useState({})
     const [tripData, setTripData] = useState({})
     const { toggleModal } = useContext(ModalContext)
+    const [isOpen, setIsOpen] = useState(false)
     const [mapMarkers, setMapMarkers] = useState([])
     const [center, setCenter] = useState()
     const [zoom, setZoom] = useState()
@@ -259,15 +262,7 @@ function Trip() {
                             </p>
                         </div>
                         <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button
-                                onClick={() =>
-                                    toggleModal({
-                                        form: 'EditTripModal',
-                                        data: tripData,
-                                        id: tripId,
-                                    })
-                                }
-                            >
+                            <button onClick={() => setIsOpen(true)}>
                                 <img
                                     src="/public/edit-icon-100.svg"
                                     alt="Edit"
@@ -376,8 +371,20 @@ function Trip() {
                     </APIProvider>
                 )}
             </div>
+            {/* Modal */}
+            <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+                <EditTripForm
+                    tripData={tripData}
+                    tripId={tripId}
+                    onClose={() => setIsOpen(false)}
+                />
+            </Modal>
         </div>
     )
 }
 
 export default Trip
+
+// form: 'EditTripForm',
+// data: tripData,
+// id: tripId,

@@ -2,12 +2,15 @@ import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from './AuthProvider'
 import { ModalContext } from './ModalProvider'
+import Modal from './Modal'
+import AddTripForm from '../forms/AddTripForm'
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
 const apiKey = import.meta.env.GOOGLE_API_KEY
 
 // The Dashboard component displays all the user's trips
 function Dashboard() {
     const { toggleModal } = useContext(ModalContext)
+    const [isOpen, setIsOpen] = useState(false)
     const { isLoggedIn } = useContext(AuthContext)
     const navigate = useNavigate()
     const [trips, setTrips] = useState([])
@@ -84,25 +87,28 @@ function Dashboard() {
         localStorage.setItem('activeButton', selection)
     }
 
-const formatDate = (dateString) => {
-    const [year, month, day] = dateString.split('-') // Split the date string
-    const months = [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-    ]
+    const formatDate = (dateString) => {
+        const [year, month, day] = dateString.split('-') // Split the date string
+        const months = [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec',
+        ]
 
-    return `${months[parseInt(month, 10) - 1]} ${parseInt(day, 10)}, ${year}`
-}
+        return `${months[parseInt(month, 10) - 1]} ${parseInt(
+            day,
+            10
+        )}, ${year}`
+    }
 
     useEffect(() => {
         navToHome()
@@ -138,8 +144,9 @@ const formatDate = (dateString) => {
                     </Map>
                 </APIProvider>
             </div>
+            {/* Filter and trip cards */}
             <div className="pt-2 shadow-[0_-25px_50px_-12px_rgba(0,0,0,0.25)] z-10">
-                {/* Filter tabs for trip cards */}
+                {/* Filter */}
                 <div className="flex flex-col items-center top-0 w-full z-10">
                     <div
                         id="filter"
@@ -205,7 +212,8 @@ const formatDate = (dateString) => {
                                         </p>
                                         <div className="border-t border-cyan-100 w-3/4 mx-auto mt-2 justify-center"></div>
                                         <p className="mt-1 mb-4">
-                                            {formatDate(trip.start_date)} - {formatDate(trip.end_date)}
+                                            {formatDate(trip.start_date)} -{' '}
+                                            {formatDate(trip.end_date)}
                                         </p>
                                     </div>
                                 </div>
@@ -215,9 +223,7 @@ const formatDate = (dateString) => {
                             className="flex flex-col relative text-cyan-100 rounded-lg m-4 transform
                             hover:bg-cyan-200 hover:scale-105 hover:ring-2 hover:ring-cyan-500
                             transition-all duration-200 h-60"
-                            onClick={() =>
-                                toggleModal({ form: 'AddTripModal' })
-                            }
+                            onClick={() => setIsOpen(true)}
                         >
                             <img
                                 className="object-cover w-full h-full rounded-lg"
@@ -235,6 +241,10 @@ const formatDate = (dateString) => {
                     </div>
                 </div>
             </div>
+            {/* Modal */}
+            <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+                <AddTripForm />
+            </Modal>
         </div>
     )
 }

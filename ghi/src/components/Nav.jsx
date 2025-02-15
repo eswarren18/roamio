@@ -58,7 +58,7 @@ function Nav() {
                             <button
                                 className="hover:text-cyan-500 transition duration-200"
                                 onClick={() =>
-                                    toggleModal({ form: 'AddTripModal' })
+                                    toggleModal({ form: 'AddTripForm' })
                                 }
                             >
                                 Add a Trip

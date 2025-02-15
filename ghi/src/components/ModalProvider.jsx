@@ -1,7 +1,7 @@
 import { createContext, useState } from 'react'
 import SignInModal from './SignInModal'
 import SignUpModal from './SignUpModal'
-import AddTripModal from './AddTripModal'
+import AddTripForm from '../forms/AddTripForm'
 import AddEventModal from './AddEventModal'
 import AddFlightModal from './AddFlightModal'
 import EditEventModal from './EditEventModal'
@@ -9,7 +9,7 @@ import AddLodgingModal from './AddLodgingModal'
 import EditFlightModal from './EditFlightModal'
 import EditLodgingModal from './EditLodgingModal'
 import DeleteActivityModal from './DeleteActivityModal'
-import EditTripModal from './EditTripModal'
+import EditTripForm from './EditTripForm'
 
 export const ModalContext = createContext(null)
 
@@ -33,14 +33,14 @@ export default function ModalProvider({ children }) {
     // Function to render the appropriate form based on the set formType
     const renderForm = () => {
         switch (formType) {
-            case 'AddTripModal':
-                return <AddTripModal />
+            case 'AddTripForm':
+                return <AddTripForm />
             case 'SignInModal':
                 return <SignInModal />
             case 'SignUpModal':
                 return <SignUpModal />
-            case 'EditTripModal':
-                return <EditTripModal />
+            case 'EditTripForm':
+                return <EditTripForm />
             case 'AddEventModal':
                 return <AddEventModal />
             case 'AddFlightModal':
