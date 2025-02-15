@@ -102,7 +102,7 @@ export default function Accordion({ header, content }) {
                             <button
                                 onClick={() =>
                                     toggleModal({
-                                        form: 'DeleteActivityModal',
+                                        form: 'DeleteActivityForm',
                                         id: activity.id,
                                         type: 'events',
                                     })
@@ -164,7 +164,7 @@ export default function Accordion({ header, content }) {
                             <button
                                 onClick={() =>
                                     toggleModal({
-                                        form: 'DeleteActivityModal',
+                                        form: 'DeleteActivityForm',
                                         id: activity.id,
                                         type: 'flights',
                                     })
@@ -220,7 +220,7 @@ export default function Accordion({ header, content }) {
                             <button
                                 onClick={() =>
                                     toggleModal({
-                                        form: 'DeleteActivityModal',
+                                        form: 'DeleteActivityForm',
                                         id: activity.id,
                                         type: 'lodgings',
                                     })

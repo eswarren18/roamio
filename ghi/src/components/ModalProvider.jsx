@@ -8,7 +8,7 @@ import EditEventModal from './EditEventModal'
 import AddLodgingModal from './AddLodgingModal'
 import EditFlightModal from './EditFlightModal'
 import EditLodgingModal from './EditLodgingModal'
-import DeleteActivityModal from './DeleteActivityModal'
+import DeleteActivityForm from '../forms/DeleteActivityForm'
 import EditTripForm from '../forms/EditTripForm'
 
 export const ModalContext = createContext(null)
@@ -53,8 +53,8 @@ export default function ModalProvider({ children }) {
                 return <EditFlightModal />
             case 'EditLodgingModal':
                 return <EditLodgingModal />
-            case 'DeleteActivityModal':
-                return <DeleteActivityModal />
+            case 'DeleteActivityForm':
+                return <DeleteActivityForm />
 
             default:
                 return null
