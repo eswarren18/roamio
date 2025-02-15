@@ -4,7 +4,7 @@ import SignUpModal from './SignUpModal'
 import AddTripForm from '../forms/AddTripForm'
 import AddEventForm from '../forms/AddEventForm'
 import AddFlightModal from './AddFlightModal'
-import EditEventModal from './EditEventModal'
+import EditEventForm from '../forms/EditEventForm'
 import AddLodgingModal from './AddLodgingModal'
 import EditFlightModal from './EditFlightModal'
 import EditLodgingModal from './EditLodgingModal'
@@ -47,8 +47,8 @@ export default function ModalProvider({ children }) {
                 return <AddFlightModal />
             case 'AddLodgingModal':
                 return <AddLodgingModal />
-            case 'EditEventModal':
-                return <EditEventModal />
+            case 'EditEventForm':
+                return <EditEventForm />
             case 'EditFlightModal':
                 return <EditFlightModal />
             case 'EditLodgingModal':

@@ -10,7 +10,7 @@ import Home from './components/Home'
 import Trip from './components/Trip'
 import { GoogleMapsLoader } from './components/GoogleMapsLoader'
 
-import './index.css'
+import './App.css'
 
 const BASE_URL = import.meta.env.BASE_URL
 if (!BASE_URL) {

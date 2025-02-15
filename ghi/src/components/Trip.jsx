@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { AuthContext } from './AuthProvider'
-import { ModalContext } from './ModalProvider'
 import Modal from './Modal'
 import EditTripForm from '../forms/EditTripForm'
 import AddEventForm from '../forms/AddEventForm'
+import EditEventForm from '../forms/EditEventForm'
 import Accordion from './Accordion'
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
 import DeleteActivityForm from '../forms/DeleteActivityForm'
@@ -18,9 +18,10 @@ function Trip() {
     const location = useLocation()
     const [trip, setTrip] = useState({})
     const [tripData, setTripData] = useState({})
-    const { toggleModal } = useContext(ModalContext)
     const [isOpen, setIsOpen] = useState(false)
     const [form, setForm] = useState('')
+    const [activityType, setActivityType] = useState('')
+    const [activityId, setActivityId] = useState(null)
     const [mapMarkers, setMapMarkers] = useState([])
     const [center, setCenter] = useState()
     const [zoom, setZoom] = useState()
@@ -239,9 +240,15 @@ function Trip() {
         return `${months[+month - 1]} ${+day}, ${year}`
     }
 
-    const handleOpenModal = (form) => {
+    const handleOpenModal = (
+        formFromAccordion,
+        idFromAccordion = null,
+        activityFromAccordion = ''
+    ) => {
+        setForm(formFromAccordion)
+        setActivityId(idFromAccordion)
+        setActivityType(activityFromAccordion)
         setIsOpen(true)
-        setForm(form)
     }
 
     useEffect(() => {
@@ -350,6 +357,8 @@ function Trip() {
                             key={date}
                             header={date}
                             content={activities}
+                            isOpen={isOpen}
+                            handleOpenModal={handleOpenModal}
                         />
                     ))}
                 </div>
@@ -375,7 +384,19 @@ function Trip() {
             </div>
             {/* Modal */}
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-                {form === 'EditTripForm' ? (
+                {form === 'AddEventForm' ? (
+                    <AddEventForm
+                        tripId={tripId}
+                        tripData={tripData}
+                        onClose={() => setIsOpen(false)}
+                    />
+                ) : form === 'EditEventForm' ? (
+                    <EditEventForm
+                        activityId={activityId}
+                        tripData={tripData}
+                        onClose={() => setIsOpen(false)}
+                    />
+                ) : form === 'EditTripForm' ? (
                     <EditTripForm
                         tripId={tripId}
                         tripData={tripData}
@@ -383,14 +404,8 @@ function Trip() {
                     />
                 ) : form === 'DeleteActivityForm' ? (
                     <DeleteActivityForm
-                        activityType="trip"
-                        activityId={tripId}
-                        onClose={() => setIsOpen(false)}
-                    />
-                ) : form === 'AddEventForm' ? (
-                    <AddEventForm
-                        tripId={tripId}
-                        tripData={tripData}
+                        activityId={activityId}
+                        activityType={activityType}
                         onClose={() => setIsOpen(false)}
                     />
                 ) : null}
@@ -400,7 +415,3 @@ function Trip() {
 }
 
 export default Trip
-
-// form: 'AddEventModal',
-// id: tripId,
-// data: tripData,

@@ -1,24 +1,21 @@
-import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ModalContext } from '../components/ModalProvider'
 
-// The DeleteActivityForm component handles the deletion of varius activities (events, flights, trips, lodgings)
+// The DeleteActivityForm component handles the deletion of all activities (i.e., trips, events, flights, lodgings)
 export default function DeleteActivityForm({
-    activityType,
     activityId,
+    activityType,
     onClose,
 }) {
     const navigate = useNavigate()
-
     // Handles the deletion of the activity based on its type
     const handleDelete = async (e) => {
         e.preventDefault()
         try {
             let url
             // Determine the API endpoint based on the activity type
-            if (activityType === 'events') {
+            if (activityType === 'event') {
                 url = `http://localhost:8000/api/events/${activityId}`
-            } else if (activityType === 'flights') {
+            } else if (activityType === 'flight') {
                 url = `http://localhost:8000/api/flights/${activityId}`
             } else if (activityType === 'trip') {
                 url = `http://localhost:8000/api/trips/${activityId}`
