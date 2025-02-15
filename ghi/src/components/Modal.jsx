@@ -1,7 +1,9 @@
+import ReactDom from 'react-dom'
+
 function Modal({ open, onClose, children }) {
     if (!open) return null
 
-    return (
+    return ReactDom.createPortal(
         // Overlay
         <div
             className="fixed inset-0 bg-gray-800 bg-opacity-70 flex items-center justify-center z-20"
@@ -14,7 +16,8 @@ function Modal({ open, onClose, children }) {
             >
                 {children}
             </div>
-        </div>
+        </div>,
+        document.getElementById('portal')
     )
 }
 
