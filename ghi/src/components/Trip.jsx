@@ -4,6 +4,7 @@ import { AuthContext } from './AuthProvider'
 import { ModalContext } from './ModalProvider'
 import Modal from './Modal'
 import EditTripForm from '../forms/EditTripForm'
+import AddEventForm from '../forms/AddEventForm'
 import Accordion from './Accordion'
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
 import DeleteActivityForm from '../forms/DeleteActivityForm'
@@ -312,11 +313,7 @@ function Trip() {
                                 <button
                                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"
                                     onClick={() =>
-                                        toggleModal({
-                                            form: 'AddEventModal',
-                                            id: tripId,
-                                            data: tripData,
-                                        })
+                                        handleOpenModal('AddEventForm')
                                     }
                                 >
                                     Add Event
@@ -380,14 +377,20 @@ function Trip() {
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
                 {form === 'EditTripForm' ? (
                     <EditTripForm
-                        tripData={tripData}
                         tripId={tripId}
+                        tripData={tripData}
                         onClose={() => setIsOpen(false)}
                     />
                 ) : form === 'DeleteActivityForm' ? (
                     <DeleteActivityForm
                         activityType="trip"
                         activityId={tripId}
+                        onClose={() => setIsOpen(false)}
+                    />
+                ) : form === 'AddEventForm' ? (
+                    <AddEventForm
+                        tripId={tripId}
+                        tripData={tripData}
                         onClose={() => setIsOpen(false)}
                     />
                 ) : null}
@@ -397,3 +400,7 @@ function Trip() {
 }
 
 export default Trip
+
+// form: 'AddEventModal',
+// id: tripId,
+// data: tripData,
