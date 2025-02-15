@@ -6,6 +6,7 @@ import Modal from './Modal'
 import EditTripForm from '../forms/EditTripForm'
 import Accordion from './Accordion'
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
+import DeleteActivityForm from '../forms/DeleteActivityForm'
 const apiKey = import.meta.env.GOOGLE_API_KEY
 
 // The Trip component displays details for a single user trip
@@ -18,6 +19,7 @@ function Trip() {
     const [tripData, setTripData] = useState({})
     const { toggleModal } = useContext(ModalContext)
     const [isOpen, setIsOpen] = useState(false)
+    const [form, setForm] = useState('')
     const [mapMarkers, setMapMarkers] = useState([])
     const [center, setCenter] = useState()
     const [zoom, setZoom] = useState()
@@ -236,13 +238,18 @@ function Trip() {
         return `${months[+month - 1]} ${+day}, ${year}`
     }
 
+    const handleOpenModal = (form) => {
+        setIsOpen(true)
+        setForm(form)
+    }
+
     useEffect(() => {
         navToHome()
     }, [isLoggedIn])
 
     useEffect(() => {
         fetchTripData()
-    }, [location.pathname, toggleModal, tripId])
+    }, [location.pathname, isOpen, tripId])
 
     return (
         <div className="flex flex-row h-[calc(100vh-4rem)] w-full">
@@ -262,7 +269,9 @@ function Trip() {
                             </p>
                         </div>
                         <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button onClick={() => setIsOpen(true)}>
+                            <button
+                                onClick={() => handleOpenModal('EditTripForm')}
+                            >
                                 <img
                                     src="/public/edit-icon-100.svg"
                                     alt="Edit"
@@ -271,11 +280,7 @@ function Trip() {
                             </button>
                             <button
                                 onClick={() =>
-                                    toggleModal({
-                                        form: 'DeleteActivityModal',
-                                        id: tripId,
-                                        type: 'trips',
-                                    })
+                                    handleOpenModal('DeleteActivityForm')
                                 }
                             >
                                 <img
@@ -373,18 +378,22 @@ function Trip() {
             </div>
             {/* Modal */}
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-                <EditTripForm
-                    tripData={tripData}
-                    tripId={tripId}
-                    onClose={() => setIsOpen(false)}
-                />
+                {form === 'EditTripForm' ? (
+                    <EditTripForm
+                        tripData={tripData}
+                        tripId={tripId}
+                        onClose={() => setIsOpen(false)}
+                    />
+                ) : form === 'DeleteActivityForm' ? (
+                    <DeleteActivityForm
+                        activityType="trip"
+                        activityId={tripId}
+                        onClose={() => setIsOpen(false)}
+                    />
+                ) : null}
             </Modal>
         </div>
     )
 }
 
 export default Trip
-
-// form: 'EditTripForm',
-// data: tripData,
-// id: tripId,

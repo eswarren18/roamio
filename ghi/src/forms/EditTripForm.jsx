@@ -158,15 +158,12 @@ function EditTripForm({ tripData, tripId, onClose }) {
             )
             if (response.ok) {
                 deleteOutOfRangeItems()
-                resetForm()
+                setFormData(initialFormData)
+                onClose()
             }
         } catch (e) {
             console.error(e)
         }
-    }
-
-    const resetForm = () => {
-        setFormData(initialFormData)
     }
 
     const { title, country, city, start_date, end_date, trip_image } = formData
