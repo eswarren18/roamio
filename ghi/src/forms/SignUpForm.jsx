@@ -1,18 +1,31 @@
-import { useContext, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useAuthService from '../hooks/useAuthService'
+import FormErrorAlert, { validateForm } from './FormErrorAlert'
 
 // The SignUpForm displays a form for a user to create an account
 function SignUpForm({ onClose }) {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [formErrors, setFormErrors] = useState([])
     const { signup, user } = useAuthService()
     const navigate = useNavigate()
 
     // Handles the form submittion by calling the signup function
     async function handleFormSubmit(e) {
         e.preventDefault()
-        await signup({ username, password })
+        const errors = validateForm({ username, password })
+
+        if (errors.length > 0) {
+            setFormErrors(errors)
+            return
+        }
+
+        const result = await signup({ username, password })
+        if (result instanceof Error) {
+            setFormErrors([result.message])
+            return
+        }
     }
 
     useEffect(() => {
@@ -24,51 +37,70 @@ function SignUpForm({ onClose }) {
 
     return (
         <>
-            <div className="text-center text-4xl font-bold mb-6">Sign Up</div>
             <form
                 onSubmit={handleFormSubmit}
-                className="flex flex-col w-4/5 mx-auto"
+                className="flex flex-col w-4/5 mx-auto my-2"
             >
-                <div className="relative z-0 w-full mb-5">
+                <h1 className="text-gray-800 font-bold text-2xl mb-1">
+                    Get Started!
+                </h1>
+                <p className="text-sm font-normal text-gray-600 mb-4">
+                    Sign Up
+                </p>
+                <FormErrorAlert errors={formErrors} />
+                <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 text-gray-400"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path
+                            fillRule="evenodd"
+                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                            clipRule="evenodd"
+                        />
+                    </svg>
                     <input
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        autoComplete="username"
+                        className="pl-2 outline-none border-none"
                         id="username"
                         name="username"
                         onChange={(e) => setUsername(e.target.value)}
-                        placeholder=" "
+                        placeholder="Username*"
                         type="text"
                         value={username}
-                        required
                     />
-                    <label
-                        htmlFor="username"
-                        className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
-                        User Name
-                        <span className="text-red-500 text-xs">*</span>
-                    </label>
                 </div>
-                <div className="relative z-0 w-full mb-5">
+                <div className="flex items-center border-2 py-2 px-3 rounded-2xl">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 text-gray-400"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path
+                            fillRule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clipRule="evenodd"
+                        />
+                    </svg>
                     <input
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        autoComplete="current-password"
+                        className="pl-2 outline-none border-none"
                         id="password"
                         name="password"
                         onChange={(e) => setPassword(e.target.value)}
-                        placeholder=" "
+                        placeholder="Password*"
                         type="password"
                         value={password}
-                        required
                     />
-                    <label
-                        htmlFor="password"
-                        className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
-                        Password
-                        <span className="text-red-500 text-xs">*</span>
-                    </label>
                 </div>
-                <button className="hover:underline" type="submit">
-                    Sign Up
+                <button
+                    type="submit"
+                    className="block w-full bg-cyan-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
+                >
+                    Log In
                 </button>
             </form>
         </>

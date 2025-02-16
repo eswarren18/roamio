@@ -8,7 +8,7 @@ function SignInForm({ onClose }) {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [formErrors, setFormErrors] = useState([])
-    const { signin, user, error } = useAuthService()
+    const { signin, user } = useAuthService()
     const navigate = useNavigate()
 
     // Handles the form submission by calling the signin function
@@ -96,7 +96,6 @@ function SignInForm({ onClose }) {
                         value={password}
                     />
                 </div>
-
                 <button
                     type="submit"
                     className="block w-full bg-cyan-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"

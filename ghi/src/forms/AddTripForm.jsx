@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // The AddTripForm component handles the creation of a new trip
-function AddTripForm({ open, onClose }) {
+function AddTripForm({ onClose }) {
     const navigate = useNavigate()
     const initialFormData = {
         title: '',
