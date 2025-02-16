@@ -106,7 +106,7 @@ export async function signin(signInRequest) {
         // This checks for non-200 HTTP responses,
         // because fetch does not throw an Error on those
         if (!res.ok) {
-            return new Error('Sign in failed')
+            return new Error('Incorrect username or password')
         }
         const result = await res.json()
         // This is validating our JSON response to make sure

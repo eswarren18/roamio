@@ -49,7 +49,7 @@ export default function useAuthService() {
             if (user instanceof Error) {
                 setError(user)
                 setIsLoading(false)
-                return
+                return user
             }
             setUser(user)
             setIsLoading(false)
