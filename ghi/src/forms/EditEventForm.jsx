@@ -48,18 +48,6 @@ function EditEventForm({ activityId, tripData, onClose }) {
                     description: data.description,
                     trip_id: data.trip_id,
                 }))
-
-                const tripResponse = await fetch(
-                    `http://localhost:8000/api/trips/${data.trip_id}`,
-                    {
-                        credentials: 'include',
-                        headers: { 'Content-Type': 'application/json' },
-                    }
-                )
-                if (tripResponse.ok) {
-                    const tripData = await tripResponse.json()
-                    setTripData(tripData)
-                }
             }
         } catch (e) {
             console.error(e)

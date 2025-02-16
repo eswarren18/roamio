@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import App from './App'
 import AuthProvider from './components/AuthProvider'
-import ModalProvider from './components/ModalProvider'
 import Dashboard from './components/Dashboard'
 import Home from './components/Home'
 import Trip from './components/Trip'
@@ -26,29 +25,27 @@ root.render(
     <React.StrictMode>
         <AuthProvider>
             <BrowserRouter>
-                <ModalProvider>
-                    <Routes>
-                        <Route path="/" element={<App />}>
-                            <Route index element={<Home />} />
-                            <Route
-                                path="dashboard"
-                                element={
-                                    <GoogleMapsLoader>
-                                        <Dashboard />
-                                    </GoogleMapsLoader>
-                                }
-                            />
-                            <Route
-                                path="trip/:tripId"
-                                element={
-                                    <GoogleMapsLoader>
-                                        <Trip />
-                                    </GoogleMapsLoader>
-                                }
-                            />
-                        </Route>
-                    </Routes>
-                </ModalProvider>
+                <Routes>
+                    <Route path="/" element={<App />}>
+                        <Route index element={<Home />} />
+                        <Route
+                            path="dashboard"
+                            element={
+                                <GoogleMapsLoader>
+                                    <Dashboard />
+                                </GoogleMapsLoader>
+                            }
+                        />
+                        <Route
+                            path="trip/:tripId"
+                            element={
+                                <GoogleMapsLoader>
+                                    <Trip />
+                                </GoogleMapsLoader>
+                            }
+                        />
+                    </Route>
+                </Routes>
             </BrowserRouter>
         </AuthProvider>
     </React.StrictMode>

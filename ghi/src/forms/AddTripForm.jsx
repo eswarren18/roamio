@@ -1,6 +1,5 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ModalContext } from '../components/ModalProvider'
 
 // The AddTripForm component handles the creation of a new trip
 function AddTripForm({ open, onClose }) {
