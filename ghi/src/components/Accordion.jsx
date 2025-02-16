@@ -155,10 +155,10 @@ export default function Accordion({
                         <div className="flex p-2 gap-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                             <button
                                 onClick={() =>
-                                    toggleModal({
-                                        form: 'EditFlightModal',
-                                        id: activity.id,
-                                    })
+                                    handleOpenModal(
+                                        'EditFlightForm',
+                                        activity.id
+                                    )
                                 }
                             >
                                 <img
@@ -169,11 +169,11 @@ export default function Accordion({
                             </button>
                             <button
                                 onClick={() =>
-                                    toggleModal({
-                                        form: 'DeleteActivityForm',
-                                        id: activity.id,
-                                        type: 'flights',
-                                    })
+                                    handleOpenModal(
+                                        'DeleteActivityForm',
+                                        activity.id,
+                                        'flight'
+                                    )
                                 }
                             >
                                 <img
@@ -211,10 +211,10 @@ export default function Accordion({
                         <div className="flex p-2 gap-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                             <button
                                 onClick={() =>
-                                    toggleModal({
-                                        form: 'EditLodgingModal',
-                                        id: activity.id,
-                                    })
+                                    handleOpenModal(
+                                        'EditLodgingForm',
+                                        activity.id
+                                    )
                                 }
                             >
                                 <img
@@ -225,11 +225,11 @@ export default function Accordion({
                             </button>
                             <button
                                 onClick={() =>
-                                    toggleModal({
-                                        form: 'DeleteActivityForm',
-                                        id: activity.id,
-                                        type: 'lodgings',
-                                    })
+                                    handleOpenModal(
+                                        'DeleteActivityForm',
+                                        activity.id,
+                                        'lodging'
+                                    )
                                 }
                             >
                                 <img
@@ -272,65 +272,46 @@ export default function Accordion({
         return formattedDate.replace(/\d+/, day + suffix(day))
     }
 
-    return (
+    return content.length === 0 ? (
+        // Header
+        <div className="flex flex-col w-full border-t border-cyan-500 py-4 items-center">
+            <div className="flex items-center justify-between w-11/12">
+                <span className="text-xl">{parseDate()}</span>
+                <p className="flex items-start text-sm text-slate-400">
+                    No events planned
+                </p>
+            </div>
+        </div>
+    ) : (
+        // Dropdown
         <>
-            {content.length === 0 ? (
-                // Header
-                <div className="flex flex-col w-full border-t border-cyan-500 py-4 items-center">
-                    <div className="flex items-center justify-between w-11/12">
-                        <span className="text-xl">{parseDate()}</span>
-                        <p className="flex items-start text-sm text-slate-400">
-                            No events planned
-                        </p>
-                    </div>
+            <div
+                className="flex flex-col w-full border-t border-cyan-500 py-4 items-center cursor-pointer"
+                onClick={() => setAccordionOpen(!accordionOpen)}
+            >
+                <div className="flex justify-between w-11/12">
+                    <span className="text-xl">{parseDate()}</span>
+                    {accordionOpen ? <span>-</span> : <span>+</span>}
                 </div>
-            ) : (
-                // Dropdown
-                <>
-                    <div
-                        className="flex flex-col w-full border-t border-cyan-500 py-4 items-center cursor-pointer"
-                        onClick={() => setAccordionOpen(!accordionOpen)}
-                    >
-                        <div className="flex justify-between w-11/12">
-                            <span className="text-xl">{parseDate()}</span>
-                            {accordionOpen ? <span>-</span> : <span>+</span>}
+            </div>
+            <div
+                className={`grid overflow-hidden transition-all duration-300 ease-in-out text-slate-600 text-sm ${
+                    accordionOpen
+                        ? 'grid-rows-[1fr] opacity-100'
+                        : 'grid-rows-[0fr] opacity-0'
+                }`}
+            >
+                <div className="overflow-hidden">
+                    {content.map((activity, index) => (
+                        <div
+                            className="flex flex-col items-center my-4"
+                            key={index}
+                        >
+                            {parseContent(activity)}
                         </div>
-                    </div>
-                    <div
-                        className={`grid overflow-hidden transition-all duration-300 ease-in-out text-slate-600 text-sm ${
-                            accordionOpen
-                                ? 'grid-rows-[1fr] opacity-100'
-                                : 'grid-rows-[0fr] opacity-0'
-                        }`}
-                    >
-                        <div className="overflow-hidden">
-                            {content.map((activity, index) => (
-                                <div
-                                    className="flex flex-col items-center my-4"
-                                    key={index}
-                                >
-                                    {parseContent(activity)}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </>
-            )}
-            {/* <Modal open={isOpen} onClose={onClose}>
-                {form === 'EditEventForm' ? (
-                    <EditEventForm
-                        tripId={tripId}
-                        tripData={tripData}
-                        onClose={onClose}
-                    />
-                ) : form === 'DeleteActivityForm' ? (
-                    <DeleteActivityForm
-                        activityType="trip"
-                        activityId={tripId}
-                        onClose={onClose}
-                    />
-                ) : null}
-            </Modal> */}
+                    ))}
+                </div>
+            </div>
         </>
     )
 }

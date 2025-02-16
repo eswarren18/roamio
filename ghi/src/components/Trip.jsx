@@ -1,14 +1,19 @@
 import { useContext, useEffect, useState } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { AuthContext } from './AuthProvider'
-import Modal from './Modal'
-import EditTripForm from '../forms/EditTripForm'
-import AddEventForm from '../forms/AddEventForm'
-import EditEventForm from '../forms/EditEventForm'
-import Accordion from './Accordion'
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
-import DeleteActivityForm from '../forms/DeleteActivityForm'
 const apiKey = import.meta.env.GOOGLE_API_KEY
+
+import Accordion from './Accordion'
+import AddEventForm from '../forms/AddEventForm'
+import AddFlightForm from '../forms/AddFlightForm'
+import AddLodgingForm from '../forms/AddLodgingForm'
+import DeleteActivityForm from '../forms/DeleteActivityForm'
+import EditEventForm from '../forms/EditEventForm'
+import EditFlightForm from '../forms/EditFlightForm'
+import EditLodgingForm from '../forms/EditLodgingForm'
+import EditTripForm from '../forms/EditTripForm'
+import Modal from './Modal'
 
 // The Trip component displays details for a single user trip
 function Trip() {
@@ -240,14 +245,10 @@ function Trip() {
         return `${months[+month - 1]} ${+day}, ${year}`
     }
 
-    const handleOpenModal = (
-        formFromAccordion,
-        idFromAccordion = null,
-        activityFromAccordion = ''
-    ) => {
-        setForm(formFromAccordion)
-        setActivityId(idFromAccordion)
-        setActivityType(activityFromAccordion)
+    const handleOpenModal = (form, id, activityType) => {
+        setForm(form)
+        setActivityId(id)
+        setActivityType(activityType)
         setIsOpen(true)
     }
 
@@ -288,7 +289,11 @@ function Trip() {
                             </button>
                             <button
                                 onClick={() =>
-                                    handleOpenModal('DeleteActivityForm')
+                                    handleOpenModal(
+                                        'DeleteActivityForm',
+                                        tripId,
+                                        'trip'
+                                    )
                                 }
                             >
                                 <img
@@ -328,11 +333,7 @@ function Trip() {
                                 <button
                                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"
                                     onClick={() =>
-                                        toggleModal({
-                                            form: 'AddFlightModal',
-                                            id: tripId,
-                                            data: tripData,
-                                        })
+                                        handleOpenModal('AddFlightForm')
                                     }
                                 >
                                     Add Flight
@@ -340,11 +341,7 @@ function Trip() {
                                 <button
                                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"
                                     onClick={() =>
-                                        toggleModal({
-                                            form: 'AddLodgingModal',
-                                            id: tripId,
-                                            data: tripData,
-                                        })
+                                        handleOpenModal('AddLodgingForm')
                                     }
                                 >
                                     Add Lodging
@@ -390,8 +387,32 @@ function Trip() {
                         tripData={tripData}
                         onClose={() => setIsOpen(false)}
                     />
+                ) : form === 'AddFlightForm' ? (
+                    <AddFlightForm
+                        tripId={tripId}
+                        tripData={tripData}
+                        onClose={() => setIsOpen(false)}
+                    />
+                ) : form === 'AddLodgingForm' ? (
+                    <AddLodgingForm
+                        tripId={tripId}
+                        tripData={tripData}
+                        onClose={() => setIsOpen(false)}
+                    />
                 ) : form === 'EditEventForm' ? (
                     <EditEventForm
+                        activityId={activityId}
+                        tripData={tripData}
+                        onClose={() => setIsOpen(false)}
+                    />
+                ) : form === 'EditFlightForm' ? (
+                    <EditFlightForm
+                        activityId={activityId}
+                        tripData={tripData}
+                        onClose={() => setIsOpen(false)}
+                    />
+                ) : form === 'EditLodgingForm' ? (
+                    <EditLodgingForm
                         activityId={activityId}
                         tripData={tripData}
                         onClose={() => setIsOpen(false)}
@@ -404,8 +425,8 @@ function Trip() {
                     />
                 ) : form === 'DeleteActivityForm' ? (
                     <DeleteActivityForm
-                        activityId={activityId}
                         activityType={activityType}
+                        activityId={activityId}
                         onClose={() => setIsOpen(false)}
                     />
                 ) : null}

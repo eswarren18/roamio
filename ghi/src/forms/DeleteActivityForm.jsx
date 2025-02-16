@@ -2,8 +2,8 @@ import { useNavigate } from 'react-router-dom'
 
 // The DeleteActivityForm component handles the deletion of all activities (i.e., trips, events, flights, lodgings)
 export default function DeleteActivityForm({
-    activityId,
     activityType,
+    activityId,
     onClose,
 }) {
     const navigate = useNavigate()

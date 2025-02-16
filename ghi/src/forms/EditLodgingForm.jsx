@@ -1,11 +1,8 @@
-import { useContext, useEffect, useState, useRef } from 'react'
-import { ModalContext } from './ModalProvider'
+import { useEffect, useState, useRef } from 'react'
 import { Autocomplete } from '@react-google-maps/api'
 
 // The EditLodgingModal component handles the editing of lodging details
-function EditLodgingModal() {
-    const { toggleModal, activityId } = useContext(ModalContext)
-    const [tripData, setTripData] = useState({})
+function EditLodgingModal({ activityId, tripData, onClose }) {
     const initialFormData = {
         id: activityId,
         name: '',
@@ -44,18 +41,6 @@ function EditLodgingModal() {
             if (response.ok) {
                 const data = await response.json()
                 setFormData(data)
-
-                const tripResponse = await fetch(
-                    `http://localhost:8000/api/trips/${data.trip_id}`,
-                    {
-                        credentials: 'include',
-                        headers: { 'Content-Type': 'application/json' },
-                    }
-                )
-                if (tripResponse.ok) {
-                    const tripData = await tripResponse.json()
-                    setTripData(tripData)
-                }
             }
         } catch (e) {
             console.error(e)
@@ -124,7 +109,7 @@ function EditLodgingModal() {
             )
             if (response.ok) {
                 resetForm()
-                toggleModal('', null, '')
+                onClose()
             }
         } catch (e) {
             console.error(e)
@@ -138,139 +123,129 @@ function EditLodgingModal() {
     const { name, address, check_in, check_out } = formData
 
     return (
-        <div
-            className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-20"
-            onClick={toggleModal}
-        >
-            <div
-                className="flex flex-col bg-white rounded-lg shadow-lg w-96 p-6"
-                onClick={(e) => e.stopPropagation()}
+        <>
+            <button onClick={onClose} className="flex justify-end mb-2">
+                <img
+                    src="/public/x-icon.svg"
+                    alt="Cancel"
+                    className="w-8 h-8"
+                />
+            </button>
+            <div className="text-center text-4xl font-bold mb-6">
+                Update Lodging
+            </div>
+            <form
+                onSubmit={handleFormSubmit}
+                className="flex flex-col w-4/5 mx-auto"
             >
-                <button onClick={toggleModal} className="flex justify-end mb-2">
-                    <img
-                        src="/public/x-icon.svg"
-                        alt="Cancel"
-                        className="w-8 h-8"
-                    />
-                </button>
-                <div className="text-center text-4xl font-bold mb-6">
-                    Update Lodging
-                </div>
-                <form
-                    onSubmit={handleFormSubmit}
-                    className="flex flex-col w-4/5 mx-auto"
-                >
-                    <div className="relative z-0 w-full mb-5 group">
-                        <input
-                            type="text"
-                            name="name"
-                            value={name}
-                            onChange={handleFormChange}
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0
+                <div className="relative z-0 w-full mb-5 group">
+                    <input
+                        type="text"
+                        name="name"
+                        value={name}
+                        onChange={handleFormChange}
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0
                          border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0
                          focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                        />
-                        <label
-                            htmlFor="name"
-                            className="peer-focus:font-medium absolute text-sm text-gray-500
+                        placeholder=" "
+                        required
+                    />
+                    <label
+                        htmlFor="name"
+                        className="peer-focus:font-medium absolute text-sm text-gray-500
                          duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]
                          peer-focus:left-0 peer-focus:text-blue-600
                          peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
                          peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >
-                            Lodging Name
-                            <span className="text-red-500 text-xs">*</span>
-                        </label>
-                    </div>
-                    <div className="relative z-0 w-full mb-5 group">
-                        <Autocomplete
-                            onLoad={(ref) =>
-                                (addressAutocompleteRef.current = ref)
-                            }
-                            onPlaceChanged={onAddressPlaceChanged}
-                        >
-                            <div>
-                                <input
-                                    type="text"
-                                    name="address"
-                                    value={address}
-                                    onChange={handleFormChange}
-                                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0
+                    >
+                        Lodging Name
+                        <span className="text-red-500 text-xs">*</span>
+                    </label>
+                </div>
+                <div className="relative z-0 w-full mb-5 group">
+                    <Autocomplete
+                        onLoad={(ref) => (addressAutocompleteRef.current = ref)}
+                        onPlaceChanged={onAddressPlaceChanged}
+                    >
+                        <div>
+                            <input
+                                type="text"
+                                name="address"
+                                value={address}
+                                onChange={handleFormChange}
+                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0
                             border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0
                             focus:border-blue-600 peer"
-                                    placeholder=" "
-                                    required
-                                />
-                            </div>
-                        </Autocomplete>
-                        <label
-                            htmlFor="address"
-                            className="peer-focus:font-medium absolute text-sm text-gray-500
+                                placeholder=" "
+                                required
+                            />
+                        </div>
+                    </Autocomplete>
+                    <label
+                        htmlFor="address"
+                        className="peer-focus:font-medium absolute text-sm text-gray-500
                           duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]
                           peer-focus:left-0 peer-focus:text-blue-600
                           peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
                           peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >
-                            Address
-                            <span className="text-red-500 text-xs">*</span>
-                        </label>
-                    </div>
-                    <div className="relative z-0 w-full mb-5 group">
-                        <input
-                            type="datetime-local"
-                            name="check_in"
-                            value={check_in}
-                            onChange={handleFormChange}
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0
+                    >
+                        Address
+                        <span className="text-red-500 text-xs">*</span>
+                    </label>
+                </div>
+                <div className="relative z-0 w-full mb-5 group">
+                    <input
+                        type="datetime-local"
+                        name="check_in"
+                        value={check_in}
+                        onChange={handleFormChange}
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0
                            border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0
                            focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                        />
-                        <label
-                            htmlFor="check_in"
-                            className="peer-focus:font-medium absolute text-sm text-gray-500
+                        placeholder=" "
+                        required
+                    />
+                    <label
+                        htmlFor="check_in"
+                        className="peer-focus:font-medium absolute text-sm text-gray-500
                            duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]
                            peer-focus:left-0 peer-focus:text-blue-600
                            peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
                            peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >
-                            Check-In
-                            <span className="text-red-500 text-xs">*</span>
-                        </label>
-                    </div>
-                    <div className="relative z-0 w-full mb-5 group">
-                        <input
-                            type="datetime-local"
-                            name="check_out"
-                            value={check_out}
-                            onChange={handleFormChange}
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0
+                    >
+                        Check-In
+                        <span className="text-red-500 text-xs">*</span>
+                    </label>
+                </div>
+                <div className="relative z-0 w-full mb-5 group">
+                    <input
+                        type="datetime-local"
+                        name="check_out"
+                        value={check_out}
+                        onChange={handleFormChange}
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0
                            border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0
                            focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                        />
-                        <label
-                            htmlFor="check_out"
-                            className="peer-focus:font-medium absolute text-sm text-gray-500
+                        placeholder=" "
+                        required
+                    />
+                    <label
+                        htmlFor="check_out"
+                        className="peer-focus:font-medium absolute text-sm text-gray-500
                            duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]
                            peer-focus:left-0 peer-focus:text-blue-600
                            peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0
                            peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >
-                            Check-Out
-                            <span className="text-red-500 text-xs">*</span>
-                        </label>
-                    </div>
-                    <button className="hover:underline" type="submit">
-                        Update
-                    </button>
-                </form>
-            </div>
-        </div>
+                    >
+                        Check-Out
+                        <span className="text-red-500 text-xs">*</span>
+                    </label>
+                </div>
+                <button className="hover:underline" type="submit">
+                    Update
+                </button>
+            </form>
+        </>
     )
 }
 
