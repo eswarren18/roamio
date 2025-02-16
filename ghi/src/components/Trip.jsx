@@ -5,15 +5,8 @@ import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
 const apiKey = import.meta.env.GOOGLE_API_KEY
 
 import Accordion from './Accordion'
-import AddEventForm from '../forms/AddEventForm'
-import AddFlightForm from '../forms/AddFlightForm'
-import AddLodgingForm from '../forms/AddLodgingForm'
-import DeleteActivityForm from '../forms/DeleteActivityForm'
-import EditEventForm from '../forms/EditEventForm'
-import EditFlightForm from '../forms/EditFlightForm'
-import EditLodgingForm from '../forms/EditLodgingForm'
-import EditTripForm from '../forms/EditTripForm'
 import Modal from './Modal'
+import TripFormSelector from '../forms/TripFormSelector'
 
 // The Trip component displays details for a single user trip
 function Trip() {
@@ -381,55 +374,14 @@ function Trip() {
             </div>
             {/* Modal */}
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-                {form === 'AddEventForm' ? (
-                    <AddEventForm
-                        tripId={tripId}
-                        tripData={tripData}
-                        onClose={() => setIsOpen(false)}
-                    />
-                ) : form === 'AddFlightForm' ? (
-                    <AddFlightForm
-                        tripId={tripId}
-                        tripData={tripData}
-                        onClose={() => setIsOpen(false)}
-                    />
-                ) : form === 'AddLodgingForm' ? (
-                    <AddLodgingForm
-                        tripId={tripId}
-                        tripData={tripData}
-                        onClose={() => setIsOpen(false)}
-                    />
-                ) : form === 'EditEventForm' ? (
-                    <EditEventForm
-                        activityId={activityId}
-                        tripData={tripData}
-                        onClose={() => setIsOpen(false)}
-                    />
-                ) : form === 'EditFlightForm' ? (
-                    <EditFlightForm
-                        activityId={activityId}
-                        tripData={tripData}
-                        onClose={() => setIsOpen(false)}
-                    />
-                ) : form === 'EditLodgingForm' ? (
-                    <EditLodgingForm
-                        activityId={activityId}
-                        tripData={tripData}
-                        onClose={() => setIsOpen(false)}
-                    />
-                ) : form === 'EditTripForm' ? (
-                    <EditTripForm
-                        tripId={tripId}
-                        tripData={tripData}
-                        onClose={() => setIsOpen(false)}
-                    />
-                ) : form === 'DeleteActivityForm' ? (
-                    <DeleteActivityForm
-                        activityType={activityType}
-                        activityId={activityId}
-                        onClose={() => setIsOpen(false)}
-                    />
-                ) : null}
+                <TripFormSelector
+                    form={form}
+                    tripId={tripId}
+                    tripData={tripData}
+                    activityId={activityId}
+                    activityType={activityType}
+                    onClose={() => setIsOpen(false)}
+                />
             </Modal>
         </div>
     )
