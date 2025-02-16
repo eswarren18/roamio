@@ -95,13 +95,6 @@ function AddFlightForm({ tripId, tripData, onClose }) {
 
     return (
         <>
-            <button onClick={onClose} className="flex justify-end">
-                <img
-                    src="/public/x-icon.svg"
-                    alt="Cancel"
-                    className="w-8 h-8"
-                />
-            </button>
             <div className="text-center text-4xl font-bold mb-6">
                 Add Flight
             </div>

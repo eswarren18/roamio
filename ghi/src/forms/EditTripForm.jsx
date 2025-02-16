@@ -170,15 +170,6 @@ function EditTripForm({ tripData, tripId, onClose }) {
 
     return (
         <>
-            <div className="flex justify-end w-full">
-                <button onClick={onClose}>
-                    <img
-                        src="/public/x-icon.svg"
-                        alt="Cancel"
-                        className="w-8 h-8"
-                    />
-                </button>
-            </div>
             <div className="text-center text-4xl font-bold mb-6">Edit Trip</div>
             {toDelete.length > 0 && (
                 <div className="flex items-center w-4/5 justify-center mb-6 rounded-lg bg-gray-700 p-3 text-yellow-500">

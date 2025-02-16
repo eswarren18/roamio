@@ -14,7 +14,7 @@ const images = [
 
 // The Home component is displayed when the user is logged out
 function Home() {
-    const { isLoggedIn } = useContext(AuthContext)
+    const { isLoggedIn, setError } = useContext(AuthContext)
     const [imageIndex, setImageIndex] = useState(0)
     const navigate = useNavigate()
     const [isOpen, setIsOpen] = useState(false)
@@ -29,6 +29,11 @@ function Home() {
     const handleOpenModal = (form) => {
         setForm(form)
         setIsOpen(true)
+    }
+
+    const handleCloseModal = () => {
+        setError(null)
+        setIsOpen(false)
     }
 
     useEffect(() => {
@@ -108,11 +113,11 @@ function Home() {
                 </div>
             </div>
             {/* Modal */}
-            <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+            <Modal open={isOpen} onClose={handleCloseModal}>
                 {form === 'SignInForm' ? (
-                    <SignInForm onClose={() => setIsOpen(false)} />
+                    <SignInForm onClose={handleCloseModal} />
                 ) : form === 'SignUpForm' ? (
-                    <SignUpForm onClose={() => setIsOpen(false)} />
+                    <SignUpForm onClose={handleCloseModal} />
                 ) : null}
             </Modal>
         </>
