@@ -347,7 +347,6 @@ function Trip() {
                             key={date}
                             header={date}
                             content={activities}
-                            isOpen={isOpen}
                             handleOpenModal={handleOpenModal}
                         />
                     ))}

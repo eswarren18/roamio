@@ -4,12 +4,7 @@ import EditEventForm from '../forms/EditEventForm'
 import DeleteActivityForm from '../forms/DeleteActivityForm'
 
 // Accordion components are displayed on the users Trip page. One dropdown accordion component is displayed per date.
-export default function Accordion({
-    header,
-    content,
-    isOpen,
-    handleOpenModal,
-}) {
+export default function Accordion({ header, content, handleOpenModal }) {
     const [accordionOpen, setAccordionOpen] = useState(false)
 
     // Returns accordion cards
