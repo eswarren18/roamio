@@ -1,5 +1,3 @@
-import React from 'react'
-
 const FormErrorAlert = ({ errors }) => {
     if (!errors || errors.length === 0) return null
 
@@ -31,15 +29,43 @@ const FormErrorAlert = ({ errors }) => {
     )
 }
 
-export const validateForm = ({ username, password }) => {
+export const validateForm = (formData) => {
     const errors = []
 
-    if (!username) {
+    if (formData.username !== undefined && !formData.username) {
         errors.push('Username is required')
     }
 
-    if (!password) {
+    if (formData.password !== undefined && !formData.password) {
         errors.push('Password is required')
+    }
+
+    if (formData.title !== undefined && !formData.title) {
+        errors.push('Title is required')
+    }
+
+    if (formData.country !== undefined && !formData.country) {
+        errors.push('Country is required')
+    }
+
+    if (formData.city !== undefined && !formData.city) {
+        errors.push('City is required')
+    }
+
+    if (formData.start_date !== undefined && !formData.start_date) {
+        errors.push('Start date is required')
+    }
+
+    if (formData.end_date !== undefined && !formData.end_date) {
+        errors.push('End date is required')
+    }
+
+    if (formData.trip_image !== undefined && formData.trip_image) {
+        try {
+            new URL(formData.trip_image)
+        } catch (error) {
+            errors.push('Trip image must be a valid URL or left blank')
+        }
     }
 
     return errors

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import FormErrorAlert from './FormErrorAlert'
+import FormErrorAlert, { validateForm } from './FormErrorAlert'
 
 // The AddTripForm component handles the creation of a new trip
 function AddTripForm({ onClose }) {
@@ -57,6 +57,20 @@ function AddTripForm({ onClose }) {
     // Handles the form submission to create a new trip
     const handleFormSubmit = async (e) => {
         e.preventDefault()
+        const errors = validateForm({
+            title,
+            country,
+            city,
+            start_date,
+            end_date,
+            trip_image,
+        })
+
+        if (errors.length > 0) {
+            setFormErrors(errors)
+            return
+        }
+
         try {
             const response = await fetch('http://localhost:8000/api/trips', {
                 method: 'POST',
@@ -249,7 +263,6 @@ function AddTripForm({ onClose }) {
                         name="trip_image"
                         onChange={handleFormChange}
                         placeholder="Enter an Image URL"
-                        type="url"
                         value={trip_image}
                     />
                 </div>
