@@ -52,6 +52,16 @@ export const validateForm = (formData) => {
         errors.push('City is required')
     }
 
+    if (
+        formData.start_date !== undefined &&
+        formData.end_date !== undefined &&
+        formData.start_date &&
+        formData.end_date &&
+        formData.start_date > formData.end_date
+    ) {
+        errors.push('Start date must come before end date')
+    }
+
     if (formData.start_date !== undefined && !formData.start_date) {
         errors.push('Start date is required')
     }

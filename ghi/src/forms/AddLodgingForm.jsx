@@ -74,16 +74,12 @@ function AddLodgingForm({ tripId, tripData, onClose }) {
                 body: JSON.stringify(formData),
             })
             if (response.ok) {
-                resetForm()
+                setFormData(initialFormData)
                 onClose()
             }
         } catch (e) {
             console.error(e)
         }
-    }
-
-    const resetForm = () => {
-        setFormData(initialFormData)
     }
 
     const { name, address, check_in, check_out } = formData

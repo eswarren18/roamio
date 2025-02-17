@@ -18,32 +18,17 @@ function AddTripForm({ onClose }) {
     const [formData, setFormData] = useState(initialFormData)
     const [formErrors, setFormErrors] = useState([])
 
-    // Handles form input changes with additional checks for date field validity
+    // Handles form input changes except for date fields
     const handleFormChange = ({ target }) => {
         const { value, name } = target
 
         setFormData((prevState) => {
             const newFormData = { ...prevState, [name]: value }
-
-            // if (name === 'start_date') {
-            //     const newStartDate = new Date(value)
-            //     const endDate = new Date(prevState.end_date)
-
-            //     if (endDate < newStartDate) {
-            //         newFormData.end_date = ''
-            //     }
-            // } else if (name === 'end_date') {
-            //     const startDate = new Date(prevState.start_date)
-            //     const newEndDate = new Date(value)
-
-            //     if (newEndDate < startDate) {
-            //         newFormData.end_date = ''
-            //     }
-            // }
             return newFormData
         })
     }
 
+    // Handles date input changes
     const handleDateChange = (date, name) => {
         console.log('date: ', date, typeof date)
         const formattedDate = date.toLocaleDateString('en-CA')
@@ -81,17 +66,13 @@ function AddTripForm({ onClose }) {
             if (response.ok) {
                 const responseData = await response.json()
                 const tripId = responseData.id
-                resetForm()
+                setFormData(initialFormData)
                 onClose()
                 navigate(`/trip/${tripId}`)
             }
         } catch (e) {
             console.error(e)
         }
-    }
-
-    const resetForm = () => {
-        setFormData(initialFormData)
     }
 
     const { title, country, city, start_date, end_date, trip_image } = formData

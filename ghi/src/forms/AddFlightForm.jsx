@@ -73,16 +73,12 @@ function AddFlightForm({ tripId, tripData, onClose }) {
                 }),
             })
             if (response.ok) {
-                resetForm()
+                setFormData(initialFormData)
                 onClose()
             }
         } catch (e) {
             console.error(e)
         }
-    }
-
-    const resetForm = () => {
-        setFormData(initialFormData)
     }
 
     const {

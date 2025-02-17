@@ -108,16 +108,12 @@ function EditLodgingModal({ activityId, tripData, onClose }) {
                 }
             )
             if (response.ok) {
-                resetForm()
+                setFormData(initialFormData)
                 onClose()
             }
         } catch (e) {
             console.error(e)
         }
-    }
-
-    const resetForm = () => {
-        setFormData(initialFormData)
     }
 
     const { name, address, check_in, check_out } = formData
