@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import FormErrorAlert, { validateForm } from './FormErrorAlert'
+import { format } from 'date-fns'
+
 
 // The AddTripForm component handles the creation of a new trip
 function AddTripForm({ onClose }) {
@@ -30,18 +32,16 @@ function AddTripForm({ onClose }) {
 
     // Handles date input changes
     const handleDateChange = (date, name) => {
-        console.log('date: ', date, typeof date)
-        const formattedDate = date.toLocaleDateString('en-CA')
-        console.log('formattedDate: ', formattedDate, typeof formattedDate)
         setFormData((prevState) => ({
             ...prevState,
-            [name]: formattedDate,
+            [name]: date,
         }))
     }
 
     // Handles the form submission to create a new trip
     const handleFormSubmit = async (e) => {
         e.preventDefault()
+        console.log(formData)
         const errors = validateForm({
             title,
             country,
@@ -55,13 +55,18 @@ function AddTripForm({ onClose }) {
             setFormErrors(errors)
             return
         }
+        const formattedData = {
+            ...formData,
+            start_date: start_date ? format(start_date,"yyyy-MM-dd") : '',
+            end_date: end_date ? format(end_date,"yyyy-MM-dd") : '',
+        }
 
         try {
             const response = await fetch('http://localhost:8000/api/trips', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-                body: JSON.stringify(formData),
+                body: JSON.stringify(formattedData),
             })
             if (response.ok) {
                 const responseData = await response.json()
