@@ -2,12 +2,13 @@ import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from './AuthProvider'
 import { useNavigate } from 'react-router-dom'
 import Modal from './Modal'
-import AddTripForm from '../forms/AddTripForm'
+import FormSelector from '../forms/FormSelector'
 
 // The Nav component is a naviation bar displayed once the user is signed in
 function Nav() {
     const { isLoggedIn, setUser } = useContext(AuthContext)
     const navigate = useNavigate()
+    const [action, setAction] = useState('')
     const [isOpen, setIsOpen] = useState(false)
 
     // Logs out the user when the click the log out button
@@ -26,6 +27,11 @@ function Nav() {
         } catch (e) {
             console.error(e)
         }
+    }
+
+    const handleOpenModal = (action) => {
+        setAction(action)
+        setIsOpen(true)
     }
 
     useEffect(() => {}, [isLoggedIn])
@@ -59,7 +65,7 @@ function Nav() {
                                 </a>
                                 <button
                                     className="hover:text-cyan-500 transition duration-200"
-                                    onClick={() => setIsOpen(true)}
+                                    onClick={() => handleOpenModal('addTrip')}
                                 >
                                     Add a Trip
                                 </button>
@@ -76,8 +82,12 @@ function Nav() {
                         </div>
                     </div>
                 </nav>
+                {/* Modal */}
                 <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-                    <AddTripForm onClose={() => setIsOpen(false)} />
+                    <FormSelector
+                        action={action}
+                        onClose={() => setIsOpen(false)}
+                    />
                 </Modal>
             </>
         )

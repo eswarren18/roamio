@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { FormErrorAlert, validateForm } from './FormErrorAlert'
 import { format, parseISO } from 'date-fns'
 
-// The EditTripForm component handles editing a trip's details
-function EditTripForm({ tripData, tripId, onClose }) {
+// The TripForm component handles editing a trip's details
+function TripForm({ tripData, tripId, onClose, action }) {
     const [toDelete, setToDelete] = useState([])
     const initialFormData = {
         id: '',
@@ -19,6 +20,7 @@ function EditTripForm({ tripData, tripId, onClose }) {
     }
     const [formData, setFormData] = useState(initialFormData)
     const [formErrors, setFormErrors] = useState([])
+    const navigate = useNavigate()
 
     // Fetches the trips data using tripId to populate the form
     const fetchTrip = async (e) => {
@@ -130,8 +132,8 @@ function EditTripForm({ tripData, tripId, onClose }) {
     }
 
     // Handles the form submission to update the trip details and delete out-of-range activities
-    const handleFormSubmit = async (e) => {
-        e.preventDefault()
+    const handleFormSubmit = async (event) => {
+        event.preventDefault()
         const errors = validateForm({
             requiredFields: {
                 title: title,
@@ -154,18 +156,28 @@ function EditTripForm({ tripData, tripId, onClose }) {
             end_date: end_date ? format(end_date, 'yyyy-MM-dd') : '',
         }
 
+        const url =
+            action === 'editTrip'
+                ? `http://localhost:8000/api/trips/${tripId}`
+                : 'http://localhost:8000/api/trips'
+        const method = action === 'editTrip' ? 'PUT' : 'POST'
         try {
-            const response = await fetch(
-                `http://localhost:8000/api/trips/${tripId}`,
-                {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    credentials: 'include',
-                    body: JSON.stringify(formattedData),
-                }
-            )
+            const response = await fetch(url, {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify(formattedData),
+            })
+            console.log('111')
             if (response.ok) {
-                deleteOutOfRangeItems()
+                console.log('222')
+                if (action === 'editTrip') {
+                    deleteOutOfRangeItems()
+                } else {
+                    console.log('333')
+                    const responseData = await response.json()
+                    navigate(`/trip/${responseData.id}`)
+                }
                 setFormData(initialFormData)
                 onClose()
             }
@@ -181,7 +193,9 @@ function EditTripForm({ tripData, tripId, onClose }) {
     }, [formData.start_date, formData.end_date, tripData])
 
     useEffect(() => {
-        fetchTrip()
+        if (action === 'editTrip') {
+            fetchTrip()
+        }
     }, [])
 
     return (
@@ -208,10 +222,14 @@ function EditTripForm({ tripData, tripId, onClose }) {
                 className="flex flex-col w-4/5 mx-auto my-2"
             >
                 <h1 className="text-gray-800 font-bold text-2xl mb-1">
-                    Update Your Adventure!
+                    {action === 'editTrip'
+                        ? 'Update Your Adventure!'
+                        : 'Start planning your next adventure!'}
                 </h1>
                 <p className="text-sm font-normal text-gray-600 mb-4">
-                    Update trip
+                    {action === 'editTrip'
+                        ? 'Update your trip'
+                        : 'Create a trip'}
                 </p>
                 <FormErrorAlert errors={formErrors} />
                 <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-3">
@@ -375,11 +393,11 @@ function EditTripForm({ tripData, tripId, onClose }) {
                     type="submit"
                     className="block w-full bg-cyan-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
                 >
-                    Update
+                    {action === 'editTrip' ? 'Update' : 'Create'}
                 </button>
             </form>
         </>
     )
 }
 
-export default EditTripForm
+export default TripForm

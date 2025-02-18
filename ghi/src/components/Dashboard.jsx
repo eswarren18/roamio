@@ -1,13 +1,15 @@
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from './AuthProvider'
-import Modal from './Modal'
-import AddTripForm from '../forms/AddTripForm'
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
 const apiKey = import.meta.env.GOOGLE_API_KEY
 
+import FormSelector from '../forms/FormSelector'
+import Modal from './Modal'
+
 // The Dashboard component displays all the user's trips
 function Dashboard() {
+    const [action, setAction] = useState('')
     const [isOpen, setIsOpen] = useState(false)
     const { isLoggedIn } = useContext(AuthContext)
     const navigate = useNavigate()
@@ -106,6 +108,11 @@ function Dashboard() {
             day,
             10
         )}, ${year}`
+    }
+
+    const handleOpenModal = (action) => {
+        setAction(action)
+        setIsOpen(true)
     }
 
     useEffect(() => {
@@ -221,7 +228,7 @@ function Dashboard() {
                             className="flex flex-col relative text-cyan-100 rounded-lg m-4 transform
                             hover:bg-cyan-200 hover:scale-105 hover:ring-2 hover:ring-cyan-500
                             transition-all duration-200 h-60"
-                            onClick={() => setIsOpen(true)}
+                            onClick={() => handleOpenModal('addTrip')}
                         >
                             <img
                                 className="object-cover w-full h-full rounded-lg"
@@ -241,7 +248,10 @@ function Dashboard() {
             </div>
             {/* Modal */}
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-                <AddTripForm onClose={() => setIsOpen(false)} />
+                <FormSelector
+                    action={action}
+                    onClose={() => setIsOpen(false)}
+                />
             </Modal>
         </div>
     )

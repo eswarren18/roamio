@@ -6,7 +6,7 @@ const apiKey = import.meta.env.GOOGLE_API_KEY
 
 import Accordion from './Accordion'
 import Modal from './Modal'
-import TripFormSelector from '../forms/TripFormSelector'
+import FormSelector from '../forms/FormSelector'
 
 // The Trip component displays details for a single user trip
 function Trip() {
@@ -17,7 +17,7 @@ function Trip() {
     const [trip, setTrip] = useState({})
     const [tripData, setTripData] = useState({})
     const [isOpen, setIsOpen] = useState(false)
-    const [form, setForm] = useState('')
+    const [action, setAction] = useState('')
     const [activityType, setActivityType] = useState('')
     const [activityId, setActivityId] = useState(null)
     const [mapMarkers, setMapMarkers] = useState([])
@@ -238,8 +238,8 @@ function Trip() {
         return `${months[+month - 1]} ${+day}, ${year}`
     }
 
-    const handleOpenModal = (form, id, activityType) => {
-        setForm(form)
+    const handleOpenModal = (action, id, activityType) => {
+        setAction(action)
         setActivityId(id)
         setActivityType(activityType)
         setIsOpen(true)
@@ -271,9 +271,7 @@ function Trip() {
                             </p>
                         </div>
                         <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button
-                                onClick={() => handleOpenModal('EditTripForm')}
-                            >
+                            <button onClick={() => handleOpenModal('editTrip')}>
                                 <img
                                     src="/public/edit-icon-100.svg"
                                     alt="Edit"
@@ -373,8 +371,8 @@ function Trip() {
             </div>
             {/* Modal */}
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-                <TripFormSelector
-                    form={form}
+                <FormSelector
+                    action={action}
                     tripId={tripId}
                     tripData={tripData}
                     activityId={activityId}

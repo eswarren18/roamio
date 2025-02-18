@@ -1,21 +1,22 @@
-import AddEventForm from '../forms/AddEventForm'
-import AddFlightForm from '../forms/AddFlightForm'
-import AddLodgingForm from '../forms/AddLodgingForm'
-import DeleteActivityForm from '../forms/DeleteActivityForm'
-import EditEventForm from '../forms/EditEventForm'
-import EditFlightForm from '../forms/EditFlightForm'
-import EditLodgingForm from '../forms/EditLodgingForm'
-import EditTripForm from '../forms/EditTripForm'
+import AddEventForm from './AddEventForm'
+import AddFlightForm from './AddFlightForm'
+import AddLodgingForm from './AddLodgingForm'
+import DeleteActivityForm from './DeleteActivityForm'
+import EditEventForm from './EditEventForm'
+import EditFlightForm from './EditFlightForm'
+import EditLodgingForm from './EditLodgingForm'
+import TripForm from './TripForm'
 
-const TripFormSelector = ({
+const FormSelector = ({
     form,
+    action,
     tripId,
     tripData,
     activityId,
     activityType,
     onClose,
 }) => {
-    switch (form) {
+    switch (action | form) {
         case 'AddEventForm':
             return (
                 <AddEventForm
@@ -64,9 +65,10 @@ const TripFormSelector = ({
                     onClose={onClose}
                 />
             )
-        case 'EditTripForm':
+        case 'editTrip' | 'addTrip':
             return (
-                <EditTripForm
+                <TripForm
+                    action={action}
                     tripId={tripId}
                     tripData={tripData}
                     onClose={onClose}
@@ -85,4 +87,4 @@ const TripFormSelector = ({
     }
 }
 
-export default TripFormSelector
+export default FormSelector
