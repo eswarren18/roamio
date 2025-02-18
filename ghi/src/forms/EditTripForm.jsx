@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { FormErrorAlert, validateForm } from './FormErrorAlert'
-import { format } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 
 // The EditTripForm component handles editing a trip's details
 function EditTripForm({ tripData, tripId, onClose }) {
@@ -36,6 +36,10 @@ function EditTripForm({ tripData, tripId, onClose }) {
                 setFormData((prevFormData) => ({
                     ...prevFormData,
                     ...data,
+                    start_date: data.start_date
+                        ? parseISO(data.start_date)
+                        : null,
+                    end_date: data.end_date ? parseISO(data.end_date) : null,
                     trip_image:
                         data.trip_image === '/passport-stamps.png'
                             ? prevFormData.trip_image
@@ -94,22 +98,6 @@ function EditTripForm({ tripData, tripId, onClose }) {
 
         setFormData((prevState) => {
             const newFormData = { ...prevState, [name]: value }
-
-            if (name === 'start_date') {
-                const newStartDate = new Date(value)
-                const endDate = new Date(prevState.end_date)
-
-                if (endDate < newStartDate) {
-                    newFormData.end_date = ''
-                }
-            } else if (name === 'end_date') {
-                const startDate = new Date(prevState.start_date)
-                const newEndDate = new Date(value)
-
-                if (newEndDate < startDate) {
-                    newFormData.end_date = ''
-                }
-            }
             return newFormData
         })
     }
@@ -173,14 +161,7 @@ function EditTripForm({ tripData, tripId, onClose }) {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'include',
-                    body: JSON.stringify({
-                        title: formData.title,
-                        country: formData.country,
-                        city: formData.city,
-                        start_date: formData.start_date,
-                        end_date: formData.end_date,
-                        trip_image: formData.trip_image,
-                    }),
+                    body: JSON.stringify(formattedData),
                 }
             )
             if (response.ok) {
