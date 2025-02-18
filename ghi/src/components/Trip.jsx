@@ -18,7 +18,6 @@ function Trip() {
     const [tripData, setTripData] = useState({})
     const [isOpen, setIsOpen] = useState(false)
     const [action, setAction] = useState('')
-    const [activityType, setActivityType] = useState('')
     const [activityId, setActivityId] = useState(null)
     const [mapMarkers, setMapMarkers] = useState([])
     const [center, setCenter] = useState()
@@ -238,10 +237,10 @@ function Trip() {
         return `${months[+month - 1]} ${+day}, ${year}`
     }
 
-    const handleOpenModal = (action, id, activityType) => {
+    const handleOpenModal = (action, id) => {
+        console.log('action: ', action, 'id: ', id)
         setAction(action)
         setActivityId(id)
-        setActivityType(activityType)
         setIsOpen(true)
     }
 
@@ -280,11 +279,7 @@ function Trip() {
                             </button>
                             <button
                                 onClick={() =>
-                                    handleOpenModal(
-                                        'DeleteActivityForm',
-                                        tripId,
-                                        'trip'
-                                    )
+                                    handleOpenModal('deleteTrip', tripId)
                                 }
                             >
                                 <img
@@ -376,7 +371,6 @@ function Trip() {
                     tripId={tripId}
                     tripData={tripData}
                     activityId={activityId}
-                    activityType={activityType}
                     onClose={() => setIsOpen(false)}
                 />
             </Modal>

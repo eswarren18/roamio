@@ -1,11 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 
 // The DeleteActivityForm component handles the deletion of all activities (i.e., trips, events, flights, lodgings)
-export default function DeleteActivityForm({
-    activityType,
-    activityId,
-    onClose,
-}) {
+export default function DeleteActivityForm({ action, activityId, onClose }) {
     const navigate = useNavigate()
     // Handles the deletion of the activity based on its type
     const handleDelete = async (e) => {
@@ -13,11 +9,11 @@ export default function DeleteActivityForm({
         try {
             let url
             // Determine the API endpoint based on the activity type
-            if (activityType === 'event') {
+            if (action === 'event') {
                 url = `http://localhost:8000/api/events/${activityId}`
-            } else if (activityType === 'flight') {
+            } else if (action === 'flight') {
                 url = `http://localhost:8000/api/flights/${activityId}`
-            } else if (activityType === 'trip') {
+            } else if (action === 'trip') {
                 url = `http://localhost:8000/api/trips/${activityId}`
             } else {
                 url = `http://localhost:8000/api/lodgings/${activityId}`
@@ -31,7 +27,7 @@ export default function DeleteActivityForm({
             // If the DELETE is successful, close the modal and navigate to the dashboard
             if (response.ok) {
                 onClose()
-                if (activityType === 'trip') {
+                if (action === 'deleteTrip') {
                     navigate('/dashboard')
                 }
             }

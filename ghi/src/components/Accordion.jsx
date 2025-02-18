@@ -1,7 +1,4 @@
 import { useState } from 'react'
-import Modal from './Modal'
-import EditEventForm from '../forms/EditEventForm'
-import DeleteActivityForm from '../forms/DeleteActivityForm'
 
 // Accordion components are displayed on the users Trip page. One dropdown accordion component is displayed per date.
 export default function Accordion({ header, content, handleOpenModal }) {
@@ -102,11 +99,7 @@ export default function Accordion({ header, content, handleOpenModal }) {
                             </button>
                             <button
                                 onClick={() =>
-                                    handleOpenModal(
-                                        'DeleteActivityForm',
-                                        activity.id,
-                                        'event'
-                                    )
+                                    handleOpenModal('deleteEvent', activity.id)
                                 }
                             >
                                 <img
@@ -164,11 +157,7 @@ export default function Accordion({ header, content, handleOpenModal }) {
                             </button>
                             <button
                                 onClick={() =>
-                                    handleOpenModal(
-                                        'DeleteActivityForm',
-                                        activity.id,
-                                        'flight'
-                                    )
+                                    handleOpenModal('deleteFlight', activity.id)
                                 }
                             >
                                 <img
@@ -221,9 +210,8 @@ export default function Accordion({ header, content, handleOpenModal }) {
                             <button
                                 onClick={() =>
                                     handleOpenModal(
-                                        'DeleteActivityForm',
-                                        activity.id,
-                                        'lodging'
+                                        'deleteLodging',
+                                        activity.id
                                     )
                                 }
                             >
