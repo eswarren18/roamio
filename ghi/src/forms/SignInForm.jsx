@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useAuthService from '../hooks/useAuthService'
-import FormErrorAlert, { validateForm } from './FormErrorAlert'
+import { FormErrorAlert, validateForm } from './FormErrorAlert'
 
 // The SignInForm displays a form for a user to sign into their account
 function SignInForm({ onClose }) {
@@ -14,8 +14,12 @@ function SignInForm({ onClose }) {
     // Handles the form submission by calling the signin function
     async function handleFormSubmit(e) {
         e.preventDefault()
-        const errors = validateForm({ username, password })
-
+        const errors = validateForm({
+            requiredFields: {
+                username: username,
+                password: password,
+            },
+        })
         if (errors.length > 0) {
             setFormErrors(errors)
             return
@@ -48,7 +52,7 @@ function SignInForm({ onClose }) {
                     Sign In
                 </p>
                 <FormErrorAlert errors={formErrors} />
-                <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
+                <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-3">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-5 w-5 text-gray-400"

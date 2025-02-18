@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useAuthService from '../hooks/useAuthService'
-import FormErrorAlert, { validateForm } from './FormErrorAlert'
+import { FormErrorAlert, validateForm } from './FormErrorAlert'
 
 // The SignUpForm displays a form for a user to create an account
 function SignUpForm({ onClose }) {
@@ -48,7 +48,7 @@ function SignUpForm({ onClose }) {
                     Sign Up
                 </p>
                 <FormErrorAlert errors={formErrors} />
-                <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
+                <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-3">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-5 w-5 text-gray-400"

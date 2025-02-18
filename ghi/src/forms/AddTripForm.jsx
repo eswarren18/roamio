@@ -2,9 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import FormErrorAlert, { validateForm } from './FormErrorAlert'
+import { FormErrorAlert, validateForm } from './FormErrorAlert'
 import { format } from 'date-fns'
-
 
 // The AddTripForm component handles the creation of a new trip
 function AddTripForm({ onClose }) {
@@ -20,7 +19,7 @@ function AddTripForm({ onClose }) {
     const [formData, setFormData] = useState(initialFormData)
     const [formErrors, setFormErrors] = useState([])
 
-    // Handles form input changes except for date fields
+    // Handles form changes except for title, country, city, and trip_image
     const handleFormChange = ({ target }) => {
         const { value, name } = target
 
@@ -30,7 +29,7 @@ function AddTripForm({ onClose }) {
         })
     }
 
-    // Handles date input changes
+    // Handles form changes for start_date and end_date
     const handleDateChange = (date, name) => {
         setFormData((prevState) => ({
             ...prevState,
@@ -41,24 +40,26 @@ function AddTripForm({ onClose }) {
     // Handles the form submission to create a new trip
     const handleFormSubmit = async (e) => {
         e.preventDefault()
-        console.log(formData)
         const errors = validateForm({
-            title,
-            country,
-            city,
-            start_date,
-            end_date,
-            trip_image,
+            requiredFields: {
+                title: title,
+                country: country,
+                city: city,
+                start_date: start_date,
+                end_date: end_date,
+            },
+            urlFields: { trip_image: trip_image },
         })
 
         if (errors.length > 0) {
             setFormErrors(errors)
             return
         }
+
         const formattedData = {
             ...formData,
-            start_date: start_date ? format(start_date,"yyyy-MM-dd") : '',
-            end_date: end_date ? format(end_date,"yyyy-MM-dd") : '',
+            start_date: start_date ? format(start_date, 'yyyy-MM-dd') : '',
+            end_date: end_date ? format(end_date, 'yyyy-MM-dd') : '',
         }
 
         try {
@@ -95,7 +96,7 @@ function AddTripForm({ onClose }) {
                     Create a Trip
                 </p>
                 <FormErrorAlert errors={formErrors} />
-                <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
+                <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-3">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -120,7 +121,7 @@ function AddTripForm({ onClose }) {
                         value={title}
                     />
                 </div>
-                <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
+                <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-3">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -146,7 +147,7 @@ function AddTripForm({ onClose }) {
                         value={country}
                     />
                 </div>
-                <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
+                <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-3">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -176,7 +177,7 @@ function AddTripForm({ onClose }) {
                         value={city}
                     />
                 </div>
-                <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
+                <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-3">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -205,7 +206,7 @@ function AddTripForm({ onClose }) {
                         className="pl-2 outline-none border-none"
                     />
                 </div>
-                <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
+                <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-3">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -228,7 +229,7 @@ function AddTripForm({ onClose }) {
                         className="pl-2 outline-none border-none"
                     />
                 </div>
-                <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
+                <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-3">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -256,7 +257,7 @@ function AddTripForm({ onClose }) {
                     type="submit"
                     className="block w-full bg-cyan-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
                 >
-                    Create Trip
+                    Create
                 </button>
             </form>
         </>

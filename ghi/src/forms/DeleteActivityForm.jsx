@@ -42,16 +42,24 @@ export default function DeleteActivityForm({
 
     return (
         <>
-            <div className="text-center text-4xl font-bold mb-6">
-                Are you sure?
-            </div>
-            <div className="flex justify-evenly">
-                <button className="hover:underline" onClick={onClose}>
-                    Cancel
-                </button>
-                <button className="hover:underline" onClick={handleDelete}>
-                    Delete
-                </button>
+            <div className="flex flex-col w-4/5 mx-auto my-2">
+                <h1 className="text-gray-800 font-bold text-2xl mb-1">
+                    Are you sure?
+                </h1>
+                <div className="flex w-full justify-between">
+                    <button
+                        className="block w-5/12 bg-cyan-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
+                        onClick={onClose}
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        className="block w-5/12 bg-red-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
+                        onClick={handleDelete}
+                    >
+                        Delete
+                    </button>
+                </div>
             </div>
         </>
     )

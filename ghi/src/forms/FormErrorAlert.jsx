@@ -1,4 +1,4 @@
-const FormErrorAlert = ({ errors }) => {
+export const FormErrorAlert = ({ errors }) => {
     if (!errors || errors.length === 0) return null
 
     return (
@@ -29,56 +29,40 @@ const FormErrorAlert = ({ errors }) => {
     )
 }
 
-export const validateForm = (formData) => {
+export const validateForm = ({ requiredFields, urlFields }) => {
     const errors = []
 
-    if (formData.username !== undefined && !formData.username) {
-        errors.push('Username is required')
+    // Validate required fields are not empty
+    for (const [key, value] of Object.entries(requiredFields)) {
+        if (!value) {
+            const formattedKey = key
+                .split('_')
+                .map((word) => word[0].toUpperCase() + word.slice(1))
+                .join(' ')
+            errors.push(`${formattedKey} is required`)
+        }
     }
 
-    if (formData.password !== undefined && !formData.password) {
-        errors.push('Password is required')
+    // Validate that dates are in order
+    if (requiredFields.start_date && requiredFields.end_date) {
+        if (
+            new Date(requiredFields.start_date) >
+            new Date(requiredFields.end_date)
+        ) {
+            errors.push('Start date must come before end date')
+        }
     }
 
-    if (formData.title !== undefined && !formData.title) {
-        errors.push('Title is required')
-    }
-
-    if (formData.country !== undefined && !formData.country) {
-        errors.push('Country is required')
-    }
-
-    if (formData.city !== undefined && !formData.city) {
-        errors.push('City is required')
-    }
-
-    if (
-        formData.start_date !== undefined &&
-        formData.end_date !== undefined &&
-        formData.start_date &&
-        formData.end_date &&
-        formData.start_date > formData.end_date
-    ) {
-        errors.push('Start date must come before end date')
-    }
-
-    if (formData.start_date !== undefined && !formData.start_date) {
-        errors.push('Start date is required')
-    }
-
-    if (formData.end_date !== undefined && !formData.end_date) {
-        errors.push('End date is required')
-    }
-
-    if (formData.trip_image !== undefined && formData.trip_image) {
-        try {
-            new URL(formData.trip_image)
-        } catch (error) {
-            errors.push('Trip image must be a valid URL or left blank')
+    // Validate that images are valid URLs
+    if (urlFields) {
+        if (urlFields.trip_image !== undefined && urlFields.trip_image) {
+            try {
+                new URL(urlFields.trip_image)
+            } catch (error) {
+                errors.push('Trip image must be a valid URL or left blank')
+            }
         }
     }
 
     return errors
 }
-
-export default FormErrorAlert
