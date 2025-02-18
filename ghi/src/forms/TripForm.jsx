@@ -168,13 +168,10 @@ function TripForm({ tripData, tripId, onClose, action }) {
                 credentials: 'include',
                 body: JSON.stringify(formattedData),
             })
-            console.log('111')
             if (response.ok) {
-                console.log('222')
                 if (action === 'editTrip') {
                     deleteOutOfRangeItems()
                 } else {
-                    console.log('333')
                     const responseData = await response.json()
                     navigate(`/trip/${responseData.id}`)
                 }

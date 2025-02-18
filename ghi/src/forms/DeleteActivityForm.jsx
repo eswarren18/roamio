@@ -9,11 +9,11 @@ export default function DeleteActivityForm({ action, activityId, onClose }) {
         try {
             let url
             // Determine the API endpoint based on the activity type
-            if (action === 'event') {
+            if (action === 'deleteEvent') {
                 url = `http://localhost:8000/api/events/${activityId}`
-            } else if (action === 'flight') {
+            } else if (action === 'deleteFlight') {
                 url = `http://localhost:8000/api/flights/${activityId}`
-            } else if (action === 'trip') {
+            } else if (action === 'deleteTrip') {
                 url = `http://localhost:8000/api/trips/${activityId}`
             } else {
                 url = `http://localhost:8000/api/lodgings/${activityId}`
