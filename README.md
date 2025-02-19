@@ -143,11 +143,14 @@ _Roamio is built with a modern and scalable technology stack, ensuring high perf
   <li>Navigate to the <strong>APIs & Services</strong> section and click on <strong>Credentials</strong>.</li>
   <li>Click the <strong>Create Credentials</strong> button and choose <strong>API Key</strong>.</li>
   <li>Copy the generated API Key and store it securely.</li>
-  <li>Optionally, restrict your API key to specific IP addresses or referrers for enhanced security.</li>
+  <li>Click on <strong>Library</strong> and Enable Maps JavaScript API, Geocoding API & Places API</li>
+  <li>Optionally, you may restrict your API key to specific IP addresses or referrers for enhanced security.</li>
 </ol>
 
 
-<p>In the root directory of Roamio, create a new file called `.env` .</p>
+<h3>6. Conceal API Key in Local Environment</h3>
+
+<p>In the root directory of Roamio, create a new file called <code>.env</code> .</p>
 
 <p> Add the following line to <code>.env</code>, with your new API key inserted:
 
