@@ -1,16 +1,16 @@
-import AddEventForm from './AddEventForm'
 import AddFlightForm from './AddFlightForm'
 import AddLodgingForm from './AddLodgingForm'
 import DeleteActivityForm from './DeleteActivityForm'
-import EditEventForm from './EditEventForm'
+import EventForm from './EventForm'
 import EditFlightForm from './EditFlightForm'
 import EditLodgingForm from './EditLodgingForm'
 import TripForm from './TripForm'
 
 const FormSelector = ({ action, tripId, tripData, activityId, onClose }) => {
-    if (action === 'AddEventForm') {
+    if (action === 'editEvent' || action === 'addEvent') {
         return (
-            <AddEventForm
+            <EventForm
+                action={action}
                 tripId={tripId}
                 tripData={tripData}
                 onClose={onClose}
@@ -28,14 +28,6 @@ const FormSelector = ({ action, tripId, tripData, activityId, onClose }) => {
         return (
             <AddLodgingForm
                 tripId={tripId}
-                tripData={tripData}
-                onClose={onClose}
-            />
-        )
-    } else if (action === 'EditEventForm') {
-        return (
-            <EditEventForm
-                activityId={activityId}
                 tripData={tripData}
                 onClose={onClose}
             />

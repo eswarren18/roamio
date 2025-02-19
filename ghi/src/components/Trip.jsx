@@ -238,7 +238,6 @@ function Trip() {
     }
 
     const handleOpenModal = (action, id) => {
-        console.log('action: ', action, 'id: ', id)
         setAction(action)
         setActivityId(id)
         setIsOpen(true)
@@ -310,9 +309,7 @@ function Trip() {
                             >
                                 <button
                                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                                    onClick={() =>
-                                        handleOpenModal('AddEventForm')
-                                    }
+                                    onClick={() => handleOpenModal('addEvent')}
                                 >
                                     Add Event
                                 </button>

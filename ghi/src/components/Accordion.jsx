@@ -85,10 +85,7 @@ export default function Accordion({ header, content, handleOpenModal }) {
                         <div className="flex p-2 gap-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                             <button
                                 onClick={() =>
-                                    handleOpenModal(
-                                        'EditEventForm',
-                                        activity.id
-                                    )
+                                    handleOpenModal('editEvent', activity.id)
                                 }
                             >
                                 <img
