@@ -193,7 +193,7 @@ export default function Accordion({ header, content, handleOpenModal }) {
                             <button
                                 onClick={() =>
                                     handleOpenModal(
-                                        'EditLodgingForm',
+                                        'editLodging',
                                         activity.id
                                     )
                                 }

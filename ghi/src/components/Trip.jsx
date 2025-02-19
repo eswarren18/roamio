@@ -324,7 +324,7 @@ function Trip() {
                                 <button
                                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"
                                     onClick={() =>
-                                        handleOpenModal('AddLodgingForm')
+                                        handleOpenModal('addLodging')
                                     }
                                 >
                                     Add Lodging
