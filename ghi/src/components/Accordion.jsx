@@ -141,7 +141,7 @@ export default function Accordion({ header, content, handleOpenModal }) {
                             <button
                                 onClick={() =>
                                     handleOpenModal(
-                                        'EditFlightForm',
+                                        'editFlight',
                                         activity.id
                                     )
                                 }
