@@ -133,9 +133,34 @@ _Roamio is built with a modern and scalable technology stack, ensuring high perf
 
 <p><a href="http://localhost:5173/" target="_blank">http://localhost:5173/</a></p>
 
+<h3>5. Obtain A Google API Key</h3>
+
+<p>To access Google Maps, Google Geocoding and Google Autocomplete functionality, you'll need to obtain a Google API key:</p>
+
+<ol>
+  <li>Visit the <a href="https://console.cloud.google.com/" target="_blank">Google Cloud Console</a>.</li>
+  <li>Create a new project or select an existing project.</li>
+  <li>Navigate to the <strong>APIs & Services</strong> section and click on <strong>Credentials</strong>.</li>
+  <li>Click the <strong>Create Credentials</strong> button and choose <strong>API Key</strong>.</li>
+  <li>Copy the generated API Key and store it securely.</li>
+  <li>Optionally, restrict your API key to specific IP addresses or referrers for enhanced security.</li>
+</ol>
+
+
+<p>In the root directory of Roamio, create a new file called `.env` .</p>
+
+<p> Add the following line to <code>.env</code>, with your new API key inserted:
+
+<pre><code class="bash">GOOGLE_API_KEY="Insert Your Key Here"</code></pre>
+
+
 <h3>🎉 Congratulations!</h3>
 
 <p>You're all set! Enjoy exploring and using <strong>Roamio</strong>.</p>
+
+<h3>💻 Roamio FastAPI Endpoint Docs</h3>
+
+<p><a href="http://localhost:8000/docs" target="_blank">http://localhost:8000/docs</a></p>
 
 </div>
 
