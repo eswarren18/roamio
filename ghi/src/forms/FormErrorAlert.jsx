@@ -44,10 +44,12 @@ export const validateForm = ({ requiredFields, urlFields }) => {
     }
 
     // Validate that dates are in order
-    if (requiredFields.start_date && requiredFields.end_date) {
+    if (requiredFields.start_date || requiredFields.start_date_time) {
         if (
             new Date(requiredFields.start_date) >
-            new Date(requiredFields.end_date)
+                new Date(requiredFields.end_date) ||
+            new Date(requiredFields.start_date_time) >
+                new Date(requiredFields.end_date_time)
         ) {
             errors.push('Start date must come before end date')
         }

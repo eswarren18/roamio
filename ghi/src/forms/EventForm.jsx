@@ -87,6 +87,7 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
     // Handles the form submission to update the event details
     const handleFormSubmit = async (e) => {
         e.preventDefault()
+        console.log('Date format to validate: ', start_date_time)
         const errors = validateForm({
             requiredFields: {
                 name: name,
