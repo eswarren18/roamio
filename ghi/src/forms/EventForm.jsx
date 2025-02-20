@@ -110,7 +110,6 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
                 ? format(end_date_time, "yyyy-MM-dd'T'HH:mm:ss")
                 : '',
         }
-        console.log(formattedData)
         const url =
             action === 'editEvent'
                 ? `http://localhost:8000/api/events/${activityId}`
@@ -257,15 +256,20 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
                             d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819"
                         />
                     </svg>
-                    <input
-                        className="pl-2 outline-none border-none"
-                        id="address"
-                        name="address"
-                        onChange={handleFormChange}
-                        placeholder="Address*"
-                        type="text"
-                        value={address}
-                    />
+                    <Autocomplete
+                        onLoad={(ref) => (addressAutocompleteRef.current = ref)}
+                        onPlaceChanged={onAddressPlaceChanged}
+                    >
+                        <input
+                            className="pl-2 outline-none border-none"
+                            id="address"
+                            name="address"
+                            onChange={handleFormChange}
+                            placeholder="Address*"
+                            type="text"
+                            value={address}
+                        />
+                    </Autocomplete>
                 </div>
                 <div className="flex items-start border-2 py-2 px-3 rounded-2xl mb-3">
                     <svg
