@@ -102,38 +102,7 @@ _Roamio is built with a modern and scalable technology stack, ensuring high perf
 
 <pre><code class="bash">cd roamio</code></pre>
 
-<h3>2. Install and Start Docker</h3>
-
-<p>Ensure that <strong>Docker Desktop</strong> is installed and running on your machine before proceeding.</p>
-
-<ul>
-  <li><strong>Windows/macOS:</strong> Launch Docker Desktop from your applications menu.</li>
-  <li><strong>Linux:</strong> Make sure the Docker daemon is running. You can start it using:</li>
-</ul>
-
-<pre><code class="bash">sudo systemctl start docker</code></pre>
-
-<h3>3. Build and Run the Application</h3>
-
-<p>Create a Docker volume:</p>
-
-<pre><code class="bash">docker volume create beta-data</code></pre>
-
-<p>Build the Docker containers:</p>
-
-<pre><code class="bash">docker-compose build</code></pre>
-
-<p>Start the application:</p>
-
-<pre><code class="bash">docker-compose up</code></pre>
-
-<h3>4. Access the Application</h3>
-
-<p>Once the containers are up and running, open your web browser and navigate to:</p>
-
-<p><a href="http://localhost:5173/" target="_blank">http://localhost:5173/</a></p>
-
-<h3>5. Obtain A Google API Key</h3>
+<h3>2. Obtain A Google API Key</h3>
 
 <p>To access Google Maps, Google Geocoding and Google Autocomplete functionality, you'll need to obtain a Google API key:</p>
 
@@ -148,13 +117,44 @@ _Roamio is built with a modern and scalable technology stack, ensuring high perf
 </ol>
 
 
-<h3>6. Conceal API Key in Local Environment</h3>
+<h3>3. Conceal API Key in Local Environment</h3>
 
-<p>In the root directory of Roamio, create a new file called <code>.env</code> .</p>
+<p>Use your favorite IDE or Text Editor to open Roamio's files. In the root directory of Roamio, create a new file called <code>.env</code> .</p>
 
 <p> Add the following line to <code>.env</code>, with your new API key inserted:
 
 <pre><code class="bash">GOOGLE_API_KEY="Insert Your Key Here"</code></pre>
+
+<h3>4. Install and Start Docker</h3>
+
+<p>Ensure that <strong>Docker Desktop</strong> is installed and running on your machine before proceeding.</p>
+
+<ul>
+  <li><strong>Windows/macOS:</strong> Launch Docker Desktop from your applications menu.</li>
+  <li><strong>Linux:</strong> Make sure the Docker daemon is running. You can start it using:</li>
+</ul>
+
+<pre><code class="bash">sudo systemctl start docker</code></pre>
+
+<h3>5. Build and Run the Application</h3>
+
+<p>Create a Docker volume:</p>
+
+<pre><code class="bash">docker volume create beta-data</code></pre>
+
+<p>Build the Docker containers:</p>
+
+<pre><code class="bash">docker-compose build</code></pre>
+
+<p>Start the application:</p>
+
+<pre><code class="bash">docker-compose up</code></pre>
+
+<h3>6. Access the Application</h3>
+
+<p>Once the containers are up and running, open your web browser and navigate to:</p>
+
+<p><a href="http://localhost:5173/" target="_blank">http://localhost:5173/</a></p>
 
 
 <h3>🎉 Congratulations!</h3>
