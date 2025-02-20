@@ -9,7 +9,6 @@ import { format, parseISO } from 'date-fns'
 function TripForm({ tripData, tripId, onClose, action }) {
     const [toDelete, setToDelete] = useState([])
     const initialFormData = {
-        id: '',
         title: '',
         country: '',
         city: '',
@@ -23,7 +22,7 @@ function TripForm({ tripData, tripId, onClose, action }) {
     const navigate = useNavigate()
 
     // Fetches the trips data using tripId to populate the form
-    const fetchTrip = async (e) => {
+    const fetchTrip = async () => {
         try {
             const response = await fetch(
                 `http://localhost:8000/api/trips/${tripId}`,
@@ -134,6 +133,7 @@ function TripForm({ tripData, tripId, onClose, action }) {
     // Handles the form submission to update the trip details and delete out-of-range activities
     const handleFormSubmit = async (event) => {
         event.preventDefault()
+        console.log('Date format to validate: ', start_date)
         const errors = validateForm({
             requiredFields: {
                 title: title,
