@@ -9,7 +9,6 @@ import { FormErrorAlert, validateForm } from './FormErrorAlert'
 
 // The EventForm component handles the editing of event details
 function EventForm({ activityId, tripData, tripId, onClose, action }) {
-    const [isMultipleDays, setIsMultipleDays] = useState(false)
     const initialFormData = {
         name: '',
         start_date_time: '',
@@ -31,27 +30,20 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
                     headers: { 'Content-Type': 'application/json' },
                 }
             )
-
             if (response.ok) {
                 const data = await response.json()
-                const start_date = data.start_date_time.split('T')[0]
-                const start_time = data.start_date_time.split('T')[1]
-                const end_date = data.end_date_time.split('T')[0]
-                const end_time = data.end_date_time.split('T')[1]
-
-                if (start_date !== end_date) {
-                    setIsMultipleDays(true)
-                }
                 setFormData((prevState) => ({
                     ...prevState,
                     name: data.name,
-                    start_date: start_date,
-                    end_date: end_date,
-                    start_time: start_time,
-                    end_time: end_time,
+                    start_date_time: data.start_date_time
+                        ? parseISO(data.start_date_time)
+                        : null,
+                    end_date_time: data.end_date_time
+                        ? parseISO(data.end_date_time)
+                        : null,
                     address: data.address,
                     description: data.description,
-                    trip_id: data.trip_id,
+                    trip_id: tripId,
                 }))
             }
         } catch (e) {
@@ -85,6 +77,7 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
 
     // Handles form changes for start_date and end_date
     const handleDateTimeChange = (date, name) => {
+        console.log(date)
         setFormData((prevState) => ({
             ...prevState,
             [name]: date,
@@ -117,11 +110,11 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
                 ? format(end_date_time, "yyyy-MM-dd'T'HH:mm:ss")
                 : '',
         }
-
+        console.log(formattedData)
         const url =
             action === 'editEvent'
                 ? `http://localhost:8000/api/events/${activityId}`
-                : 'http://localhost:8000/api/trips'
+                : 'http://localhost:8000/api/events'
         const method = action === 'editEvent' ? 'PUT' : 'POST'
         try {
             const response = await fetch(url, {
@@ -155,9 +148,7 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
                 className="flex flex-col w-4/5 mx-auto my-2"
             >
                 <h1 className="text-gray-800 font-bold text-2xl mb-4">
-                    {action === 'editEvent'
-                        ? 'Update Event Details'
-                        : 'Add Event Details'}
+                    Event Details
                 </h1>
                 <FormErrorAlert errors={formErrors} />
                 <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-3">
@@ -213,7 +204,9 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
                             setHours(setMinutes(new Date(), 30), 19),
                             setHours(setMinutes(new Date(), 30), 17),
                         ]}
-                        dateFormat="MMMM d h:mm aa"
+                        dateFormat="MMMM d, h:mmaa"
+                        placeholderText="Start Date*"
+                        className="pl-2 outline-none border-none"
                     />
                 </div>
                 <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-3">
@@ -244,7 +237,9 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
                             setHours(setMinutes(new Date(), 30), 19),
                             setHours(setMinutes(new Date(), 30), 17),
                         ]}
-                        dateFormat="MMMM d h:mm aa"
+                        dateFormat="MMMM d, h:mmaa"
+                        placeholderText="End Date*"
+                        className="pl-2 outline-none border-none"
                     />
                 </div>
                 <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-3">
@@ -259,10 +254,9 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
                         <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            d="m6.115 5.19.319 1.913A6 6 0 0 0 8.11 10.36L9.75 12l-.387.775c-.217.433-.132.956.21 1.298l1.348 1.348c.21.21.329.497.329.795v1.089c0 .426.24.815.622 1.006l.153.076c.433.217.956.132 1.298-.21l.723-.723a8.7 8.7 0 0 0 2.288-4.042 1.087 1.087 0 0 0-.358-1.099l-1.33-1.108c-.251-.21-.582-.299-.905-.245l-1.17.195a1.125 1.125 0 0 1-.98-.314l-.295-.295a1.125 1.125 0 0 1 0-1.591l.13-.132a1.125 1.125 0 0 1 1.3-.21l.603.302a.809.809 0 0 0 1.086-1.086L14.25 7.5l1.256-.837a4.5 4.5 0 0 0 1.528-1.732l.146-.292M6.115 5.19A9 9 0 1 0 17.18 4.64M6.115 5.19A8.965 8.965 0 0 1 12 3c1.929 0 3.716.607 5.18 1.64"
+                            d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819"
                         />
                     </svg>
-
                     <input
                         className="pl-2 outline-none border-none"
                         id="address"
@@ -273,7 +267,7 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
                         value={address}
                     />
                 </div>
-                <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-3">
+                <div className="flex items-start border-2 py-2 px-3 rounded-2xl mb-3">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -285,23 +279,18 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
                         <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                        />
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                            d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
                         />
                     </svg>
-                    <input
-                        className="pl-2 outline-none border-none"
+                    <textarea
+                        className="pl-2 outline-none border-none w-full"
                         id="description"
                         name="description"
                         onChange={handleFormChange}
                         placeholder="Description"
-                        type="text"
                         value={description}
-                    />
+                        rows={3}
+                    ></textarea>
                 </div>
                 <button
                     type="submit"

@@ -9,7 +9,6 @@ import { format, parseISO } from 'date-fns'
 function TripForm({ tripData, tripId, onClose, action }) {
     const [toDelete, setToDelete] = useState([])
     const initialFormData = {
-        id: '',
         title: '',
         country: '',
         city: '',

@@ -10,6 +10,7 @@ const FormSelector = ({ action, tripId, tripData, activityId, onClose }) => {
             <EventForm
                 action={action}
                 tripId={tripId}
+                activityId={activityId}
                 tripData={tripData}
                 onClose={onClose}
             />
