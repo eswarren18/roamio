@@ -87,17 +87,16 @@ function FlightForm({ activityId, tripId, onClose, action }) {
         }
 
         try {
-            const response = await fetch(
-                `http://localhost:8000/api/flights/${activityId}`,
-                {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    credentials: 'include',
-                    body: JSON.stringify({
-                        ...formattedData,
-                    }),
-                }
-            )
+            const isEditing = action === 'editFlight'
+            const url = isEditing
+                ? `http://localhost:8000/api/flights/${activityId}`
+                : `http://localhost:8000/api/flights`
+            const response = await fetch(url, {
+                method: isEditing ? 'PUT' : 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify(formattedData),
+            })
             if (response.ok) {
                 setFormData(initialFormData)
                 onClose()
@@ -113,14 +112,9 @@ function FlightForm({ activityId, tripId, onClose, action }) {
             ...prevState,
             [name]: date,
         }))
-        console.log(date)
     }
 
-    const {
-        flight_number,
-        departure_time,
-        arrival_time,
-    } = formData
+    const { flight_number, departure_time, arrival_time } = formData
 
     return (
         <>
@@ -181,6 +175,7 @@ function FlightForm({ activityId, tripId, onClose, action }) {
                         }
                         showTimeSelect
                         timeIntervals={15}
+                        placeholderText="Departure Date*"
                         excludeTimes={[
                             setHours(setMinutes(new Date(), 0), 17),
                             setHours(setMinutes(new Date(), 30), 18),
@@ -188,6 +183,7 @@ function FlightForm({ activityId, tripId, onClose, action }) {
                             setHours(setMinutes(new Date(), 30), 17),
                         ]}
                         dateFormat="MMMM d h:mm aa"
+                        className="pl-2 outline-none border-none"
                     />
                 </div>
                 <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-3">
@@ -212,6 +208,7 @@ function FlightForm({ activityId, tripId, onClose, action }) {
                         }
                         showTimeSelect
                         timeIntervals={15}
+                        placeholderText="Arrival Date*"
                         excludeTimes={[
                             setHours(setMinutes(new Date(), 0), 17),
                             setHours(setMinutes(new Date(), 30), 18),
@@ -219,6 +216,7 @@ function FlightForm({ activityId, tripId, onClose, action }) {
                             setHours(setMinutes(new Date(), 30), 17),
                         ]}
                         dateFormat="MMMM d h:mm aa"
+                        className="pl-2 outline-none border-none"
                     />
                 </div>
                 <button
