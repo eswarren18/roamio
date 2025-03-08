@@ -6,7 +6,7 @@ import { setHours, setMinutes } from 'date-fns'
 import { format, parseISO } from 'date-fns'
 
 // The EditFlightModal component handles the editing of flight details
-function FlightForm({ activityId, tripId, onClose, action }) {
+function FlightForm({ activityId, tripData, tripId, onClose, action }) {
     const initialFormData = {
         flight_number: '',
         departure_time: '',
@@ -69,6 +69,7 @@ function FlightForm({ activityId, tripId, onClose, action }) {
                 departure_time: departure_time,
                 arrival_time: arrival_time,
             },
+            tripData
         })
 
         if (errors.length > 0) {

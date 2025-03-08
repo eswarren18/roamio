@@ -77,7 +77,6 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
 
     // Handles form changes for start_date and end_date
     const handleDateTimeChange = (date, name) => {
-        console.log(date)
         setFormData((prevState) => ({
             ...prevState,
             [name]: date,
@@ -87,7 +86,6 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
     // Handles the form submission to update the event details
     const handleFormSubmit = async (e) => {
         e.preventDefault()
-        console.log('Date format to validate: ', start_date_time)
         const errors = validateForm({
             requiredFields: {
                 name: name,
@@ -95,6 +93,7 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
                 end_date_time: end_date_time,
                 address: address,
             },
+            tripData
         })
 
         if (errors.length > 0) {
