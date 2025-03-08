@@ -1,4 +1,5 @@
 import { format } from 'date-fns'
+import { requestFormReset } from 'react-dom'
 
 export const FormErrorAlert = ({ errors }) => {
     if (!errors || errors.length === 0) return null
@@ -33,6 +34,8 @@ export const FormErrorAlert = ({ errors }) => {
 
 export const validateForm = ({ requiredFields, urlFields, tripData }) => {
     const errors = []
+
+    console.log(requiredFields)
 
     // Validate that the activity dates are within trip date range
     if (requiredFields.start_date_time) {
@@ -76,7 +79,8 @@ export const validateForm = ({ requiredFields, urlFields, tripData }) => {
     if (
         requiredFields.start_date ||
         requiredFields.start_date_time ||
-        requiredFields.departure_time
+        requiredFields.departure_time ||
+        requiredFields.check_in
     ) {
         if (
             new Date(requiredFields.start_date) >
@@ -84,7 +88,9 @@ export const validateForm = ({ requiredFields, urlFields, tripData }) => {
             new Date(requiredFields.start_date_time) >
                 new Date(requiredFields.end_date_time) ||
             new Date(requiredFields.departure_time) >
-                new Date(requiredFields.arrival_time)
+                new Date(requiredFields.arrival_time) ||
+            new Date(requiredFields.check_in) >
+                new Date(requiredFields.check_out)
         ) {
             errors.push('Dates and/or times are out of order')
         }

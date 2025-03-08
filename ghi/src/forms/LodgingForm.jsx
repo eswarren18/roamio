@@ -8,14 +8,6 @@ import { format, parseISO, isValid } from 'date-fns'
 
 // The LodgingForm component handles both adding and editing lodging entries
 function LodgingForm({ activityId, tripId, tripData, onClose, action }) {
-    {
-        /* Lines 12 - 14 are troubleshooting Address field tabbing issue */
-    }
-    const { isLoaded } = useLoadScript({
-        googleMapsApiKey: import.meta.env.GOOGLE_API_KEY,
-        libraries: ['places'],
-    })
-
     const initialFormData = {
         id: activityId,
         name: '',
@@ -130,13 +122,12 @@ function LodgingForm({ activityId, tripId, tripData, onClose, action }) {
     // Handles the form submission to create or update a lodging entry
     const handleFormSubmit = async (e) => {
         e.preventDefault()
-
         const errors = validateForm({
             requiredFields: {
-                name: formData.name,
-                address: formData.address,
-                check_in: formData.check_in,
-                check_out: formData.check_out,
+                name: name,
+                address: address,
+                check_in: check_in,
+                check_out: check_out,
             },
         })
 
@@ -225,7 +216,7 @@ function LodgingForm({ activityId, tripId, tripData, onClose, action }) {
                         value={name}
                     />
                 </div>
-                {/* Address with Autocomplete */}
+                {/* Address */}
                 <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-3">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -241,38 +232,20 @@ function LodgingForm({ activityId, tripId, tripData, onClose, action }) {
                             d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819"
                         />
                     </svg>
-
-                    {/* Address Autocomplete */}
-                    {isLoaded ? (
-                        <Autocomplete
-                            onLoad={(ref) =>
-                                (addressAutocompleteRef.current = ref)
-                            }
-                            onPlaceChanged={onAddressPlaceChanged}
-                        >
-                            <input
-                                className="pl-2 outline-none border-none w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                id="address"
-                                name="address"
-                                onChange={handleFormChange}
-                                placeholder="Address"
-                                type="text"
-                                value={address}
-                                required
-                            />
-                        </Autocomplete>
-                    ) : (
+                    <Autocomplete
+                        onLoad={(ref) => (addressAutocompleteRef.current = ref)}
+                        onPlaceChanged={onAddressPlaceChanged}
+                    >
                         <input
-                            className="pl-2 outline-none border-none w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="pl-2 outline-none border-none"
                             id="address"
                             name="address"
                             onChange={handleFormChange}
-                            placeholder="Address"
+                            placeholder="Address*"
                             type="text"
                             value={address}
-                            required
                         />
-                    )}
+                    </Autocomplete>
                 </div>
                 {/* Check In Date */}
                 <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-3">
