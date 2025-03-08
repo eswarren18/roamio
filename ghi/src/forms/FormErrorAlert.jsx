@@ -1,3 +1,5 @@
+import { format } from 'date-fns'
+
 export const FormErrorAlert = ({ errors }) => {
     if (!errors || errors.length === 0) return null
 
@@ -29,8 +31,35 @@ export const FormErrorAlert = ({ errors }) => {
     )
 }
 
-export const validateForm = ({ requiredFields, urlFields }) => {
+export const validateForm = ({ requiredFields, urlFields, tripData }) => {
     const errors = []
+
+    // Validate that the activity dates are within trip date range
+    if (requiredFields.start_date_time) {
+        const firstTripDate = Object.keys(tripData)[0]
+        const lastTripDate = Object.keys(tripData).at(-1)
+        const activityStartDate = format(
+            requiredFields.start_date_time,
+            'yyyy-MM-dd'
+        )
+        const activityEndDate = format(
+            requiredFields.end_date_time,
+            'yyyy-MM-dd'
+        )
+
+        if (
+            !(
+                firstTripDate <= activityStartDate &&
+                activityStartDate <= lastTripDate
+            ) ||
+            !(
+                firstTripDate <= activityEndDate &&
+                activityEndDate <= lastTripDate
+            )
+        ) {
+            errors.push("Activity is outside of the trip's range")
+        }
+    }
 
     // Validate required fields are not empty
     for (const [key, value] of Object.entries(requiredFields)) {
@@ -44,14 +73,20 @@ export const validateForm = ({ requiredFields, urlFields }) => {
     }
 
     // Validate that dates are in order
-    if (requiredFields.start_date || requiredFields.start_date_time) {
+    if (
+        requiredFields.start_date ||
+        requiredFields.start_date_time ||
+        requiredFields.departure_time
+    ) {
         if (
             new Date(requiredFields.start_date) >
                 new Date(requiredFields.end_date) ||
             new Date(requiredFields.start_date_time) >
-                new Date(requiredFields.end_date_time)
+                new Date(requiredFields.end_date_time) ||
+            new Date(requiredFields.departure_time) >
+                new Date(requiredFields.arrival_time)
         ) {
-            errors.push('Start date must come before end date')
+            errors.push('Dates and/or times are out of order')
         }
     }
 

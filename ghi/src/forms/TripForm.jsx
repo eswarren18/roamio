@@ -133,7 +133,6 @@ function TripForm({ tripData, tripId, onClose, action }) {
     // Handles the form submission to update the trip details and delete out-of-range activities
     const handleFormSubmit = async (event) => {
         event.preventDefault()
-        console.log('Date format to validate: ', start_date)
         const errors = validateForm({
             requiredFields: {
                 title: title,
