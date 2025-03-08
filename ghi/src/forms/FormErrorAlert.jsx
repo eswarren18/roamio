@@ -35,8 +35,6 @@ export const FormErrorAlert = ({ errors }) => {
 export const validateForm = ({ requiredFields, urlFields, tripData }) => {
     const errors = []
 
-    console.log(requiredFields)
-
     // Validate that the activity dates are within trip date range
     if (requiredFields.start_date_time) {
         const firstTripDate = Object.keys(tripData)[0]

@@ -309,36 +309,20 @@ function Trip() {
                             >
                                 <button
                                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-<<<<<<< HEAD
                                     onClick={() => handleOpenModal('addEvent')}
-=======
-                                    onClick={() =>
-                                        handleOpenModal('AddEventForm')
-                                    }
->>>>>>> main
                                 >
                                     Add Event
                                 </button>
                                 <button
                                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                                    onClick={() =>
-<<<<<<< HEAD
-                                        handleOpenModal('addFlight')
-=======
-                                        handleOpenModal('AddFlightForm')
->>>>>>> main
-                                    }
+                                    onClick={() => handleOpenModal('addFlight')}
                                 >
                                     Add Flight
                                 </button>
                                 <button
                                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"
                                     onClick={() =>
-<<<<<<< HEAD
                                         handleOpenModal('addLodging')
-=======
-                                        handleOpenModal('AddLodgingForm')
->>>>>>> main
                                     }
                                 >
                                     Add Lodging
@@ -351,10 +335,6 @@ function Trip() {
                             key={date}
                             header={date}
                             content={activities}
-<<<<<<< HEAD
-=======
-                            isOpen={isOpen}
->>>>>>> main
                             handleOpenModal={handleOpenModal}
                         />
                     ))}
@@ -381,20 +361,11 @@ function Trip() {
             </div>
             {/* Modal */}
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-<<<<<<< HEAD
                 <FormSelector
                     action={action}
                     tripId={tripId}
                     tripData={tripData}
                     activityId={activityId}
-=======
-                <TripFormSelector
-                    form={form}
-                    tripId={tripId}
-                    tripData={tripData}
-                    activityId={activityId}
-                    activityType={activityType}
->>>>>>> main
                     onClose={() => setIsOpen(false)}
                 />
             </Modal>

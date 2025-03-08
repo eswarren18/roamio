@@ -173,7 +173,6 @@ function LodgingForm({ activityId, tripId, tripData, onClose, action }) {
             ...prevState,
             [name]: date,
         }))
-        console.log(date)
     }
 
     const { name, address, check_in, check_out } = formData
