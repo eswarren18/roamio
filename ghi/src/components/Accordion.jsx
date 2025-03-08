@@ -140,10 +140,7 @@ export default function Accordion({ header, content, handleOpenModal }) {
                         <div className="flex p-2 gap-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                             <button
                                 onClick={() =>
-                                    handleOpenModal(
-                                        'editFlight',
-                                        activity.id
-                                    )
+                                    handleOpenModal('editFlight', activity.id)
                                 }
                             >
                                 <img
@@ -192,10 +189,7 @@ export default function Accordion({ header, content, handleOpenModal }) {
                         <div className="flex p-2 gap-1 absolute justify-end top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                             <button
                                 onClick={() =>
-                                    handleOpenModal(
-                                        'editLodging',
-                                        activity.id
-                                    )
+                                    handleOpenModal('editLodging', activity.id)
                                 }
                             >
                                 <img
@@ -231,6 +225,7 @@ export default function Accordion({ header, content, handleOpenModal }) {
             weekday: 'long',
             month: 'long',
             day: 'numeric',
+            timeZone: 'UTC',
         }
         const suffix = (day) => {
             if (day >= 11 && day <= 13) return 'th'
