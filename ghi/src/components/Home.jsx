@@ -1,50 +1,50 @@
-import { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { AuthContext } from './AuthProvider'
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from './AuthProvider';
 
-import Modal from './Modal'
-import SignInForm from '../forms/SignInForm'
-import SignUpForm from '../forms/SignUpForm'
+import Modal from './Modal';
+import SignInForm from '../forms/SignInForm';
+import SignUpForm from '../forms/SignUpForm';
 
 const images = [
     '/public/hiking.jpg',
     '/public/rooftop-dinner.jpg',
     '/public/desert-road.jpg',
-]
+];
 
 // The Home component is displayed when the user is logged out
 function Home() {
-    const { isLoggedIn, setError } = useContext(AuthContext)
-    const [imageIndex, setImageIndex] = useState(0)
-    const navigate = useNavigate()
-    const [isOpen, setIsOpen] = useState(false)
-    const [form, setForm] = useState('')
+    const { isLoggedIn, setError } = useContext(AuthContext);
+    const [imageIndex, setImageIndex] = useState(0);
+    const navigate = useNavigate();
+    const [isOpen, setIsOpen] = useState(false);
+    const [form, setForm] = useState('');
 
     const navToDashboard = () => {
         if (isLoggedIn) {
-            navigate('/dashboard')
+            navigate('/dashboard');
         }
-    }
+    };
 
     const handleOpenModal = (form) => {
-        setForm(form)
-        setIsOpen(true)
-    }
+        setForm(form);
+        setIsOpen(true);
+    };
 
     const handleCloseModal = () => {
-        setError(null)
-        setIsOpen(false)
-    }
+        setError(null);
+        setIsOpen(false);
+    };
 
     useEffect(() => {
-        navToDashboard()
+        navToDashboard();
         const interval = setInterval(() => {
             setImageIndex(
                 (prevImageIndex) => (prevImageIndex + 1) % images.length
-            )
-        }, 6000)
-        return () => clearInterval(interval)
-    }, [])
+            );
+        }, 6000);
+        return () => clearInterval(interval);
+    }, []);
 
     return (
         <>
@@ -121,7 +121,7 @@ function Home() {
                 ) : null}
             </Modal>
         </>
-    )
+    );
 }
 
-export default Home
+export default Home;

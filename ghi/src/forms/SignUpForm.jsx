@@ -1,39 +1,39 @@
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import useAuthService from '../hooks/useAuthService'
-import { FormErrorAlert, validateForm } from './FormErrorAlert'
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useAuthService from '../hooks/useAuthService';
+import { FormErrorAlert, validateForm } from './FormErrorAlert';
 
 // The SignUpForm displays a form for a user to create an account
 function SignUpForm({ onClose }) {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [formErrors, setFormErrors] = useState([])
-    const { signup, user } = useAuthService()
-    const navigate = useNavigate()
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [formErrors, setFormErrors] = useState([]);
+    const { signup, user } = useAuthService();
+    const navigate = useNavigate();
 
     // Handles the form submittion by calling the signup function
     async function handleFormSubmit(e) {
-        e.preventDefault()
-        const errors = validateForm({ username, password })
+        e.preventDefault();
+        const errors = validateForm({ username, password });
 
         if (errors.length > 0) {
-            setFormErrors(errors)
-            return
+            setFormErrors(errors);
+            return;
         }
 
-        const result = await signup({ username, password })
+        const result = await signup({ username, password });
         if (result instanceof Error) {
-            setFormErrors([result.message])
-            return
+            setFormErrors([result.message]);
+            return;
         }
     }
 
     useEffect(() => {
         if (user) {
-            onClose()
-            navigate('/dashboard')
+            onClose();
+            navigate('/dashboard');
         }
-    })
+    });
 
     return (
         <>
@@ -104,7 +104,7 @@ function SignUpForm({ onClose }) {
                 </button>
             </form>
         </>
-    )
+    );
 }
 
-export default SignUpForm
+export default SignUpForm;

@@ -1,17 +1,17 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
 // Accordion components are displayed on the users Trip page. One dropdown accordion component is displayed per date.
 export default function Accordion({ header, content, handleOpenModal }) {
-    const [accordionOpen, setAccordionOpen] = useState(false)
+    const [accordionOpen, setAccordionOpen] = useState(false);
 
     // Returns accordion cards
     const parseContent = (activity) => {
         switch (activity.type) {
             case 'event':
-                const startDateTime = new Date(activity.start_date_time)
-                const endDateTime = new Date(activity.end_date_time)
+                const startDateTime = new Date(activity.start_date_time);
+                const endDateTime = new Date(activity.end_date_time);
                 const sameDay =
-                    startDateTime.toDateString() === endDateTime.toDateString()
+                    startDateTime.toDateString() === endDateTime.toDateString();
                 return (
                     <div className="flex w-11/12 justify-between relative group">
                         <div className="flex flex-col bg-gray-50 text-gray-500 rounded-lg py-2 px-4 w-full">
@@ -107,7 +107,7 @@ export default function Accordion({ header, content, handleOpenModal }) {
                             </button>
                         </div>
                     </div>
-                )
+                );
             case 'flight':
                 return (
                     <div className="flex w-11/12 justify-between relative group">
@@ -162,7 +162,7 @@ export default function Accordion({ header, content, handleOpenModal }) {
                             </button>
                         </div>
                     </div>
-                )
+                );
             case 'lodging_check_in':
             default:
                 return (
@@ -214,38 +214,38 @@ export default function Accordion({ header, content, handleOpenModal }) {
                             </button>
                         </div>
                     </div>
-                )
+                );
         }
-    }
+    };
 
     // Reformats the date for accordion components
     const parseDate = () => {
-        const date = new Date(header)
+        const date = new Date(header);
         const options = {
             weekday: 'long',
             month: 'long',
             day: 'numeric',
             timeZone: 'UTC',
-        }
+        };
         const suffix = (day) => {
-            if (day >= 11 && day <= 13) return 'th'
+            if (day >= 11 && day <= 13) return 'th';
             switch (day % 10) {
                 case 1:
-                    return 'st'
+                    return 'st';
                 case 2:
-                    return 'nd'
+                    return 'nd';
                 case 3:
-                    return 'rd'
+                    return 'rd';
                 default:
-                    return 'th'
+                    return 'th';
             }
-        }
+        };
 
-        const day = date.getUTCDate()
-        const formattedDate = date.toLocaleDateString('en-US', options)
+        const day = date.getUTCDate();
+        const formattedDate = date.toLocaleDateString('en-US', options);
 
-        return formattedDate.replace(/\d+/, day + suffix(day))
-    }
+        return formattedDate.replace(/\d+/, day + suffix(day));
+    };
 
     return content.length === 0 ? (
         // Header
@@ -288,5 +288,5 @@ export default function Accordion({ header, content, handleOpenModal }) {
                 </div>
             </div>
         </>
-    )
+    );
 }

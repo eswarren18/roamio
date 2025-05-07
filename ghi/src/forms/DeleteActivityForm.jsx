@@ -1,40 +1,40 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 // The DeleteActivityForm component handles the deletion of all activities (i.e., trips, events, flights, lodgings)
 export default function DeleteActivityForm({ action, activityId, onClose }) {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     // Handles the deletion of the activity based on its type
     const handleDelete = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         try {
-            let url
+            let url;
             // Determine the API endpoint based on the activity type
             if (action === 'deleteEvent') {
-                url = `http://localhost:8000/api/events/${activityId}`
+                url = `http://localhost:8000/api/events/${activityId}`;
             } else if (action === 'deleteFlight') {
-                url = `http://localhost:8000/api/flights/${activityId}`
+                url = `http://localhost:8000/api/flights/${activityId}`;
             } else if (action === 'deleteTrip') {
-                url = `http://localhost:8000/api/trips/${activityId}`
+                url = `http://localhost:8000/api/trips/${activityId}`;
             } else {
-                url = `http://localhost:8000/api/lodgings/${activityId}`
+                url = `http://localhost:8000/api/lodgings/${activityId}`;
             }
             // Make the DELETE request to the appropriate API Endpoint
             const response = await fetch(url, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-            })
+            });
             // If the DELETE is successful, close the modal and navigate to the dashboard
             if (response.ok) {
-                onClose()
+                onClose();
                 if (action === 'deleteTrip') {
-                    navigate('/dashboard')
+                    navigate('/dashboard');
                 }
             }
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
-    }
+    };
 
     return (
         <>
@@ -58,5 +58,5 @@ export default function DeleteActivityForm({ action, activityId, onClose }) {
                 </div>
             </div>
         </>
-    )
+    );
 }

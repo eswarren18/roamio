@@ -1,43 +1,43 @@
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import useAuthService from '../hooks/useAuthService'
-import { FormErrorAlert, validateForm } from './FormErrorAlert'
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useAuthService from '../hooks/useAuthService';
+import { FormErrorAlert, validateForm } from './FormErrorAlert';
 
 // The SignInForm displays a form for a user to sign into their account
 function SignInForm({ onClose }) {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [formErrors, setFormErrors] = useState([])
-    const { signin, user } = useAuthService()
-    const navigate = useNavigate()
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [formErrors, setFormErrors] = useState([]);
+    const { signin, user } = useAuthService();
+    const navigate = useNavigate();
 
     // Handles the form submission by calling the signin function
     async function handleFormSubmit(e) {
-        e.preventDefault()
+        e.preventDefault();
         const errors = validateForm({
             requiredFields: {
                 username: username,
                 password: password,
             },
-        })
+        });
         if (errors.length > 0) {
-            setFormErrors(errors)
-            return
+            setFormErrors(errors);
+            return;
         }
 
-        const result = await signin({ username, password })
+        const result = await signin({ username, password });
         if (result instanceof Error) {
-            setFormErrors([result.message])
-            return
+            setFormErrors([result.message]);
+            return;
         }
     }
 
     useEffect(() => {
         if (user) {
-            onClose()
-            navigate('/dashboard')
+            onClose();
+            navigate('/dashboard');
         }
-    }, [user, navigate, onClose])
+    }, [user, navigate, onClose]);
 
     return (
         <>
@@ -108,7 +108,7 @@ function SignInForm({ onClose }) {
                 </button>
             </form>
         </>
-    )
+    );
 }
 
-export default SignInForm
+export default SignInForm;

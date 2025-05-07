@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
-import { FormErrorAlert, validateForm } from './FormErrorAlert'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-import { setHours, setMinutes } from 'date-fns'
-import { format, parseISO } from 'date-fns'
+import { useEffect, useState } from 'react';
+import { FormErrorAlert, validateForm } from './FormErrorAlert';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { setHours, setMinutes } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 // The EditFlightModal component handles the editing of flight details
 function FlightForm({ activityId, tripData, tripId, onClose, action }) {
@@ -12,9 +12,9 @@ function FlightForm({ activityId, tripData, tripId, onClose, action }) {
         departure_time: '',
         arrival_time: '',
         trip_id: tripId,
-    }
-    const [formData, setFormData] = useState(initialFormData)
-    const [formErrors, setFormErrors] = useState([])
+    };
+    const [formData, setFormData] = useState(initialFormData);
+    const [formErrors, setFormErrors] = useState([]);
 
     // Fetches the flight data from the backend based on the activityId
     const fetchFlight = async () => {
@@ -25,43 +25,43 @@ function FlightForm({ activityId, tripData, tripId, onClose, action }) {
                     credentials: 'include',
                     headers: { 'Content-Type': 'application/json' },
                 }
-            )
+            );
 
             if (response.ok) {
-                const data = await response.json()
-                const departure_time = parseISO(data.departure_time)
-                const arrival_time = parseISO(data.arrival_time)
+                const data = await response.json();
+                const departure_time = parseISO(data.departure_time);
+                const arrival_time = parseISO(data.arrival_time);
                 setFormData((prevState) => ({
                     ...prevState,
                     flight_number: data.flight_number,
                     departure_time: departure_time,
                     arrival_time: arrival_time,
-                }))
+                }));
             }
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
-    }
+    };
 
     useEffect(() => {
         if (action === 'editFlight') {
-            fetchFlight()
+            fetchFlight();
         }
-    }, [])
+    }, []);
 
     // Handles form input changes with additional checks for date field validity
     const handleFormChange = ({ target }) => {
-        const { value, name } = target
+        const { value, name } = target;
 
         setFormData((prevState) => {
-            const newFormData = { ...prevState, [name]: value }
-            return newFormData
-        })
-    }
+            const newFormData = { ...prevState, [name]: value };
+            return newFormData;
+        });
+    };
 
     // Handles the form submission to update the flight details
     const handleFormSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         const errors = validateForm({
             requiredFields: {
@@ -69,12 +69,12 @@ function FlightForm({ activityId, tripData, tripId, onClose, action }) {
                 departure_time: departure_time,
                 arrival_time: arrival_time,
             },
-            tripData
-        })
+            tripData,
+        });
 
         if (errors.length > 0) {
-            setFormErrors(errors)
-            return
+            setFormErrors(errors);
+            return;
         }
 
         const formattedData = {
@@ -85,37 +85,37 @@ function FlightForm({ activityId, tripData, tripId, onClose, action }) {
             arrival_time: arrival_time
                 ? format(arrival_time, "yyyy-MM-dd'T'HH:mm:ss")
                 : '',
-        }
+        };
 
         try {
-            const isEditing = action === 'editFlight'
+            const isEditing = action === 'editFlight';
             const url = isEditing
                 ? `http://localhost:8000/api/flights/${activityId}`
-                : `http://localhost:8000/api/flights`
+                : `http://localhost:8000/api/flights`;
             const response = await fetch(url, {
                 method: isEditing ? 'PUT' : 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
                 body: JSON.stringify(formattedData),
-            })
+            });
             if (response.ok) {
-                setFormData(initialFormData)
-                onClose()
+                setFormData(initialFormData);
+                onClose();
             }
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
-    }
+    };
 
     // Handles form changes for start_date and end_date
     const handleDateTimeChange = (date, name) => {
         setFormData((prevState) => ({
             ...prevState,
             [name]: date,
-        }))
-    }
+        }));
+    };
 
-    const { flight_number, departure_time, arrival_time } = formData
+    const { flight_number, departure_time, arrival_time } = formData;
 
     return (
         <>
@@ -228,7 +228,7 @@ function FlightForm({ activityId, tripData, tripId, onClose, action }) {
                 </button>
             </form>
         </>
-    )
+    );
 }
 
-export default FlightForm
+export default FlightForm;

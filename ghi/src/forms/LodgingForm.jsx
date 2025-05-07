@@ -1,10 +1,10 @@
-import { useEffect, useState, useRef } from 'react'
-import { Autocomplete, useLoadScript } from '@react-google-maps/api'
-import { FormErrorAlert, validateForm } from './FormErrorAlert'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-import { setHours, setMinutes } from 'date-fns'
-import { format, parseISO, isValid } from 'date-fns'
+import { useEffect, useState, useRef } from 'react';
+import { Autocomplete, useLoadScript } from '@react-google-maps/api';
+import { FormErrorAlert, validateForm } from './FormErrorAlert';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { setHours, setMinutes } from 'date-fns';
+import { format, parseISO, isValid } from 'date-fns';
 
 // The LodgingForm component handles both adding and editing lodging entries
 function LodgingForm({ activityId, tripId, tripData, onClose, action }) {
@@ -15,27 +15,27 @@ function LodgingForm({ activityId, tripId, tripData, onClose, action }) {
         check_in: '',
         check_out: '',
         trip_id: tripId,
-    }
-    const [formData, setFormData] = useState(initialFormData)
-    const [formErrors, setFormErrors] = useState([])
+    };
+    const [formData, setFormData] = useState(initialFormData);
+    const [formErrors, setFormErrors] = useState([]);
 
     // Reference to handle the autocomplete functionality for the address input field
-    const addressAutocompleteRef = useRef(null)
+    const addressAutocompleteRef = useRef(null);
 
     // Updates the address in the formData when the place changes in the address autocomplete field
     const onAddressPlaceChanged = () => {
-        if (!addressAutocompleteRef.current) return
+        if (!addressAutocompleteRef.current) return;
 
-        const place = addressAutocompleteRef.current.getPlace()
-        if (!place) return
+        const place = addressAutocompleteRef.current.getPlace();
+        if (!place) return;
 
-        const address = place.formatted_address || ''
+        const address = place.formatted_address || '';
 
         setFormData((prevState) => ({
             ...prevState,
             address: address,
-        }))
-    }
+        }));
+    };
 
     // Fetches the lodging data from the backend based on the activityId
     const fetchLodging = async () => {
@@ -46,12 +46,12 @@ function LodgingForm({ activityId, tripId, tripData, onClose, action }) {
                     credentials: 'include',
                     headers: { 'Content-Type': 'application/json' },
                 }
-            )
+            );
 
             if (response.ok) {
-                const data = await response.json()
-                const check_in = parseISO(data.check_in)
-                const check_out = parseISO(data.check_out)
+                const data = await response.json();
+                const check_in = parseISO(data.check_in);
+                const check_out = parseISO(data.check_out);
                 setFormData((prevState) => ({
                     ...prevState,
                     id: data.id,
@@ -59,46 +59,46 @@ function LodgingForm({ activityId, tripId, tripData, onClose, action }) {
                     address: data.address,
                     check_in: check_in,
                     check_out: check_out,
-                }))
+                }));
             }
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
-    }
+    };
 
     // Fetches the lodging data if the action is 'editLodging'
     useEffect(() => {
         if (action === 'editLodging') {
-            fetchLodging()
+            fetchLodging();
         }
-    }, [])
+    }, []);
 
     // Handles form input changes with additional checks for date field validity
     const handleFormChange = ({ target }) => {
-        const { value, name } = target
+        const { value, name } = target;
 
         setFormData((prevState) => {
-            const newFormData = { ...prevState, [name]: value }
-            const dates = Object.keys(tripData)
+            const newFormData = { ...prevState, [name]: value };
+            const dates = Object.keys(tripData);
             const newStartDate = isValid(new Date(newFormData.check_in))
                 ? format(new Date(newFormData.check_in), 'yyyy-MM-dd')
-                : ''
+                : '';
             const newStartTime = isValid(new Date(newFormData.check_in))
                 ? format(new Date(newFormData.check_in), 'HH:mm:ss')
-                : ''
+                : '';
             const newEndDate = isValid(new Date(newFormData.check_out))
                 ? format(new Date(newFormData.check_out), 'yyyy-MM-dd')
-                : ''
+                : '';
             const newEndTime = isValid(new Date(newFormData.check_out))
                 ? format(new Date(newFormData.check_out), 'HH:mm:ss')
-                : ''
+                : '';
 
             if (name === 'check_in') {
                 if (
                     newFormData.check_in < dates[0] ||
                     newStartDate > dates[dates.length - 1]
                 ) {
-                    newFormData.check_in = ''
+                    newFormData.check_in = '';
                 }
             }
             if (name === 'check_out') {
@@ -107,21 +107,21 @@ function LodgingForm({ activityId, tripId, tripData, onClose, action }) {
                     newEndDate > dates[dates.length - 1] ||
                     newFormData.check_out < newFormData.check_in
                 ) {
-                    newFormData.check_out = ''
+                    newFormData.check_out = '';
                 }
             }
             if (name === 'check_in' || name === 'check_out') {
                 if (newStartDate === newEndDate && newStartTime > newEndTime) {
-                    newFormData.check_out = ''
+                    newFormData.check_out = '';
                 }
             }
-            return newFormData
-        })
-    }
+            return newFormData;
+        });
+    };
 
     // Handles the form submission to create or update a lodging entry
     const handleFormSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         const errors = validateForm({
             requiredFields: {
                 name: name,
@@ -129,11 +129,11 @@ function LodgingForm({ activityId, tripId, tripData, onClose, action }) {
                 check_in: check_in,
                 check_out: check_out,
             },
-        })
+        });
 
         if (errors.length > 0) {
-            setFormErrors(errors)
-            return
+            setFormErrors(errors);
+            return;
         }
 
         const formattedData = {
@@ -144,38 +144,38 @@ function LodgingForm({ activityId, tripId, tripData, onClose, action }) {
             check_out: isValid(new Date(formData.check_out))
                 ? format(new Date(formData.check_out), "yyyy-MM-dd'T'HH:mm:ss")
                 : '',
-        }
+        };
 
         try {
             const url =
                 action === 'editLodging'
                     ? `http://localhost:8000/api/lodgings/${activityId}`
-                    : 'http://localhost:8000/api/lodgings'
-            const method = action === 'editLodging' ? 'PUT' : 'POST'
+                    : 'http://localhost:8000/api/lodgings';
+            const method = action === 'editLodging' ? 'PUT' : 'POST';
             const response = await fetch(url, {
                 method,
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
                 body: JSON.stringify(formattedData),
-            })
+            });
             if (response.ok) {
-                setFormData(initialFormData)
-                onClose()
+                setFormData(initialFormData);
+                onClose();
             }
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
-    }
+    };
 
     // Handles form changes for start_date and end_date
     const handleDateTimeChange = (date, name) => {
         setFormData((prevState) => ({
             ...prevState,
             [name]: date,
-        }))
-    }
+        }));
+    };
 
-    const { name, address, check_in, check_out } = formData
+    const { name, address, check_in, check_out } = formData;
 
     return (
         <>
@@ -323,7 +323,7 @@ function LodgingForm({ activityId, tripId, tripData, onClose, action }) {
                 </button>
             </form>
         </>
-    )
+    );
 }
 
-export default LodgingForm
+export default LodgingForm;

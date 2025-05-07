@@ -1,40 +1,40 @@
-import { useContext, useEffect, useState } from 'react'
-import { AuthContext } from './AuthProvider'
-import { useNavigate } from 'react-router-dom'
-import Modal from './Modal'
-import FormSelector from '../forms/FormSelector'
+import { useContext, useEffect, useState } from 'react';
+import { AuthContext } from './AuthProvider';
+import { useNavigate } from 'react-router-dom';
+import Modal from './Modal';
+import FormSelector from '../forms/FormSelector';
 
 // The Nav component is a naviation bar displayed once the user is signed in
 function Nav() {
-    const { isLoggedIn, setUser } = useContext(AuthContext)
-    const navigate = useNavigate()
-    const [action, setAction] = useState('')
-    const [isOpen, setIsOpen] = useState(false)
+    const { isLoggedIn, setUser } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const [action, setAction] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
 
     // Logs out the user when the click the log out button
     const handleLogOut = async () => {
-        const deleteResource = 'http://localhost:8000/api/auth/signout'
+        const deleteResource = 'http://localhost:8000/api/auth/signout';
         const deleteOptions = {
             method: 'DELETE',
             credentials: 'include',
-        }
+        };
         try {
-            const deleteResponse = await fetch(deleteResource, deleteOptions)
+            const deleteResponse = await fetch(deleteResource, deleteOptions);
             if (deleteResponse) {
-                setUser(undefined)
-                navigate('/')
+                setUser(undefined);
+                navigate('/');
             }
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
-    }
+    };
 
     const handleOpenModal = (action) => {
-        setAction(action)
-        setIsOpen(true)
-    }
+        setAction(action);
+        setIsOpen(true);
+    };
 
-    useEffect(() => {}, [isLoggedIn])
+    useEffect(() => {}, [isLoggedIn]);
 
     return (
         isLoggedIn && (
@@ -91,7 +91,7 @@ function Nav() {
                 </Modal>
             </>
         )
-    )
+    );
 }
 
-export default Nav
+export default Nav;
