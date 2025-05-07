@@ -11,7 +11,7 @@ client = TestClient(app)
 
 
 class EmptyTripsQueries:
-    def get_all(self, user_id):
+    def get_all(self):
         return []
 
 
