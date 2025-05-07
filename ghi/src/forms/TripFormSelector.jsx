@@ -1,12 +1,12 @@
-import React from 'react'
-import AddEventForm from '../forms/AddEventForm'
-import AddFlightForm from '../forms/AddFlightForm'
-import AddLodgingForm from '../forms/AddLodgingForm'
-import DeleteActivityForm from '../forms/DeleteActivityForm'
-import EditEventForm from '../forms/EditEventForm'
-import EditFlightForm from '../forms/EditFlightForm'
-import EditLodgingForm from '../forms/EditLodgingForm'
-import EditTripForm from '../forms/EditTripForm'
+import React from 'react';
+import AddEventForm from '../forms/AddEventForm';
+import AddFlightForm from '../forms/AddFlightForm';
+import AddLodgingForm from '../forms/AddLodgingForm';
+import DeleteActivityForm from '../forms/DeleteActivityForm';
+import EditEventForm from '../forms/EditEventForm';
+import EditFlightForm from '../forms/EditFlightForm';
+import EditLodgingForm from '../forms/EditLodgingForm';
+import EditTripForm from '../forms/EditTripForm';
 
 const TripFormSelector = ({
     form,
@@ -24,7 +24,7 @@ const TripFormSelector = ({
                     tripData={tripData}
                     onClose={onClose}
                 />
-            )
+            );
         case 'AddFlightForm':
             return (
                 <AddFlightForm
@@ -32,7 +32,7 @@ const TripFormSelector = ({
                     tripData={tripData}
                     onClose={onClose}
                 />
-            )
+            );
         case 'AddLodgingForm':
             return (
                 <AddLodgingForm
@@ -40,7 +40,7 @@ const TripFormSelector = ({
                     tripData={tripData}
                     onClose={onClose}
                 />
-            )
+            );
         case 'EditEventForm':
             return (
                 <EditEventForm
@@ -48,7 +48,7 @@ const TripFormSelector = ({
                     tripData={tripData}
                     onClose={onClose}
                 />
-            )
+            );
         case 'EditFlightForm':
             return (
                 <EditFlightForm
@@ -56,7 +56,7 @@ const TripFormSelector = ({
                     tripData={tripData}
                     onClose={onClose}
                 />
-            )
+            );
         case 'EditLodgingForm':
             return (
                 <EditLodgingForm
@@ -64,7 +64,7 @@ const TripFormSelector = ({
                     tripData={tripData}
                     onClose={onClose}
                 />
-            )
+            );
         case 'EditTripForm':
             return (
                 <EditTripForm
@@ -72,7 +72,7 @@ const TripFormSelector = ({
                     tripData={tripData}
                     onClose={onClose}
                 />
-            )
+            );
         case 'DeleteActivityForm':
             return (
                 <DeleteActivityForm
@@ -80,10 +80,10 @@ const TripFormSelector = ({
                     activityId={activityId}
                     onClose={onClose}
                 />
-            )
+            );
         default:
-            return null
+            return null;
     }
-}
+};
 
-export default TripFormSelector
+export default TripFormSelector;

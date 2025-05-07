@@ -1,11 +1,11 @@
-import { useEffect, useState, useRef } from 'react'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-import { setHours, setMinutes } from 'date-fns'
-import { Autocomplete } from '@react-google-maps/api'
-import { format, parseISO } from 'date-fns'
+import { useEffect, useState, useRef } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { setHours, setMinutes } from 'date-fns';
+import { Autocomplete } from '@react-google-maps/api';
+import { format, parseISO } from 'date-fns';
 
-import { FormErrorAlert, validateForm } from './FormErrorAlert'
+import { FormErrorAlert, validateForm } from './FormErrorAlert';
 
 // The EventForm component handles the editing of event details
 function EventForm({ activityId, tripData, tripId, onClose, action }) {
@@ -16,9 +16,9 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
         address: '',
         description: '',
         trip_id: tripId,
-    }
-    const [formData, setFormData] = useState(initialFormData)
-    const [formErrors, setFormErrors] = useState([])
+    };
+    const [formData, setFormData] = useState(initialFormData);
+    const [formErrors, setFormErrors] = useState([]);
 
     // Fetches the event data from the backend based on the activityId
     const fetchEvent = async () => {
@@ -29,9 +29,9 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
                     credentials: 'include',
                     headers: { 'Content-Type': 'application/json' },
                 }
-            )
+            );
             if (response.ok) {
-                const data = await response.json()
+                const data = await response.json();
                 setFormData((prevState) => ({
                     ...prevState,
                     name: data.name,
@@ -44,48 +44,48 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
                     address: data.address,
                     description: data.description,
                     trip_id: tripId,
-                }))
+                }));
             }
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
-    }
+    };
 
     // Reference to handle the autocompelte functionality for the address input field
-    const addressAutocompleteRef = useRef(null)
+    const addressAutocompleteRef = useRef(null);
 
     // Updates the address in formData when the place changes in t he address autocomplete field
     const onAddressPlaceChanged = () => {
-        const place = addressAutocompleteRef.current.getPlace()
-        const address = place.formatted_address || ''
+        const place = addressAutocompleteRef.current.getPlace();
+        const address = place.formatted_address || '';
 
         setFormData((prevState) => ({
             ...prevState,
             address: address,
-        }))
-    }
+        }));
+    };
 
     // Handles form input changes with additional checks for date and time field validity
     const handleFormChange = ({ target }) => {
-        const { value, name } = target
+        const { value, name } = target;
 
         setFormData((prevState) => {
-            const newFormData = { ...prevState, [name]: value }
-            return newFormData
-        })
-    }
+            const newFormData = { ...prevState, [name]: value };
+            return newFormData;
+        });
+    };
 
     // Handles form changes for start_date and end_date
     const handleDateTimeChange = (date, name) => {
         setFormData((prevState) => ({
             ...prevState,
             [name]: date,
-        }))
-    }
+        }));
+    };
 
     // Handles the form submission to update the event details
     const handleFormSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         const errors = validateForm({
             requiredFields: {
                 name: name,
@@ -93,12 +93,12 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
                 end_date_time: end_date_time,
                 address: address,
             },
-            tripData
-        })
+            tripData,
+        });
 
         if (errors.length > 0) {
-            setFormErrors(errors)
-            return
+            setFormErrors(errors);
+            return;
         }
 
         const formattedData = {
@@ -109,36 +109,36 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
             end_date_time: end_date_time
                 ? format(end_date_time, "yyyy-MM-dd'T'HH:mm:ss")
                 : '',
-        }
+        };
         const url =
             action === 'editEvent'
                 ? `http://localhost:8000/api/events/${activityId}`
-                : 'http://localhost:8000/api/events'
-        const method = action === 'editEvent' ? 'PUT' : 'POST'
+                : 'http://localhost:8000/api/events';
+        const method = action === 'editEvent' ? 'PUT' : 'POST';
         try {
             const response = await fetch(url, {
                 method,
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
                 body: JSON.stringify(formattedData),
-            })
+            });
             if (response.ok) {
-                setFormData(initialFormData)
-                onClose()
+                setFormData(initialFormData);
+                onClose();
             }
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
-    }
+    };
 
     const { name, start_date_time, end_date_time, address, description } =
-        formData
+        formData;
 
     useEffect(() => {
         if (action === 'editEvent') {
-            fetchEvent()
+            fetchEvent();
         }
-    }, [])
+    }, []);
 
     return (
         <>
@@ -304,7 +304,7 @@ function EventForm({ activityId, tripData, tripId, onClose, action }) {
                 </button>
             </form>
         </>
-    )
+    );
 }
 
-export default EventForm
+export default EventForm;

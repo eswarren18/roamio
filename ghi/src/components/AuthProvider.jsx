@@ -1,12 +1,12 @@
-import { createContext, useEffect, useState } from 'react'
-import { authenticate } from '../services/authService'
+import { createContext, useEffect, useState } from 'react';
+import { authenticate } from '../services/authService';
 
-export const AuthContext = createContext(null)
+export const AuthContext = createContext(null);
 
 export default function AuthProvider({ children }) {
-    const [user, setUser] = useState()
-    const [error, setError] = useState()
-    const [isLoading, setIsLoading] = useState(true)
+    const [user, setUser] = useState();
+    const [error, setError] = useState();
+    const [isLoading, setIsLoading] = useState(true);
 
     // This calls our backend once when this component
     // renders to populate the user information
@@ -16,15 +16,15 @@ export default function AuthProvider({ children }) {
             // If authenticate returns an error,
             // Set the user to undefined
             if (result instanceof Error) {
-                setUser(undefined)
-                setIsLoading(false)
-                return
+                setUser(undefined);
+                setIsLoading(false);
+                return;
             }
             // Otherwise, set the user to the result we got from the backend
-            setUser(result)
-            setIsLoading(false)
-        })
-    }, [])
+            setUser(result);
+            setIsLoading(false);
+        });
+    }, []);
 
     return (
         <AuthContext.Provider
@@ -42,5 +42,5 @@ export default function AuthProvider({ children }) {
         >
             {isLoading ? <div>loading...</div> : children}
         </AuthContext.Provider>
-    )
+    );
 }

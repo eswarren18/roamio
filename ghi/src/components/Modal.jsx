@@ -1,7 +1,7 @@
-import ReactDom from 'react-dom'
+import ReactDom from 'react-dom';
 
 function Modal({ open, onClose, children }) {
-    if (!open) return null
+    if (!open) return null;
 
     return ReactDom.createPortal(
         // Overlay
@@ -37,7 +37,7 @@ function Modal({ open, onClose, children }) {
             </div>
         </div>,
         document.getElementById('portal')
-    )
+    );
 }
 
-export default Modal
+export default Modal;

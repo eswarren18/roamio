@@ -1,8 +1,8 @@
-import { format } from 'date-fns'
-import { requestFormReset } from 'react-dom'
+import { format } from 'date-fns';
+import { requestFormReset } from 'react-dom';
 
 export const FormErrorAlert = ({ errors }) => {
-    if (!errors || errors.length === 0) return null
+    if (!errors || errors.length === 0) return null;
 
     return (
         <div className="flex items-center text-gray-600 rounded-2xl bg-yellow-300 mb-4">
@@ -29,24 +29,24 @@ export const FormErrorAlert = ({ errors }) => {
                 ))}
             </div>
         </div>
-    )
-}
+    );
+};
 
 export const validateForm = ({ requiredFields, urlFields, tripData }) => {
-    const errors = []
+    const errors = [];
 
     // Validate that the activity dates are within trip date range
     if (requiredFields.start_date_time) {
-        const firstTripDate = Object.keys(tripData)[0]
-        const lastTripDate = Object.keys(tripData).at(-1)
+        const firstTripDate = Object.keys(tripData)[0];
+        const lastTripDate = Object.keys(tripData).at(-1);
         const activityStartDate = format(
             requiredFields.start_date_time,
             'yyyy-MM-dd'
-        )
+        );
         const activityEndDate = format(
             requiredFields.end_date_time,
             'yyyy-MM-dd'
-        )
+        );
 
         if (
             !(
@@ -58,7 +58,7 @@ export const validateForm = ({ requiredFields, urlFields, tripData }) => {
                 activityEndDate <= lastTripDate
             )
         ) {
-            errors.push("Activity is outside of the trip's range")
+            errors.push("Activity is outside of the trip's range");
         }
     }
 
@@ -68,8 +68,8 @@ export const validateForm = ({ requiredFields, urlFields, tripData }) => {
             const formattedKey = key
                 .split('_')
                 .map((word) => word[0].toUpperCase() + word.slice(1))
-                .join(' ')
-            errors.push(`${formattedKey} is required`)
+                .join(' ');
+            errors.push(`${formattedKey} is required`);
         }
     }
 
@@ -90,7 +90,7 @@ export const validateForm = ({ requiredFields, urlFields, tripData }) => {
             new Date(requiredFields.check_in) >
                 new Date(requiredFields.check_out)
         ) {
-            errors.push('Dates and/or times are out of order')
+            errors.push('Dates and/or times are out of order');
         }
     }
 
@@ -98,12 +98,12 @@ export const validateForm = ({ requiredFields, urlFields, tripData }) => {
     if (urlFields) {
         if (urlFields.trip_image !== undefined && urlFields.trip_image) {
             try {
-                new URL(urlFields.trip_image)
+                new URL(urlFields.trip_image);
             } catch (error) {
-                errors.push('Trip image must be a valid URL or left blank')
+                errors.push('Trip image must be a valid URL or left blank');
             }
         }
     }
 
-    return errors
-}
+    return errors;
+};

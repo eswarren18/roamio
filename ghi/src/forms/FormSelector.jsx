@@ -1,8 +1,8 @@
-import LodgingForm from './LodgingForm'
-import DeleteActivityForm from './DeleteActivityForm'
-import EventForm from './EventForm'
-import FlightForm from './FlightForm'
-import TripForm from './TripForm'
+import LodgingForm from './LodgingForm';
+import DeleteActivityForm from './DeleteActivityForm';
+import EventForm from './EventForm';
+import FlightForm from './FlightForm';
+import TripForm from './TripForm';
 
 const FormSelector = ({ action, tripId, tripData, activityId, onClose }) => {
     if (action === 'editEvent' || action === 'addEvent') {
@@ -14,7 +14,7 @@ const FormSelector = ({ action, tripId, tripData, activityId, onClose }) => {
                 tripData={tripData}
                 onClose={onClose}
             />
-        )
+        );
     } else if (action === 'addLodging' || action === 'editLodging') {
         return (
             <LodgingForm
@@ -24,7 +24,7 @@ const FormSelector = ({ action, tripId, tripData, activityId, onClose }) => {
                 onClose={onClose}
                 action={action}
             />
-        )
+        );
     } else if (action === 'editFlight' || action === 'addFlight') {
         return (
             <FlightForm
@@ -34,7 +34,7 @@ const FormSelector = ({ action, tripId, tripData, activityId, onClose }) => {
                 onClose={onClose}
                 action={action}
             />
-        )
+        );
     } else if (action === 'editTrip' || action === 'addTrip') {
         return (
             <TripForm
@@ -43,7 +43,7 @@ const FormSelector = ({ action, tripId, tripData, activityId, onClose }) => {
                 tripData={tripData}
                 onClose={onClose}
             />
-        )
+        );
     } else if (action.includes('delete')) {
         return (
             <DeleteActivityForm
@@ -51,10 +51,10 @@ const FormSelector = ({ action, tripId, tripData, activityId, onClose }) => {
                 activityId={activityId}
                 onClose={onClose}
             />
-        )
+        );
     } else {
-        return null
+        return null;
     }
-}
+};
 
-export default FormSelector
+export default FormSelector;

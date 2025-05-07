@@ -1,30 +1,30 @@
-import { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { AuthContext } from './AuthProvider'
-import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
-const apiKey = import.meta.env.GOOGLE_API_KEY
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from './AuthProvider';
+import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
+const apiKey = import.meta.env.GOOGLE_API_KEY;
 
-import FormSelector from '../forms/FormSelector'
-import Modal from './Modal'
+import FormSelector from '../forms/FormSelector';
+import Modal from './Modal';
 
 // The Dashboard component displays all the user's trips
 function Dashboard() {
-    const [action, setAction] = useState('')
-    const [isOpen, setIsOpen] = useState(false)
-    const { isLoggedIn } = useContext(AuthContext)
-    const navigate = useNavigate()
-    const [trips, setTrips] = useState([])
-    const [selectedTrips, setSelectedTrips] = useState([])
+    const [action, setAction] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
+    const { isLoggedIn } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const [trips, setTrips] = useState([]);
+    const [selectedTrips, setSelectedTrips] = useState([]);
     const [activeButton, setActiveButton] = useState(
         localStorage.getItem('activeButton') || 'upcoming'
-    )
-    const [mapMarkers, setMapMarkers] = useState([])
+    );
+    const [mapMarkers, setMapMarkers] = useState([]);
 
     const navToHome = () => {
         if (!isLoggedIn) {
-            navigate('/')
+            navigate('/');
         }
-    }
+    };
 
     // Fetches all the users trips from the db
     const fetchTrips = async () => {
@@ -32,63 +32,63 @@ function Dashboard() {
             const response = await fetch('http://localhost:8000/api/trips', {
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
-            })
+            });
             if (response.ok) {
-                const data = await response.json()
-                setTrips(data)
+                const data = await response.json();
+                setTrips(data);
             }
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
-    }
+    };
 
     // Fetches latitude and longitude information for each trip from Google's Geocoding API
     const fetchLatLng = async () => {
         try {
-            const markers = []
+            const markers = [];
             for (let trip of trips) {
                 const response = await fetch(
                     `https://maps.googleapis.com/maps/api/geocode/json?address=${trip.city},${trip.country}&key=${apiKey}`
-                )
+                );
                 if (response.ok) {
-                    const data = await response.json()
-                    markers.push(data.results[0].geometry.location)
+                    const data = await response.json();
+                    markers.push(data.results[0].geometry.location);
                 }
             }
-            setMapMarkers(markers)
+            setMapMarkers(markers);
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
-    }
+    };
 
     // Filters the trip cards visible on the page
     const handleTripSelection = (selection) => {
-        const todaysDate = new Date().toISOString().split('T')[0]
-        let filteredTrips = []
+        const todaysDate = new Date().toISOString().split('T')[0];
+        let filteredTrips = [];
         switch (selection) {
             case 'upcoming':
                 filteredTrips = trips.filter(
                     (trip) => trip.end_date >= todaysDate
-                )
-                setActiveButton('upcoming')
-                setSelectedTrips(filteredTrips)
-                break
+                );
+                setActiveButton('upcoming');
+                setSelectedTrips(filteredTrips);
+                break;
             case 'past':
                 filteredTrips = trips.filter(
                     (trip) => trip.end_date < todaysDate
-                )
-                setActiveButton('past')
-                setSelectedTrips(filteredTrips)
-                break
+                );
+                setActiveButton('past');
+                setSelectedTrips(filteredTrips);
+                break;
             default:
-                setActiveButton('all')
-                setSelectedTrips(trips)
+                setActiveButton('all');
+                setSelectedTrips(trips);
         }
-        localStorage.setItem('activeButton', selection)
-    }
+        localStorage.setItem('activeButton', selection);
+    };
 
     const formatDate = (dateString) => {
-        const [year, month, day] = dateString.split('-') // Split the date string
+        const [year, month, day] = dateString.split('-'); // Split the date string
         const months = [
             'Jan',
             'Feb',
@@ -102,36 +102,36 @@ function Dashboard() {
             'Oct',
             'Nov',
             'Dec',
-        ]
+        ];
 
         return `${months[parseInt(month, 10) - 1]} ${parseInt(
             day,
             10
-        )}, ${year}`
-    }
+        )}, ${year}`;
+    };
 
     const handleOpenModal = (action) => {
-        setAction(action)
-        setIsOpen(true)
-    }
+        setAction(action);
+        setIsOpen(true);
+    };
 
     useEffect(() => {
-        navToHome()
-    }, [isLoggedIn])
+        navToHome();
+    }, [isLoggedIn]);
 
     useEffect(() => {
-        fetchTrips()
-    }, [])
+        fetchTrips();
+    }, []);
 
     useEffect(() => {
-        handleTripSelection(activeButton)
-    }, [trips, activeButton])
+        handleTripSelection(activeButton);
+    }, [trips, activeButton]);
 
     useEffect(() => {
         if (trips.length > 0) {
-            fetchLatLng()
+            fetchLatLng();
         }
-    }, [trips])
+    }, [trips]);
 
     return (
         <div className="flex flex-col h-[calc(100vh-4rem)] w-full">
@@ -144,7 +144,7 @@ function Dashboard() {
                         defaultZoom={3}
                     >
                         {mapMarkers.map((mapMarker, index) => {
-                            return <Marker key={index} position={mapMarker} />
+                            return <Marker key={index} position={mapMarker} />;
                         })}
                     </Map>
                 </APIProvider>
@@ -254,6 +254,6 @@ function Dashboard() {
                 />
             </Modal>
         </div>
-    )
+    );
 }
-export default Dashboard
+export default Dashboard;

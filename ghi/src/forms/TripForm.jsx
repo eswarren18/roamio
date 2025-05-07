@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-import { FormErrorAlert, validateForm } from './FormErrorAlert'
-import { format, parseISO } from 'date-fns'
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { FormErrorAlert, validateForm } from './FormErrorAlert';
+import { format, parseISO } from 'date-fns';
 
 // The TripForm component handles editing a trip's details
 function TripForm({ tripData, tripId, onClose, action }) {
-    const [toDelete, setToDelete] = useState([])
+    const [toDelete, setToDelete] = useState([]);
     const initialFormData = {
         title: '',
         country: '',
@@ -16,10 +16,10 @@ function TripForm({ tripData, tripId, onClose, action }) {
         end_date: '',
         trip_image: '',
         user_id: '',
-    }
-    const [formData, setFormData] = useState(initialFormData)
-    const [formErrors, setFormErrors] = useState([])
-    const navigate = useNavigate()
+    };
+    const [formData, setFormData] = useState(initialFormData);
+    const [formErrors, setFormErrors] = useState([]);
+    const navigate = useNavigate();
 
     // Fetches the trips data using tripId to populate the form
     const fetchTrip = async () => {
@@ -30,10 +30,10 @@ function TripForm({ tripData, tripId, onClose, action }) {
                     credentials: 'include',
                     headers: { 'Content-Type': 'application/json' },
                 }
-            )
+            );
 
             if (response.ok) {
-                const data = await response.json()
+                const data = await response.json();
                 setFormData((prevFormData) => ({
                     ...prevFormData,
                     ...data,
@@ -45,20 +45,20 @@ function TripForm({ tripData, tripId, onClose, action }) {
                         data.trip_image === '/passport-stamps.png'
                             ? prevFormData.trip_image
                             : data.trip_image,
-                }))
+                }));
             }
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
-    }
+    };
 
     // Updates the list of activities needed to be deleted based on new trip date range
     const updateToDelete = () => {
-        if (!tripData) return
+        if (!tripData) return;
 
-        const dates = Object.keys(tripData)
-        const activitiesByDate = Object.values(tripData)
-        const newToDelete = []
+        const dates = Object.keys(tripData);
+        const activitiesByDate = Object.values(tripData);
+        const newToDelete = [];
 
         if (formData.start_date && formData.start_date > dates[0]) {
             for (let i = 0; i < activitiesByDate.length; i++) {
@@ -67,10 +67,10 @@ function TripForm({ tripData, tripId, onClose, action }) {
                         newToDelete.push([
                             activitiesByDate[i][j].id,
                             activitiesByDate[i][j].type,
-                        ])
+                        ]);
                     }
                 } else {
-                    break
+                    break;
                 }
             }
         }
@@ -82,57 +82,57 @@ function TripForm({ tripData, tripId, onClose, action }) {
                         newToDelete.push([
                             activitiesByDate[i][j].id,
                             activitiesByDate[i][j].type,
-                        ])
+                        ]);
                     }
                 } else {
-                    break
+                    break;
                 }
             }
         }
 
-        setToDelete(newToDelete)
-    }
+        setToDelete(newToDelete);
+    };
 
     // Handles form changes except for title, country, city, and trip_image
     const handleFormChange = ({ target }) => {
-        const { value, name } = target
+        const { value, name } = target;
 
         setFormData((prevState) => {
-            const newFormData = { ...prevState, [name]: value }
-            return newFormData
-        })
-    }
+            const newFormData = { ...prevState, [name]: value };
+            return newFormData;
+        });
+    };
 
     // Handles form changes for start_date and end_date
     const handleDateChange = (date, name) => {
         setFormData((prevState) => ({
             ...prevState,
             [name]: date,
-        }))
-    }
+        }));
+    };
 
     // Deletes activities that fall outside the specified date range
     const deleteOutOfRangeItems = async () => {
         for (let activity of toDelete) {
-            let url
+            let url;
             if (activity[1] === 'event') {
-                url = `http://localhost:8000/api/events/${activity[0]}`
+                url = `http://localhost:8000/api/events/${activity[0]}`;
             } else if (activity[1] === 'flight') {
-                url = `http://localhost:8000/api/flights/${activity[0]}`
+                url = `http://localhost:8000/api/flights/${activity[0]}`;
             } else {
-                url = `http://localhost:8000/api/lodgings/${activity[0]}`
+                url = `http://localhost:8000/api/lodgings/${activity[0]}`;
             }
             const response = await fetch(url, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-            })
+            });
         }
-    }
+    };
 
     // Handles the form submission to update the trip details and delete out-of-range activities
     const handleFormSubmit = async (event) => {
-        event.preventDefault()
+        event.preventDefault();
         const errors = validateForm({
             requiredFields: {
                 title: title,
@@ -142,57 +142,57 @@ function TripForm({ tripData, tripId, onClose, action }) {
                 end_date: end_date,
             },
             urlFields: { trip_image: trip_image },
-        })
+        });
 
         if (errors.length > 0) {
-            setFormErrors(errors)
-            return
+            setFormErrors(errors);
+            return;
         }
 
         const formattedData = {
             ...formData,
             start_date: start_date ? format(start_date, 'yyyy-MM-dd') : '',
             end_date: end_date ? format(end_date, 'yyyy-MM-dd') : '',
-        }
+        };
 
         const url =
             action === 'editTrip'
                 ? `http://localhost:8000/api/trips/${tripId}`
-                : 'http://localhost:8000/api/trips'
-        const method = action === 'editTrip' ? 'PUT' : 'POST'
+                : 'http://localhost:8000/api/trips';
+        const method = action === 'editTrip' ? 'PUT' : 'POST';
         try {
             const response = await fetch(url, {
                 method,
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
                 body: JSON.stringify(formattedData),
-            })
+            });
             if (response.ok) {
                 if (action === 'editTrip') {
-                    deleteOutOfRangeItems()
+                    deleteOutOfRangeItems();
                 } else {
-                    const responseData = await response.json()
-                    navigate(`/trip/${responseData.id}`)
+                    const responseData = await response.json();
+                    navigate(`/trip/${responseData.id}`);
                 }
-                setFormData(initialFormData)
-                onClose()
+                setFormData(initialFormData);
+                onClose();
             }
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
-    }
+    };
 
-    const { title, country, city, start_date, end_date, trip_image } = formData
+    const { title, country, city, start_date, end_date, trip_image } = formData;
 
     useEffect(() => {
-        updateToDelete()
-    }, [formData.start_date, formData.end_date, tripData])
+        updateToDelete();
+    }, [formData.start_date, formData.end_date, tripData]);
 
     useEffect(() => {
         if (action === 'editTrip') {
-            fetchTrip()
+            fetchTrip();
         }
-    }, [])
+    }, []);
 
     return (
         <>
@@ -393,7 +393,7 @@ function TripForm({ tripData, tripId, onClose, action }) {
                 </button>
             </form>
         </>
-    )
+    );
 }
 
-export default TripForm
+export default TripForm;
