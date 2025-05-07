@@ -11,7 +11,7 @@ client = TestClient(app)
 
 
 class EmptyTripsQueries:
-    def get_all(self):
+    def get_all(self, user_id):
         return []
 
 
@@ -229,6 +229,7 @@ def test_delete_trip_false():
     app.dependency_overrides[try_get_jwt_user_data] = fake_get_jwt_user_data
     app.dependency_overrides[TripsQueries] = FalseDeleteQueries
     expected = {"detail": "Trip not found"}
+
     # Act
     response = client.delete(f"/api/trips/{trip_id}")
 

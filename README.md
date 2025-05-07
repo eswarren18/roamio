@@ -38,7 +38,7 @@
 
 Roamio is your simple solution for planning your next trip! With a beautiful interface and simple GUI, users will find Roamio to be both functional and light-weight! Designed with a sleek and intuitive interface, Roamio offers travelers a seamless experience for organizing trips, exploring destinations, and managing itineraries. Whether you're a casual traveler or a seasoned explorer, Roamio provides the tools you need to create memorable journeys effortlessly. <br>
 
-![Wireframe Diagram for Roamio](./roamio_wireframes.png)
+![Wireframe Diagram for Roamio](site_images/roamio_wireframes.png)
 
 ## **Key Features**
 
@@ -46,7 +46,7 @@ Roamio is your simple solution for planning your next trip! With a beautiful int
 -   Destination Explorer: Discover new places with comprehensive information, images, and user reviews.
 -   User Authentication: Secure signup and login functionalities to protect user data and personalize experiences.
 -   Responsive Design: Enjoy a consistent and optimized experience across desktop and mobile devices. <br>
-<br>
+    <br>
 
 <p align="center"><i>Roamio's Homepage</i><br>
 <img src="site_images/roamio_screenshot_005.jpeg" alt="Roamio's Homepage"></p>
@@ -63,6 +63,7 @@ The 'Trip Page' For An Adventure To Rome</i><br>
 <img src="site_images/roamio_screenshot_002.jpeg" alt="A Google map"></p>
 
 ---
+
 <p align="center"><i>The 'Create Event" Modal Form</i><br>
 <img src="site_images/roamio_screenshot_001.jpeg" alt="A Google map"></p>
 
@@ -81,7 +82,7 @@ _Roamio is built with a modern and scalable technology stack, ensuring high perf
   <strong>FastAPI</strong> | <strong>Vite</strong> | <strong>Docker</strong> | <strong>React.js</strong> |
   <strong>PostgreSQL</strong> | <strong>JavaScript</strong> | <strong>TailwindCSS</strong> |
   <strong>Python</strong> | <strong>HTML5</strong> | <strong>CSS</strong> <br>
-  <img src="./techstack_collage_438.png" alt="Tech Stack Image" style="margin-top: 15px; max-width: 100%; height: auto;" />
+  <img src="site_images/techstack_collage_438.png" alt="Tech Stack Image" style="margin-top: 15px; max-width: 100%; height: auto;" />
 </div>
 <br>
 <br>
@@ -115,7 +116,6 @@ _Roamio is built with a modern and scalable technology stack, ensuring high perf
   <li>Click on <strong>Library</strong> and Enable Maps JavaScript API, Geocoding API & Places API</li>
   <li>Optionally, you may restrict your API key to specific IP addresses or referrers for enhanced security.</li>
 </ol>
-
 
 <h3>3. Conceal API Key in Local Environment</h3>
 
@@ -155,7 +155,6 @@ _Roamio is built with a modern and scalable technology stack, ensuring high perf
 <p>Once the containers are up and running, open your web browser and navigate to:</p>
 
 <p><a href="http://localhost:5173/" target="_blank">http://localhost:5173/</a></p>
-
 
 <h3>🎉 Congratulations!</h3>
 
